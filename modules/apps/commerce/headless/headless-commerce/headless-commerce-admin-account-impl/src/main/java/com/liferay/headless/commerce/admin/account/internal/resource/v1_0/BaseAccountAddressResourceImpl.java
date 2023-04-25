@@ -21,6 +21,7 @@ import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.search.Sort;
@@ -402,7 +403,13 @@ public abstract class BaseAccountAddressResourceImpl
 
 		preparePatch(accountAddress, existingAccountAddress);
 
-		return putAccountAddress(id, existingAccountAddress);
+		AccountAddress putAccountAddress = putAccountAddress(
+			id, existingAccountAddress);
+
+		updateExternalReferenceCode(
+			accountAddress.getExternalReferenceCode(), accountAddress.getId());
+
+		return putAccountAddress;
 	}
 
 	/**
@@ -1086,6 +1093,14 @@ public abstract class BaseAccountAddressResourceImpl
 	protected UnsafeBiConsumer
 		<Collection<AccountAddress>, UnsafeConsumer<AccountAddress, Exception>,
 		 Exception> contextBatchUnsafeConsumer;
+
+	protected AccountAddress updateExternalReferenceCode(
+			String externalReferenceCode, Long accountAddressId)
+		throws PortalException {
+
+		return null;
+	}
+
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

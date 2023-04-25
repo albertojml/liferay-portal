@@ -592,8 +592,10 @@ public abstract class BaseObjectValidationRuleResourceImpl
 
 		preparePatch(objectValidationRule, existingObjectValidationRule);
 
-		return putObjectValidationRule(
+		ObjectValidationRule putObjectValidationRule = putObjectValidationRule(
 			objectValidationRuleId, existingObjectValidationRule);
+
+		return putObjectValidationRule;
 	}
 
 	/**

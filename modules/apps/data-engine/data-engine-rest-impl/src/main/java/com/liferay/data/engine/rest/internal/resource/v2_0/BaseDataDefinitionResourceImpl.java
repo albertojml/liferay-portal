@@ -397,7 +397,10 @@ public abstract class BaseDataDefinitionResourceImpl
 
 		preparePatch(dataDefinition, existingDataDefinition);
 
-		return putDataDefinition(dataDefinitionId, existingDataDefinition);
+		DataDefinition putDataDefinition = putDataDefinition(
+			dataDefinitionId, existingDataDefinition);
+
+		return putDataDefinition;
 	}
 
 	/**

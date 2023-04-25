@@ -20,6 +20,7 @@ import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.search.Sort;
@@ -594,8 +595,14 @@ public abstract class BaseNotificationTemplateResourceImpl
 
 		preparePatch(notificationTemplate, existingNotificationTemplate);
 
-		return putNotificationTemplate(
+		NotificationTemplate putNotificationTemplate = putNotificationTemplate(
 			notificationTemplateId, existingNotificationTemplate);
+
+		updateExternalReferenceCode(
+			notificationTemplate.getExternalReferenceCode(),
+			notificationTemplate.getId());
+
+		return putNotificationTemplate;
 	}
 
 	/**
@@ -1166,6 +1173,14 @@ public abstract class BaseNotificationTemplateResourceImpl
 		<Collection<NotificationTemplate>,
 		 UnsafeConsumer<NotificationTemplate, Exception>, Exception>
 			contextBatchUnsafeConsumer;
+
+	protected NotificationTemplate updateExternalReferenceCode(
+			String externalReferenceCode, Long notificationTemplateId)
+		throws PortalException {
+
+		return null;
+	}
+
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

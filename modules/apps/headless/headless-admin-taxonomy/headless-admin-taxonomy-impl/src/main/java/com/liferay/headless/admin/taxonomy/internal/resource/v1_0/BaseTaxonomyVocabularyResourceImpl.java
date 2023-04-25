@@ -20,6 +20,7 @@ import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.Resource;
@@ -1159,8 +1160,14 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 
 		preparePatch(taxonomyVocabulary, existingTaxonomyVocabulary);
 
-		return putTaxonomyVocabulary(
+		TaxonomyVocabulary putTaxonomyVocabulary = putTaxonomyVocabulary(
 			taxonomyVocabularyId, existingTaxonomyVocabulary);
+
+		updateExternalReferenceCode(
+			taxonomyVocabulary.getExternalReferenceCode(),
+			taxonomyVocabulary.getId());
+
+		return putTaxonomyVocabulary;
 	}
 
 	/**
@@ -2003,6 +2010,14 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 		<Collection<TaxonomyVocabulary>,
 		 UnsafeConsumer<TaxonomyVocabulary, Exception>, Exception>
 			contextBatchUnsafeConsumer;
+
+	protected TaxonomyVocabulary updateExternalReferenceCode(
+			String externalReferenceCode, Long taxonomyVocabularyId)
+		throws PortalException {
+
+		return null;
+	}
+
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

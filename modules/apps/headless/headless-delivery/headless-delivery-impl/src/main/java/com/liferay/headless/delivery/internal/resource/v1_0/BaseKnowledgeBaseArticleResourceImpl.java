@@ -22,6 +22,7 @@ import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.Resource;
@@ -318,8 +319,14 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 
 		preparePatch(knowledgeBaseArticle, existingKnowledgeBaseArticle);
 
-		return putKnowledgeBaseArticle(
+		KnowledgeBaseArticle putKnowledgeBaseArticle = putKnowledgeBaseArticle(
 			knowledgeBaseArticleId, existingKnowledgeBaseArticle);
+
+		updateExternalReferenceCode(
+			knowledgeBaseArticle.getExternalReferenceCode(),
+			knowledgeBaseArticle.getId());
+
+		return putKnowledgeBaseArticle;
 	}
 
 	/**
@@ -2485,6 +2492,14 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 		<Collection<KnowledgeBaseArticle>,
 		 UnsafeConsumer<KnowledgeBaseArticle, Exception>, Exception>
 			contextBatchUnsafeConsumer;
+
+	protected KnowledgeBaseArticle updateExternalReferenceCode(
+			String externalReferenceCode, Long knowledgeBaseArticleId)
+		throws PortalException {
+
+		return null;
+	}
+
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

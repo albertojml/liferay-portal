@@ -631,7 +631,9 @@ public abstract class BaseRegionResourceImpl
 
 		preparePatch(region, existingRegion);
 
-		return putRegion(regionId, existingRegion);
+		Region putRegion = putRegion(regionId, existingRegion);
+
+		return putRegion;
 	}
 
 	/**

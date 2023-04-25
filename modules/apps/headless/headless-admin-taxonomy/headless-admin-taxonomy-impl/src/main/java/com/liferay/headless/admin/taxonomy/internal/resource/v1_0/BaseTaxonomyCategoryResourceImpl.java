@@ -20,6 +20,7 @@ import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.Resource;
@@ -452,8 +453,14 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 
 		preparePatch(taxonomyCategory, existingTaxonomyCategory);
 
-		return putTaxonomyCategory(
+		TaxonomyCategory putTaxonomyCategory = putTaxonomyCategory(
 			taxonomyCategoryId, existingTaxonomyCategory);
+
+		updateExternalReferenceCode(
+			taxonomyCategory.getExternalReferenceCode(),
+			taxonomyCategory.getId());
+
+		return putTaxonomyCategory;
 	}
 
 	/**
@@ -1611,6 +1618,14 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 		<Collection<TaxonomyCategory>,
 		 UnsafeConsumer<TaxonomyCategory, Exception>, Exception>
 			contextBatchUnsafeConsumer;
+
+	protected TaxonomyCategory updateExternalReferenceCode(
+			String externalReferenceCode, String taxonomyCategoryId)
+		throws PortalException {
+
+		return null;
+	}
+
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

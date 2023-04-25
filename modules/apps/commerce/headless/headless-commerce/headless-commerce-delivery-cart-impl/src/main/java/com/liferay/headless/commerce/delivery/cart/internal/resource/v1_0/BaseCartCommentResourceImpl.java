@@ -221,7 +221,10 @@ public abstract class BaseCartCommentResourceImpl
 
 		preparePatch(cartComment, existingCartComment);
 
-		return putCartComment(cartCommentId, existingCartComment);
+		CartComment putCartComment = putCartComment(
+			cartCommentId, existingCartComment);
+
+		return putCartComment;
 	}
 
 	/**

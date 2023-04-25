@@ -21,6 +21,7 @@ import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.search.Sort;
@@ -753,8 +754,13 @@ public abstract class BaseOrganizationResourceImpl
 
 		preparePatch(organization, existingOrganization);
 
-		return putOrganizationByExternalReferenceCode(
+		Organization putOrganization = putOrganizationByExternalReferenceCode(
 			externalReferenceCode, existingOrganization);
+
+		updateExternalReferenceCode(
+			organization.getExternalReferenceCode(), organization.getId());
+
+		return putOrganization;
 	}
 
 	/**
@@ -951,7 +957,13 @@ public abstract class BaseOrganizationResourceImpl
 
 		preparePatch(organization, existingOrganization);
 
-		return putOrganization(organizationId, existingOrganization);
+		Organization putOrganization = putOrganization(
+			organizationId, existingOrganization);
+
+		updateExternalReferenceCode(
+			organization.getExternalReferenceCode(), organization.getId());
+
+		return putOrganization;
 	}
 
 	/**
@@ -1775,6 +1787,14 @@ public abstract class BaseOrganizationResourceImpl
 	protected UnsafeBiConsumer
 		<Collection<Organization>, UnsafeConsumer<Organization, Exception>,
 		 Exception> contextBatchUnsafeConsumer;
+
+	protected Organization updateExternalReferenceCode(
+			String externalReferenceCode, String organizationId)
+		throws PortalException {
+
+		return null;
+	}
+
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -287,8 +287,10 @@ public abstract class BaseMessageBoardSectionResourceImpl
 
 		preparePatch(messageBoardSection, existingMessageBoardSection);
 
-		return putMessageBoardSection(
+		MessageBoardSection putMessageBoardSection = putMessageBoardSection(
 			messageBoardSectionId, existingMessageBoardSection);
+
+		return putMessageBoardSection;
 	}
 
 	/**

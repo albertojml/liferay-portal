@@ -494,7 +494,9 @@ public abstract class BaseCountryResourceImpl
 
 		preparePatch(country, existingCountry);
 
-		return putCountry(countryId, existingCountry);
+		Country putCountry = putCountry(countryId, existingCountry);
+
+		return putCountry;
 	}
 
 	/**

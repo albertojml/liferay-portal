@@ -283,7 +283,9 @@ public abstract class BaseCartResourceImpl
 
 		preparePatch(cart, existingCart);
 
-		return putCart(cartId, existingCart);
+		Cart putCart = putCart(cartId, existingCart);
+
+		return putCart;
 	}
 
 	/**

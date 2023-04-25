@@ -735,7 +735,10 @@ public abstract class BaseDataRecordResourceImpl
 
 		preparePatch(dataRecord, existingDataRecord);
 
-		return putDataRecord(dataRecordId, existingDataRecord);
+		DataRecord putDataRecord = putDataRecord(
+			dataRecordId, existingDataRecord);
+
+		return putDataRecord;
 	}
 
 	/**

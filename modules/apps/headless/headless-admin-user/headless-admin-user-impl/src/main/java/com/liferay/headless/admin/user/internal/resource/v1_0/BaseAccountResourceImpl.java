@@ -20,6 +20,7 @@ import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.search.Sort;
@@ -407,8 +408,13 @@ public abstract class BaseAccountResourceImpl
 
 		preparePatch(account, existingAccount);
 
-		return putAccountByExternalReferenceCode(
+		Account putAccount = putAccountByExternalReferenceCode(
 			externalReferenceCode, existingAccount);
+
+		updateExternalReferenceCode(
+			account.getExternalReferenceCode(), account.getId());
+
+		return putAccount;
 	}
 
 	/**
@@ -622,7 +628,12 @@ public abstract class BaseAccountResourceImpl
 
 		preparePatch(account, existingAccount);
 
-		return putAccount(accountId, existingAccount);
+		Account putAccount = putAccount(accountId, existingAccount);
+
+		updateExternalReferenceCode(
+			account.getExternalReferenceCode(), account.getId());
+
+		return putAccount;
 	}
 
 	/**
@@ -1480,6 +1491,14 @@ public abstract class BaseAccountResourceImpl
 	protected UnsafeBiConsumer
 		<Collection<Account>, UnsafeConsumer<Account, Exception>, Exception>
 			contextBatchUnsafeConsumer;
+
+	protected Account updateExternalReferenceCode(
+			String externalReferenceCode, Long accountId)
+		throws PortalException {
+
+		return null;
+	}
+
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

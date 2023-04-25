@@ -20,6 +20,7 @@ import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.Resource;
@@ -372,8 +373,13 @@ public abstract class BaseObjectEntryResourceImpl
 
 		preparePatch(objectEntry, existingObjectEntry);
 
-		return putByExternalReferenceCode(
+		ObjectEntry putObjectEntry = putByExternalReferenceCode(
 			externalReferenceCode, existingObjectEntry);
+
+		updateExternalReferenceCode(
+			objectEntry.getExternalReferenceCode(), objectEntry.getId());
+
+		return putObjectEntry;
 	}
 
 	@io.swagger.v3.oas.annotations.Parameters(
@@ -583,8 +589,13 @@ public abstract class BaseObjectEntryResourceImpl
 
 		preparePatch(objectEntry, existingObjectEntry);
 
-		return putScopeScopeKeyByExternalReferenceCode(
+		ObjectEntry putObjectEntry = putScopeScopeKeyByExternalReferenceCode(
 			scopeKey, externalReferenceCode, existingObjectEntry);
+
+		updateExternalReferenceCode(
+			objectEntry.getExternalReferenceCode(), objectEntry.getId());
+
+		return putObjectEntry;
 	}
 
 	@io.swagger.v3.oas.annotations.Parameters(
@@ -818,7 +829,13 @@ public abstract class BaseObjectEntryResourceImpl
 
 		preparePatch(objectEntry, existingObjectEntry);
 
-		return putObjectEntry(objectEntryId, existingObjectEntry);
+		ObjectEntry putObjectEntry = putObjectEntry(
+			objectEntryId, existingObjectEntry);
+
+		updateExternalReferenceCode(
+			objectEntry.getExternalReferenceCode(), objectEntry.getId());
+
+		return putObjectEntry;
 	}
 
 	@io.swagger.v3.oas.annotations.Parameters(
@@ -1728,6 +1745,14 @@ public abstract class BaseObjectEntryResourceImpl
 	protected UnsafeBiConsumer
 		<Collection<ObjectEntry>, UnsafeConsumer<ObjectEntry, Exception>,
 		 Exception> contextBatchUnsafeConsumer;
+
+	protected ObjectEntry updateExternalReferenceCode(
+			String externalReferenceCode, Long objectEntryId)
+		throws PortalException {
+
+		return null;
+	}
+
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

@@ -664,8 +664,10 @@ public abstract class BaseMessageBoardThreadResourceImpl
 
 		preparePatch(messageBoardThread, existingMessageBoardThread);
 
-		return putMessageBoardThread(
+		MessageBoardThread putMessageBoardThread = putMessageBoardThread(
 			messageBoardThreadId, existingMessageBoardThread);
+
+		return putMessageBoardThread;
 	}
 
 	/**

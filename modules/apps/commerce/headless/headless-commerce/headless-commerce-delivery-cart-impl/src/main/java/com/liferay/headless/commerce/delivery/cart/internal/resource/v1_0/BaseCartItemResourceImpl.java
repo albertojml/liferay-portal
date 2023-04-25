@@ -250,7 +250,9 @@ public abstract class BaseCartItemResourceImpl
 
 		preparePatch(cartItem, existingCartItem);
 
-		return putCartItem(cartItemId, existingCartItem);
+		CartItem putCartItem = putCartItem(cartItemId, existingCartItem);
+
+		return putCartItem;
 	}
 
 	/**
