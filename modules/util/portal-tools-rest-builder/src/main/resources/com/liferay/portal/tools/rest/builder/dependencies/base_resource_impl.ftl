@@ -367,15 +367,15 @@ public abstract class Base${schemaName}ResourceImpl
 					</#list>
 				);
 
-				<#assign properties = freeMarkerTool.getWritableDTOProperties(configYAML, openAPIYAML, schema) />
+				<#assign writableProperties = freeMarkerTool.getWritableDTOProperties(configYAML, openAPIYAML, schema) />
 
-				<#list properties?keys as propertyName>
+				<#list writableProperties?keys as propertyName>
 					<#if !freeMarkerTool.isDTOSchemaProperty(openAPIYAML, propertyName, schema) && !stringUtil.equals(propertyName, "id")>
 						if (${schemaVarName}.get${propertyName?cap_first}() != null) {
 							<#assign dtoPropertySchema = freeMarkerTool.getDTOPropertySchema(propertyName, schema) />
 
 							<#if dtoPropertySchema.isJsonMap()>
-								${properties[propertyName]} ${propertyName} = existing${schemaName}.get${propertyName?cap_first}();
+								${writableProperties[propertyName]} ${propertyName} = existing${schemaName}.get${propertyName?cap_first}();
 
 								${propertyName}.putAll(${schemaVarName}.get${propertyName?cap_first}());
 
