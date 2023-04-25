@@ -118,6 +118,7 @@ public abstract class Base${schemaName}ResourceImpl
 	<#assign
 		generateGetPermissionCheckerMethods = false
 		generatePatchMethods = false
+		generateUpdateExternalReferenceCodeMethod = false
 		getParentBatchJavaMethodSignatures = []
 		postParentBatchJavaMethodSignatures = []
 	/>
@@ -396,15 +397,22 @@ public abstract class Base${schemaName}ResourceImpl
 					<#assign javaMethodParameterName = "put" + schemaName />
 				</#if>
 
-				return ${javaMethodParameterName}(
-					<#list javaMethodParameters as javaMethodParameter>
-						${javaMethodParameter.parameterName}
+				${javaDataType} put${schemaName} = ${javaMethodParameterName}(
+				   <#list javaMethodParameters as javaMethodParameter>
+					  ${javaMethodParameter.parameterName}
 
-						<#sep>, </#sep>
-					</#list>
+					  <#sep>, </#sep>
+				   </#list>
 
-					, existing${schemaName}
+				   , existing${schemaName}
 				);
+
+				<#if properties?keys?seq_contains("externalReferenceCode")>
+					<#assign generateUpdateExternalReferenceCodeMethod = true />
+					updateExternalReferenceCode(${schemaVarName}.getExternalReferenceCode(), ${schemaVarName}.getId());
+				</#if>
+
+				return put${schemaName};
 			<#else>
 				return new ${javaMethodSignature.returnType}();
 			</#if>
@@ -1087,6 +1095,21 @@ public abstract class Base${schemaName}ResourceImpl
 
 	<#if generateBatch>
 		protected UnsafeBiConsumer<Collection<${javaDataType}>, UnsafeConsumer<${javaDataType}, Exception>, Exception> contextBatchUnsafeConsumer;
+	</#if>
+
+	<#if generateUpdateExternalReferenceCodeMethod>
+		protected ${schemaName} updateExternalReferenceCode(
+			String externalReferenceCode,
+			<#if properties?keys?seq_contains("id")>
+				${properties["id"]}
+			<#elseif properties?keys?seq_contains(schemaVarName + "Id")>
+				${properties[ schemaVarName + "id"]}
+			</#if>
+			 ${schemaVarName}Id)
+			throws PortalException {
+
+			return null;
+		}
 	</#if>
 
 	protected com.liferay.portal.kernel.model.Company contextCompany;
