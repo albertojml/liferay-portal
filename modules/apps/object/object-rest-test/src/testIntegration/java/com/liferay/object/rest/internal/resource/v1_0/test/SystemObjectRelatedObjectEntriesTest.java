@@ -440,6 +440,41 @@ public class SystemObjectRelatedObjectEntriesTest {
 	}
 
 	@Test
+	public void testPostSystemObjectEntryWithNestedCustomObjectEntriesInManyToOneRelationshipWithoutNestedFieldContent()
+		throws Exception {
+
+		ObjectRelationship objectRelationship =
+			ObjectRelationshipTestUtil.addObjectRelationship(
+				_objectDefinition, _userSystemObjectDefinition,
+				_user.getUserId(),
+				ObjectRelationshipConstants.TYPE_ONE_TO_MANY);
+
+		_objectRelationships.add(objectRelationship);
+
+		JSONObject jsonObject = UserAccountTestUtil.addUserAccountJSONObject(
+			_userSystemObjectDefinitionManager,
+			HashMapBuilder.<String, Serializable>put(
+				objectRelationship.getName(),
+				JSONFactoryUtil.createJSONObject(
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME, _NEW_OBJECT_FIELD_VALUE_1
+					).put(
+						"externalReferenceCode", _ERC_VALUE_1
+					).toString())
+			).build());
+
+		jsonObject = HTTPTestUtil.invoke(
+			null,
+			StringBundler.concat(
+				_getLocation(), StringPool.SLASH, jsonObject.getString("id")),
+			Http.Method.GET);
+
+		Assert.assertNotNull(
+			jsonObject.getJSONObject(objectRelationship.getName())
+		);
+	}
+
+	@Test
 	public void testPostSystemObjectWithObjectRelationshipName()
 		throws Exception {
 
