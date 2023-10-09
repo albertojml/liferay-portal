@@ -143,6 +143,7 @@ import com.liferay.portal.util.PortalInstances;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -619,7 +620,7 @@ public class ObjectDefinitionLocalServiceImpl
 		for (Map.Entry
 				<ObjectDefinitionDeployer,
 				 Map<Long, List<ServiceRegistration<?>>>> entry :
-					_serviceRegistrationsMaps.entrySet()) {
+					new HashSet<>(_serviceRegistrationsMaps.entrySet())) {
 
 			ObjectDefinitionDeployer objectDefinitionDeployer = entry.getKey();
 			Map<Long, List<ServiceRegistration<?>>> serviceRegistrationsMap =
@@ -1032,7 +1033,7 @@ public class ObjectDefinitionLocalServiceImpl
 		for (Map.Entry
 				<ObjectDefinitionDeployer,
 				 Map<Long, List<ServiceRegistration<?>>>> entry :
-					_serviceRegistrationsMaps.entrySet()) {
+					new HashSet<>(_serviceRegistrationsMaps.entrySet())) {
 
 			ObjectDefinitionDeployer objectDefinitionDeployer = entry.getKey();
 
