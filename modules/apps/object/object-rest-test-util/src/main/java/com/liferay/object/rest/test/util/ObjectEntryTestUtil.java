@@ -25,7 +25,7 @@ import java.util.Map;
 public class ObjectEntryTestUtil {
 
 	public static ObjectEntry addObjectEntry(
-			long groupId, ObjectDefinition objectDefinition,
+			long groupId, ObjectDefinition objectDefinition, long userId,
 			Map<String, Serializable> values, String... keywords)
 		throws Exception {
 
@@ -37,8 +37,36 @@ public class ObjectEntryTestUtil {
 		}
 
 		return ObjectEntryLocalServiceUtil.addObjectEntry(
-			TestPropsValues.getUserId(), groupId,
-			objectDefinition.getObjectDefinitionId(), values, serviceContext);
+			userId, groupId, objectDefinition.getObjectDefinitionId(), values,
+			serviceContext);
+	}
+
+	public static ObjectEntry addObjectEntry(
+			long groupId, ObjectDefinition objectDefinition,
+			Map<String, Serializable> values, String... keywords)
+		throws Exception {
+
+		return addObjectEntry(
+			groupId, objectDefinition, TestPropsValues.getUserId(), values,
+			keywords);
+	}
+
+	public static ObjectEntry addObjectEntry(
+			ObjectDefinition objectDefinition, long userId,
+			Map<String, Serializable> values, String... keywords)
+		throws Exception {
+
+		long groupId = 0;
+
+		if (StringUtil.equals(
+				objectDefinition.getScope(),
+				ObjectDefinitionConstants.SCOPE_SITE)) {
+
+			groupId = TestPropsValues.getGroupId();
+		}
+
+		return addObjectEntry(
+			groupId, objectDefinition, userId, values, keywords);
 	}
 
 	public static ObjectEntry addObjectEntry(
