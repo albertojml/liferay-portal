@@ -42,6 +42,7 @@ import com.liferay.object.rest.test.util.ObjectFieldTestUtil;
 import com.liferay.object.rest.test.util.ObjectRelationshipTestUtil;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
+import com.liferay.object.service.ObjectEntryLocalServiceUtil;
 import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectFieldSettingLocalService;
 import com.liferay.object.test.util.ObjectDefinitionTestUtil;
@@ -185,51 +186,6 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 		_addAggregationObjectField(
 			_siteScopedObjectDefinition2,
 			_siteScopedObjectRelationship2.getName());
-	}
-
-	@Test
-	public void testInDifferentCompany() throws Exception {
-		HTTPTestUtil.invokeToJSONObject(
-			JSONUtil.put(
-				"domain", "able.com"
-			).put(
-				"portalInstanceId", "able.com"
-			).put(
-				"virtualHost", "www.able.com"
-			).toString(),
-			"headless-portal-instances/v1.0/portal-instances",
-			Http.Method.POST);
-
-		Company company = CompanyLocalServiceUtil.getCompanyByVirtualHost(
-			"www.able.com");
-
-		User user = UserTestUtil.getAdminUser(company.getCompanyId());
-
-		long userId = user.getUserId();
-
-		ObjectDefinition objectDefinition =
-			ObjectDefinitionTestUtil.publishObjectDefinition(
-				Collections.singletonList(
-					new TextObjectFieldBuilder(
-					).externalReferenceCode(
-						_API_SCHEMA_TEXT_FIELD_ERC
-					).labelMap(
-						LocalizedMapUtil.getLocalizedMap(
-							RandomTestUtil.randomString())
-					).name(
-						"textField"
-					).build()),
-				ObjectDefinitionConstants.SCOPE_COMPANY, userId);
-
-		String apiSchemaExternalReferenceCode = RandomTestUtil.randomString();
-
-		_testGetInDifferentCompany(
-			apiSchemaExternalReferenceCode, objectDefinition, userId);
-
-		_testGetOpenAPIInDifferentCompany();
-
-		_testPostInDifferentCompany(
-			apiSchemaExternalReferenceCode, objectDefinition);
 	}
 
 	@Test
@@ -1953,6 +1909,60 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 	}
 
 	@Test
+	public void testInDifferentCompany() throws Exception {
+		HTTPTestUtil.invokeToJSONObject(
+			JSONUtil.put(
+				"domain", "able.com"
+			).put(
+				"portalInstanceId", "able.com"
+			).put(
+				"virtualHost", "www.able.com"
+			).toString(),
+			"headless-portal-instances/v1.0/portal-instances",
+			Http.Method.POST);
+
+		Company company = CompanyLocalServiceUtil.getCompanyByVirtualHost(
+			"www.able.com");
+
+		User user = UserTestUtil.getAdminUser(company.getCompanyId());
+
+		long userId = user.getUserId();
+
+		ObjectDefinition objectDefinition =
+			ObjectDefinitionTestUtil.publishObjectDefinition(
+				Collections.singletonList(
+					new TextObjectFieldBuilder(
+					).externalReferenceCode(
+						_API_SCHEMA_TEXT_FIELD_ERC
+					).labelMap(
+						LocalizedMapUtil.getLocalizedMap(
+							RandomTestUtil.randomString())
+					).name(
+						"textField"
+					).build()),
+				ObjectDefinitionConstants.SCOPE_COMPANY, userId);
+
+		String apiSchemaExternalReferenceCode = RandomTestUtil.randomString();
+
+		_testGetInDifferentCompany(
+			apiSchemaExternalReferenceCode, objectDefinition, userId);
+
+		_testGetOpenAPIInDifferentCompany();
+
+		_testPostInDifferentCompany(
+			apiSchemaExternalReferenceCode, objectDefinition);
+
+		List<ObjectEntry> objectEntries =
+			_objectEntryLocalService.getObjectEntries(
+				0, objectDefinition.getObjectDefinitionId(), QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS);
+
+		for (ObjectEntry objectEntry : objectEntries) {
+			ObjectEntryLocalServiceUtil.deleteObjectEntry(objectEntry);
+		}
+	}
+
+	@Test
 	public void testPostWithAllFields() throws Exception {
 		_addAPIApplicationWithPostEndpoint(
 			true, _objectDefinition1.getExternalReferenceCode(),
@@ -3320,6 +3330,12 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 
 				Assert.assertEquals(
 					objectEntries.toString(), 2, objectEntries.size());
+
+				assertSuccessfulJSONObject(
+					null,
+					"headless-builder/applications/by-external-reference-code" +
+						"/" + _API_APPLICATION_ERC_1,
+					Http.Method.DELETE);
 			}
 		);
 	}
