@@ -188,7 +188,7 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testDifferentCompany() throws Exception {
+	public void testInDifferentCompany() throws Exception {
 		HTTPTestUtil.invokeToJSONObject(
 			JSONUtil.put(
 				"domain", "able.com"
