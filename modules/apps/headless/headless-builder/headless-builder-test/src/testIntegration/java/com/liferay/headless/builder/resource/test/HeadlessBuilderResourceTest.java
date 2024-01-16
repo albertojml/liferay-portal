@@ -227,6 +227,9 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 			apiSchemaExternalReferenceCode, objectDefinition, userId);
 
 		_testGetOpenAPIInDifferentCompany();
+
+		_testPostInDifferentCompany(
+			apiSchemaExternalReferenceCode, objectDefinition);
 	}
 
 	@Test
@@ -3256,6 +3259,70 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 			"headless-builder/applications/by-external-reference-code/" +
 				_API_APPLICATION_ERC_1,
 			Http.Method.GET);
+	}
+
+	private void _testPostInDifferentCompany(
+			String apiSchemaExternalReferenceCode,
+			ObjectDefinition objectDefinition)
+		throws Exception {
+
+		HTTPTestUtil.customize(
+		).withBaseURL(
+			"http://www.able.com:8080"
+		).withCredentials(
+			"test@able.com", "test"
+		).apply(
+			() -> {
+				assertSuccessfulJSONObject(
+					_createAPIEndpoint(
+						_API_ENDPOINT_ERC_2, Http.Method.POST,
+						_API_APPLICATION_PATH_1, null,
+						APIApplication.Endpoint.RetrieveType.SINGLE_ELEMENT.
+							getValue(),
+						APIApplication.Endpoint.Scope.COMPANY
+					).put(
+						"r_apiApplicationToAPIEndpoints_c_apiApplicationERC",
+						_API_APPLICATION_ERC_1
+					).toString(),
+					"headless-builder/endpoints", Http.Method.POST);
+				assertSuccessfulJSONObject(
+					null,
+					StringBundler.concat(
+						"headless-builder/schemas/by-external-reference-code/",
+						apiSchemaExternalReferenceCode,
+						"/requestAPISchemaToAPIEndpoints/",
+						_API_ENDPOINT_ERC_2),
+					Http.Method.PUT);
+				assertSuccessfulJSONObject(
+					null,
+					StringBundler.concat(
+						"headless-builder/schemas/by-external-reference-code/",
+						apiSchemaExternalReferenceCode,
+						"/responseAPISchemaToAPIEndpoints/",
+						_API_ENDPOINT_ERC_2),
+					Http.Method.PUT);
+
+				JSONObject jsonObject = JSONUtil.put(
+					"textProperty", RandomTestUtil.randomString());
+
+				String str = HTTPTestUtil.invokeToJSONObject(
+					jsonObject.toString(),
+					"c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1,
+					Http.Method.POST
+				).toString();
+
+				JSONAssert.assertEquals(
+					jsonObject.toString(), str, JSONCompareMode.LENIENT);
+
+				List<ObjectEntry> objectEntries =
+					_objectEntryLocalService.getObjectEntries(
+						0, objectDefinition.getObjectDefinitionId(),
+						QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+				Assert.assertEquals(
+					objectEntries.toString(), 2, objectEntries.size());
+			}
+		);
 	}
 
 	private static final String _API_APPLICATION_ERC_1 =
