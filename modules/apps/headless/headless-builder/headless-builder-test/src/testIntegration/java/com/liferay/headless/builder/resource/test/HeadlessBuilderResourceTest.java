@@ -53,7 +53,10 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.test.constants.TestDataConstants;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DataGuard;
@@ -62,6 +65,7 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.HTTPTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -184,27 +188,7 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 	}
 
 	@Test
-	public void testGetInDifferentCompany() throws Exception {
-		_addAPIApplication(
-			_API_APPLICATION_ERC_1, _API_ENDPOINT_ERC_1, _BASE_URL_1,
-			_objectDefinition1.getExternalReferenceCode(),
-			_objectRelationship1.getName(), _objectRelationship2.getName(),
-			_API_APPLICATION_PATH_1, null,
-			APIApplication.Endpoint.RetrieveType.COLLECTION.getValue(),
-			APIApplication.Endpoint.Scope.COMPANY);
-		_publishAPIApplication(_API_APPLICATION_ERC_1);
-
-		assertSuccessfulJSONObject(
-			null, "c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1,
-			Http.Method.GET);
-
-		Assert.assertTrue(
-			HTTPTestUtil.invokeToJSONObject(
-				null, "openapi", Http.Method.GET
-			).has(
-				"/c/" + _BASE_URL_1
-			));
-
+	public void testDifferentCompany() throws Exception {
 		HTTPTestUtil.invokeToJSONObject(
 			JSONUtil.put(
 				"domain", "able.com"
@@ -216,73 +200,33 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 			"headless-portal-instances/v1.0/portal-instances",
 			Http.Method.POST);
 
-		HTTPTestUtil.customize(
-		).withBaseURL(
-			"http://www.able.com:8080"
-		).withCredentials(
-			"test@able.com", "test"
-		).apply(
-			() -> {
-				Assert.assertEquals(
-					404,
-					HTTPTestUtil.invokeToHttpCode(
-						null, "c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1,
-						Http.Method.GET));
-				Assert.assertFalse(
-					HTTPTestUtil.invokeToJSONObject(
-						null, "openapi", Http.Method.GET
-					).has(
-						"/c/" + _BASE_URL_1
-					));
+		Company company = CompanyLocalServiceUtil.getCompanyByVirtualHost(
+			"www.able.com");
 
-				assertSuccessfulJSONObject(
-					JSONUtil.put(
-						"applicationStatus", "published"
-					).put(
-						"baseURL", _BASE_URL_1
-					).put(
-						"externalReferenceCode", _API_APPLICATION_ERC_1
-					).put(
-						"title", "test-app"
-					).toString(),
-					"headless-builder/applications", Http.Method.POST);
+		User user = UserTestUtil.getAdminUser(company.getCompanyId());
 
-				Assert.assertTrue(
-					HTTPTestUtil.invokeToJSONObject(
-						null, "openapi", Http.Method.GET
-					).has(
-						"/c/" + _BASE_URL_1
-					));
+		long userId = user.getUserId();
 
-				JSONAssert.assertEquals(
-					JSONUtil.put(
-						"totalCount", 1
-					).toString(),
-					HTTPTestUtil.invokeToJSONObject(
-						null, "headless-builder/applications", Http.Method.GET
-					).toString(),
-					JSONCompareMode.LENIENT);
+		ObjectDefinition objectDefinition =
+			ObjectDefinitionTestUtil.publishObjectDefinition(
+				Collections.singletonList(
+					new TextObjectFieldBuilder(
+					).externalReferenceCode(
+						_API_SCHEMA_TEXT_FIELD_ERC
+					).labelMap(
+						LocalizedMapUtil.getLocalizedMap(
+							RandomTestUtil.randomString())
+					).name(
+						"textField"
+					).build()),
+				ObjectDefinitionConstants.SCOPE_COMPANY, userId);
 
-				assertSuccessfulJSONObject(
-					null,
-					"headless-builder/applications/by-external-reference-code" +
-						"/" + _API_APPLICATION_ERC_1,
-					Http.Method.DELETE);
+		String apiSchemaExternalReferenceCode = RandomTestUtil.randomString();
 
-				Assert.assertFalse(
-					HTTPTestUtil.invokeToJSONObject(
-						null, "openapi", Http.Method.GET
-					).has(
-						"/c/" + _BASE_URL_1
-					));
-			}
-		);
+		_testGetInDifferentCompany(
+			apiSchemaExternalReferenceCode, objectDefinition, userId);
 
-		assertSuccessfulJSONObject(
-			null,
-			"headless-builder/applications/by-external-reference-code/" +
-				_API_APPLICATION_ERC_1,
-			Http.Method.GET);
+		_testGetOpenAPIInDifferentCompany();
 	}
 
 	@Test
@@ -3124,6 +3068,194 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 		ObjectRelationshipTestUtil.relateObjectEntries(
 			objectEntry1.getObjectEntryId(), objectEntry2.getObjectEntryId(),
 			objectRelationship, TestPropsValues.getUserId());
+	}
+
+	private void _testGetInDifferentCompany(
+			String apiSchemaExternalReferenceCode,
+			ObjectDefinition objectDefinition, long userId)
+		throws Exception {
+
+		HTTPTestUtil.customize(
+		).withBaseURL(
+			"http://www.able.com:8080"
+		).withCredentials(
+			"test@able.com", "test"
+		).apply(
+			() -> {
+				assertSuccessfulJSONObject(
+					JSONUtil.put(
+						"apiApplicationToAPIEndpoints",
+						JSONUtil.putAll(
+							_createAPIEndpoint(
+								_API_ENDPOINT_ERC_1, Http.Method.GET,
+								_API_APPLICATION_PATH_1, null,
+								APIApplication.Endpoint.RetrieveType.COLLECTION.
+									getValue(),
+								APIApplication.Endpoint.Scope.COMPANY))
+					).put(
+						"apiApplicationToAPISchemas",
+						JSONUtil.put(
+							JSONUtil.put(
+								"apiSchemaToAPIProperties",
+								JSONUtil.putAll(
+									JSONUtil.put(
+										"description", "description"
+									).put(
+										"name", "textProperty"
+									).put(
+										"objectFieldERC",
+										_API_SCHEMA_TEXT_FIELD_ERC
+									))
+							).put(
+								"description", "description"
+							).put(
+								"externalReferenceCode",
+								apiSchemaExternalReferenceCode
+							).put(
+								"mainObjectDefinitionERC",
+								objectDefinition.getExternalReferenceCode()
+							).put(
+								"name", "name"
+							))
+					).put(
+						"applicationStatus", "published"
+					).put(
+						"baseURL", _BASE_URL_1
+					).put(
+						"externalReferenceCode", _API_APPLICATION_ERC_1
+					).put(
+						"title", RandomTestUtil.randomString()
+					).toString(),
+					"headless-builder/applications", Http.Method.POST);
+				assertSuccessfulJSONObject(
+					null,
+					StringBundler.concat(
+						"headless-builder/schemas/by-external-reference-code/",
+						apiSchemaExternalReferenceCode,
+						"/responseAPISchemaToAPIEndpoints/",
+						_API_ENDPOINT_ERC_1),
+					Http.Method.PUT);
+
+				String textFieldValue = RandomTestUtil.randomString();
+
+				ObjectEntryTestUtil.addObjectEntry(
+					objectDefinition, userId,
+					HashMapBuilder.<String, Serializable>put(
+						"textField", textFieldValue
+					).build());
+
+				String jsonObjectString = HTTPTestUtil.invokeToJSONObject(
+					null, "c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1,
+					Http.Method.GET
+				).toString();
+
+				JSONAssert.assertEquals(
+					JSONUtil.put(
+						"items",
+						JSONUtil.putAll(
+							JSONUtil.put("textProperty", textFieldValue))
+					).put(
+						"lastPage", 1
+					).put(
+						"page", 1
+					).put(
+						"pageSize", 20
+					).put(
+						"totalCount", 1
+					).toString(),
+					jsonObjectString, JSONCompareMode.LENIENT);
+			}
+		);
+	}
+
+	private void _testGetOpenAPIInDifferentCompany() throws Exception {
+		_addAPIApplication(
+			_API_APPLICATION_ERC_2, _API_ENDPOINT_ERC_2, _BASE_URL_2,
+			_objectDefinition1.getExternalReferenceCode(),
+			_objectRelationship1.getName(), _objectRelationship2.getName(),
+			_API_APPLICATION_PATH_1, null,
+			APIApplication.Endpoint.RetrieveType.COLLECTION.getValue(),
+			APIApplication.Endpoint.Scope.COMPANY);
+		_publishAPIApplication(_API_APPLICATION_ERC_2);
+
+		assertSuccessfulJSONObject(
+			null, "c/" + _BASE_URL_2 + _API_APPLICATION_PATH_2,
+			Http.Method.GET);
+
+		Assert.assertTrue(
+			HTTPTestUtil.invokeToJSONObject(
+				null, "openapi", Http.Method.GET
+			).has(
+				"/c/" + _BASE_URL_2
+			));
+
+		HTTPTestUtil.customize(
+		).withBaseURL(
+			"http://www.able.com:8080"
+		).withCredentials(
+			"test@able.com", "test"
+		).apply(
+			() -> {
+				Assert.assertEquals(
+					404,
+					HTTPTestUtil.invokeToHttpCode(
+						null, "c/" + _BASE_URL_2 + _API_APPLICATION_PATH_2,
+						Http.Method.GET));
+				Assert.assertFalse(
+					HTTPTestUtil.invokeToJSONObject(
+						null, "openapi", Http.Method.GET
+					).has(
+						"/c/" + _BASE_URL_2
+					));
+
+				assertSuccessfulJSONObject(
+					JSONUtil.put(
+						"applicationStatus", "published"
+					).put(
+						"baseURL", _BASE_URL_2
+					).put(
+						"externalReferenceCode", _API_APPLICATION_ERC_2
+					).put(
+						"title", "test-app"
+					).toString(),
+					"headless-builder/applications", Http.Method.POST);
+
+				Assert.assertTrue(
+					HTTPTestUtil.invokeToJSONObject(
+						null, "openapi", Http.Method.GET
+					).has(
+						"/c/" + _BASE_URL_2
+					));
+
+				JSONAssert.assertEquals(
+					JSONUtil.put(
+						"totalCount", 2
+					).toString(),
+					HTTPTestUtil.invokeToJSONObject(
+						null, "headless-builder/applications", Http.Method.GET
+					).toString(),
+					JSONCompareMode.LENIENT);
+
+				assertSuccessfulJSONObject(
+					null,
+					"headless-builder/applications/by-external-reference-code" +
+						"/" + _API_APPLICATION_ERC_2,
+					Http.Method.DELETE);
+
+				Assert.assertFalse(
+					HTTPTestUtil.invokeToJSONObject(
+						null, "openapi", Http.Method.GET
+					).has(
+						"/c/" + _BASE_URL_2
+					));
+			}
+		);
+
+		assertSuccessfulJSONObject(
+			null,
+			"headless-builder/applications/by-external-reference-code/" +
+				_API_APPLICATION_ERC_1,
+			Http.Method.GET);
 	}
 
 	private static final String _API_APPLICATION_ERC_1 =
