@@ -3314,14 +3314,14 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 				JSONObject jsonObject = JSONUtil.put(
 					"textProperty", RandomTestUtil.randomString());
 
-				String str = HTTPTestUtil.invokeToJSONObject(
-					jsonObject.toString(),
-					"c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1,
-					Http.Method.POST
-				).toString();
-
 				JSONAssert.assertEquals(
-					jsonObject.toString(), str, JSONCompareMode.LENIENT);
+					jsonObject.toString(),
+					HTTPTestUtil.invokeToJSONObject(
+						jsonObject.toString(),
+						"c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1,
+						Http.Method.POST
+					).toString(),
+					JSONCompareMode.LENIENT);
 
 				List<ObjectEntry> objectEntries =
 					_objectEntryLocalService.getObjectEntries(
