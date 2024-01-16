@@ -3147,11 +3147,6 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 						"textField", textFieldValue
 					).build());
 
-				String jsonObjectString = HTTPTestUtil.invokeToJSONObject(
-					null, "c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1,
-					Http.Method.GET
-				).toString();
-
 				JSONAssert.assertEquals(
 					JSONUtil.put(
 						"items",
@@ -3166,7 +3161,11 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 					).put(
 						"totalCount", 1
 					).toString(),
-					jsonObjectString, JSONCompareMode.LENIENT);
+					HTTPTestUtil.invokeToJSONObject(
+						null, "c/" + _BASE_URL_1 + _API_APPLICATION_PATH_1,
+						Http.Method.GET
+					).toString(),
+					JSONCompareMode.LENIENT);
 			}
 		);
 	}
