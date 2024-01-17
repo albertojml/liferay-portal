@@ -1942,15 +1942,11 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 					).build()),
 				ObjectDefinitionConstants.SCOPE_COMPANY, userId);
 
-		String apiSchemaExternalReferenceCode = RandomTestUtil.randomString();
-
-		_testGetInDifferentCompany(
-			apiSchemaExternalReferenceCode, objectDefinition, userId);
+		_testGetInDifferentCompany(objectDefinition, userId);
 
 		_testGetOpenAPIInDifferentCompany();
 
-		_testPostInDifferentCompany(
-			apiSchemaExternalReferenceCode, objectDefinition);
+		_testPostInDifferentCompany(objectDefinition);
 
 		List<ObjectEntry> objectEntries =
 			_objectEntryLocalService.getObjectEntries(
@@ -3084,9 +3080,10 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 	}
 
 	private void _testGetInDifferentCompany(
-			String apiSchemaExternalReferenceCode,
 			ObjectDefinition objectDefinition, long userId)
 		throws Exception {
+
+		String apiSchemaExternalReferenceCode = RandomTestUtil.randomString();
 
 		HTTPTestUtil.customize(
 		).withBaseURL(
@@ -3270,10 +3267,10 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 			Http.Method.GET);
 	}
 
-	private void _testPostInDifferentCompany(
-			String apiSchemaExternalReferenceCode,
-			ObjectDefinition objectDefinition)
+	private void _testPostInDifferentCompany(ObjectDefinition objectDefinition)
 		throws Exception {
+
+		String apiSchemaExternalReferenceCode = RandomTestUtil.randomString();
 
 		HTTPTestUtil.customize(
 		).withBaseURL(
