@@ -1947,15 +1947,6 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 		_testGetOpenAPIInDifferentCompany();
 
 		_testPostInDifferentCompany(objectDefinition);
-
-		List<ObjectEntry> objectEntries =
-			_objectEntryLocalService.getObjectEntries(
-				0, objectDefinition.getObjectDefinitionId(), QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS);
-
-		for (ObjectEntry objectEntry : objectEntries) {
-			ObjectEntryLocalServiceUtil.deleteObjectEntry(objectEntry);
-		}
 	}
 
 	@Test
@@ -3183,6 +3174,16 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 							"headless-builder/applications/by-external-",
 							"reference-code/", _API_APPLICATION_ERC_1),
 						Http.Method.DELETE);
+
+					List<ObjectEntry> objectEntries =
+						_objectEntryLocalService.getObjectEntries(
+							0, objectDefinition.getObjectDefinitionId(),
+							QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+					for (ObjectEntry objectEntry : objectEntries) {
+						ObjectEntryLocalServiceUtil.deleteObjectEntry(
+							objectEntry);
+					}
 				}
 			}
 		);
@@ -3377,7 +3378,7 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 							QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 					Assert.assertEquals(
-						objectEntries.toString(), 2, objectEntries.size());
+						objectEntries.toString(), 1, objectEntries.size());
 				}
 				finally {
 					assertSuccessfulJSONObject(
@@ -3386,6 +3387,16 @@ public class HeadlessBuilderResourceTest extends BaseTestCase {
 							"headless-builder/applications/by-external-",
 							"reference-code/", _API_APPLICATION_ERC_1),
 						Http.Method.DELETE);
+
+					List<ObjectEntry> objectEntries =
+						_objectEntryLocalService.getObjectEntries(
+							0, objectDefinition.getObjectDefinitionId(),
+							QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+					for (ObjectEntry objectEntry : objectEntries) {
+						ObjectEntryLocalServiceUtil.deleteObjectEntry(
+							objectEntry);
+					}
 				}
 			}
 		);
