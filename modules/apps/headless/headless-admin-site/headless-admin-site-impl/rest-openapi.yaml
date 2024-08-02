@@ -1153,6 +1153,10 @@ components:
                         The master page's most recent publication date.
                     format: date-time
                     type: string
+                externalReferenceCode:
+                    description:
+                        The master page's external reference code, unique per site.
+                    type: string
                 key:
                     # @review
                     description:
