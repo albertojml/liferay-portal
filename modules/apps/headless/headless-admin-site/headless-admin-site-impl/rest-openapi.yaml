@@ -3736,7 +3736,7 @@ paths:
                                     $ref: "#/components/schemas/DisplayPageTemplate"
                                 type: array
             # @review
-            tags: ["DisplayPageTemplateFolder"]
+            tags: ["DisplayPageTemplate"]
         post:
             # @review
             description:
@@ -3783,7 +3783,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/DisplayPageTemplate"
             # @review
-            tags: ["DisplayPageTemplateFolder"]
+            tags: ["DisplayPageTemplate"]
     "/sites/{siteExternalReferenceCode}/display-page-template-folders/{displayPageTemplateFolderExternalReferenceCode}/permissions":
         get:
             parameters:
@@ -5359,7 +5359,7 @@ paths:
                                     $ref: "#/components/schemas/PageElement"
                                 type: array
             # @review
-            tags: ["PageExperience"]
+            tags: ["PageElement"]
         post:
             # @review
             description:
@@ -5406,7 +5406,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/PageElement"
             # @review
-            tags: ["PageExperience"]
+            tags: ["PageElement"]
     "/sites/{siteExternalReferenceCode}/page-experiences/{pageExperienceExternalReferenceCode}/page-rules":
         get:
             # @review
@@ -5453,7 +5453,7 @@ paths:
                                     $ref: "#/components/schemas/PageRule"
                                 type: array
             # @review
-            tags: ["PageExperience"]
+            tags: ["PageRule"]
         post:
             # @review
             description:
@@ -5499,7 +5499,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/PageRule"
             # @review
-            tags: ["PageExperience"]
+            tags: ["PageRule"]
     "/sites/{siteExternalReferenceCode}/page-rule-actions/{pageRuleActionExternalReferenceCode}":
         delete:
             # @review
@@ -6053,7 +6053,7 @@ paths:
                                     $ref: "#/components/schemas/PageRuleAction"
                                 type: array
             # @review
-            tags: ["PageRule"]
+            tags: ["PageRuleAction"]
         post:
             # @review
             description:
@@ -6100,7 +6100,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/PageRuleAction"
             # @review
-            tags: ["PageRule"]
+            tags: ["PageRuleAction"]
     "/sites/{siteExternalReferenceCode}/page-rules/{pageRuleExternalReferenceCode}/page-rule-conditions":
         get:
             # @review
@@ -6149,7 +6149,7 @@ paths:
                                     $ref: "#/components/schemas/PageRuleCondition"
                                 type: array
             # @review
-            tags: ["PageRule"]
+            tags: ["PageRuleCondition"]
         post:
             # @review
             description:
@@ -6196,7 +6196,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/PageRuleCondition"
             # @review
-            tags: ["PageRule"]
+            tags: ["PageRuleCondition"]
     "/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}":
         delete:
             # @review
@@ -6406,7 +6406,7 @@ paths:
                                     $ref: "#/components/schemas/PageExperience"
                                 type: array
             # @review
-            tags: ["PageSpecification"]
+            tags: ["PageExperience"]
         post:
             # @review
             description:
@@ -6453,7 +6453,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/PageExperience"
             # @review
-            tags: ["PageSpecification"]
+            tags: ["PageExperience"]
     "/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/publish":
         post:
             # @review
@@ -6838,7 +6838,7 @@ paths:
                                     $ref: "#/components/schemas/PageTemplate"
                                 type: array
             # @review
-            tags: ["PageTemplateSet"]
+            tags: ["PageTemplate"]
         post:
             # @review
             description:
@@ -6885,7 +6885,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/PageTemplate"
             # @review
-            tags: ["PageTemplateSet"]
+            tags: ["PageTemplate"]
     "/sites/{siteExternalReferenceCode}/page-template-sets/{pageTemplateSetExternalReferenceCode}/permissions":
         get:
             parameters:
@@ -7664,7 +7664,7 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/FriendlyUrlHistory"
             # @review
-            tags: ["SitePage"]
+            tags: ["FriendlyUrlHistory"]
     "/sites/{siteExternalReferenceCode}/site-pages/{sitePageExternalReferenceCode}/page-specifications":
         get:
             # @review
@@ -7707,7 +7707,7 @@ paths:
                                     $ref: "#/components/schemas/PageSpecification"
                                 type: array
             # @review
-            tags: ["SitePage"]
+            tags: ["PageSpecification"]
         post:
             # @review
             description:
@@ -7849,7 +7849,7 @@ paths:
                                     $ref: "#/components/schemas/WidgetPageWidgetInstance"
                                 type: array
             # @review
-            tags: ["SitePage"]
+            tags: ["WidgetPageWidgetInstance"]
         post:
             # @review
             description:
@@ -7896,7 +7896,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/WidgetPageWidgetInstance"
             # @review
-            tags: ["SitePage"]
+            tags: ["WidgetPageWidgetInstance"]
     "/sites/{siteExternalReferenceCode}/utility-pages":
         get:
             # @review
@@ -8231,7 +8231,7 @@ paths:
                                     $ref: "#/components/schemas/PageSpecification"
                                 type: array
             # @review
-            tags: ["UtilityPage"]
+            tags: ["PageSpecification"]
         post:
             # @review
             description:
