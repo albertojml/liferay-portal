@@ -463,7 +463,7 @@ public abstract class Base${schemaName}ResourceTestCase {
 								post${schemaName}.getId()
 							</#if>
 						, RoleConstants.GUEST);
-						
+
 					</#if>
 
 					Assert.assertNotNull(page);
