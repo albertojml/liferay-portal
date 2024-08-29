@@ -598,31 +598,6 @@ public class Mutation {
 						fragmentComposition));
 	}
 
-	@GraphQLField(
-		description = "Adds a new fragment composition under a page element of an experience in a page specification of a site page. If successful, the response will contain the page element in which the fragment composition is converted."
-	)
-	public PageElement
-			createSiteSiteByExternalReferenceCodePageElementFragmentComposition(
-				@GraphQLName("siteExternalReferenceCode") String
-					siteExternalReferenceCode,
-				@GraphQLName("pageElementExternalReferenceCode") String
-					pageElementExternalReferenceCode,
-				@GraphQLName("position") Integer position,
-				@GraphQLName("fragmentComposition") FragmentComposition
-					fragmentComposition)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_fragmentCompositionResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			fragmentCompositionResource ->
-				fragmentCompositionResource.
-					postSiteSiteByExternalReferenceCodePageElementFragmentComposition(
-						siteExternalReferenceCode,
-						pageElementExternalReferenceCode, position,
-						fragmentComposition));
-	}
-
 	@GraphQLField(description = "Adds a new master page.")
 	public MasterPage createSiteSiteByExternalReferenceCodeMasterPage(
 			@GraphQLName("siteExternalReferenceCode") String
@@ -832,6 +807,31 @@ public class Mutation {
 					putSiteSiteByExternalReferenceCodePageElement(
 						siteExternalReferenceCode,
 						pageElementExternalReferenceCode, pageElement));
+	}
+
+	@GraphQLField(
+		description = "Adds a new fragment composition under a page element of an experience in a page specification of a site page. If successful, the response will contain the page element in which the fragment composition is converted."
+	)
+	public PageElement
+			createSiteSiteByExternalReferenceCodePageElementFragmentComposition(
+				@GraphQLName("siteExternalReferenceCode") String
+					siteExternalReferenceCode,
+				@GraphQLName("pageElementExternalReferenceCode") String
+					pageElementExternalReferenceCode,
+				@GraphQLName("position") Integer position,
+				@GraphQLName("fragmentComposition") FragmentComposition
+					fragmentComposition)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_pageElementResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			pageElementResource ->
+				pageElementResource.
+					postSiteSiteByExternalReferenceCodePageElementFragmentComposition(
+						siteExternalReferenceCode,
+						pageElementExternalReferenceCode, position,
+						fragmentComposition));
 	}
 
 	@GraphQLField(
@@ -1203,7 +1203,7 @@ public class Mutation {
 						pageRuleExternalReferenceCode, pageRuleCondition));
 	}
 
-	@GraphQLField(description = "Deletes a page specification.")
+	@GraphQLField(description = "Deletes a page specification of a site page.")
 	public boolean deleteSiteSiteByExternalReferenceCodePageSpecification(
 			@GraphQLName("siteExternalReferenceCode") String
 				siteExternalReferenceCode,
@@ -1224,7 +1224,7 @@ public class Mutation {
 	}
 
 	@GraphQLField(
-		description = "Updates a page specification. Updates only the fields received in the request body, leaving any other fields untouched."
+		description = "Updates a page specification of a site page. Updates only the fields received in the request body, leaving any other fields untouched."
 	)
 	public PageSpecification
 			patchSiteSiteByExternalReferenceCodePageSpecification(
@@ -1247,7 +1247,7 @@ public class Mutation {
 						pageSpecification));
 	}
 
-	@GraphQLField(description = "Updates a page specification.")
+	@GraphQLField(description = "Updates a page specification of a site page.")
 	public PageSpecification
 			updateSiteSiteByExternalReferenceCodePageSpecification(
 				@GraphQLName("siteExternalReferenceCode") String
@@ -1270,7 +1270,7 @@ public class Mutation {
 	}
 
 	@GraphQLField(
-		description = "Publishes a page specification in draft status."
+		description = "Publishes a page specification in draft status of a site page."
 	)
 	public PageSpecification
 			createSiteSiteByExternalReferenceCodePageSpecificationPublish(

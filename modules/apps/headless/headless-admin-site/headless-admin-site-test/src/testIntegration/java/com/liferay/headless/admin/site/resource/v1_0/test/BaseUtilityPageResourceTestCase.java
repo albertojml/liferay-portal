@@ -680,7 +680,7 @@ public abstract class BaseUtilityPageResourceTestCase {
 		Page<Permission> page =
 			utilityPageResource.
 				getSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage(
-					postUtilityPage.getId(), RoleConstants.GUEST);
+					testGroup.getExternalReferenceCode(), RoleConstants.GUEST);
 
 		Assert.assertNotNull(page);
 	}
@@ -794,7 +794,9 @@ public abstract class BaseUtilityPageResourceTestCase {
 		Page<Permission> page =
 			utilityPageResource.
 				getSiteSiteExternalReferenceCodeUtilityPagePermissionsPage(
-					postUtilityPage.getId(), RoleConstants.GUEST);
+					testGroup.getExternalReferenceCode(),
+					postUtilityPage.getExternalReferenceCode(),
+					RoleConstants.GUEST);
 
 		Assert.assertNotNull(page);
 	}

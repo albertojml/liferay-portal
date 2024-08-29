@@ -188,7 +188,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
-		description = "Deletes a page specification."
+		description = "Deletes a page specification of a site page."
 	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -243,7 +243,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
-		description = "Retrieves a page specification."
+		description = "Retrieves a page specification of a site page."
 	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -301,7 +301,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}' -d $'{"externalReferenceCode": ___, "settings": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
-		description = "Updates a page specification. Updates only the fields received in the request body, leaving any other fields untouched."
+		description = "Updates a page specification of a site page. Updates only the fields received in the request body, leaving any other fields untouched."
 	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -379,7 +379,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}' -d $'{"externalReferenceCode": ___, "settings": ___, "type": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
-		description = "Updates a page specification."
+		description = "Updates a page specification of a site page."
 	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -439,7 +439,7 @@ public abstract class BasePageSpecificationResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/page-specifications/{pageSpecificationExternalReferenceCode}/publish'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
-		description = "Publishes a page specification in draft status."
+		description = "Publishes a page specification in draft status of a site page."
 	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -554,7 +554,9 @@ public abstract class BasePageSpecificationResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-site/v1.0/sites/{siteExternalReferenceCode}/site-pages/{sitePageExternalReferenceCode}/page-specifications'  -u 'test@liferay.com:test'
 	 */
-	@io.swagger.v3.oas.annotations.Operation(description = "")
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Retrieves all the page specifications of a site page."
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(

@@ -871,7 +871,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 		Page<Permission> page =
 			displayPageTemplateResource.
 				getSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage(
-					postDisplayPageTemplate.getId(), RoleConstants.GUEST);
+					testGroup.getExternalReferenceCode(), RoleConstants.GUEST);
 
 		Assert.assertNotNull(page);
 	}
@@ -985,7 +985,9 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 		Page<Permission> page =
 			displayPageTemplateResource.
 				getSiteSiteExternalReferenceCodeDisplayPageTemplatePermissionsPage(
-					postDisplayPageTemplate.getId(), RoleConstants.GUEST);
+					testGroup.getExternalReferenceCode(),
+					postDisplayPageTemplate.getExternalReferenceCode(),
+					RoleConstants.GUEST);
 
 		Assert.assertNotNull(page);
 	}

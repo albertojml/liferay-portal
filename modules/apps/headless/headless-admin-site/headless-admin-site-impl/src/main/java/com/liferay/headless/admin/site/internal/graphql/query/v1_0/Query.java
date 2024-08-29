@@ -976,7 +976,9 @@ public class Query {
 	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {siteByExternalReferenceCodePageSpecification(pageSpecificationExternalReferenceCode: ___, siteExternalReferenceCode: ___){externalReferenceCode, settings, type}}"}' -u 'test@liferay.com:test'
 	 */
-	@GraphQLField(description = "Retrieves a page specification.")
+	@GraphQLField(
+		description = "Retrieves a page specification of a site page."
+	)
 	public PageSpecification siteByExternalReferenceCodePageSpecification(
 			@GraphQLName("siteExternalReferenceCode") String
 				siteExternalReferenceCode,
@@ -1025,7 +1027,9 @@ public class Query {
 	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {siteByExternalReferenceCodeSitePagePageSpecifications(siteExternalReferenceCode: ___, sitePageExternalReferenceCode: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
-	@GraphQLField(description = "")
+	@GraphQLField(
+		description = "Retrieves all the page specifications of a site page."
+	)
 	public PageSpecificationPage
 			siteByExternalReferenceCodeSitePagePageSpecifications(
 				@GraphQLName("siteExternalReferenceCode") String
