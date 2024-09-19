@@ -1348,6 +1348,7 @@ test.describe('can rely on anyOf form validation', () => {
 						en_US: 'Student subjects 1',
 					},
 					name: 'r_studentSubjects1_c_studentId',
+					readOnly: false,
 					relationshipType: 'oneToMany',
 					required: true,
 					state: false,
@@ -1385,6 +1386,7 @@ test.describe('can rely on anyOf form validation', () => {
 						en_US: 'Student subjects 2',
 					},
 					name: 'r_studentSubjects2_c_studentId',
+					readOnly: false,
 					relationshipType: 'oneToMany',
 					required: true,
 					state: false,
@@ -1422,6 +1424,7 @@ test.describe('can rely on anyOf form validation', () => {
 						en_US: 'Student subjects 3',
 					},
 					name: 'r_studentSubjects3_c_studentId',
+					readOnly: false,
 					relationshipType: 'oneToMany',
 					required: false,
 					state: false,
@@ -1627,19 +1630,19 @@ test.describe('can rely on anyOf form validation', () => {
 			page.getByLabel('r_studentSubjects1_c_studentERC')
 		).toBeEmpty();
 		await expect(
-			page.getByLabel('r_studentSubjects1_c_studentId', {exact: true})
+			page.getByLabel('r_studentSubjects1_c_studentId')
 		).toBeEmpty();
 		await expect(
 			page.getByLabel('r_studentSubjects2_c_studentERC')
 		).toBeEmpty();
 		await expect(
-			page.getByLabel('r_studentSubjects2_c_studentId', {exact: true})
+			page.getByLabel('r_studentSubjects2_c_studentId')
 		).toBeEmpty();
 		await expect(
 			page.getByLabel('r_studentSubjects3_c_studentERC')
 		).toBeEmpty();
 		await expect(
-			page.getByLabel('r_studentSubjects3_c_studentId', {exact: true})
+			page.getByLabel('r_studentSubjects3_c_studentId')
 		).toBeEmpty();
 
 		await dataMigrationCenterPage.selectFile(
