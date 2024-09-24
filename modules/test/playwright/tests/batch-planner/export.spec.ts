@@ -351,6 +351,10 @@ test('can export as JSON with all field types mapped', async ({
 		`o/headless-delivery/v1.0/documents/${objectEntry.customAttachment.id}`
 	);
 	await apiHelpers.objectAdmin.deleteObjectDefinition(objectDefinition.id);
+
+	await apiHelpers.delete(
+		`o/headless-admin-list-type/v1.0/list-type-definitions/${picklist.id}`
+	);
 });
 
 test('can export as JSONL with excluded fields', async ({
