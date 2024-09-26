@@ -116,6 +116,13 @@ public class BatchEngineImportTaskExecutorImpl
 					batchEngineImportTask,
 				throwable);
 
+			_log.error("TaskItemDelegateName: " + batchEngineImportTask.getTaskItemDelegateName());
+			_log.error("BatchEngineImportTaskErrors: " + batchEngineImportTask.getBatchEngineImportTaskErrors());
+			_log.error("BatchEngineImportTaskId: " + batchEngineImportTask.getBatchEngineImportTaskId());
+			_log.error("CompanyId: " + batchEngineImportTask.getCompanyId());
+			_log.error("ErrorMessage: " + batchEngineImportTask.getErrorMessage());
+			_log.error("UserId: " + batchEngineImportTask.getUserId());
+
 			_updateBatchEngineImportTask(
 				BatchEngineTaskExecuteStatus.FAILED, batchEngineImportTask,
 				throwable.toString());
