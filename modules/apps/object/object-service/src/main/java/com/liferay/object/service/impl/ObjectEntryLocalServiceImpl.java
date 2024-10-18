@@ -5127,7 +5127,10 @@ public class ObjectEntryLocalServiceImpl
 		if (Validator.isNull(values.get(objectField.getName())) &&
 			objectField.isRequired() &&
 			(serviceContext.getWorkflowAction() !=
-				WorkflowConstants.ACTION_SAVE_DRAFT)) {
+				WorkflowConstants.ACTION_SAVE_DRAFT) &&
+			!Objects.equals(
+				objectField.getBusinessType(),
+				ObjectFieldConstants.BUSINESS_TYPE_RELATIONSHIP)) {
 
 			throw new ObjectEntryValuesException.Required(
 				objectField.getName());
