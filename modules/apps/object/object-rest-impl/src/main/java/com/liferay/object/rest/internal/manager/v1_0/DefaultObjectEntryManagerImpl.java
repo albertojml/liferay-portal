@@ -14,6 +14,7 @@ import com.liferay.object.constants.ObjectFieldSettingConstants;
 import com.liferay.object.constants.ObjectRelationshipConstants;
 import com.liferay.object.entry.util.ObjectEntryDTOConverterUtil;
 import com.liferay.object.exception.NoSuchObjectEntryException;
+import com.liferay.object.exception.ObjectEntryValuesException;
 import com.liferay.object.field.attachment.AttachmentManager;
 import com.liferay.object.field.business.type.ObjectFieldBusinessTypeRegistry;
 import com.liferay.object.field.setting.util.ObjectFieldSettingUtil;
@@ -161,12 +162,16 @@ public class DefaultObjectEntryManagerImpl
 					objectEntry, scopeKey, serviceContext),
 				serviceContext);
 
+		serviceBuilderObjectEntry = _addOrUpdateNestedObjectEntries(
+			dtoConverterContext, objectDefinition, objectEntry,
+			_getObjectRelationships(objectDefinition, objectEntry),
+			serviceBuilderObjectEntry, scopeKey);
+
+		_validateRequiredObjectRelationshipFields(
+			objectDefinition, serviceBuilderObjectEntry);
+
 		return _toObjectEntry(
-			dtoConverterContext, objectDefinition,
-			_addOrUpdateNestedObjectEntries(
-				dtoConverterContext, objectDefinition, objectEntry,
-				_getObjectRelationships(objectDefinition, objectEntry),
-				serviceBuilderObjectEntry, scopeKey));
+			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
 	}
 
 	@Override
@@ -779,12 +784,16 @@ public class DefaultObjectEntryManagerImpl
 				serviceContext),
 			serviceContext);
 
+		serviceBuilderObjectEntry = _addOrUpdateNestedObjectEntries(
+			dtoConverterContext, objectDefinition, objectEntry,
+			_getObjectRelationships(objectDefinition, objectEntry),
+			serviceBuilderObjectEntry, objectEntry.getScopeKey());
+
+		_validateRequiredObjectRelationshipFields(
+			objectDefinition, serviceBuilderObjectEntry);
+
 		return _toObjectEntry(
-			dtoConverterContext, objectDefinition,
-			_addOrUpdateNestedObjectEntries(
-				dtoConverterContext, objectDefinition, objectEntry,
-				_getObjectRelationships(objectDefinition, objectEntry),
-				serviceBuilderObjectEntry, objectEntry.getScopeKey()));
+			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
 	}
 
 	@Override
@@ -811,12 +820,16 @@ public class DefaultObjectEntryManagerImpl
 					objectEntry, scopeKey, serviceContext),
 				serviceContext);
 
+		serviceBuilderObjectEntry = _addOrUpdateNestedObjectEntries(
+			dtoConverterContext, objectDefinition, objectEntry,
+			_getObjectRelationships(objectDefinition, objectEntry),
+			serviceBuilderObjectEntry, scopeKey);
+
+		_validateRequiredObjectRelationshipFields(
+			objectDefinition, serviceBuilderObjectEntry);
+
 		return _toObjectEntry(
-			dtoConverterContext, objectDefinition,
-			_addOrUpdateNestedObjectEntries(
-				dtoConverterContext, objectDefinition, objectEntry,
-				_getObjectRelationships(objectDefinition, objectEntry),
-				serviceBuilderObjectEntry, scopeKey));
+			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
 	}
 
 	private Map<String, String> _addAction(
@@ -1770,6 +1783,36 @@ public class DefaultObjectEntryManagerImpl
 		}
 
 		return values;
+	}
+
+	private void _validateRequiredObjectRelationshipFields(
+			ObjectDefinition objectDefinition,
+			com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry)
+		throws ObjectEntryValuesException.Required {
+
+		List<ObjectField> objectFields =
+			objectFieldLocalService.getObjectFields(
+				objectDefinition.getObjectDefinitionId());
+
+		Map<String, Serializable> serviceBuilderObjectEntryValues =
+			serviceBuilderObjectEntry.getValues();
+
+		for (ObjectField objectField : objectFields) {
+			if (!Objects.equals(
+					objectField.getBusinessType(),
+					ObjectFieldConstants.BUSINESS_TYPE_RELATIONSHIP)) {
+
+				continue;
+			}
+
+			if (Objects.equals(
+					serviceBuilderObjectEntryValues.get(objectField.getName()),
+					0L)) {
+
+				throw new ObjectEntryValuesException.Required(
+					objectField.getName());
+			}
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
