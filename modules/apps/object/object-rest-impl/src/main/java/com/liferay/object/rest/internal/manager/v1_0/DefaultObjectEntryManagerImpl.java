@@ -24,6 +24,7 @@ import com.liferay.object.model.ObjectField;
 import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.related.models.ObjectRelatedModelsProvider;
 import com.liferay.object.related.models.ObjectRelatedModelsProviderRegistry;
+import com.liferay.object.relationship.RelationshipValidationThreadLocal;
 import com.liferay.object.relationship.util.ObjectRelationshipUtil;
 import com.liferay.object.rest.dto.v1_0.FileEntry;
 import com.liferay.object.rest.dto.v1_0.Folder;
@@ -153,6 +154,9 @@ public class DefaultObjectEntryManagerImpl
 		ServiceContext serviceContext = _createServiceContext(
 			dtoConverterContext, objectDefinition, objectEntry);
 
+		RelationshipValidationThreadLocal.
+			setDeactivateRequiredRelationshipValidation(true);
+
 		com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry =
 			_objectEntryService.addObjectEntry(
 				getGroupId(objectDefinition, scopeKey),
@@ -166,6 +170,9 @@ public class DefaultObjectEntryManagerImpl
 			dtoConverterContext, objectDefinition, objectEntry,
 			_getObjectRelationships(objectDefinition, objectEntry),
 			serviceBuilderObjectEntry, scopeKey);
+
+		RelationshipValidationThreadLocal.
+			setDeactivateRequiredRelationshipValidation(false);
 
 		_validateRequiredObjectRelationshipFields(
 			objectDefinition, serviceBuilderObjectEntry);
@@ -776,6 +783,9 @@ public class DefaultObjectEntryManagerImpl
 		ServiceContext serviceContext = _createServiceContext(
 			dtoConverterContext, objectDefinition, objectEntry);
 
+		RelationshipValidationThreadLocal.
+			setDeactivateRequiredRelationshipValidation(true);
+
 		serviceBuilderObjectEntry = _objectEntryService.updateObjectEntry(
 			objectEntryId,
 			_toObjectValues(
@@ -788,6 +798,9 @@ public class DefaultObjectEntryManagerImpl
 			dtoConverterContext, objectDefinition, objectEntry,
 			_getObjectRelationships(objectDefinition, objectEntry),
 			serviceBuilderObjectEntry, objectEntry.getScopeKey());
+
+		RelationshipValidationThreadLocal.
+			setDeactivateRequiredRelationshipValidation(false);
 
 		_validateRequiredObjectRelationshipFields(
 			objectDefinition, serviceBuilderObjectEntry);
@@ -811,6 +824,9 @@ public class DefaultObjectEntryManagerImpl
 
 		serviceContext.setCompanyId(companyId);
 
+		RelationshipValidationThreadLocal.
+			setDeactivateRequiredRelationshipValidation(true);
+
 		com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry =
 			_objectEntryService.addOrUpdateObjectEntry(
 				externalReferenceCode, getGroupId(objectDefinition, scopeKey),
@@ -824,6 +840,9 @@ public class DefaultObjectEntryManagerImpl
 			dtoConverterContext, objectDefinition, objectEntry,
 			_getObjectRelationships(objectDefinition, objectEntry),
 			serviceBuilderObjectEntry, scopeKey);
+
+		RelationshipValidationThreadLocal.
+			setDeactivateRequiredRelationshipValidation(false);
 
 		_validateRequiredObjectRelationshipFields(
 			objectDefinition, serviceBuilderObjectEntry);

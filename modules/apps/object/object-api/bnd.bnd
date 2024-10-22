@@ -35,6 +35,7 @@ Export-Package:\
 	com.liferay.object.odata.filter.expression.field.predicate.provider,\
 	com.liferay.object.petra.sql.dsl,\
 	com.liferay.object.related.models,\
+	com.liferay.object.relationship,\
 	com.liferay.object.relationship.util,\
 	com.liferay.object.rest.context.path,\
 	com.liferay.object.scope,\
