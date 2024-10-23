@@ -14,7 +14,6 @@ import com.liferay.object.constants.ObjectFieldSettingConstants;
 import com.liferay.object.constants.ObjectRelationshipConstants;
 import com.liferay.object.entry.util.ObjectEntryDTOConverterUtil;
 import com.liferay.object.exception.NoSuchObjectEntryException;
-import com.liferay.object.exception.ObjectEntryValuesException;
 import com.liferay.object.field.attachment.AttachmentManager;
 import com.liferay.object.field.business.type.ObjectFieldBusinessTypeRegistry;
 import com.liferay.object.field.setting.util.ObjectFieldSettingUtil;
@@ -173,9 +172,6 @@ public class DefaultObjectEntryManagerImpl
 
 		RelationshipValidationThreadLocal.
 			setDeactivateRequiredRelationshipValidation(false);
-
-		_validateRequiredObjectRelationshipFields(
-			objectDefinition, serviceBuilderObjectEntry);
 
 		return _toObjectEntry(
 			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
@@ -802,9 +798,6 @@ public class DefaultObjectEntryManagerImpl
 		RelationshipValidationThreadLocal.
 			setDeactivateRequiredRelationshipValidation(false);
 
-		_validateRequiredObjectRelationshipFields(
-			objectDefinition, serviceBuilderObjectEntry);
-
 		return _toObjectEntry(
 			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
 	}
@@ -843,9 +836,6 @@ public class DefaultObjectEntryManagerImpl
 
 		RelationshipValidationThreadLocal.
 			setDeactivateRequiredRelationshipValidation(false);
-
-		_validateRequiredObjectRelationshipFields(
-			objectDefinition, serviceBuilderObjectEntry);
 
 		return _toObjectEntry(
 			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
@@ -1802,36 +1792,6 @@ public class DefaultObjectEntryManagerImpl
 		}
 
 		return values;
-	}
-
-	private void _validateRequiredObjectRelationshipFields(
-			ObjectDefinition objectDefinition,
-			com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry)
-		throws ObjectEntryValuesException.Required {
-
-		List<ObjectField> objectFields =
-			objectFieldLocalService.getObjectFields(
-				objectDefinition.getObjectDefinitionId());
-
-		Map<String, Serializable> serviceBuilderObjectEntryValues =
-			serviceBuilderObjectEntry.getValues();
-
-		for (ObjectField objectField : objectFields) {
-			if (!Objects.equals(
-					objectField.getBusinessType(),
-					ObjectFieldConstants.BUSINESS_TYPE_RELATIONSHIP)) {
-
-				continue;
-			}
-
-			if (Objects.equals(
-					serviceBuilderObjectEntryValues.get(objectField.getName()),
-					0L)) {
-
-				throw new ObjectEntryValuesException.Required(
-					objectField.getName());
-			}
-		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
