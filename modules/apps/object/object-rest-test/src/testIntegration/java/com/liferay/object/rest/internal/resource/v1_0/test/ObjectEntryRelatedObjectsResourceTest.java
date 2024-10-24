@@ -880,6 +880,21 @@ public class ObjectEntryRelatedObjectsResourceTest {
 	}
 
 	@Test
+	public void testPostCustomObjectEntryWithBidirectionalNestedObjectEntry()
+		throws Exception {
+
+		// Bidirectional mandatory One to many custom-custom
+
+		_testPostCustomObjectEntryWithNestedObjectEntryBidirectionalMandatoryRelationships(
+			_addObjectRelationship(
+				_objectDefinition1, _objectDefinition2,
+				ObjectRelationshipConstants.TYPE_ONE_TO_MANY),
+			_addObjectRelationship(
+				_objectDefinition2, _objectDefinition1,
+				ObjectRelationshipConstants.TYPE_ONE_TO_MANY));
+	}
+
+	@Test
 	public void testPostCustomObjectEntryWithInvalidNestedSystemObjectEntries()
 		throws Exception {
 
@@ -1692,6 +1707,121 @@ public class ObjectEntryRelatedObjectsResourceTest {
 			_objectDefinition1.getRESTContextPath(), Http.Method.POST);
 
 		Assert.assertEquals("BAD_REQUEST", jsonObject.get("status"));
+	}
+
+	private void
+			_testPostCustomObjectEntryWithNestedObjectEntryBidirectionalMandatoryRelationships(
+				ObjectRelationship objectRelationship1,
+				ObjectRelationship objectRelationship2)
+		throws Exception {
+
+		ObjectField objectField1 = _objectFieldLocalService.getObjectField(
+			objectRelationship1.getObjectFieldId2());
+
+		ObjectField objectField2 = _objectFieldLocalService.getObjectField(
+			objectRelationship2.getObjectFieldId2());
+
+		objectField1.setRequired(true);
+		objectField2.setRequired(true);
+
+		objectField1 = _objectFieldLocalService.updateObjectField(objectField1);
+		objectField2 = _objectFieldLocalService.updateObjectField(objectField2);
+
+		String externalReferenceCode1 = RandomTestUtil.randomString();
+		String externalReferenceCode2 = RandomTestUtil.randomString();
+		String externalReferenceCode3 = RandomTestUtil.randomString();
+
+		Assert.assertNotNull(
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+			).put(
+				"externalReferenceCode", externalReferenceCode2
+			).put(
+				objectRelationship1.getName(),
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1
+				).put(
+					"externalReferenceCode", externalReferenceCode1
+				).put(
+					objectRelationship2.getName(),
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+					).put(
+						"externalReferenceCode", externalReferenceCode3
+					)
+				)
+			).toString());
+
+		JSONAssert.assertEquals(
+			JSONUtil.put(
+				ObjectFieldSettingUtil.getValue(
+					ObjectFieldSettingConstants.
+						NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
+					objectField1),
+				externalReferenceCode1
+			).put(
+				objectRelationship1.getName(),
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1
+				).put(
+					"externalReferenceCode", externalReferenceCode1
+				).put(
+					ObjectFieldSettingUtil.getValue(
+						ObjectFieldSettingConstants.
+							NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
+						objectField2),
+					externalReferenceCode3
+				).put(
+					"status",
+					JSONUtil.put(
+						"code", 0
+					).put(
+						"label", "approved"
+					).put(
+						"label_i18n", "Approved"
+					)
+				)
+			).put(
+				_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+			).put(
+				"externalReferenceCode", externalReferenceCode2
+			).put(
+				"status",
+				JSONUtil.put(
+					"code", 0
+				).put(
+					"label", "approved"
+				).put(
+					"label_i18n", "Approved"
+				)
+			).toString(),
+			HTTPTestUtil.invokeToJSONObject(
+				JSONUtil.put(
+					_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+				).put(
+					"externalReferenceCode", externalReferenceCode2
+				).put(
+					objectRelationship1.getName(),
+					JSONUtil.put(
+						_OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1
+					).put(
+						"externalReferenceCode", externalReferenceCode1
+					).put(
+						objectRelationship2.getName(),
+						JSONUtil.put(
+							_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+						).put(
+							"externalReferenceCode", externalReferenceCode3
+						)
+					)
+				).toString(),
+				_objectDefinition2.getRESTContextPath(
+				).substring(
+					1
+				),
+				Http.Method.POST
+			).toString(),
+			JSONCompareMode.LENIENT);
 	}
 
 	private void
