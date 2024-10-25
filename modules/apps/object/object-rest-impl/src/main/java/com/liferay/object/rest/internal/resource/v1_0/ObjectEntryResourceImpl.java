@@ -10,6 +10,8 @@ import com.liferay.object.exception.ObjectEntryValuesException;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectField;
 import com.liferay.object.model.ObjectRelationship;
+import com.liferay.object.relationship.RelationshipContext;
+import com.liferay.object.relationship.RelationshipContextThreadLocal;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
 import com.liferay.object.rest.manager.v1_0.DefaultObjectEntryManager;
 import com.liferay.object.rest.manager.v1_0.DefaultObjectEntryManagerProvider;
@@ -261,6 +263,11 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			String externalReferenceCode, ObjectEntry objectEntry)
 		throws Exception {
 
+		RelationshipContext relationshipContext = new RelationshipContext(5);
+
+		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
+			relationshipContext);
+
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
@@ -280,6 +287,11 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 	public ObjectEntry patchObjectEntry(
 			Long objectEntryId, ObjectEntry objectEntry)
 		throws Exception {
+
+		RelationshipContext relationshipContext = new RelationshipContext(5);
+
+		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
+			relationshipContext);
 
 		DefaultObjectEntryManager defaultObjectEntryManager =
 			DefaultObjectEntryManagerProvider.provide(
@@ -302,6 +314,11 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			String scopeKey, String externalReferenceCode,
 			ObjectEntry objectEntry)
 		throws Exception {
+
+		RelationshipContext relationshipContext = new RelationshipContext(5);
+
+		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
+			relationshipContext);
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
@@ -336,6 +353,11 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 	public ObjectEntry postObjectEntry(ObjectEntry objectEntry)
 		throws Exception {
 
+		RelationshipContext relationshipContext = new RelationshipContext(5);
+
+		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
+			relationshipContext);
+
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
@@ -365,6 +387,11 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			String scopeKey, ObjectEntry objectEntry)
 		throws Exception {
 
+		RelationshipContext relationshipContext = new RelationshipContext(5);
+
+		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
+			relationshipContext);
+
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
@@ -383,6 +410,11 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 	public ObjectEntry putByExternalReferenceCode(
 			String externalReferenceCode, ObjectEntry objectEntry)
 		throws Exception {
+
+		RelationshipContext relationshipContext = new RelationshipContext(5);
+
+		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
+			relationshipContext);
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
@@ -452,6 +484,11 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			Long objectEntryId, ObjectEntry objectEntry)
 		throws Exception {
 
+		RelationshipContext relationshipContext = new RelationshipContext(5);
+
+		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
+			relationshipContext);
+
 		DefaultObjectEntryManager defaultObjectEntryManager =
 			DefaultObjectEntryManagerProvider.provide(
 				_objectEntryManagerRegistry.getObjectEntryManager(
@@ -498,6 +535,11 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			String scopeKey, String externalReferenceCode,
 			ObjectEntry objectEntry)
 		throws Exception {
+
+		RelationshipContext relationshipContext = new RelationshipContext(5);
+
+		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
+			relationshipContext);
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(

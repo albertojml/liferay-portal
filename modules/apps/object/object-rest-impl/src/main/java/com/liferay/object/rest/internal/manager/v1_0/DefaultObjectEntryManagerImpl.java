@@ -23,7 +23,8 @@ import com.liferay.object.model.ObjectField;
 import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.related.models.ObjectRelatedModelsProvider;
 import com.liferay.object.related.models.ObjectRelatedModelsProviderRegistry;
-import com.liferay.object.relationship.RelationshipValidationThreadLocal;
+import com.liferay.object.relationship.RelationshipContext;
+import com.liferay.object.relationship.RelationshipContextThreadLocal;
 import com.liferay.object.relationship.util.ObjectRelationshipUtil;
 import com.liferay.object.rest.dto.v1_0.FileEntry;
 import com.liferay.object.rest.dto.v1_0.Folder;
@@ -153,8 +154,10 @@ public class DefaultObjectEntryManagerImpl
 		ServiceContext serviceContext = _createServiceContext(
 			dtoConverterContext, objectDefinition, objectEntry);
 
-		RelationshipValidationThreadLocal.
-			setDeactivateRequiredRelationshipValidation(true);
+		RelationshipContext relationshipContext =
+			RelationshipContextThreadLocal.getRelationshipContext();
+
+		relationshipContext.setDeactivateRequiredRelationshipValidation(true);
 
 		com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry =
 			_objectEntryService.addObjectEntry(
@@ -165,13 +168,14 @@ public class DefaultObjectEntryManagerImpl
 					objectEntry, scopeKey, serviceContext),
 				serviceContext);
 
+		relationshipContext.incrementCurrentDepth();
+
 		serviceBuilderObjectEntry = _addOrUpdateNestedObjectEntries(
 			dtoConverterContext, objectDefinition, objectEntry,
 			_getObjectRelationships(objectDefinition, objectEntry),
 			serviceBuilderObjectEntry, scopeKey);
 
-		RelationshipValidationThreadLocal.
-			setDeactivateRequiredRelationshipValidation(false);
+		relationshipContext.decrementCurrentDepth();
 
 		return _toObjectEntry(
 			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
@@ -779,8 +783,10 @@ public class DefaultObjectEntryManagerImpl
 		ServiceContext serviceContext = _createServiceContext(
 			dtoConverterContext, objectDefinition, objectEntry);
 
-		RelationshipValidationThreadLocal.
-			setDeactivateRequiredRelationshipValidation(true);
+		RelationshipContext relationshipContext =
+			RelationshipContextThreadLocal.getRelationshipContext();
+
+		relationshipContext.setDeactivateRequiredRelationshipValidation(true);
 
 		serviceBuilderObjectEntry = _objectEntryService.updateObjectEntry(
 			objectEntryId,
@@ -790,13 +796,16 @@ public class DefaultObjectEntryManagerImpl
 				serviceContext),
 			serviceContext);
 
+		relationshipContext.incrementCurrentDepth();
+
 		serviceBuilderObjectEntry = _addOrUpdateNestedObjectEntries(
 			dtoConverterContext, objectDefinition, objectEntry,
 			_getObjectRelationships(objectDefinition, objectEntry),
 			serviceBuilderObjectEntry, objectEntry.getScopeKey());
 
-		RelationshipValidationThreadLocal.
-			setDeactivateRequiredRelationshipValidation(false);
+		relationshipContext.decrementCurrentDepth();
+
+		relationshipContext.setDeactivateRequiredRelationshipValidation(false);
 
 		return _toObjectEntry(
 			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
@@ -817,8 +826,10 @@ public class DefaultObjectEntryManagerImpl
 
 		serviceContext.setCompanyId(companyId);
 
-		RelationshipValidationThreadLocal.
-			setDeactivateRequiredRelationshipValidation(true);
+		RelationshipContext relationshipContext =
+			RelationshipContextThreadLocal.getRelationshipContext();
+
+		relationshipContext.setDeactivateRequiredRelationshipValidation(true);
 
 		com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry =
 			_objectEntryService.addOrUpdateObjectEntry(
@@ -829,13 +840,16 @@ public class DefaultObjectEntryManagerImpl
 					objectEntry, scopeKey, serviceContext),
 				serviceContext);
 
+		relationshipContext.incrementCurrentDepth();
+
 		serviceBuilderObjectEntry = _addOrUpdateNestedObjectEntries(
 			dtoConverterContext, objectDefinition, objectEntry,
 			_getObjectRelationships(objectDefinition, objectEntry),
 			serviceBuilderObjectEntry, scopeKey);
 
-		RelationshipValidationThreadLocal.
-			setDeactivateRequiredRelationshipValidation(false);
+		relationshipContext.decrementCurrentDepth();
+
+		relationshipContext.setDeactivateRequiredRelationshipValidation(false);
 
 		return _toObjectEntry(
 			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);

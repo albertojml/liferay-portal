@@ -74,7 +74,8 @@ import com.liferay.object.petra.sql.dsl.DynamicObjectDefinitionTableUtil;
 import com.liferay.object.petra.sql.dsl.DynamicObjectRelationshipMappingTable;
 import com.liferay.object.related.models.ObjectRelatedModelsProvider;
 import com.liferay.object.related.models.ObjectRelatedModelsProviderRegistry;
-import com.liferay.object.relationship.RelationshipValidationThreadLocal;
+import com.liferay.object.relationship.RelationshipContext;
+import com.liferay.object.relationship.RelationshipContextThreadLocal;
 import com.liferay.object.relationship.util.ObjectRelationshipUtil;
 import com.liferay.object.rest.filter.factory.FilterFactory;
 import com.liferay.object.scope.CompanyScoped;
@@ -5125,6 +5126,9 @@ public class ObjectEntryLocalServiceImpl
 			return;
 		}
 
+		RelationshipContext relationshipContext =
+			RelationshipContextThreadLocal.getRelationshipContext();
+
 		if (Validator.isNull(values.get(objectField.getName())) &&
 			objectField.isRequired() &&
 			(serviceContext.getWorkflowAction() !=
@@ -5132,8 +5136,8 @@ public class ObjectEntryLocalServiceImpl
 			!(Objects.equals(
 				objectField.getBusinessType(),
 				ObjectFieldConstants.BUSINESS_TYPE_RELATIONSHIP) &&
-			  RelationshipValidationThreadLocal.
-				  getDeactivateRequiredRelationshipValidation())) {
+			  relationshipContext.
+				  isDeactivateRequiredRelationshipValidation())) {
 
 			throw new ObjectEntryValuesException.Required(
 				objectField.getName());
