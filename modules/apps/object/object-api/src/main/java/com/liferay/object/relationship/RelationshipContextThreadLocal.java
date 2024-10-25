@@ -15,14 +15,14 @@ public class RelationshipContextThreadLocal {
 	public static RelationshipContext getAndSetRelationshipContext(
 		RelationshipContext relationshipContext) {
 
-		RelationshipContext oldRelationshipContext = getNestedRelationshipContext();
+		RelationshipContext oldRelationshipContext = getRelationshipContext();
 
 		setRelationshipContextThreadLocal(relationshipContext);
 
 		return oldRelationshipContext;
 	}
 
-	public static RelationshipContext getNestedRelationshipContext() {
+	public static RelationshipContext getRelationshipContext() {
 		return _relationshipContextThreadLocal.get();
 	}
 
@@ -33,8 +33,8 @@ public class RelationshipContextThreadLocal {
 	}
 
 	private static final CentralizedThreadLocal<RelationshipContext>
-		_relationshipContextThreadLocal =
-			new CentralizedThreadLocal<>(
-				RelationshipContextThreadLocal.class +
-				"._relationshipContext");
+		_relationshipContextThreadLocal = new CentralizedThreadLocal<>(
+			RelationshipContextThreadLocal.class +
+				"._nestedFieldsContextThreadLocal");
+
 }
