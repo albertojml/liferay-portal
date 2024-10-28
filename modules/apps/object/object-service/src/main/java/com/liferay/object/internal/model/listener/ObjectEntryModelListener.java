@@ -22,6 +22,8 @@ import com.liferay.object.model.ObjectRelationshipTable;
 import com.liferay.object.model.ObjectViewFilterColumn;
 import com.liferay.object.model.ObjectViewFilterColumnTable;
 import com.liferay.object.model.listener.RelevantObjectEntryModelListener;
+import com.liferay.object.relationship.RelationshipContext;
+import com.liferay.object.relationship.RelationshipContextThreadLocal;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectFieldLocalService;
@@ -164,6 +166,13 @@ public class ObjectEntryModelListener extends BaseModelListener<ObjectEntry> {
 			relevantObjectEntryModelListener ->
 				relevantObjectEntryModelListener.onAfterUpdate(
 					originalObjectEntry, objectEntry));
+
+		RelationshipContext relationshipContext =
+			RelationshipContextThreadLocal.getRelationshipContext();
+
+		if (relationshipContext != null) {
+			relationshipContext.addObjectEntry(objectEntry);
+		}
 
 		if (StringUtil.equals(
 				originalObjectEntry.getExternalReferenceCode(),
