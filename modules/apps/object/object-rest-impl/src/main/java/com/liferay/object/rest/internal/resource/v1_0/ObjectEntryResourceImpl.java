@@ -258,10 +258,8 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			String externalReferenceCode, ObjectEntry objectEntry)
 		throws Exception {
 
-		RelationshipContext relationshipContext = new RelationshipContext(5);
-
 		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
-			relationshipContext);
+			new RelationshipContext());
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
@@ -277,10 +275,8 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			Long objectEntryId, ObjectEntry objectEntry)
 		throws Exception {
 
-		RelationshipContext relationshipContext = new RelationshipContext(5);
-
 		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
-			relationshipContext);
+			new RelationshipContext());
 
 		DefaultObjectEntryManager defaultObjectEntryManager =
 			DefaultObjectEntryManagerProvider.provide(
@@ -298,10 +294,8 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			ObjectEntry objectEntry)
 		throws Exception {
 
-		RelationshipContext relationshipContext = new RelationshipContext(5);
-
 		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
-			relationshipContext);
+			new RelationshipContext());
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
@@ -329,10 +323,8 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 	public ObjectEntry postObjectEntry(ObjectEntry objectEntry)
 		throws Exception {
 
-		RelationshipContext relationshipContext = new RelationshipContext(5);
-
 		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
-			relationshipContext);
+			new RelationshipContext());
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
@@ -358,10 +350,8 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			String scopeKey, ObjectEntry objectEntry)
 		throws Exception {
 
-		RelationshipContext relationshipContext = new RelationshipContext(5);
-
 		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
-			relationshipContext);
+			new RelationshipContext());
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
@@ -377,10 +367,8 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			String externalReferenceCode, ObjectEntry objectEntry)
 		throws Exception {
 
-		RelationshipContext relationshipContext = new RelationshipContext(5);
-
 		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
-			relationshipContext);
+			new RelationshipContext());
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
@@ -445,10 +433,8 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			Long objectEntryId, ObjectEntry objectEntry)
 		throws Exception {
 
-		RelationshipContext relationshipContext = new RelationshipContext(5);
-
 		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
-			relationshipContext);
+			new RelationshipContext());
 
 		DefaultObjectEntryManager defaultObjectEntryManager =
 			DefaultObjectEntryManagerProvider.provide(
@@ -491,10 +477,8 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			ObjectEntry objectEntry)
 		throws Exception {
 
-		RelationshipContext relationshipContext = new RelationshipContext(5);
-
 		RelationshipContextThreadLocal.setRelationshipContextThreadLocal(
-			relationshipContext);
+			new RelationshipContext());
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(

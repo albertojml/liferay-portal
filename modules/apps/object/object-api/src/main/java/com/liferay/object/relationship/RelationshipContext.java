@@ -15,21 +15,8 @@ import java.util.Map;
  */
 public class RelationshipContext {
 
-	public RelationshipContext(int depth) {
-		_depth = depth;
-	}
-
 	public void addObjectEntry(ObjectEntry objectEntry) {
 		_objectEntries.put(objectEntry.getObjectEntryId(), objectEntry);
-	}
-
-	public void clearObjectEntries() {
-		_objectEntries.clear();
-	}
-
-	@Override
-	public RelationshipContext clone() throws CloneNotSupportedException {
-		return (RelationshipContext)super.clone();
 	}
 
 	public void decrementCurrentDepth() {
@@ -38,10 +25,6 @@ public class RelationshipContext {
 
 	public int getCurrentDepth() {
 		return _currentDepth;
-	}
-
-	public int getDepth() {
-		return _depth;
 	}
 
 	public Map<Long, ObjectEntry> getObjectEntries() {
@@ -69,7 +52,6 @@ public class RelationshipContext {
 
 	private int _currentDepth;
 	private boolean _deactivateRequiredRelationshipValidation;
-	private final int _depth;
 	private Map<Long, ObjectEntry> _objectEntries = new HashMap<>();
 
 }
