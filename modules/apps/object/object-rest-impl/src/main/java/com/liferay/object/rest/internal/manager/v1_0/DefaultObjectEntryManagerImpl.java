@@ -24,8 +24,8 @@ import com.liferay.object.model.ObjectField;
 import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.related.models.ObjectRelatedModelsProvider;
 import com.liferay.object.related.models.ObjectRelatedModelsProviderRegistry;
-import com.liferay.object.relationship.RelationshipContext;
-import com.liferay.object.relationship.RelationshipContextThreadLocal;
+import com.liferay.object.relationship.ObjectRelationshipContext;
+import com.liferay.object.relationship.ObjectRelationshipContextThreadLocal;
 import com.liferay.object.relationship.util.ObjectRelationshipUtil;
 import com.liferay.object.rest.dto.v1_0.FileEntry;
 import com.liferay.object.rest.dto.v1_0.Folder;
@@ -156,10 +156,11 @@ public class DefaultObjectEntryManagerImpl
 		ServiceContext serviceContext = _createServiceContext(
 			dtoConverterContext, objectDefinition, objectEntry);
 
-		RelationshipContext relationshipContext =
-			RelationshipContextThreadLocal.getRelationshipContext();
+		ObjectRelationshipContext objectRelationshipContext =
+			ObjectRelationshipContextThreadLocal.getObjectRelationshipContext();
 
-		relationshipContext.setDeactivateRequiredRelationshipValidation(true);
+		objectRelationshipContext.setDeactivateRequiredRelationshipValidation(
+			true);
 
 		com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry =
 			_objectEntryService.addObjectEntry(
@@ -170,20 +171,21 @@ public class DefaultObjectEntryManagerImpl
 					objectEntry, scopeKey, serviceContext),
 				serviceContext);
 
-		relationshipContext.incrementCurrentDepth();
+		objectRelationshipContext.incrementCurrentDepth();
 
 		serviceBuilderObjectEntry = _addOrUpdateNestedObjectEntries(
 			dtoConverterContext, objectDefinition, objectEntry,
 			_getObjectRelationships(objectDefinition, objectEntry),
 			serviceBuilderObjectEntry, scopeKey);
 
-		relationshipContext.decrementCurrentDepth();
+		objectRelationshipContext.decrementCurrentDepth();
 
-		relationshipContext.setDeactivateRequiredRelationshipValidation(false);
+		objectRelationshipContext.setDeactivateRequiredRelationshipValidation(
+			false);
 
-		if (relationshipContext.getCurrentDepth() == 0) {
+		if (objectRelationshipContext.getCurrentDepth() == 0) {
 			_validateCreatedEntriesRelationships(
-				dtoConverterContext, relationshipContext);
+				dtoConverterContext, objectRelationshipContext);
 		}
 
 		return _toObjectEntry(
@@ -792,10 +794,11 @@ public class DefaultObjectEntryManagerImpl
 		ServiceContext serviceContext = _createServiceContext(
 			dtoConverterContext, objectDefinition, objectEntry);
 
-		RelationshipContext relationshipContext =
-			RelationshipContextThreadLocal.getRelationshipContext();
+		ObjectRelationshipContext objectRelationshipContext =
+			ObjectRelationshipContextThreadLocal.getObjectRelationshipContext();
 
-		relationshipContext.setDeactivateRequiredRelationshipValidation(true);
+		objectRelationshipContext.setDeactivateRequiredRelationshipValidation(
+			true);
 
 		serviceBuilderObjectEntry = _objectEntryService.updateObjectEntry(
 			objectEntryId,
@@ -805,20 +808,21 @@ public class DefaultObjectEntryManagerImpl
 				serviceContext),
 			serviceContext);
 
-		relationshipContext.incrementCurrentDepth();
+		objectRelationshipContext.incrementCurrentDepth();
 
 		serviceBuilderObjectEntry = _addOrUpdateNestedObjectEntries(
 			dtoConverterContext, objectDefinition, objectEntry,
 			_getObjectRelationships(objectDefinition, objectEntry),
 			serviceBuilderObjectEntry, objectEntry.getScopeKey());
 
-		relationshipContext.decrementCurrentDepth();
+		objectRelationshipContext.decrementCurrentDepth();
 
-		relationshipContext.setDeactivateRequiredRelationshipValidation(false);
+		objectRelationshipContext.setDeactivateRequiredRelationshipValidation(
+			false);
 
-		if (relationshipContext.getCurrentDepth() == 0) {
+		if (objectRelationshipContext.getCurrentDepth() == 0) {
 			_validateCreatedEntriesRelationships(
-				dtoConverterContext, relationshipContext);
+				dtoConverterContext, objectRelationshipContext);
 		}
 
 		return _toObjectEntry(
@@ -840,10 +844,11 @@ public class DefaultObjectEntryManagerImpl
 
 		serviceContext.setCompanyId(companyId);
 
-		RelationshipContext relationshipContext =
-			RelationshipContextThreadLocal.getRelationshipContext();
+		ObjectRelationshipContext objectRelationshipContext =
+			ObjectRelationshipContextThreadLocal.getObjectRelationshipContext();
 
-		relationshipContext.setDeactivateRequiredRelationshipValidation(true);
+		objectRelationshipContext.setDeactivateRequiredRelationshipValidation(
+			true);
 
 		com.liferay.object.model.ObjectEntry serviceBuilderObjectEntry =
 			_objectEntryService.addOrUpdateObjectEntry(
@@ -854,20 +859,21 @@ public class DefaultObjectEntryManagerImpl
 					objectEntry, scopeKey, serviceContext),
 				serviceContext);
 
-		relationshipContext.incrementCurrentDepth();
+		objectRelationshipContext.incrementCurrentDepth();
 
 		serviceBuilderObjectEntry = _addOrUpdateNestedObjectEntries(
 			dtoConverterContext, objectDefinition, objectEntry,
 			_getObjectRelationships(objectDefinition, objectEntry),
 			serviceBuilderObjectEntry, scopeKey);
 
-		relationshipContext.decrementCurrentDepth();
+		objectRelationshipContext.decrementCurrentDepth();
 
-		relationshipContext.setDeactivateRequiredRelationshipValidation(false);
+		objectRelationshipContext.setDeactivateRequiredRelationshipValidation(
+			false);
 
-		if (relationshipContext.getCurrentDepth() == 0) {
+		if (objectRelationshipContext.getCurrentDepth() == 0) {
 			_validateCreatedEntriesRelationships(
-				dtoConverterContext, relationshipContext);
+				dtoConverterContext, objectRelationshipContext);
 		}
 
 		return _toObjectEntry(
@@ -1829,15 +1835,15 @@ public class DefaultObjectEntryManagerImpl
 
 	private void _validateCreatedEntriesRelationships(
 			DTOConverterContext dtoConverterContext,
-			RelationshipContext relationshipContext)
+			ObjectRelationshipContext objectRelationshipContext)
 		throws Exception {
 
-		if (relationshipContext == null) {
+		if (objectRelationshipContext == null) {
 			return;
 		}
 
 		Map<Long, com.liferay.object.model.ObjectEntry> objectEntries =
-			relationshipContext.getObjectEntries();
+			objectRelationshipContext.getObjectEntries();
 
 		for (Map.Entry<Long, com.liferay.object.model.ObjectEntry> entry :
 				objectEntries.entrySet()) {

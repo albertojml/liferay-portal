@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * @author Alberto Javier Moreno Lage
  */
-public class RelationshipContext {
+public class ObjectRelationshipContext {
 
 	public void addObjectEntry(ObjectEntry objectEntry) {
 		_objectEntries.put(objectEntry.getObjectEntryId(), objectEntry);
