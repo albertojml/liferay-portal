@@ -88,6 +88,13 @@ public class ObjectEntryModelListener extends BaseModelListener<ObjectEntry> {
 			objectEntry,
 			relevantObjectEntryModelListener ->
 				relevantObjectEntryModelListener.onAfterCreate(objectEntry));
+
+		RelationshipContext relationshipContext =
+			RelationshipContextThreadLocal.getRelationshipContext();
+
+		if (relationshipContext != null) {
+			relationshipContext.addObjectEntry(objectEntry);
+		}
 	}
 
 	@Override

@@ -14,6 +14,7 @@ import com.liferay.object.constants.ObjectFieldSettingConstants;
 import com.liferay.object.constants.ObjectRelationshipConstants;
 import com.liferay.object.entry.util.ObjectEntryDTOConverterUtil;
 import com.liferay.object.exception.NoSuchObjectEntryException;
+import com.liferay.object.exception.ObjectEntryValuesException;
 import com.liferay.object.field.attachment.AttachmentManager;
 import com.liferay.object.field.business.type.ObjectFieldBusinessTypeRegistry;
 import com.liferay.object.field.setting.util.ObjectFieldSettingUtil;
@@ -47,6 +48,7 @@ import com.liferay.object.rest.manager.v1_0.util.ObjectEntryManagerUtil;
 import com.liferay.object.service.ObjectActionLocalService;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryService;
+import com.liferay.object.service.ObjectFieldLocalService;
 import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.object.service.ObjectRelationshipService;
 import com.liferay.object.system.SystemObjectDefinitionManager;
@@ -176,6 +178,13 @@ public class DefaultObjectEntryManagerImpl
 			serviceBuilderObjectEntry, scopeKey);
 
 		relationshipContext.decrementCurrentDepth();
+
+		relationshipContext.setDeactivateRequiredRelationshipValidation(false);
+
+		if (relationshipContext.getCurrentDepth() == 0) {
+			_validateCreatedEntriesRelationships(
+				dtoConverterContext, relationshipContext);
+		}
 
 		return _toObjectEntry(
 			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
@@ -807,6 +816,11 @@ public class DefaultObjectEntryManagerImpl
 
 		relationshipContext.setDeactivateRequiredRelationshipValidation(false);
 
+		if (relationshipContext.getCurrentDepth() == 0) {
+			_validateCreatedEntriesRelationships(
+				dtoConverterContext, relationshipContext);
+		}
+
 		return _toObjectEntry(
 			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
 	}
@@ -850,6 +864,11 @@ public class DefaultObjectEntryManagerImpl
 		relationshipContext.decrementCurrentDepth();
 
 		relationshipContext.setDeactivateRequiredRelationshipValidation(false);
+
+		if (relationshipContext.getCurrentDepth() == 0) {
+			_validateCreatedEntriesRelationships(
+				dtoConverterContext, relationshipContext);
+		}
 
 		return _toObjectEntry(
 			dtoConverterContext, objectDefinition, serviceBuilderObjectEntry);
@@ -1808,6 +1827,80 @@ public class DefaultObjectEntryManagerImpl
 		return values;
 	}
 
+	private void _validateCreatedEntriesRelationships(
+			DTOConverterContext dtoConverterContext,
+			RelationshipContext relationshipContext)
+		throws Exception {
+
+		if (relationshipContext == null) {
+			return;
+		}
+
+		Map<Long, com.liferay.object.model.ObjectEntry> objectEntries =
+			relationshipContext.getObjectEntries();
+
+		for (Map.Entry<Long, com.liferay.object.model.ObjectEntry> entry :
+				objectEntries.entrySet()) {
+
+			com.liferay.object.model.ObjectEntry objectEntry = entry.getValue();
+
+			for (ObjectRelationship objectRelationship :
+					_objectRelationshipLocalService.getObjectRelationships(
+						objectEntry.getObjectDefinitionId(),
+						ObjectRelationshipConstants.TYPE_ONE_TO_MANY)) {
+
+				ObjectDefinition objectDefinition1 =
+					_objectDefinitionLocalService.getObjectDefinition(
+						objectRelationship.getObjectDefinitionId1());
+
+				List<ObjectField> objectFieldsObjectDefinition2 =
+					_objectFieldLocalService.getObjectFields(
+						objectRelationship.getObjectDefinitionId2());
+
+				String objectRelationshipValueFieldName = StringBundler.concat(
+					"r_", objectRelationship.getName(), "_",
+					objectDefinition1.getPKObjectFieldName());
+
+				boolean required = false;
+
+				for (ObjectField objectField : objectFieldsObjectDefinition2) {
+					if (Objects.equals(
+							objectField.getBusinessType(),
+							ObjectFieldConstants.BUSINESS_TYPE_RELATIONSHIP) &&
+						Objects.equals(
+							objectField.getName(),
+							objectRelationshipValueFieldName)) {
+
+						required = objectField.isRequired();
+
+						break;
+					}
+				}
+
+				if (!required) {
+					continue;
+				}
+
+				ObjectDefinition objectDefinition2 =
+					_objectDefinitionLocalService.getObjectDefinition(
+						objectRelationship.getObjectDefinitionId2());
+
+				String filterString =
+					objectRelationshipValueFieldName + " eq '0'";
+
+				Page<ObjectEntry> objectEntryPage = getObjectEntries(
+					objectDefinition2.getCompanyId(), objectDefinition2,
+					objectDefinition2.getScope(), null, dtoConverterContext,
+					filterString, Pagination.of(0, 0), null, null);
+
+				if (objectEntryPage.getTotalCount() > 0) {
+					throw new ObjectEntryValuesException.Required(
+						objectRelationshipValueFieldName);
+				}
+			}
+		}
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		DefaultObjectEntryManagerImpl.class);
 
@@ -1860,6 +1953,9 @@ public class DefaultObjectEntryManagerImpl
 
 	@Reference
 	private ObjectFieldBusinessTypeRegistry _objectFieldBusinessTypeRegistry;
+
+	@Reference
+	private ObjectFieldLocalService _objectFieldLocalService;
 
 	@Reference
 	private ObjectRelatedModelsProviderRegistry

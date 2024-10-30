@@ -7,8 +7,8 @@ package com.liferay.object.relationship;
 
 import com.liferay.object.model.ObjectEntry;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Alberto Javier Moreno Lage
@@ -20,7 +20,7 @@ public class RelationshipContext {
 	}
 
 	public void addObjectEntry(ObjectEntry objectEntry) {
-		_objectEntries.add(objectEntry);
+		_objectEntries.put(objectEntry.getObjectEntryId(), objectEntry);
 	}
 
 	public void clearObjectEntries() {
@@ -44,7 +44,7 @@ public class RelationshipContext {
 		return _depth;
 	}
 
-	public List<ObjectEntry> getObjectEntries() {
+	public Map<Long, ObjectEntry> getObjectEntries() {
 		return _objectEntries;
 	}
 
@@ -63,13 +63,13 @@ public class RelationshipContext {
 			deactivateRequiredRelationshipValidation;
 	}
 
-	public void setObjectEntries(List<ObjectEntry> objectEntries) {
+	public void setObjectEntries(Map<Long, ObjectEntry> objectEntries) {
 		_objectEntries = objectEntries;
 	}
 
 	private int _currentDepth;
 	private boolean _deactivateRequiredRelationshipValidation;
 	private final int _depth;
-	private List<ObjectEntry> _objectEntries = new ArrayList<>();
+	private Map<Long, ObjectEntry> _objectEntries = new HashMap<>();
 
 }

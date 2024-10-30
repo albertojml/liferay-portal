@@ -5,10 +5,7 @@
 
 package com.liferay.object.rest.internal.resource.v1_0;
 
-import com.liferay.object.constants.ObjectFieldConstants;
-import com.liferay.object.exception.ObjectEntryValuesException;
 import com.liferay.object.model.ObjectDefinition;
-import com.liferay.object.model.ObjectField;
 import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.relationship.RelationshipContext;
 import com.liferay.object.relationship.RelationshipContextThreadLocal;
@@ -43,9 +40,7 @@ import com.liferay.portal.vulcan.pagination.Pagination;
 import java.io.Serializable;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.Context;
@@ -272,15 +267,9 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
 
-		ObjectEntry processedObjectEntry =
-			objectEntryManager.partialUpdateObjectEntry(
-				contextCompany.getCompanyId(), _getDTOConverterContext(null),
-				externalReferenceCode, _objectDefinition, objectEntry, null);
-
-		_validateRequiredObjectRelationshipFields(
-			_objectDefinition, processedObjectEntry);
-
-		return processedObjectEntry;
+		return objectEntryManager.partialUpdateObjectEntry(
+			contextCompany.getCompanyId(), _getDTOConverterContext(null),
+			externalReferenceCode, _objectDefinition, objectEntry, null);
 	}
 
 	@Override
@@ -298,15 +287,9 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 				_objectEntryManagerRegistry.getObjectEntryManager(
 					_objectDefinition.getStorageType()));
 
-		ObjectEntry processedObjectEntry =
-			defaultObjectEntryManager.partialUpdateObjectEntry(
-				_getDTOConverterContext(objectEntryId), _objectDefinition,
-				objectEntryId, objectEntry);
-
-		_validateRequiredObjectRelationshipFields(
-			_objectDefinition, processedObjectEntry);
-
-		return processedObjectEntry;
+		return defaultObjectEntryManager.partialUpdateObjectEntry(
+			_getDTOConverterContext(objectEntryId), _objectDefinition,
+			objectEntryId, objectEntry);
 	}
 
 	@Override
@@ -324,16 +307,9 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
 
-		ObjectEntry processedObjectEntry =
-			objectEntryManager.partialUpdateObjectEntry(
-				contextCompany.getCompanyId(), _getDTOConverterContext(null),
-				externalReferenceCode, _objectDefinition, objectEntry,
-				scopeKey);
-
-		_validateRequiredObjectRelationshipFields(
-			_objectDefinition, processedObjectEntry);
-
-		return processedObjectEntry;
+		return objectEntryManager.partialUpdateObjectEntry(
+			contextCompany.getCompanyId(), _getDTOConverterContext(null),
+			externalReferenceCode, _objectDefinition, objectEntry, scopeKey);
 	}
 
 	@Override
@@ -362,14 +338,9 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
 
-		ObjectEntry processedObjectEntry = objectEntryManager.addObjectEntry(
+		return objectEntryManager.addObjectEntry(
 			_getDTOConverterContext(null), _objectDefinition, objectEntry,
 			null);
-
-		_validateRequiredObjectRelationshipFields(
-			_objectDefinition, processedObjectEntry);
-
-		return processedObjectEntry;
 	}
 
 	@Override
@@ -396,14 +367,9 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
 
-		ObjectEntry processedObjectEntry = objectEntryManager.addObjectEntry(
+		return objectEntryManager.addObjectEntry(
 			_getDTOConverterContext(null), _objectDefinition, objectEntry,
 			scopeKey);
-
-		_validateRequiredObjectRelationshipFields(
-			_objectDefinition, processedObjectEntry);
-
-		return processedObjectEntry;
 	}
 
 	@Override
@@ -420,14 +386,9 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
 
-		ObjectEntry processedObjectEntry = objectEntryManager.updateObjectEntry(
+		return objectEntryManager.updateObjectEntry(
 			contextCompany.getCompanyId(), _getDTOConverterContext(null),
 			externalReferenceCode, _objectDefinition, objectEntry, null);
-
-		_validateRequiredObjectRelationshipFields(
-			_objectDefinition, processedObjectEntry);
-
-		return processedObjectEntry;
 	}
 
 	@Override
@@ -494,15 +455,9 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 				_objectEntryManagerRegistry.getObjectEntryManager(
 					_objectDefinition.getStorageType()));
 
-		ObjectEntry processedObjectEntry =
-			defaultObjectEntryManager.updateObjectEntry(
-				_getDTOConverterContext(objectEntryId), _objectDefinition,
-				objectEntryId, objectEntry);
-
-		_validateRequiredObjectRelationshipFields(
-			_objectDefinition, processedObjectEntry);
-
-		return processedObjectEntry;
+		return defaultObjectEntryManager.updateObjectEntry(
+			_getDTOConverterContext(objectEntryId), _objectDefinition,
+			objectEntryId, objectEntry);
 	}
 
 	@Override
@@ -545,14 +500,9 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 			_objectEntryManagerRegistry.getObjectEntryManager(
 				_objectDefinition.getStorageType());
 
-		ObjectEntry processedObjectEntry = objectEntryManager.updateObjectEntry(
+		return objectEntryManager.updateObjectEntry(
 			contextCompany.getCompanyId(), _getDTOConverterContext(null),
 			externalReferenceCode, _objectDefinition, objectEntry, scopeKey);
-
-		_validateRequiredObjectRelationshipFields(
-			_objectDefinition, processedObjectEntry);
-
-		return processedObjectEntry;
 	}
 
 	@Override
@@ -712,35 +662,6 @@ public class ObjectEntryResourceImpl extends BaseObjectEntryResourceImpl {
 		}
 
 		return null;
-	}
-
-	private void _validateRequiredObjectRelationshipFields(
-			ObjectDefinition objectDefinition, ObjectEntry objectEntry)
-		throws ObjectEntryValuesException.Required {
-
-		List<ObjectField> objectFields =
-			_objectFieldLocalService.getObjectFields(
-				objectDefinition.getObjectDefinitionId());
-
-		Map<String, Object> serviceBuilderObjectEntryValues =
-			objectEntry.getProperties();
-
-		for (ObjectField objectField : objectFields) {
-			if (!Objects.equals(
-					objectField.getBusinessType(),
-					ObjectFieldConstants.BUSINESS_TYPE_RELATIONSHIP)) {
-
-				continue;
-			}
-
-			if (Objects.equals(
-					serviceBuilderObjectEntryValues.get(objectField.getName()),
-					0L)) {
-
-				throw new ObjectEntryValuesException.Required(
-					objectField.getName());
-			}
-		}
 	}
 
 	private final DTOConverterRegistry _dtoConverterRegistry;
