@@ -162,65 +162,68 @@ public class ObjectEntryRelatedObjectsResourceTest {
 
 		// nestedFields before ID
 
-		JSONAssert.assertEquals(
+		JSONObject jsonObject1 = JSONUtil.put(
+			_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+		).put(
+			objectRelationship.getName(),
 			JSONUtil.put(
-				_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+				_OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1
 			).put(
-				objectRelationship.getName(),
+				"externalReferenceCode",
+				_objectEntry1.getExternalReferenceCode()
+			)
+		);
+		JSONObject jsonObject2 = JSONUtil.put(
+			ObjectFieldSettingUtil.getValue(
+				ObjectFieldSettingConstants.
+					NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
+				objectField),
+			_objectEntry1.getExternalReferenceCode()
+		).put(
+			objectRelationship.getName(),
+			JSONUtil.put(
+				_OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1
+			).put(
+				"externalReferenceCode",
+				_objectEntry1.getExternalReferenceCode()
+			).put(
+				"status",
 				JSONUtil.put(
-					_OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1
+					"code", 0
 				).put(
-					"externalReferenceCode",
-					_objectEntry1.getExternalReferenceCode()
+					"label", "approved"
+				).put(
+					"label_i18n", "Approved"
 				)
-			).toString(),
-			HTTPTestUtil.invokeToJSONObject(
-				JSONUtil.put(
-					ObjectFieldSettingUtil.getValue(
-						ObjectFieldSettingConstants.
-							NAME_OBJECT_RELATIONSHIP_ERC_OBJECT_FIELD_NAME,
-						objectField),
-					_objectEntry1.getExternalReferenceCode()
-				).put(
-					objectRelationship.getName(),
-					JSONUtil.put(
-						_OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1
-					).put(
-						"externalReferenceCode",
-						_objectEntry1.getExternalReferenceCode()
-					).put(
-						"status",
-						JSONUtil.put(
-							"code", 0
-						).put(
-							"label", "approved"
-						).put(
-							"label_i18n", "Approved"
-						)
-					)
-				).put(
-					StringBundler.concat(
-						"r_", objectRelationship.getName(), "_",
-						_objectDefinition1.getPKObjectFieldName()),
-					Long.MAX_VALUE
-				).put(
-					_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
-				).put(
-					"status",
-					JSONUtil.put(
-						"code", 0
-					).put(
-						"label", "approved"
-					).put(
-						"label_i18n", "Approved"
-					)
-				).toString(),
-				_objectDefinition2.getRESTContextPath(
-				).substring(
-					1
-				),
-				Http.Method.POST
-			).toString(),
+			)
+		).put(
+			StringBundler.concat(
+				"r_", objectRelationship.getName(), "_",
+				_objectDefinition1.getPKObjectFieldName()),
+			_objectEntry1.getObjectEntryId()
+		).put(
+			_OBJECT_FIELD_NAME_2, _OBJECT_FIELD_VALUE_2
+		).put(
+			"status",
+			JSONUtil.put(
+				"code", 0
+			).put(
+				"label", "approved"
+			).put(
+				"label_i18n", "Approved"
+			)
+		);
+		JSONObject jsonObject3 = HTTPTestUtil.invokeToJSONObject(
+			jsonObject2.toString(),
+			_objectDefinition2.getRESTContextPath(
+			).substring(
+				1
+			),
+			Http.Method.POST
+		);
+		JSONAssert.assertEquals(
+			jsonObject1.toString(),
+			jsonObject3.toString(),
 			JSONCompareMode.LENIENT);
 
 		//  ID before invalid ERC
@@ -232,7 +235,7 @@ public class ObjectEntryRelatedObjectsResourceTest {
 				StringBundler.concat(
 					"r_", objectRelationship.getName(), "_",
 					_objectDefinition1.getPKObjectFieldName()),
-				(Long)_objectEntry1.getObjectEntryId()
+				_objectEntry1.getObjectEntryId()
 			).toString(),
 			HTTPTestUtil.invokeToJSONObject(
 				JSONUtil.put(
