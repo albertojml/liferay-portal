@@ -420,6 +420,10 @@ public class ResourceOpenAPIParser {
 			if (methodName.equals(
 					StringBundler.concat(
 						"get", parentSchemaName,
+						TextFormatter.formatPlural(schemaName), "Page")) ||
+				methodName.equals(
+					StringBundler.concat(
+						"get", parentSchemaName, "BySiteExternalReferenceCode",
 						TextFormatter.formatPlural(schemaName), "Page"))) {
 
 				return true;
