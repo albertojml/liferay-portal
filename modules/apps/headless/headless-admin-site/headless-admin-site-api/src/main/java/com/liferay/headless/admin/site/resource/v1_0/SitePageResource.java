@@ -48,49 +48,49 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface SitePageResource {
 
-	public Page<SitePage> getSiteSiteByExternalReferenceCodeSitePagesPage(
+	public Page<SitePage> getBySiteExternalReferenceCodeSitePagesPage(
 			String siteExternalReferenceCode, String search,
 			com.liferay.portal.vulcan.aggregation.Aggregation aggregation,
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public SitePage postByExternalReferenceCodeSitePage(
+	public SitePage postBySiteExternalReferenceCodeSitePage(
 			String siteExternalReferenceCode, SitePage sitePage)
 		throws Exception;
 
 	public Page<com.liferay.portal.vulcan.permission.Permission>
-			getSiteSiteByExternalReferenceCodeSitePagePermissionsPage(
+			getBySiteExternalReferenceCodeSitePagePermissionsPage(
 				String siteExternalReferenceCode, String roleNames)
 		throws Exception;
 
 	public Page<com.liferay.portal.vulcan.permission.Permission>
-			putSiteSiteByExternalReferenceCodeSitePagePermissionsPage(
+			putBySiteExternalReferenceCodeSitePagePermissionsPage(
 				String siteExternalReferenceCode,
 				com.liferay.portal.vulcan.permission.Permission[] permissions)
 		throws Exception;
 
-	public void deleteSiteSiteByExternalReferenceCodeSitePage(
+	public void deleteBySiteExternalReferenceCodeSitePage(
 			String siteExternalReferenceCode,
 			String sitePageExternalReferenceCode)
 		throws Exception;
 
-	public SitePage getSiteSiteByExternalReferenceCodeSitePage(
+	public SitePage getBySiteExternalReferenceCodeSitePage(
 			String siteExternalReferenceCode,
 			String sitePageExternalReferenceCode)
 		throws Exception;
 
-	public SitePage patchSiteSiteByExternalReferenceCodeSitePage(
+	public SitePage patchBySiteExternalReferenceCodeSitePage(
 			String siteExternalReferenceCode,
 			String sitePageExternalReferenceCode, SitePage sitePage)
 		throws Exception;
 
-	public SitePage putSiteSiteByExternalReferenceCodeSitePage(
+	public SitePage putBySiteExternalReferenceCodeSitePage(
 			String siteExternalReferenceCode,
 			String sitePageExternalReferenceCode, SitePage sitePage)
 		throws Exception;
 
 	public ContentPageSpecification
-			postSiteSiteByExternalReferenceCodeSitePagePageSpecification(
+			postBySiteExternalReferenceCodeSitePagePageSpecification(
 				String siteExternalReferenceCode,
 				String sitePageExternalReferenceCode,
 				ContentPageSpecification contentPageSpecification)

@@ -40,139 +40,139 @@ public interface DisplayPageTemplateResource {
 	}
 
 	public Page<DisplayPageTemplate>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
 				String siteExternalReferenceCode,
 				String displayPageTemplateFolderExternalReferenceCode,
 				Boolean flatten)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPageHttpResponse(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPageHttpResponse(
 				String siteExternalReferenceCode,
 				String displayPageTemplateFolderExternalReferenceCode,
 				Boolean flatten)
 		throws Exception;
 
 	public DisplayPageTemplate
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate(
+			postBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				String displayPageTemplateFolderExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplateHttpResponse(
+			postBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplateHttpResponse(
 				String siteExternalReferenceCode,
 				String displayPageTemplateFolderExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception;
 
 	public Page<DisplayPageTemplate>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 				String siteExternalReferenceCode, String search,
 				List<String> aggregations, String filterString,
 				Pagination pagination, String sortString)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageHttpResponse(
+			getBySiteExternalReferenceCodeDisplayPageTemplatesPageHttpResponse(
 				String siteExternalReferenceCode, String search,
 				List<String> aggregations, String filterString,
 				Pagination pagination, String sortString)
 		throws Exception;
 
 	public DisplayPageTemplate
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			postBySiteExternalReferenceCodeDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+			postBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 				String siteExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception;
 
 	public Page<Permission>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage(
 				String siteExternalReferenceCode, String roleNames)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
+			getBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
 				String siteExternalReferenceCode, String roleNames)
 		throws Exception;
 
 	public Page<Permission>
-			putSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage(
+			putBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage(
 				String siteExternalReferenceCode, Permission[] permissions)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			putSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
+			putBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
 				String siteExternalReferenceCode, Permission[] permissions)
 		throws Exception;
 
-	public void deleteSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+	public void deleteBySiteExternalReferenceCodeDisplayPageTemplate(
 			String siteExternalReferenceCode,
 			String displayPageTemplateExternalReferenceCode)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+			deleteBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode)
 		throws Exception;
 
 	public DisplayPageTemplate
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			getBySiteExternalReferenceCodeDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+			getBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode)
 		throws Exception;
 
 	public DisplayPageTemplate
-			patchSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			patchBySiteExternalReferenceCodeDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			patchSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+			patchBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception;
 
 	public DisplayPageTemplate
-			putSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			putBySiteExternalReferenceCodeDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			putSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+			putBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception;
 
 	public ContentPageSpecification
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplatePageSpecification(
+			postBySiteExternalReferenceCodeDisplayPageTemplatePageSpecification(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode,
 				ContentPageSpecification contentPageSpecification)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplatePageSpecificationHttpResponse(
+			postBySiteExternalReferenceCodeDisplayPageTemplatePageSpecificationHttpResponse(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode,
 				ContentPageSpecification contentPageSpecification)
@@ -314,14 +314,14 @@ public interface DisplayPageTemplateResource {
 		implements DisplayPageTemplateResource {
 
 		public Page<DisplayPageTemplate>
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
+				getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
 					String siteExternalReferenceCode,
 					String displayPageTemplateFolderExternalReferenceCode,
 					Boolean flatten)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPageHttpResponse(
+				getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPageHttpResponse(
 					siteExternalReferenceCode,
 					displayPageTemplateFolderExternalReferenceCode, flatten);
 
@@ -385,7 +385,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPageHttpResponse(
+				getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPageHttpResponse(
 					String siteExternalReferenceCode,
 					String displayPageTemplateFolderExternalReferenceCode,
 					Boolean flatten)
@@ -434,14 +434,14 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public DisplayPageTemplate
-				postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate(
+				postBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate(
 					String siteExternalReferenceCode,
 					String displayPageTemplateFolderExternalReferenceCode,
 					DisplayPageTemplate displayPageTemplate)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplateHttpResponse(
+				postBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplateHttpResponse(
 					siteExternalReferenceCode,
 					displayPageTemplateFolderExternalReferenceCode,
 					displayPageTemplate);
@@ -506,7 +506,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplateHttpResponse(
+				postBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplateHttpResponse(
 					String siteExternalReferenceCode,
 					String displayPageTemplateFolderExternalReferenceCode,
 					DisplayPageTemplate displayPageTemplate)
@@ -554,14 +554,14 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public Page<DisplayPageTemplate>
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+				getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 					String siteExternalReferenceCode, String search,
 					List<String> aggregations, String filterString,
 					Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageHttpResponse(
+				getBySiteExternalReferenceCodeDisplayPageTemplatesPageHttpResponse(
 					siteExternalReferenceCode, search, aggregations,
 					filterString, pagination, sortString);
 
@@ -625,7 +625,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageHttpResponse(
+				getBySiteExternalReferenceCodeDisplayPageTemplatesPageHttpResponse(
 					String siteExternalReferenceCode, String search,
 					List<String> aggregations, String filterString,
 					Pagination pagination, String sortString)
@@ -686,13 +686,13 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public DisplayPageTemplate
-				postSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+				postBySiteExternalReferenceCodeDisplayPageTemplate(
 					String siteExternalReferenceCode,
 					DisplayPageTemplate displayPageTemplate)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+				postBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 					siteExternalReferenceCode, displayPageTemplate);
 
 			String content = httpResponse.getContent();
@@ -755,7 +755,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				postSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+				postBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 					String siteExternalReferenceCode,
 					DisplayPageTemplate displayPageTemplate)
 			throws Exception {
@@ -799,12 +799,12 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public Page<Permission>
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage(
+				getBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage(
 					String siteExternalReferenceCode, String roleNames)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
+				getBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
 					siteExternalReferenceCode, roleNames);
 
 			String content = httpResponse.getContent();
@@ -867,7 +867,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
+				getBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
 					String siteExternalReferenceCode, String roleNames)
 			throws Exception {
 
@@ -911,12 +911,12 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public Page<Permission>
-				putSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage(
+				putBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage(
 					String siteExternalReferenceCode, Permission[] permissions)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				putSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
+				putBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
 					siteExternalReferenceCode, permissions);
 
 			String content = httpResponse.getContent();
@@ -979,7 +979,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				putSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
+				putBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
 					String siteExternalReferenceCode, Permission[] permissions)
 			throws Exception {
 
@@ -1026,13 +1026,13 @@ public interface DisplayPageTemplateResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+		public void deleteBySiteExternalReferenceCodeDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+				deleteBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 					siteExternalReferenceCode,
 					displayPageTemplateExternalReferenceCode);
 
@@ -1096,7 +1096,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+				deleteBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 					String siteExternalReferenceCode,
 					String displayPageTemplateExternalReferenceCode)
 			throws Exception {
@@ -1140,13 +1140,13 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public DisplayPageTemplate
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+				getBySiteExternalReferenceCodeDisplayPageTemplate(
 					String siteExternalReferenceCode,
 					String displayPageTemplateExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+				getBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 					siteExternalReferenceCode,
 					displayPageTemplateExternalReferenceCode);
 
@@ -1210,7 +1210,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+				getBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 					String siteExternalReferenceCode,
 					String displayPageTemplateExternalReferenceCode)
 			throws Exception {
@@ -1254,14 +1254,14 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public DisplayPageTemplate
-				patchSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+				patchBySiteExternalReferenceCodeDisplayPageTemplate(
 					String siteExternalReferenceCode,
 					String displayPageTemplateExternalReferenceCode,
 					DisplayPageTemplate displayPageTemplate)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				patchSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+				patchBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 					siteExternalReferenceCode,
 					displayPageTemplateExternalReferenceCode,
 					displayPageTemplate);
@@ -1326,7 +1326,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				patchSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+				patchBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 					String siteExternalReferenceCode,
 					String displayPageTemplateExternalReferenceCode,
 					DisplayPageTemplate displayPageTemplate)
@@ -1374,14 +1374,14 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public DisplayPageTemplate
-				putSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+				putBySiteExternalReferenceCodeDisplayPageTemplate(
 					String siteExternalReferenceCode,
 					String displayPageTemplateExternalReferenceCode,
 					DisplayPageTemplate displayPageTemplate)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				putSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+				putBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 					siteExternalReferenceCode,
 					displayPageTemplateExternalReferenceCode,
 					displayPageTemplate);
@@ -1446,7 +1446,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				putSiteSiteByExternalReferenceCodeDisplayPageTemplateHttpResponse(
+				putBySiteExternalReferenceCodeDisplayPageTemplateHttpResponse(
 					String siteExternalReferenceCode,
 					String displayPageTemplateExternalReferenceCode,
 					DisplayPageTemplate displayPageTemplate)
@@ -1494,14 +1494,14 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public ContentPageSpecification
-				postSiteSiteByExternalReferenceCodeDisplayPageTemplatePageSpecification(
+				postBySiteExternalReferenceCodeDisplayPageTemplatePageSpecification(
 					String siteExternalReferenceCode,
 					String displayPageTemplateExternalReferenceCode,
 					ContentPageSpecification contentPageSpecification)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postSiteSiteByExternalReferenceCodeDisplayPageTemplatePageSpecificationHttpResponse(
+				postBySiteExternalReferenceCodeDisplayPageTemplatePageSpecificationHttpResponse(
 					siteExternalReferenceCode,
 					displayPageTemplateExternalReferenceCode,
 					contentPageSpecification);
@@ -1566,7 +1566,7 @@ public interface DisplayPageTemplateResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				postSiteSiteByExternalReferenceCodeDisplayPageTemplatePageSpecificationHttpResponse(
+				postBySiteExternalReferenceCodeDisplayPageTemplatePageSpecificationHttpResponse(
 					String siteExternalReferenceCode,
 					String displayPageTemplateExternalReferenceCode,
 					ContentPageSpecification contentPageSpecification)

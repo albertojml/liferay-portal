@@ -109,7 +109,7 @@ public abstract class BasePageRuleActionResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodePageRuleAction(
+	public void deleteBySiteExternalReferenceCodePageRuleAction(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -164,7 +164,7 @@ public abstract class BasePageRuleActionResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public PageRuleAction getSiteSiteByExternalReferenceCodePageRuleAction(
+	public PageRuleAction getBySiteExternalReferenceCodePageRuleAction(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -222,7 +222,7 @@ public abstract class BasePageRuleActionResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public PageRuleAction patchSiteSiteByExternalReferenceCodePageRuleAction(
+	public PageRuleAction patchBySiteExternalReferenceCodePageRuleAction(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -235,7 +235,7 @@ public abstract class BasePageRuleActionResourceImpl
 		throws Exception {
 
 		PageRuleAction existingPageRuleAction =
-			getSiteSiteByExternalReferenceCodePageRuleAction(
+			getBySiteExternalReferenceCodePageRuleAction(
 				siteExternalReferenceCode, pageRuleActionExternalReferenceCode);
 
 		if (pageRuleAction.getAction() != null) {
@@ -257,7 +257,7 @@ public abstract class BasePageRuleActionResourceImpl
 
 		preparePatch(pageRuleAction, existingPageRuleAction);
 
-		return putSiteSiteByExternalReferenceCodePageRuleAction(
+		return putBySiteExternalReferenceCodePageRuleAction(
 			siteExternalReferenceCode, pageRuleActionExternalReferenceCode,
 			existingPageRuleAction);
 	}
@@ -306,7 +306,7 @@ public abstract class BasePageRuleActionResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@javax.ws.rs.PUT
 	@Override
-	public PageRuleAction putSiteSiteByExternalReferenceCodePageRuleAction(
+	public PageRuleAction putBySiteExternalReferenceCodePageRuleAction(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -369,7 +369,7 @@ public abstract class BasePageRuleActionResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<PageRuleAction>
-			getSiteSiteByExternalReferenceCodePageRulePageRuleActionsPage(
+			getBySiteExternalReferenceCodePageRulePageRuleActionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -430,16 +430,15 @@ public abstract class BasePageRuleActionResourceImpl
 	@javax.ws.rs.POST
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public PageRuleAction
-			postSiteSiteByExternalReferenceCodePageRulePageRuleAction(
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("siteExternalReferenceCode")
-				String siteExternalReferenceCode,
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.ws.rs.PathParam("pageRuleExternalReferenceCode")
-				String pageRuleExternalReferenceCode,
-				PageRuleAction pageRuleAction)
+	public PageRuleAction postBySiteExternalReferenceCodePageRulePageRuleAction(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("siteExternalReferenceCode")
+			String siteExternalReferenceCode,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.PathParam("pageRuleExternalReferenceCode")
+			String pageRuleExternalReferenceCode,
+			PageRuleAction pageRuleAction)
 		throws Exception {
 
 		return new PageRuleAction();

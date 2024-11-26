@@ -34,99 +34,97 @@ public interface PageElementResource {
 		return new Builder();
 	}
 
-	public void deleteSiteSiteByExternalReferenceCodePageElement(
+	public void deleteBySiteExternalReferenceCodePageElement(
 			String siteExternalReferenceCode,
 			String pageElementExternalReferenceCode)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			deleteSiteSiteByExternalReferenceCodePageElementHttpResponse(
+			deleteBySiteExternalReferenceCodePageElementHttpResponse(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode)
 		throws Exception;
 
-	public PageElement getSiteSiteByExternalReferenceCodePageElement(
+	public PageElement getBySiteExternalReferenceCodePageElement(
 			String siteExternalReferenceCode,
 			String pageElementExternalReferenceCode)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodePageElementHttpResponse(
+			getBySiteExternalReferenceCodePageElementHttpResponse(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode)
 		throws Exception;
 
-	public PageElement patchSiteSiteByExternalReferenceCodePageElement(
+	public PageElement patchBySiteExternalReferenceCodePageElement(
 			String siteExternalReferenceCode,
 			String pageElementExternalReferenceCode, PageElement pageElement)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			patchSiteSiteByExternalReferenceCodePageElementHttpResponse(
+			patchBySiteExternalReferenceCodePageElementHttpResponse(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode,
 				PageElement pageElement)
 		throws Exception;
 
-	public PageElement putSiteSiteByExternalReferenceCodePageElement(
+	public PageElement putBySiteExternalReferenceCodePageElement(
 			String siteExternalReferenceCode,
 			String pageElementExternalReferenceCode, PageElement pageElement)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			putSiteSiteByExternalReferenceCodePageElementHttpResponse(
+			putBySiteExternalReferenceCodePageElementHttpResponse(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode,
 				PageElement pageElement)
 		throws Exception;
 
 	public PageElement
-			postSiteSiteByExternalReferenceCodePageElementFragmentComposition(
+			postBySiteExternalReferenceCodePageElementFragmentComposition(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode, Integer position,
 				FragmentComposition fragmentComposition)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			postSiteSiteByExternalReferenceCodePageElementFragmentCompositionHttpResponse(
+			postBySiteExternalReferenceCodePageElementFragmentCompositionHttpResponse(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode, Integer position,
 				FragmentComposition fragmentComposition)
 		throws Exception;
 
 	public Page<PageElement>
-			getSiteSiteByExternalReferenceCodePageElementPageElementsPage(
+			getBySiteExternalReferenceCodePageElementPageElementsPage(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode, Boolean flatten)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodePageElementPageElementsPageHttpResponse(
+			getBySiteExternalReferenceCodePageElementPageElementsPageHttpResponse(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode, Boolean flatten)
 		throws Exception;
 
 	public Page<PageElement>
-			getSiteSiteByExternalReferenceCodePageExperiencePageElementsPage(
+			getBySiteExternalReferenceCodePageExperiencePageElementsPage(
 				String siteExternalReferenceCode,
 				String pageExperienceExternalReferenceCode, Boolean flatten)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodePageExperiencePageElementsPageHttpResponse(
+			getBySiteExternalReferenceCodePageExperiencePageElementsPageHttpResponse(
 				String siteExternalReferenceCode,
 				String pageExperienceExternalReferenceCode, Boolean flatten)
 		throws Exception;
 
-	public PageElement
-			postSiteSiteByExternalReferenceCodePageExperiencePageElement(
-				String siteExternalReferenceCode,
-				String pageExperienceExternalReferenceCode,
-				PageElement pageElement)
+	public PageElement postBySiteExternalReferenceCodePageExperiencePageElement(
+			String siteExternalReferenceCode,
+			String pageExperienceExternalReferenceCode, PageElement pageElement)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			postSiteSiteByExternalReferenceCodePageExperiencePageElementHttpResponse(
+			postBySiteExternalReferenceCodePageExperiencePageElementHttpResponse(
 				String siteExternalReferenceCode,
 				String pageExperienceExternalReferenceCode,
 				PageElement pageElement)
@@ -240,13 +238,13 @@ public interface PageElementResource {
 
 	public static class PageElementResourceImpl implements PageElementResource {
 
-		public void deleteSiteSiteByExternalReferenceCodePageElement(
+		public void deleteBySiteExternalReferenceCodePageElement(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				deleteSiteSiteByExternalReferenceCodePageElementHttpResponse(
+				deleteBySiteExternalReferenceCodePageElementHttpResponse(
 					siteExternalReferenceCode,
 					pageElementExternalReferenceCode);
 
@@ -310,7 +308,7 @@ public interface PageElementResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				deleteSiteSiteByExternalReferenceCodePageElementHttpResponse(
+				deleteBySiteExternalReferenceCodePageElementHttpResponse(
 					String siteExternalReferenceCode,
 					String pageElementExternalReferenceCode)
 			throws Exception {
@@ -353,13 +351,13 @@ public interface PageElementResource {
 			return httpInvoker.invoke();
 		}
 
-		public PageElement getSiteSiteByExternalReferenceCodePageElement(
+		public PageElement getBySiteExternalReferenceCodePageElement(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodePageElementHttpResponse(
+				getBySiteExternalReferenceCodePageElementHttpResponse(
 					siteExternalReferenceCode,
 					pageElementExternalReferenceCode);
 
@@ -423,7 +421,7 @@ public interface PageElementResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodePageElementHttpResponse(
+				getBySiteExternalReferenceCodePageElementHttpResponse(
 					String siteExternalReferenceCode,
 					String pageElementExternalReferenceCode)
 			throws Exception {
@@ -466,14 +464,14 @@ public interface PageElementResource {
 			return httpInvoker.invoke();
 		}
 
-		public PageElement patchSiteSiteByExternalReferenceCodePageElement(
+		public PageElement patchBySiteExternalReferenceCodePageElement(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode,
 				PageElement pageElement)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				patchSiteSiteByExternalReferenceCodePageElementHttpResponse(
+				patchBySiteExternalReferenceCodePageElementHttpResponse(
 					siteExternalReferenceCode, pageElementExternalReferenceCode,
 					pageElement);
 
@@ -537,7 +535,7 @@ public interface PageElementResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				patchSiteSiteByExternalReferenceCodePageElementHttpResponse(
+				patchBySiteExternalReferenceCodePageElementHttpResponse(
 					String siteExternalReferenceCode,
 					String pageElementExternalReferenceCode,
 					PageElement pageElement)
@@ -583,14 +581,14 @@ public interface PageElementResource {
 			return httpInvoker.invoke();
 		}
 
-		public PageElement putSiteSiteByExternalReferenceCodePageElement(
+		public PageElement putBySiteExternalReferenceCodePageElement(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode,
 				PageElement pageElement)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				putSiteSiteByExternalReferenceCodePageElementHttpResponse(
+				putBySiteExternalReferenceCodePageElementHttpResponse(
 					siteExternalReferenceCode, pageElementExternalReferenceCode,
 					pageElement);
 
@@ -654,7 +652,7 @@ public interface PageElementResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				putSiteSiteByExternalReferenceCodePageElementHttpResponse(
+				putBySiteExternalReferenceCodePageElementHttpResponse(
 					String siteExternalReferenceCode,
 					String pageElementExternalReferenceCode,
 					PageElement pageElement)
@@ -701,14 +699,14 @@ public interface PageElementResource {
 		}
 
 		public PageElement
-				postSiteSiteByExternalReferenceCodePageElementFragmentComposition(
+				postBySiteExternalReferenceCodePageElementFragmentComposition(
 					String siteExternalReferenceCode,
 					String pageElementExternalReferenceCode, Integer position,
 					FragmentComposition fragmentComposition)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postSiteSiteByExternalReferenceCodePageElementFragmentCompositionHttpResponse(
+				postBySiteExternalReferenceCodePageElementFragmentCompositionHttpResponse(
 					siteExternalReferenceCode, pageElementExternalReferenceCode,
 					position, fragmentComposition);
 
@@ -772,7 +770,7 @@ public interface PageElementResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				postSiteSiteByExternalReferenceCodePageElementFragmentCompositionHttpResponse(
+				postBySiteExternalReferenceCodePageElementFragmentCompositionHttpResponse(
 					String siteExternalReferenceCode,
 					String pageElementExternalReferenceCode, Integer position,
 					FragmentComposition fragmentComposition)
@@ -824,13 +822,13 @@ public interface PageElementResource {
 		}
 
 		public Page<PageElement>
-				getSiteSiteByExternalReferenceCodePageElementPageElementsPage(
+				getBySiteExternalReferenceCodePageElementPageElementsPage(
 					String siteExternalReferenceCode,
 					String pageElementExternalReferenceCode, Boolean flatten)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodePageElementPageElementsPageHttpResponse(
+				getBySiteExternalReferenceCodePageElementPageElementsPageHttpResponse(
 					siteExternalReferenceCode, pageElementExternalReferenceCode,
 					flatten);
 
@@ -894,7 +892,7 @@ public interface PageElementResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodePageElementPageElementsPageHttpResponse(
+				getBySiteExternalReferenceCodePageElementPageElementsPageHttpResponse(
 					String siteExternalReferenceCode,
 					String pageElementExternalReferenceCode, Boolean flatten)
 			throws Exception {
@@ -942,13 +940,13 @@ public interface PageElementResource {
 		}
 
 		public Page<PageElement>
-				getSiteSiteByExternalReferenceCodePageExperiencePageElementsPage(
+				getBySiteExternalReferenceCodePageExperiencePageElementsPage(
 					String siteExternalReferenceCode,
 					String pageExperienceExternalReferenceCode, Boolean flatten)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodePageExperiencePageElementsPageHttpResponse(
+				getBySiteExternalReferenceCodePageExperiencePageElementsPageHttpResponse(
 					siteExternalReferenceCode,
 					pageExperienceExternalReferenceCode, flatten);
 
@@ -1012,7 +1010,7 @@ public interface PageElementResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodePageExperiencePageElementsPageHttpResponse(
+				getBySiteExternalReferenceCodePageExperiencePageElementsPageHttpResponse(
 					String siteExternalReferenceCode,
 					String pageExperienceExternalReferenceCode, Boolean flatten)
 			throws Exception {
@@ -1060,14 +1058,14 @@ public interface PageElementResource {
 		}
 
 		public PageElement
-				postSiteSiteByExternalReferenceCodePageExperiencePageElement(
+				postBySiteExternalReferenceCodePageExperiencePageElement(
 					String siteExternalReferenceCode,
 					String pageExperienceExternalReferenceCode,
 					PageElement pageElement)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postSiteSiteByExternalReferenceCodePageExperiencePageElementHttpResponse(
+				postBySiteExternalReferenceCodePageExperiencePageElementHttpResponse(
 					siteExternalReferenceCode,
 					pageExperienceExternalReferenceCode, pageElement);
 
@@ -1131,7 +1129,7 @@ public interface PageElementResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				postSiteSiteByExternalReferenceCodePageExperiencePageElementHttpResponse(
+				postBySiteExternalReferenceCodePageExperiencePageElementHttpResponse(
 					String siteExternalReferenceCode,
 					String pageExperienceExternalReferenceCode,
 					PageElement pageElement)

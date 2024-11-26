@@ -54,6 +54,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -114,7 +115,7 @@ public abstract class BasePageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<PageTemplate>
-			getSiteSiteByExternalReferenceCodePageTemplateSetPageTemplatesPage(
+			getBySiteExternalReferenceCodePageTemplateSetPageTemplatesPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -174,7 +175,7 @@ public abstract class BasePageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public PageTemplate
-			postSiteSiteByExternalReferenceCodePageTemplateSetPageTemplate(
+			postBySiteExternalReferenceCodePageTemplateSetPageTemplate(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -248,21 +249,19 @@ public abstract class BasePageTemplateResourceImpl
 	@javax.ws.rs.Path("/sites/{siteExternalReferenceCode}/page-templates")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<PageTemplate>
-			getSiteSiteByExternalReferenceCodePageTemplatesPage(
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("siteExternalReferenceCode")
-				String siteExternalReferenceCode,
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.ws.rs.QueryParam("search")
-				String search,
-				@javax.ws.rs.core.Context
-					com.liferay.portal.vulcan.aggregation.Aggregation
-						aggregation,
-				@javax.ws.rs.core.Context Filter filter,
-				@javax.ws.rs.core.Context Pagination pagination,
-				@javax.ws.rs.core.Context Sort[] sorts)
+	public Page<PageTemplate> getBySiteExternalReferenceCodePageTemplatesPage(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("siteExternalReferenceCode")
+			String siteExternalReferenceCode,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("search")
+			String search,
+			@javax.ws.rs.core.Context
+				com.liferay.portal.vulcan.aggregation.Aggregation aggregation,
+			@javax.ws.rs.core.Context Filter filter,
+			@javax.ws.rs.core.Context Pagination pagination,
+			@javax.ws.rs.core.Context Sort[] sorts)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -292,7 +291,7 @@ public abstract class BasePageTemplateResourceImpl
 	@javax.ws.rs.POST
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public PageTemplate postSiteSiteByExternalReferenceCodePageTemplate(
+	public PageTemplate postBySiteExternalReferenceCodePageTemplate(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -338,7 +337,7 @@ public abstract class BasePageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<Permission>
-			getSiteSiteByExternalReferenceCodePageTemplatePermissionsPage(
+			getBySiteExternalReferenceCodePageTemplatePermissionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -375,7 +374,7 @@ public abstract class BasePageTemplateResourceImpl
 	@javax.ws.rs.PUT
 	@Override
 	public Page<Permission>
-			putSiteSiteByExternalReferenceCodePageTemplatePermissionsPage(
+			putBySiteExternalReferenceCodePageTemplatePermissionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -415,7 +414,7 @@ public abstract class BasePageTemplateResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodePageTemplate(
+	public void deleteBySiteExternalReferenceCodePageTemplate(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -468,7 +467,7 @@ public abstract class BasePageTemplateResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public PageTemplate getSiteSiteByExternalReferenceCodePageTemplate(
+	public PageTemplate getBySiteExternalReferenceCodePageTemplate(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -524,7 +523,7 @@ public abstract class BasePageTemplateResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public PageTemplate patchSiteSiteByExternalReferenceCodePageTemplate(
+	public PageTemplate patchBySiteExternalReferenceCodePageTemplate(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -537,7 +536,7 @@ public abstract class BasePageTemplateResourceImpl
 		throws Exception {
 
 		PageTemplate existingPageTemplate =
-			getSiteSiteByExternalReferenceCodePageTemplate(
+			getBySiteExternalReferenceCodePageTemplate(
 				siteExternalReferenceCode, pageTemplateExternalReferenceCode);
 
 		if (pageTemplate.getCreatorExternalReferenceCode() != null) {
@@ -582,7 +581,7 @@ public abstract class BasePageTemplateResourceImpl
 
 		preparePatch(pageTemplate, existingPageTemplate);
 
-		return putSiteSiteByExternalReferenceCodePageTemplate(
+		return putBySiteExternalReferenceCodePageTemplate(
 			siteExternalReferenceCode, pageTemplateExternalReferenceCode,
 			existingPageTemplate);
 	}
@@ -629,7 +628,7 @@ public abstract class BasePageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@javax.ws.rs.PUT
 	@Override
-	public PageTemplate putSiteSiteByExternalReferenceCodePageTemplate(
+	public PageTemplate putBySiteExternalReferenceCodePageTemplate(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -687,7 +686,7 @@ public abstract class BasePageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ContentPageSpecification
-			postSiteSiteByExternalReferenceCodePageTemplatePageSpecification(
+			postBySiteExternalReferenceCodePageTemplatePageSpecification(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -858,8 +857,10 @@ public abstract class BasePageTemplateResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+					{
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: []");
+					}
 	}
 
 	@Override

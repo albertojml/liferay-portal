@@ -54,6 +54,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -118,7 +119,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<DisplayPageTemplate>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -184,7 +185,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public DisplayPageTemplate
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate(
+			postBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -267,7 +268,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<DisplayPageTemplate>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -317,7 +318,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public DisplayPageTemplate
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			postBySiteExternalReferenceCodeDisplayPageTemplate(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -367,7 +368,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<Permission>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -408,7 +409,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	@javax.ws.rs.PUT
 	@Override
 	public Page<Permission>
-			putSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage(
+			putBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -452,7 +453,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+	public void deleteBySiteExternalReferenceCodeDisplayPageTemplate(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -510,7 +511,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public DisplayPageTemplate
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			getBySiteExternalReferenceCodeDisplayPageTemplate(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -573,7 +574,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public DisplayPageTemplate
-			patchSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			patchBySiteExternalReferenceCodeDisplayPageTemplate(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -588,7 +589,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 		throws Exception {
 
 		DisplayPageTemplate existingDisplayPageTemplate =
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			getBySiteExternalReferenceCodeDisplayPageTemplate(
 				siteExternalReferenceCode,
 				displayPageTemplateExternalReferenceCode);
 
@@ -641,7 +642,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 
 		preparePatch(displayPageTemplate, existingDisplayPageTemplate);
 
-		return putSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+		return putBySiteExternalReferenceCodeDisplayPageTemplate(
 			siteExternalReferenceCode, displayPageTemplateExternalReferenceCode,
 			existingDisplayPageTemplate);
 	}
@@ -693,7 +694,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	@javax.ws.rs.PUT
 	@Override
 	public DisplayPageTemplate
-			putSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			putBySiteExternalReferenceCodeDisplayPageTemplate(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -757,7 +758,7 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ContentPageSpecification
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplatePageSpecification(
+			postBySiteExternalReferenceCodeDisplayPageTemplatePageSpecification(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -942,8 +943,10 @@ public abstract class BaseDisplayPageTemplateResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+					{
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: []");
+					}
 	}
 
 	@Override

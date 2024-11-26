@@ -180,21 +180,21 @@ public abstract class BasePageRuleResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage()
+	public void testGetBySiteExternalReferenceCodePageExperiencePageRulesPage()
 		throws Exception {
 
 		String siteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getSiteExternalReferenceCode();
 		String irrelevantSiteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getIrrelevantSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getIrrelevantSiteExternalReferenceCode();
 		String pageExperienceExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getPageExperienceExternalReferenceCode();
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getPageExperienceExternalReferenceCode();
 		String irrelevantPageExperienceExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getIrrelevantPageExperienceExternalReferenceCode();
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getIrrelevantPageExperienceExternalReferenceCode();
 
 		Page<PageRule> page =
 			pageRuleResource.
-				getSiteSiteByExternalReferenceCodePageExperiencePageRulesPage(
+				getBySiteExternalReferenceCodePageExperiencePageRulesPage(
 					siteExternalReferenceCode,
 					pageExperienceExternalReferenceCode, null);
 
@@ -204,14 +204,14 @@ public abstract class BasePageRuleResourceTestCase {
 			(irrelevantPageExperienceExternalReferenceCode != null)) {
 
 			PageRule irrelevantPageRule =
-				testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_addPageRule(
+				testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_addPageRule(
 					irrelevantSiteExternalReferenceCode,
 					irrelevantPageExperienceExternalReferenceCode,
 					randomIrrelevantPageRule());
 
 			page =
 				pageRuleResource.
-					getSiteSiteByExternalReferenceCodePageExperiencePageRulesPage(
+					getBySiteExternalReferenceCodePageExperiencePageRulesPage(
 						irrelevantSiteExternalReferenceCode,
 						irrelevantPageExperienceExternalReferenceCode, null);
 
@@ -220,24 +220,24 @@ public abstract class BasePageRuleResourceTestCase {
 			assertContains(irrelevantPageRule, (List<PageRule>)page.getItems());
 			assertValid(
 				page,
-				testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getExpectedActions(
+				testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getExpectedActions(
 					irrelevantSiteExternalReferenceCode,
 					irrelevantPageExperienceExternalReferenceCode));
 		}
 
 		PageRule pageRule1 =
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_addPageRule(
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_addPageRule(
 				siteExternalReferenceCode, pageExperienceExternalReferenceCode,
 				randomPageRule());
 
 		PageRule pageRule2 =
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_addPageRule(
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_addPageRule(
 				siteExternalReferenceCode, pageExperienceExternalReferenceCode,
 				randomPageRule());
 
 		page =
 			pageRuleResource.
-				getSiteSiteByExternalReferenceCodePageExperiencePageRulesPage(
+				getBySiteExternalReferenceCodePageExperiencePageRulesPage(
 					siteExternalReferenceCode,
 					pageExperienceExternalReferenceCode, null);
 
@@ -247,13 +247,13 @@ public abstract class BasePageRuleResourceTestCase {
 		assertContains(pageRule2, (List<PageRule>)page.getItems());
 		assertValid(
 			page,
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getExpectedActions(
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getExpectedActions(
 				siteExternalReferenceCode,
 				pageExperienceExternalReferenceCode));
 	}
 
 	protected Map<String, Map<String, String>>
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getExpectedActions(
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getExpectedActions(
 				String siteExternalReferenceCode,
 				String pageExperienceExternalReferenceCode)
 		throws Exception {
@@ -264,7 +264,7 @@ public abstract class BasePageRuleResourceTestCase {
 	}
 
 	protected PageRule
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_addPageRule(
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_addPageRule(
 				String siteExternalReferenceCode,
 				String pageExperienceExternalReferenceCode, PageRule pageRule)
 		throws Exception {
@@ -274,7 +274,7 @@ public abstract class BasePageRuleResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getSiteExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -282,14 +282,14 @@ public abstract class BasePageRuleResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getIrrelevantSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getIrrelevantSiteExternalReferenceCode()
 		throws Exception {
 
 		return null;
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getPageExperienceExternalReferenceCode()
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getPageExperienceExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -297,20 +297,20 @@ public abstract class BasePageRuleResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageRulesPage_getIrrelevantPageExperienceExternalReferenceCode()
+			testGetBySiteExternalReferenceCodePageExperiencePageRulesPage_getIrrelevantPageExperienceExternalReferenceCode()
 		throws Exception {
 
 		return null;
 	}
 
 	@Test
-	public void testPostSiteSiteByExternalReferenceCodePageExperiencePageRule()
+	public void testPostBySiteExternalReferenceCodePageExperiencePageRule()
 		throws Exception {
 
 		PageRule randomPageRule = randomPageRule();
 
 		PageRule postPageRule =
-			testPostSiteSiteByExternalReferenceCodePageExperiencePageRule_addPageRule(
+			testPostBySiteExternalReferenceCodePageExperiencePageRule_addPageRule(
 				randomPageRule);
 
 		assertEquals(randomPageRule, postPageRule);
@@ -318,7 +318,7 @@ public abstract class BasePageRuleResourceTestCase {
 	}
 
 	protected PageRule
-			testPostSiteSiteByExternalReferenceCodePageExperiencePageRule_addPageRule(
+			testPostBySiteExternalReferenceCodePageExperiencePageRule_addPageRule(
 				PageRule pageRule)
 		throws Exception {
 
@@ -327,44 +327,40 @@ public abstract class BasePageRuleResourceTestCase {
 	}
 
 	@Test
-	public void testDeleteSiteSiteByExternalReferenceCodePageRule()
+	public void testDeleteBySiteExternalReferenceCodePageRule()
 		throws Exception {
 
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodePageRule()
-		throws Exception {
-
+	public void testGetBySiteExternalReferenceCodePageRule() throws Exception {
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testGraphQLGetSiteSiteByExternalReferenceCodePageRule()
+	public void testGraphQLGetBySiteExternalReferenceCodePageRule()
 		throws Exception {
 
 		Assert.assertTrue(true);
 	}
 
 	@Test
-	public void testGraphQLGetSiteSiteByExternalReferenceCodePageRuleNotFound()
+	public void testGraphQLGetBySiteExternalReferenceCodePageRuleNotFound()
 		throws Exception {
 
 		Assert.assertTrue(true);
 	}
 
 	@Test
-	public void testPatchSiteSiteByExternalReferenceCodePageRule()
+	public void testPatchBySiteExternalReferenceCodePageRule()
 		throws Exception {
 
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodePageRule()
-		throws Exception {
-
+	public void testPutBySiteExternalReferenceCodePageRule() throws Exception {
 		Assert.assertTrue(false);
 	}
 

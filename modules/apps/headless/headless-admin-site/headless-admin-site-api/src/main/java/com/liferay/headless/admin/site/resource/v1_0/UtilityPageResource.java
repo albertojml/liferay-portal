@@ -48,49 +48,49 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface UtilityPageResource {
 
-	public Page<UtilityPage> getSiteSiteByExternalReferenceCodeUtilityPagesPage(
+	public Page<UtilityPage> getBySiteExternalReferenceCodeUtilityPagesPage(
 			String siteExternalReferenceCode, String search,
 			com.liferay.portal.vulcan.aggregation.Aggregation aggregation,
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public UtilityPage postSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage postBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode, UtilityPage utilityPage)
 		throws Exception;
 
 	public Page<com.liferay.portal.vulcan.permission.Permission>
-			getSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage(
+			getBySiteExternalReferenceCodeUtilityPagePermissionsPage(
 				String siteExternalReferenceCode, String roleNames)
 		throws Exception;
 
 	public Page<com.liferay.portal.vulcan.permission.Permission>
-			putSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage(
+			putBySiteExternalReferenceCodeUtilityPagePermissionsPage(
 				String siteExternalReferenceCode,
 				com.liferay.portal.vulcan.permission.Permission[] permissions)
 		throws Exception;
 
-	public void deleteSiteSiteByExternalReferenceCodeUtilityPage(
+	public void deleteBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode)
 		throws Exception;
 
-	public UtilityPage getSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage getBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode)
 		throws Exception;
 
-	public UtilityPage patchSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage patchBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode, UtilityPage utilityPage)
 		throws Exception;
 
-	public UtilityPage putSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage putBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode, UtilityPage utilityPage)
 		throws Exception;
 
 	public ContentPageSpecification
-			postSiteSiteByExternalReferenceCodeUtilityPagePageSpecification(
+			postBySiteExternalReferenceCodeUtilityPagePageSpecification(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode,
 				ContentPageSpecification contentPageSpecification)

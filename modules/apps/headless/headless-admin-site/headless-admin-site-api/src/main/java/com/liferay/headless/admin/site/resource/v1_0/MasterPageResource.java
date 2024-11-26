@@ -48,49 +48,49 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface MasterPageResource {
 
-	public Page<MasterPage> getSiteSiteByExternalReferenceCodeMasterPagesPage(
+	public Page<MasterPage> getBySiteExternalReferenceCodeMasterPagesPage(
 			String siteExternalReferenceCode, String search,
 			com.liferay.portal.vulcan.aggregation.Aggregation aggregation,
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public MasterPage postSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage postBySiteExternalReferenceCodeMasterPage(
 			String siteExternalReferenceCode, MasterPage masterPage)
 		throws Exception;
 
 	public Page<com.liferay.portal.vulcan.permission.Permission>
-			getSiteSiteByExternalReferenceCodeMasterPagePermissionsPage(
+			getBySiteExternalReferenceCodeMasterPagePermissionsPage(
 				String siteExternalReferenceCode, String roleNames)
 		throws Exception;
 
 	public Page<com.liferay.portal.vulcan.permission.Permission>
-			putSiteSiteByExternalReferenceCodeMasterPagePermissionsPage(
+			putBySiteExternalReferenceCodeMasterPagePermissionsPage(
 				String siteExternalReferenceCode,
 				com.liferay.portal.vulcan.permission.Permission[] permissions)
 		throws Exception;
 
-	public void deleteSiteSiteByExternalReferenceCodeMasterPage(
+	public void deleteBySiteExternalReferenceCodeMasterPage(
 			String siteExternalReferenceCode,
 			String masterPageExternalReferenceCode)
 		throws Exception;
 
-	public MasterPage getSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage getBySiteExternalReferenceCodeMasterPage(
 			String siteExternalReferenceCode,
 			String masterPageExternalReferenceCode)
 		throws Exception;
 
-	public MasterPage patchSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage patchBySiteExternalReferenceCodeMasterPage(
 			String siteExternalReferenceCode,
 			String masterPageExternalReferenceCode, MasterPage masterPage)
 		throws Exception;
 
-	public MasterPage putSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage putBySiteExternalReferenceCodeMasterPage(
 			String siteExternalReferenceCode,
 			String masterPageExternalReferenceCode, MasterPage masterPage)
 		throws Exception;
 
 	public ContentPageSpecification
-			postSiteSiteByExternalReferenceCodeMasterPagePageSpecification(
+			postBySiteExternalReferenceCodeMasterPagePageSpecification(
 				String siteExternalReferenceCode,
 				String masterPageExternalReferenceCode,
 				ContentPageSpecification contentPageSpecification)

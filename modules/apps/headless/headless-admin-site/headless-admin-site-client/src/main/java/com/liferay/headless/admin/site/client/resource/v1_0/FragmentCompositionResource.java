@@ -35,75 +35,75 @@ public interface FragmentCompositionResource {
 	}
 
 	public Page<FragmentComposition>
-			getSiteSiteByExternalReferenceCodeFragmentCompositionsPage(
+			getBySiteExternalReferenceCodeFragmentCompositionsPage(
 				String siteExternalReferenceCode, String search,
 				String filterString, Pagination pagination, String sortString)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodeFragmentCompositionsPageHttpResponse(
+			getBySiteExternalReferenceCodeFragmentCompositionsPageHttpResponse(
 				String siteExternalReferenceCode, String search,
 				String filterString, Pagination pagination, String sortString)
 		throws Exception;
 
 	public FragmentComposition
-			postSiteSiteByExternalReferenceCodeFragmentComposition(
+			postBySiteExternalReferenceCodeFragmentComposition(
 				String siteExternalReferenceCode, Boolean saveInlineContent,
 				Boolean saveMapping, FragmentComposition fragmentComposition)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			postSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+			postBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 				String siteExternalReferenceCode, Boolean saveInlineContent,
 				Boolean saveMapping, FragmentComposition fragmentComposition)
 		throws Exception;
 
-	public void deleteSiteSiteByExternalReferenceCodeFragmentComposition(
+	public void deleteBySiteExternalReferenceCodeFragmentComposition(
 			String siteExternalReferenceCode,
 			String fragmentCompositionExternalReferenceCode)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			deleteSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+			deleteBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode)
 		throws Exception;
 
 	public FragmentComposition
-			getSiteSiteByExternalReferenceCodeFragmentComposition(
+			getBySiteExternalReferenceCodeFragmentComposition(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+			getBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode)
 		throws Exception;
 
 	public FragmentComposition
-			patchSiteSiteByExternalReferenceCodeFragmentComposition(
+			patchBySiteExternalReferenceCodeFragmentComposition(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode,
 				FragmentComposition fragmentComposition)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			patchSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+			patchBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode,
 				FragmentComposition fragmentComposition)
 		throws Exception;
 
 	public FragmentComposition
-			putSiteSiteByExternalReferenceCodeFragmentComposition(
+			putBySiteExternalReferenceCodeFragmentComposition(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode,
 				FragmentComposition fragmentComposition)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			putSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+			putBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode,
 				FragmentComposition fragmentComposition)
@@ -219,14 +219,14 @@ public interface FragmentCompositionResource {
 		implements FragmentCompositionResource {
 
 		public Page<FragmentComposition>
-				getSiteSiteByExternalReferenceCodeFragmentCompositionsPage(
+				getBySiteExternalReferenceCodeFragmentCompositionsPage(
 					String siteExternalReferenceCode, String search,
 					String filterString, Pagination pagination,
 					String sortString)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodeFragmentCompositionsPageHttpResponse(
+				getBySiteExternalReferenceCodeFragmentCompositionsPageHttpResponse(
 					siteExternalReferenceCode, search, filterString, pagination,
 					sortString);
 
@@ -290,7 +290,7 @@ public interface FragmentCompositionResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodeFragmentCompositionsPageHttpResponse(
+				getBySiteExternalReferenceCodeFragmentCompositionsPageHttpResponse(
 					String siteExternalReferenceCode, String search,
 					String filterString, Pagination pagination,
 					String sortString)
@@ -351,14 +351,14 @@ public interface FragmentCompositionResource {
 		}
 
 		public FragmentComposition
-				postSiteSiteByExternalReferenceCodeFragmentComposition(
+				postBySiteExternalReferenceCodeFragmentComposition(
 					String siteExternalReferenceCode, Boolean saveInlineContent,
 					Boolean saveMapping,
 					FragmentComposition fragmentComposition)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+				postBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 					siteExternalReferenceCode, saveInlineContent, saveMapping,
 					fragmentComposition);
 
@@ -422,7 +422,7 @@ public interface FragmentCompositionResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				postSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+				postBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 					String siteExternalReferenceCode, Boolean saveInlineContent,
 					Boolean saveMapping,
 					FragmentComposition fragmentComposition)
@@ -476,13 +476,13 @@ public interface FragmentCompositionResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteSiteSiteByExternalReferenceCodeFragmentComposition(
+		public void deleteBySiteExternalReferenceCodeFragmentComposition(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				deleteSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+				deleteBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 					siteExternalReferenceCode,
 					fragmentCompositionExternalReferenceCode);
 
@@ -546,7 +546,7 @@ public interface FragmentCompositionResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				deleteSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+				deleteBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 					String siteExternalReferenceCode,
 					String fragmentCompositionExternalReferenceCode)
 			throws Exception {
@@ -590,13 +590,13 @@ public interface FragmentCompositionResource {
 		}
 
 		public FragmentComposition
-				getSiteSiteByExternalReferenceCodeFragmentComposition(
+				getBySiteExternalReferenceCodeFragmentComposition(
 					String siteExternalReferenceCode,
 					String fragmentCompositionExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+				getBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 					siteExternalReferenceCode,
 					fragmentCompositionExternalReferenceCode);
 
@@ -660,7 +660,7 @@ public interface FragmentCompositionResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+				getBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 					String siteExternalReferenceCode,
 					String fragmentCompositionExternalReferenceCode)
 			throws Exception {
@@ -704,14 +704,14 @@ public interface FragmentCompositionResource {
 		}
 
 		public FragmentComposition
-				patchSiteSiteByExternalReferenceCodeFragmentComposition(
+				patchBySiteExternalReferenceCodeFragmentComposition(
 					String siteExternalReferenceCode,
 					String fragmentCompositionExternalReferenceCode,
 					FragmentComposition fragmentComposition)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				patchSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+				patchBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 					siteExternalReferenceCode,
 					fragmentCompositionExternalReferenceCode,
 					fragmentComposition);
@@ -776,7 +776,7 @@ public interface FragmentCompositionResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				patchSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+				patchBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 					String siteExternalReferenceCode,
 					String fragmentCompositionExternalReferenceCode,
 					FragmentComposition fragmentComposition)
@@ -824,14 +824,14 @@ public interface FragmentCompositionResource {
 		}
 
 		public FragmentComposition
-				putSiteSiteByExternalReferenceCodeFragmentComposition(
+				putBySiteExternalReferenceCodeFragmentComposition(
 					String siteExternalReferenceCode,
 					String fragmentCompositionExternalReferenceCode,
 					FragmentComposition fragmentComposition)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				putSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+				putBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 					siteExternalReferenceCode,
 					fragmentCompositionExternalReferenceCode,
 					fragmentComposition);
@@ -896,7 +896,7 @@ public interface FragmentCompositionResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				putSiteSiteByExternalReferenceCodeFragmentCompositionHttpResponse(
+				putBySiteExternalReferenceCodeFragmentCompositionHttpResponse(
 					String siteExternalReferenceCode,
 					String fragmentCompositionExternalReferenceCode,
 					FragmentComposition fragmentComposition)

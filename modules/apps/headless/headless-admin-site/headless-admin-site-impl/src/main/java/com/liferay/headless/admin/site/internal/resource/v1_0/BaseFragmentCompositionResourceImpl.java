@@ -52,6 +52,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -128,7 +129,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<FragmentComposition>
-			getSiteSiteByExternalReferenceCodeFragmentCompositionsPage(
+			getBySiteExternalReferenceCodeFragmentCompositionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -183,7 +184,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public FragmentComposition
-			postSiteSiteByExternalReferenceCodeFragmentComposition(
+			postBySiteExternalReferenceCodeFragmentComposition(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -237,7 +238,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodeFragmentComposition(
+	public void deleteBySiteExternalReferenceCodeFragmentComposition(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -295,7 +296,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public FragmentComposition
-			getSiteSiteByExternalReferenceCodeFragmentComposition(
+			getBySiteExternalReferenceCodeFragmentComposition(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -358,7 +359,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public FragmentComposition
-			patchSiteSiteByExternalReferenceCodeFragmentComposition(
+			patchBySiteExternalReferenceCodeFragmentComposition(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -373,7 +374,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 		throws Exception {
 
 		FragmentComposition existingFragmentComposition =
-			getSiteSiteByExternalReferenceCodeFragmentComposition(
+			getBySiteExternalReferenceCodeFragmentComposition(
 				siteExternalReferenceCode,
 				fragmentCompositionExternalReferenceCode);
 
@@ -422,7 +423,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 
 		preparePatch(fragmentComposition, existingFragmentComposition);
 
-		return putSiteSiteByExternalReferenceCodeFragmentComposition(
+		return putBySiteExternalReferenceCodeFragmentComposition(
 			siteExternalReferenceCode, fragmentCompositionExternalReferenceCode,
 			existingFragmentComposition);
 	}
@@ -474,7 +475,7 @@ public abstract class BaseFragmentCompositionResourceImpl
 	@javax.ws.rs.PUT
 	@Override
 	public FragmentComposition
-			putSiteSiteByExternalReferenceCodeFragmentComposition(
+			putBySiteExternalReferenceCodeFragmentComposition(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -549,8 +550,10 @@ public abstract class BaseFragmentCompositionResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+					{
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: []");
+					}
 	}
 
 	@Override

@@ -22,7 +22,6 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.odata.filter.ExpressionConvert;
@@ -129,7 +128,7 @@ public abstract class BaseSitePageResourceImpl
 	@javax.ws.rs.Path("/sites/{siteExternalReferenceCode}/site-pages")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<SitePage> getSiteSiteByExternalReferenceCodeSitePagesPage(
+	public Page<SitePage> getBySiteExternalReferenceCodeSitePagesPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -171,7 +170,7 @@ public abstract class BaseSitePageResourceImpl
 	@javax.ws.rs.POST
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public SitePage postByExternalReferenceCodeSitePage(
+	public SitePage postBySiteExternalReferenceCodeSitePage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -217,7 +216,7 @@ public abstract class BaseSitePageResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<Permission>
-			getSiteSiteByExternalReferenceCodeSitePagePermissionsPage(
+			getBySiteExternalReferenceCodeSitePagePermissionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -254,7 +253,7 @@ public abstract class BaseSitePageResourceImpl
 	@javax.ws.rs.PUT
 	@Override
 	public Page<Permission>
-			putSiteSiteByExternalReferenceCodeSitePagePermissionsPage(
+			putBySiteExternalReferenceCodeSitePagePermissionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -294,7 +293,7 @@ public abstract class BaseSitePageResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodeSitePage(
+	public void deleteBySiteExternalReferenceCodeSitePage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -347,7 +346,7 @@ public abstract class BaseSitePageResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public SitePage getSiteSiteByExternalReferenceCodeSitePage(
+	public SitePage getBySiteExternalReferenceCodeSitePage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -403,7 +402,7 @@ public abstract class BaseSitePageResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public SitePage patchSiteSiteByExternalReferenceCodeSitePage(
+	public SitePage patchBySiteExternalReferenceCodeSitePage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -415,7 +414,7 @@ public abstract class BaseSitePageResourceImpl
 			SitePage sitePage)
 		throws Exception {
 
-		SitePage existingSitePage = getSiteSiteByExternalReferenceCodeSitePage(
+		SitePage existingSitePage = getBySiteExternalReferenceCodeSitePage(
 			siteExternalReferenceCode, sitePageExternalReferenceCode);
 
 		if (sitePage.getCreatorExternalReferenceCode() != null) {
@@ -470,7 +469,7 @@ public abstract class BaseSitePageResourceImpl
 
 		preparePatch(sitePage, existingSitePage);
 
-		return putSiteSiteByExternalReferenceCodeSitePage(
+		return putBySiteExternalReferenceCodeSitePage(
 			siteExternalReferenceCode, sitePageExternalReferenceCode,
 			existingSitePage);
 	}
@@ -517,7 +516,7 @@ public abstract class BaseSitePageResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@javax.ws.rs.PUT
 	@Override
-	public SitePage putSiteSiteByExternalReferenceCodeSitePage(
+	public SitePage putBySiteExternalReferenceCodeSitePage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -575,7 +574,7 @@ public abstract class BaseSitePageResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ContentPageSpecification
-			postSiteSiteByExternalReferenceCodeSitePagePageSpecification(
+			postBySiteExternalReferenceCodeSitePagePageSpecification(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -694,44 +693,8 @@ public abstract class BaseSitePageResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeFunction<SitePage, SitePage, Exception> sitePageUnsafeFunction =
-			null;
-
-		String createStrategy = (String)parameters.getOrDefault(
-			"createStrategy", "INSERT");
-
-		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			if (parameters.containsKey("siteExternalReferenceCode")) {
-				sitePageUnsafeFunction =
-					sitePage -> postByExternalReferenceCodeSitePage(
-						(String)parameters.get("siteExternalReferenceCode"),
-						sitePage);
-			}
-			else {
-				throw new NotSupportedException(
-					"One of the following parameters must be specified: [siteExternalReferenceCode]");
-			}
-		}
-
-		if (sitePageUnsafeFunction == null) {
-			throw new NotSupportedException(
-				"Create strategy \"" + createStrategy +
-					"\" is not supported for SitePage");
-		}
-
-		if (contextBatchUnsafeBiConsumer != null) {
-			contextBatchUnsafeBiConsumer.accept(
-				sitePages, sitePageUnsafeFunction);
-		}
-		else if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(
-				sitePages, sitePageUnsafeFunction::apply);
-		}
-		else {
-			for (SitePage sitePage : sitePages) {
-				sitePageUnsafeFunction.apply(sitePage);
-			}
-		}
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Override
@@ -745,7 +708,7 @@ public abstract class BaseSitePageResourceImpl
 	}
 
 	public Set<String> getAvailableCreateStrategies() {
-		return SetUtil.fromArray("INSERT");
+		return SetUtil.fromArray();
 	}
 
 	public Set<String> getAvailableUpdateStrategies() {
@@ -781,8 +744,10 @@ public abstract class BaseSitePageResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+					{
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: []");
+					}
 	}
 
 	@Override

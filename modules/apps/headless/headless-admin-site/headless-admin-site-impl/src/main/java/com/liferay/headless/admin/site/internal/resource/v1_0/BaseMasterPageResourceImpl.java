@@ -54,6 +54,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -127,7 +128,7 @@ public abstract class BaseMasterPageResourceImpl
 	@javax.ws.rs.Path("/sites/{siteExternalReferenceCode}/master-pages")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<MasterPage> getSiteSiteByExternalReferenceCodeMasterPagesPage(
+	public Page<MasterPage> getBySiteExternalReferenceCodeMasterPagesPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -169,7 +170,7 @@ public abstract class BaseMasterPageResourceImpl
 	@javax.ws.rs.POST
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public MasterPage postSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage postBySiteExternalReferenceCodeMasterPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -215,7 +216,7 @@ public abstract class BaseMasterPageResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<Permission>
-			getSiteSiteByExternalReferenceCodeMasterPagePermissionsPage(
+			getBySiteExternalReferenceCodeMasterPagePermissionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -252,7 +253,7 @@ public abstract class BaseMasterPageResourceImpl
 	@javax.ws.rs.PUT
 	@Override
 	public Page<Permission>
-			putSiteSiteByExternalReferenceCodeMasterPagePermissionsPage(
+			putBySiteExternalReferenceCodeMasterPagePermissionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -292,7 +293,7 @@ public abstract class BaseMasterPageResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodeMasterPage(
+	public void deleteBySiteExternalReferenceCodeMasterPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -345,7 +346,7 @@ public abstract class BaseMasterPageResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public MasterPage getSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage getBySiteExternalReferenceCodeMasterPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -401,7 +402,7 @@ public abstract class BaseMasterPageResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public MasterPage patchSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage patchBySiteExternalReferenceCodeMasterPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -414,7 +415,7 @@ public abstract class BaseMasterPageResourceImpl
 		throws Exception {
 
 		MasterPage existingMasterPage =
-			getSiteSiteByExternalReferenceCodeMasterPage(
+			getBySiteExternalReferenceCodeMasterPage(
 				siteExternalReferenceCode, masterPageExternalReferenceCode);
 
 		if (masterPage.getCreatorExternalReferenceCode() != null) {
@@ -458,7 +459,7 @@ public abstract class BaseMasterPageResourceImpl
 
 		preparePatch(masterPage, existingMasterPage);
 
-		return putSiteSiteByExternalReferenceCodeMasterPage(
+		return putBySiteExternalReferenceCodeMasterPage(
 			siteExternalReferenceCode, masterPageExternalReferenceCode,
 			existingMasterPage);
 	}
@@ -505,7 +506,7 @@ public abstract class BaseMasterPageResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@javax.ws.rs.PUT
 	@Override
-	public MasterPage putSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage putBySiteExternalReferenceCodeMasterPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -563,7 +564,7 @@ public abstract class BaseMasterPageResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public ContentPageSpecification
-			postSiteSiteByExternalReferenceCodeMasterPagePageSpecification(
+			postBySiteExternalReferenceCodeMasterPagePageSpecification(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -734,8 +735,10 @@ public abstract class BaseMasterPageResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+					{
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: []");
+					}
 	}
 
 	@Override

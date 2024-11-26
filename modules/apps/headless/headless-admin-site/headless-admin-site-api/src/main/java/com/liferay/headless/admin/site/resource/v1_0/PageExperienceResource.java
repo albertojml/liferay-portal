@@ -46,36 +46,36 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface PageExperienceResource {
 
-	public void deleteSiteSiteByExternalReferenceCodePageExperience(
+	public void deleteBySiteExternalReferenceCodePageExperience(
 			String siteExternalReferenceCode,
 			String pageExperienceExternalReferenceCode)
 		throws Exception;
 
-	public PageExperience getSiteSiteByExternalReferenceCodePageExperience(
+	public PageExperience getBySiteExternalReferenceCodePageExperience(
 			String siteExternalReferenceCode,
 			String pageExperienceExternalReferenceCode)
 		throws Exception;
 
-	public PageExperience patchSiteSiteByExternalReferenceCodePageExperience(
+	public PageExperience patchBySiteExternalReferenceCodePageExperience(
 			String siteExternalReferenceCode,
 			String pageExperienceExternalReferenceCode,
 			PageExperience pageExperience)
 		throws Exception;
 
-	public PageExperience putSiteSiteByExternalReferenceCodePageExperience(
+	public PageExperience putBySiteExternalReferenceCodePageExperience(
 			String siteExternalReferenceCode,
 			String pageExperienceExternalReferenceCode,
 			PageExperience pageExperience)
 		throws Exception;
 
 	public Page<PageExperience>
-			getSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage(
+			getBySiteExternalReferenceCodePageSpecificationPageExperiencesPage(
 				String siteExternalReferenceCode,
 				String pageSpecificationExternalReferenceCode)
 		throws Exception;
 
 	public PageExperience
-			postSiteSiteByExternalReferenceCodePageSpecificationPageExperience(
+			postBySiteExternalReferenceCodePageSpecificationPageExperience(
 				String siteExternalReferenceCode,
 				String pageSpecificationExternalReferenceCode,
 				PageExperience pageExperience)

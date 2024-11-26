@@ -199,21 +199,21 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage()
 		throws Exception {
 
 		String siteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getSiteExternalReferenceCode();
 		String irrelevantSiteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getIrrelevantSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getIrrelevantSiteExternalReferenceCode();
 		String displayPageTemplateFolderExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getDisplayPageTemplateFolderExternalReferenceCode();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getDisplayPageTemplateFolderExternalReferenceCode();
 		String irrelevantDisplayPageTemplateFolderExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getIrrelevantDisplayPageTemplateFolderExternalReferenceCode();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getIrrelevantDisplayPageTemplateFolderExternalReferenceCode();
 
 		Page<DisplayPageTemplate> page =
 			displayPageTemplateResource.
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
+				getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
 					siteExternalReferenceCode,
 					displayPageTemplateFolderExternalReferenceCode, null);
 
@@ -224,14 +224,14 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 				null)) {
 
 			DisplayPageTemplate irrelevantDisplayPageTemplate =
-				testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_addDisplayPageTemplate(
+				testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_addDisplayPageTemplate(
 					irrelevantSiteExternalReferenceCode,
 					irrelevantDisplayPageTemplateFolderExternalReferenceCode,
 					randomIrrelevantDisplayPageTemplate());
 
 			page =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
 						irrelevantSiteExternalReferenceCode,
 						irrelevantDisplayPageTemplateFolderExternalReferenceCode,
 						null);
@@ -243,26 +243,26 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 				(List<DisplayPageTemplate>)page.getItems());
 			assertValid(
 				page,
-				testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getExpectedActions(
+				testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getExpectedActions(
 					irrelevantSiteExternalReferenceCode,
 					irrelevantDisplayPageTemplateFolderExternalReferenceCode));
 		}
 
 		DisplayPageTemplate displayPageTemplate1 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode,
 				displayPageTemplateFolderExternalReferenceCode,
 				randomDisplayPageTemplate());
 
 		DisplayPageTemplate displayPageTemplate2 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode,
 				displayPageTemplateFolderExternalReferenceCode,
 				randomDisplayPageTemplate());
 
 		page =
 			displayPageTemplateResource.
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
+				getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
 					siteExternalReferenceCode,
 					displayPageTemplateFolderExternalReferenceCode, null);
 
@@ -274,13 +274,13 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 			displayPageTemplate2, (List<DisplayPageTemplate>)page.getItems());
 		assertValid(
 			page,
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getExpectedActions(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getExpectedActions(
 				siteExternalReferenceCode,
 				displayPageTemplateFolderExternalReferenceCode));
 	}
 
 	protected Map<String, Map<String, String>>
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getExpectedActions(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getExpectedActions(
 				String siteExternalReferenceCode,
 				String displayPageTemplateFolderExternalReferenceCode)
 		throws Exception {
@@ -291,7 +291,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected DisplayPageTemplate
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_addDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				String displayPageTemplateFolderExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
@@ -302,7 +302,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getSiteExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -310,14 +310,14 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getIrrelevantSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getIrrelevantSiteExternalReferenceCode()
 		throws Exception {
 
 		return null;
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getDisplayPageTemplateFolderExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getDisplayPageTemplateFolderExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -325,21 +325,21 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getIrrelevantDisplayPageTemplateFolderExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage_getIrrelevantDisplayPageTemplateFolderExternalReferenceCode()
 		throws Exception {
 
 		return null;
 	}
 
 	@Test
-	public void testPostSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate()
+	public void testPostBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate()
 		throws Exception {
 
 		DisplayPageTemplate randomDisplayPageTemplate =
 			randomDisplayPageTemplate();
 
 		DisplayPageTemplate postDisplayPageTemplate =
-			testPostSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate_addDisplayPageTemplate(
+			testPostBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate_addDisplayPageTemplate(
 				randomDisplayPageTemplate);
 
 		assertEquals(randomDisplayPageTemplate, postDisplayPageTemplate);
@@ -347,7 +347,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected DisplayPageTemplate
-			testPostSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate_addDisplayPageTemplate(
+			testPostBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate_addDisplayPageTemplate(
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception {
 
@@ -356,17 +356,17 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage()
 		throws Exception {
 
 		String siteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode();
 		String irrelevantSiteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getIrrelevantSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getIrrelevantSiteExternalReferenceCode();
 
 		Page<DisplayPageTemplate> page =
 			displayPageTemplateResource.
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+				getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 					siteExternalReferenceCode, null, null, null,
 					Pagination.of(1, 10), null);
 
@@ -374,13 +374,13 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 
 		if (irrelevantSiteExternalReferenceCode != null) {
 			DisplayPageTemplate irrelevantDisplayPageTemplate =
-				testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+				testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 					irrelevantSiteExternalReferenceCode,
 					randomIrrelevantDisplayPageTemplate());
 
 			page =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						irrelevantSiteExternalReferenceCode, null, null, null,
 						Pagination.of(1, (int)totalCount + 1), null);
 
@@ -391,21 +391,21 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 				(List<DisplayPageTemplate>)page.getItems());
 			assertValid(
 				page,
-				testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getExpectedActions(
+				testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getExpectedActions(
 					irrelevantSiteExternalReferenceCode));
 		}
 
 		DisplayPageTemplate displayPageTemplate1 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode, randomDisplayPageTemplate());
 
 		DisplayPageTemplate displayPageTemplate2 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode, randomDisplayPageTemplate());
 
 		page =
 			displayPageTemplateResource.
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+				getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 					siteExternalReferenceCode, null, null, null,
 					Pagination.of(1, 10), null);
 
@@ -417,12 +417,12 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 			displayPageTemplate2, (List<DisplayPageTemplate>)page.getItems());
 		assertValid(
 			page,
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getExpectedActions(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getExpectedActions(
 				siteExternalReferenceCode));
 	}
 
 	protected Map<String, Map<String, String>>
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getExpectedActions(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getExpectedActions(
 				String siteExternalReferenceCode)
 		throws Exception {
 
@@ -432,7 +432,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithFilterDateTimeEquals()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithFilterDateTimeEquals()
 		throws Exception {
 
 		List<EntityField> entityFields = getEntityFields(
@@ -443,18 +443,18 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 		}
 
 		String siteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode();
 
 		DisplayPageTemplate displayPageTemplate1 = randomDisplayPageTemplate();
 
 		displayPageTemplate1 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode, displayPageTemplate1);
 
 		for (EntityField entityField : entityFields) {
 			Page<DisplayPageTemplate> page =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						siteExternalReferenceCode, null, null,
 						getFilterString(
 							entityField, "between", displayPageTemplate1),
@@ -467,39 +467,39 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithFilterDoubleEquals()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithFilterDoubleEquals()
 		throws Exception {
 
-		testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithFilter(
+		testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithFilter(
 			"eq", EntityField.Type.DOUBLE);
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithFilterStringContains()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithFilterStringContains()
 		throws Exception {
 
-		testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithFilter(
+		testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithFilter(
 			"contains", EntityField.Type.STRING);
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithFilterStringEquals()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithFilterStringEquals()
 		throws Exception {
 
-		testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithFilter(
+		testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithFilter(
 			"eq", EntityField.Type.STRING);
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithFilterStringStartsWith()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithFilterStringStartsWith()
 		throws Exception {
 
-		testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithFilter(
+		testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithFilter(
 			"startswith", EntityField.Type.STRING);
 	}
 
 	protected void
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithFilter(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithFilter(
 				String operator, EntityField.Type type)
 		throws Exception {
 
@@ -510,21 +510,21 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 		}
 
 		String siteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode();
 
 		DisplayPageTemplate displayPageTemplate1 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode, randomDisplayPageTemplate());
 
 		@SuppressWarnings("PMD.UnusedLocalVariable")
 		DisplayPageTemplate displayPageTemplate2 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode, randomDisplayPageTemplate());
 
 		for (EntityField entityField : entityFields) {
 			Page<DisplayPageTemplate> page =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						siteExternalReferenceCode, null, null,
 						getFilterString(
 							entityField, operator, displayPageTemplate1),
@@ -537,30 +537,30 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithPagination()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithPagination()
 		throws Exception {
 
 		String siteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode();
 
 		Page<DisplayPageTemplate> displayPageTemplatePage =
 			displayPageTemplateResource.
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+				getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 					siteExternalReferenceCode, null, null, null, null, null);
 
 		int totalCount = GetterUtil.getInteger(
 			displayPageTemplatePage.getTotalCount());
 
 		DisplayPageTemplate displayPageTemplate1 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode, randomDisplayPageTemplate());
 
 		DisplayPageTemplate displayPageTemplate2 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode, randomDisplayPageTemplate());
 
 		DisplayPageTemplate displayPageTemplate3 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode, randomDisplayPageTemplate());
 
 		// See com.liferay.portal.vulcan.internal.configuration.HeadlessAPICompanyConfiguration#pageSizeLimit
@@ -570,7 +570,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 		if (totalCount >= (pageSizeLimit - 2)) {
 			Page<DisplayPageTemplate> page1 =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						siteExternalReferenceCode, null, null, null,
 						Pagination.of(
 							(int)Math.ceil((totalCount + 1.0) / pageSizeLimit),
@@ -585,7 +585,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 
 			Page<DisplayPageTemplate> page2 =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						siteExternalReferenceCode, null, null, null,
 						Pagination.of(
 							(int)Math.ceil((totalCount + 2.0) / pageSizeLimit),
@@ -598,7 +598,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 
 			Page<DisplayPageTemplate> page3 =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						siteExternalReferenceCode, null, null, null,
 						Pagination.of(
 							(int)Math.ceil((totalCount + 3.0) / pageSizeLimit),
@@ -612,7 +612,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 		else {
 			Page<DisplayPageTemplate> page1 =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						siteExternalReferenceCode, null, null, null,
 						Pagination.of(1, totalCount + 2), null);
 
@@ -625,7 +625,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 
 			Page<DisplayPageTemplate> page2 =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						siteExternalReferenceCode, null, null, null,
 						Pagination.of(2, totalCount + 2), null);
 
@@ -640,7 +640,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 
 			Page<DisplayPageTemplate> page3 =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						siteExternalReferenceCode, null, null, null,
 						Pagination.of(1, (int)totalCount + 3), null);
 
@@ -657,10 +657,10 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithSortDateTime()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithSortDateTime()
 		throws Exception {
 
-		testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithSort(
+		testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithSort(
 			EntityField.Type.DATE_TIME,
 			(entityField, displayPageTemplate1, displayPageTemplate2) -> {
 				BeanTestUtil.setProperty(
@@ -670,10 +670,10 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithSortDouble()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithSortDouble()
 		throws Exception {
 
-		testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithSort(
+		testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithSort(
 			EntityField.Type.DOUBLE,
 			(entityField, displayPageTemplate1, displayPageTemplate2) -> {
 				BeanTestUtil.setProperty(
@@ -684,10 +684,10 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithSortInteger()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithSortInteger()
 		throws Exception {
 
-		testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithSort(
+		testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithSort(
 			EntityField.Type.INTEGER,
 			(entityField, displayPageTemplate1, displayPageTemplate2) -> {
 				BeanTestUtil.setProperty(
@@ -698,10 +698,10 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithSortString()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithSortString()
 		throws Exception {
 
-		testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithSort(
+		testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithSort(
 			EntityField.Type.STRING,
 			(entityField, displayPageTemplate1, displayPageTemplate2) -> {
 				Class<?> clazz = displayPageTemplate1.getClass();
@@ -751,7 +751,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected void
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPageWithSort(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPageWithSort(
 				EntityField.Type type,
 				UnsafeTriConsumer
 					<EntityField, DisplayPageTemplate, DisplayPageTemplate,
@@ -765,7 +765,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 		}
 
 		String siteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode();
 
 		DisplayPageTemplate displayPageTemplate1 = randomDisplayPageTemplate();
 		DisplayPageTemplate displayPageTemplate2 = randomDisplayPageTemplate();
@@ -776,22 +776,22 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 		}
 
 		displayPageTemplate1 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode, displayPageTemplate1);
 
 		displayPageTemplate2 =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				siteExternalReferenceCode, displayPageTemplate2);
 
 		Page<DisplayPageTemplate> page =
 			displayPageTemplateResource.
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+				getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 					siteExternalReferenceCode, null, null, null, null, null);
 
 		for (EntityField entityField : entityFields) {
 			Page<DisplayPageTemplate> ascPage =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						siteExternalReferenceCode, null, null, null,
 						Pagination.of(1, (int)page.getTotalCount() + 1),
 						entityField.getName() + ":asc");
@@ -805,7 +805,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 
 			Page<DisplayPageTemplate> descPage =
 				displayPageTemplateResource.
-					getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+					getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 						siteExternalReferenceCode, null, null, null,
 						Pagination.of(1, (int)page.getTotalCount() + 1),
 						entityField.getName() + ":desc");
@@ -820,7 +820,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected DisplayPageTemplate
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_addDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception {
@@ -830,7 +830,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getSiteExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -838,21 +838,21 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage_getIrrelevantSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatesPage_getIrrelevantSiteExternalReferenceCode()
 		throws Exception {
 
 		return null;
 	}
 
 	@Test
-	public void testPostSiteSiteByExternalReferenceCodeDisplayPageTemplate()
+	public void testPostBySiteExternalReferenceCodeDisplayPageTemplate()
 		throws Exception {
 
 		DisplayPageTemplate randomDisplayPageTemplate =
 			randomDisplayPageTemplate();
 
 		DisplayPageTemplate postDisplayPageTemplate =
-			testPostSiteSiteByExternalReferenceCodeDisplayPageTemplate_addDisplayPageTemplate(
+			testPostBySiteExternalReferenceCodeDisplayPageTemplate_addDisplayPageTemplate(
 				randomDisplayPageTemplate);
 
 		assertEquals(randomDisplayPageTemplate, postDisplayPageTemplate);
@@ -860,7 +860,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected DisplayPageTemplate
-			testPostSiteSiteByExternalReferenceCodeDisplayPageTemplate_addDisplayPageTemplate(
+			testPostBySiteExternalReferenceCodeDisplayPageTemplate_addDisplayPageTemplate(
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception {
 
@@ -869,22 +869,22 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage()
 		throws Exception {
 
 		DisplayPageTemplate postDisplayPageTemplate =
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage_addDisplayPageTemplate();
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage_addDisplayPageTemplate();
 
 		Page<Permission> page =
 			displayPageTemplateResource.
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage(
+				getBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage(
 					testGroup.getExternalReferenceCode(), RoleConstants.GUEST);
 
 		Assert.assertNotNull(page);
 	}
 
 	protected DisplayPageTemplate
-			testGetSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage_addDisplayPageTemplate()
+			testGetBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage_addDisplayPageTemplate()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -892,12 +892,12 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage()
+	public void testPutBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage()
 		throws Exception {
 
 		@SuppressWarnings("PMD.UnusedLocalVariable")
 		DisplayPageTemplate displayPageTemplate =
-			testPutSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage_addDisplayPageTemplate();
+			testPutBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage_addDisplayPageTemplate();
 
 		@SuppressWarnings("PMD.UnusedLocalVariable")
 		com.liferay.portal.kernel.model.Role role = RoleTestUtil.addRole(
@@ -906,7 +906,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 		assertHttpResponseStatusCode(
 			200,
 			displayPageTemplateResource.
-				putSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
+				putBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
 					null,
 					new Permission[] {
 						new Permission() {
@@ -920,7 +920,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 		assertHttpResponseStatusCode(
 			404,
 			displayPageTemplateResource.
-				putSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
+				putBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPageHttpResponse(
 					null,
 					new Permission[] {
 						new Permission() {
@@ -933,7 +933,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	protected DisplayPageTemplate
-			testPutSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage_addDisplayPageTemplate()
+			testPutBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage_addDisplayPageTemplate()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -941,42 +941,42 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	}
 
 	@Test
-	public void testDeleteSiteSiteByExternalReferenceCodeDisplayPageTemplate()
+	public void testDeleteBySiteExternalReferenceCodeDisplayPageTemplate()
 		throws Exception {
 
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplate()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplate()
 		throws Exception {
 
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testGraphQLGetSiteSiteByExternalReferenceCodeDisplayPageTemplate()
+	public void testGraphQLGetBySiteExternalReferenceCodeDisplayPageTemplate()
 		throws Exception {
 
 		Assert.assertTrue(true);
 	}
 
 	@Test
-	public void testGraphQLGetSiteSiteByExternalReferenceCodeDisplayPageTemplateNotFound()
+	public void testGraphQLGetBySiteExternalReferenceCodeDisplayPageTemplateNotFound()
 		throws Exception {
 
 		Assert.assertTrue(true);
 	}
 
 	@Test
-	public void testPatchSiteSiteByExternalReferenceCodeDisplayPageTemplate()
+	public void testPatchBySiteExternalReferenceCodeDisplayPageTemplate()
 		throws Exception {
 
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodeDisplayPageTemplate()
+	public void testPutBySiteExternalReferenceCodeDisplayPageTemplate()
 		throws Exception {
 
 		Assert.assertTrue(false);
@@ -1044,7 +1044,7 @@ public abstract class BaseDisplayPageTemplateResourceTestCase {
 	public SearchTestRule searchTestRule = new SearchTestRule();
 
 	@Test
-	public void testPostSiteSiteByExternalReferenceCodeDisplayPageTemplatePageSpecification()
+	public void testPostBySiteExternalReferenceCodeDisplayPageTemplatePageSpecification()
 		throws Exception {
 
 		Assert.assertTrue(true);

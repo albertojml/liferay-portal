@@ -187,63 +187,63 @@ public abstract class BasePageExperienceResourceTestCase {
 	}
 
 	@Test
-	public void testDeleteSiteSiteByExternalReferenceCodePageExperience()
+	public void testDeleteBySiteExternalReferenceCodePageExperience()
 		throws Exception {
 
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodePageExperience()
+	public void testGetBySiteExternalReferenceCodePageExperience()
 		throws Exception {
 
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testGraphQLGetSiteSiteByExternalReferenceCodePageExperience()
+	public void testGraphQLGetBySiteExternalReferenceCodePageExperience()
 		throws Exception {
 
 		Assert.assertTrue(true);
 	}
 
 	@Test
-	public void testGraphQLGetSiteSiteByExternalReferenceCodePageExperienceNotFound()
+	public void testGraphQLGetBySiteExternalReferenceCodePageExperienceNotFound()
 		throws Exception {
 
 		Assert.assertTrue(true);
 	}
 
 	@Test
-	public void testPatchSiteSiteByExternalReferenceCodePageExperience()
+	public void testPatchBySiteExternalReferenceCodePageExperience()
 		throws Exception {
 
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodePageExperience()
+	public void testPutBySiteExternalReferenceCodePageExperience()
 		throws Exception {
 
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage()
+	public void testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage()
 		throws Exception {
 
 		String siteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getSiteExternalReferenceCode();
 		String irrelevantSiteExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getIrrelevantSiteExternalReferenceCode();
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getIrrelevantSiteExternalReferenceCode();
 		String pageSpecificationExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getPageSpecificationExternalReferenceCode();
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getPageSpecificationExternalReferenceCode();
 		String irrelevantPageSpecificationExternalReferenceCode =
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getIrrelevantPageSpecificationExternalReferenceCode();
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getIrrelevantPageSpecificationExternalReferenceCode();
 
 		Page<PageExperience> page =
 			pageExperienceResource.
-				getSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage(
+				getBySiteExternalReferenceCodePageSpecificationPageExperiencesPage(
 					siteExternalReferenceCode,
 					pageSpecificationExternalReferenceCode);
 
@@ -253,14 +253,14 @@ public abstract class BasePageExperienceResourceTestCase {
 			(irrelevantPageSpecificationExternalReferenceCode != null)) {
 
 			PageExperience irrelevantPageExperience =
-				testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_addPageExperience(
+				testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_addPageExperience(
 					irrelevantSiteExternalReferenceCode,
 					irrelevantPageSpecificationExternalReferenceCode,
 					randomIrrelevantPageExperience());
 
 			page =
 				pageExperienceResource.
-					getSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage(
+					getBySiteExternalReferenceCodePageSpecificationPageExperiencesPage(
 						irrelevantSiteExternalReferenceCode,
 						irrelevantPageSpecificationExternalReferenceCode);
 
@@ -271,24 +271,24 @@ public abstract class BasePageExperienceResourceTestCase {
 				(List<PageExperience>)page.getItems());
 			assertValid(
 				page,
-				testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getExpectedActions(
+				testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getExpectedActions(
 					irrelevantSiteExternalReferenceCode,
 					irrelevantPageSpecificationExternalReferenceCode));
 		}
 
 		PageExperience pageExperience1 =
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_addPageExperience(
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_addPageExperience(
 				siteExternalReferenceCode,
 				pageSpecificationExternalReferenceCode, randomPageExperience());
 
 		PageExperience pageExperience2 =
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_addPageExperience(
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_addPageExperience(
 				siteExternalReferenceCode,
 				pageSpecificationExternalReferenceCode, randomPageExperience());
 
 		page =
 			pageExperienceResource.
-				getSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage(
+				getBySiteExternalReferenceCodePageSpecificationPageExperiencesPage(
 					siteExternalReferenceCode,
 					pageSpecificationExternalReferenceCode);
 
@@ -298,13 +298,13 @@ public abstract class BasePageExperienceResourceTestCase {
 		assertContains(pageExperience2, (List<PageExperience>)page.getItems());
 		assertValid(
 			page,
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getExpectedActions(
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getExpectedActions(
 				siteExternalReferenceCode,
 				pageSpecificationExternalReferenceCode));
 	}
 
 	protected Map<String, Map<String, String>>
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getExpectedActions(
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getExpectedActions(
 				String siteExternalReferenceCode,
 				String pageSpecificationExternalReferenceCode)
 		throws Exception {
@@ -315,7 +315,7 @@ public abstract class BasePageExperienceResourceTestCase {
 	}
 
 	protected PageExperience
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_addPageExperience(
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_addPageExperience(
 				String siteExternalReferenceCode,
 				String pageSpecificationExternalReferenceCode,
 				PageExperience pageExperience)
@@ -326,7 +326,7 @@ public abstract class BasePageExperienceResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getSiteExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -334,14 +334,14 @@ public abstract class BasePageExperienceResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getIrrelevantSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getIrrelevantSiteExternalReferenceCode()
 		throws Exception {
 
 		return null;
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getPageSpecificationExternalReferenceCode()
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getPageSpecificationExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -349,20 +349,20 @@ public abstract class BasePageExperienceResourceTestCase {
 	}
 
 	protected String
-			testGetSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage_getIrrelevantPageSpecificationExternalReferenceCode()
+			testGetBySiteExternalReferenceCodePageSpecificationPageExperiencesPage_getIrrelevantPageSpecificationExternalReferenceCode()
 		throws Exception {
 
 		return null;
 	}
 
 	@Test
-	public void testPostSiteSiteByExternalReferenceCodePageSpecificationPageExperience()
+	public void testPostBySiteExternalReferenceCodePageSpecificationPageExperience()
 		throws Exception {
 
 		PageExperience randomPageExperience = randomPageExperience();
 
 		PageExperience postPageExperience =
-			testPostSiteSiteByExternalReferenceCodePageSpecificationPageExperience_addPageExperience(
+			testPostBySiteExternalReferenceCodePageSpecificationPageExperience_addPageExperience(
 				randomPageExperience);
 
 		assertEquals(randomPageExperience, postPageExperience);
@@ -370,7 +370,7 @@ public abstract class BasePageExperienceResourceTestCase {
 	}
 
 	protected PageExperience
-			testPostSiteSiteByExternalReferenceCodePageSpecificationPageExperience_addPageExperience(
+			testPostBySiteExternalReferenceCodePageSpecificationPageExperience_addPageExperience(
 				PageExperience pageExperience)
 		throws Exception {
 

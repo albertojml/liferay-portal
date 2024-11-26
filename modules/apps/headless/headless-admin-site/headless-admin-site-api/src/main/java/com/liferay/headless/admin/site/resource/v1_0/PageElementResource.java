@@ -47,50 +47,48 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface PageElementResource {
 
-	public void deleteSiteSiteByExternalReferenceCodePageElement(
+	public void deleteBySiteExternalReferenceCodePageElement(
 			String siteExternalReferenceCode,
 			String pageElementExternalReferenceCode)
 		throws Exception;
 
-	public PageElement getSiteSiteByExternalReferenceCodePageElement(
+	public PageElement getBySiteExternalReferenceCodePageElement(
 			String siteExternalReferenceCode,
 			String pageElementExternalReferenceCode)
 		throws Exception;
 
-	public PageElement patchSiteSiteByExternalReferenceCodePageElement(
+	public PageElement patchBySiteExternalReferenceCodePageElement(
 			String siteExternalReferenceCode,
 			String pageElementExternalReferenceCode, PageElement pageElement)
 		throws Exception;
 
-	public PageElement putSiteSiteByExternalReferenceCodePageElement(
+	public PageElement putBySiteExternalReferenceCodePageElement(
 			String siteExternalReferenceCode,
 			String pageElementExternalReferenceCode, PageElement pageElement)
 		throws Exception;
 
 	public PageElement
-			postSiteSiteByExternalReferenceCodePageElementFragmentComposition(
+			postBySiteExternalReferenceCodePageElementFragmentComposition(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode, Integer position,
 				FragmentComposition fragmentComposition)
 		throws Exception;
 
 	public Page<PageElement>
-			getSiteSiteByExternalReferenceCodePageElementPageElementsPage(
+			getBySiteExternalReferenceCodePageElementPageElementsPage(
 				String siteExternalReferenceCode,
 				String pageElementExternalReferenceCode, Boolean flatten)
 		throws Exception;
 
 	public Page<PageElement>
-			getSiteSiteByExternalReferenceCodePageExperiencePageElementsPage(
+			getBySiteExternalReferenceCodePageExperiencePageElementsPage(
 				String siteExternalReferenceCode,
 				String pageExperienceExternalReferenceCode, Boolean flatten)
 		throws Exception;
 
-	public PageElement
-			postSiteSiteByExternalReferenceCodePageExperiencePageElement(
-				String siteExternalReferenceCode,
-				String pageExperienceExternalReferenceCode,
-				PageElement pageElement)
+	public PageElement postBySiteExternalReferenceCodePageExperiencePageElement(
+			String siteExternalReferenceCode,
+			String pageExperienceExternalReferenceCode, PageElement pageElement)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

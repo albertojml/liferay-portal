@@ -48,37 +48,37 @@ import org.osgi.annotation.versioning.ProviderType;
 public interface FragmentCompositionResource {
 
 	public Page<FragmentComposition>
-			getSiteSiteByExternalReferenceCodeFragmentCompositionsPage(
+			getBySiteExternalReferenceCodeFragmentCompositionsPage(
 				String siteExternalReferenceCode, String search, Filter filter,
 				Pagination pagination, Sort[] sorts)
 		throws Exception;
 
 	public FragmentComposition
-			postSiteSiteByExternalReferenceCodeFragmentComposition(
+			postBySiteExternalReferenceCodeFragmentComposition(
 				String siteExternalReferenceCode, Boolean saveInlineContent,
 				Boolean saveMapping, FragmentComposition fragmentComposition)
 		throws Exception;
 
-	public void deleteSiteSiteByExternalReferenceCodeFragmentComposition(
+	public void deleteBySiteExternalReferenceCodeFragmentComposition(
 			String siteExternalReferenceCode,
 			String fragmentCompositionExternalReferenceCode)
 		throws Exception;
 
 	public FragmentComposition
-			getSiteSiteByExternalReferenceCodeFragmentComposition(
+			getBySiteExternalReferenceCodeFragmentComposition(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode)
 		throws Exception;
 
 	public FragmentComposition
-			patchSiteSiteByExternalReferenceCodeFragmentComposition(
+			patchBySiteExternalReferenceCodeFragmentComposition(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode,
 				FragmentComposition fragmentComposition)
 		throws Exception;
 
 	public FragmentComposition
-			putSiteSiteByExternalReferenceCodeFragmentComposition(
+			putBySiteExternalReferenceCodeFragmentComposition(
 				String siteExternalReferenceCode,
 				String fragmentCompositionExternalReferenceCode,
 				FragmentComposition fragmentComposition)

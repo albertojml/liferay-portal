@@ -39,103 +39,103 @@ public interface UtilityPageResource {
 		return new Builder();
 	}
 
-	public Page<UtilityPage> getSiteSiteByExternalReferenceCodeUtilityPagesPage(
+	public Page<UtilityPage> getBySiteExternalReferenceCodeUtilityPagesPage(
 			String siteExternalReferenceCode, String search,
 			List<String> aggregations, String filterString,
 			Pagination pagination, String sortString)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodeUtilityPagesPageHttpResponse(
+			getBySiteExternalReferenceCodeUtilityPagesPageHttpResponse(
 				String siteExternalReferenceCode, String search,
 				List<String> aggregations, String filterString,
 				Pagination pagination, String sortString)
 		throws Exception;
 
-	public UtilityPage postSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage postBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode, UtilityPage utilityPage)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			postSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+			postBySiteExternalReferenceCodeUtilityPageHttpResponse(
 				String siteExternalReferenceCode, UtilityPage utilityPage)
 		throws Exception;
 
 	public Page<Permission>
-			getSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage(
+			getBySiteExternalReferenceCodeUtilityPagePermissionsPage(
 				String siteExternalReferenceCode, String roleNames)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
+			getBySiteExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
 				String siteExternalReferenceCode, String roleNames)
 		throws Exception;
 
 	public Page<Permission>
-			putSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage(
+			putBySiteExternalReferenceCodeUtilityPagePermissionsPage(
 				String siteExternalReferenceCode, Permission[] permissions)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			putSiteSiteByExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
+			putBySiteExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
 				String siteExternalReferenceCode, Permission[] permissions)
 		throws Exception;
 
-	public void deleteSiteSiteByExternalReferenceCodeUtilityPage(
+	public void deleteBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			deleteSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+			deleteBySiteExternalReferenceCodeUtilityPageHttpResponse(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode)
 		throws Exception;
 
-	public UtilityPage getSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage getBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+			getBySiteExternalReferenceCodeUtilityPageHttpResponse(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode)
 		throws Exception;
 
-	public UtilityPage patchSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage patchBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode, UtilityPage utilityPage)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			patchSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+			patchBySiteExternalReferenceCodeUtilityPageHttpResponse(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode,
 				UtilityPage utilityPage)
 		throws Exception;
 
-	public UtilityPage putSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage putBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode, UtilityPage utilityPage)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			putSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+			putBySiteExternalReferenceCodeUtilityPageHttpResponse(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode,
 				UtilityPage utilityPage)
 		throws Exception;
 
 	public ContentPageSpecification
-			postSiteSiteByExternalReferenceCodeUtilityPagePageSpecification(
+			postBySiteExternalReferenceCodeUtilityPagePageSpecification(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode,
 				ContentPageSpecification contentPageSpecification)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			postSiteSiteByExternalReferenceCodeUtilityPagePageSpecificationHttpResponse(
+			postBySiteExternalReferenceCodeUtilityPagePageSpecificationHttpResponse(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode,
 				ContentPageSpecification contentPageSpecification)
@@ -273,15 +273,14 @@ public interface UtilityPageResource {
 
 	public static class UtilityPageResourceImpl implements UtilityPageResource {
 
-		public Page<UtilityPage>
-				getSiteSiteByExternalReferenceCodeUtilityPagesPage(
-					String siteExternalReferenceCode, String search,
-					List<String> aggregations, String filterString,
-					Pagination pagination, String sortString)
+		public Page<UtilityPage> getBySiteExternalReferenceCodeUtilityPagesPage(
+				String siteExternalReferenceCode, String search,
+				List<String> aggregations, String filterString,
+				Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodeUtilityPagesPageHttpResponse(
+				getBySiteExternalReferenceCodeUtilityPagesPageHttpResponse(
 					siteExternalReferenceCode, search, aggregations,
 					filterString, pagination, sortString);
 
@@ -345,7 +344,7 @@ public interface UtilityPageResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodeUtilityPagesPageHttpResponse(
+				getBySiteExternalReferenceCodeUtilityPagesPageHttpResponse(
 					String siteExternalReferenceCode, String search,
 					List<String> aggregations, String filterString,
 					Pagination pagination, String sortString)
@@ -405,12 +404,12 @@ public interface UtilityPageResource {
 			return httpInvoker.invoke();
 		}
 
-		public UtilityPage postSiteSiteByExternalReferenceCodeUtilityPage(
+		public UtilityPage postBySiteExternalReferenceCodeUtilityPage(
 				String siteExternalReferenceCode, UtilityPage utilityPage)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+				postBySiteExternalReferenceCodeUtilityPageHttpResponse(
 					siteExternalReferenceCode, utilityPage);
 
 			String content = httpResponse.getContent();
@@ -473,7 +472,7 @@ public interface UtilityPageResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				postSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+				postBySiteExternalReferenceCodeUtilityPageHttpResponse(
 					String siteExternalReferenceCode, UtilityPage utilityPage)
 			throws Exception {
 
@@ -515,12 +514,12 @@ public interface UtilityPageResource {
 		}
 
 		public Page<Permission>
-				getSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage(
+				getBySiteExternalReferenceCodeUtilityPagePermissionsPage(
 					String siteExternalReferenceCode, String roleNames)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
+				getBySiteExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
 					siteExternalReferenceCode, roleNames);
 
 			String content = httpResponse.getContent();
@@ -583,7 +582,7 @@ public interface UtilityPageResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
+				getBySiteExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
 					String siteExternalReferenceCode, String roleNames)
 			throws Exception {
 
@@ -627,12 +626,12 @@ public interface UtilityPageResource {
 		}
 
 		public Page<Permission>
-				putSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage(
+				putBySiteExternalReferenceCodeUtilityPagePermissionsPage(
 					String siteExternalReferenceCode, Permission[] permissions)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				putSiteSiteByExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
+				putBySiteExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
 					siteExternalReferenceCode, permissions);
 
 			String content = httpResponse.getContent();
@@ -695,7 +694,7 @@ public interface UtilityPageResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				putSiteSiteByExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
+				putBySiteExternalReferenceCodeUtilityPagePermissionsPageHttpResponse(
 					String siteExternalReferenceCode, Permission[] permissions)
 			throws Exception {
 
@@ -742,13 +741,13 @@ public interface UtilityPageResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteSiteSiteByExternalReferenceCodeUtilityPage(
+		public void deleteBySiteExternalReferenceCodeUtilityPage(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				deleteSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+				deleteBySiteExternalReferenceCodeUtilityPageHttpResponse(
 					siteExternalReferenceCode,
 					utilityPageExternalReferenceCode);
 
@@ -812,7 +811,7 @@ public interface UtilityPageResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				deleteSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+				deleteBySiteExternalReferenceCodeUtilityPageHttpResponse(
 					String siteExternalReferenceCode,
 					String utilityPageExternalReferenceCode)
 			throws Exception {
@@ -855,13 +854,13 @@ public interface UtilityPageResource {
 			return httpInvoker.invoke();
 		}
 
-		public UtilityPage getSiteSiteByExternalReferenceCodeUtilityPage(
+		public UtilityPage getBySiteExternalReferenceCodeUtilityPage(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+				getBySiteExternalReferenceCodeUtilityPageHttpResponse(
 					siteExternalReferenceCode,
 					utilityPageExternalReferenceCode);
 
@@ -925,7 +924,7 @@ public interface UtilityPageResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+				getBySiteExternalReferenceCodeUtilityPageHttpResponse(
 					String siteExternalReferenceCode,
 					String utilityPageExternalReferenceCode)
 			throws Exception {
@@ -968,14 +967,14 @@ public interface UtilityPageResource {
 			return httpInvoker.invoke();
 		}
 
-		public UtilityPage patchSiteSiteByExternalReferenceCodeUtilityPage(
+		public UtilityPage patchBySiteExternalReferenceCodeUtilityPage(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode,
 				UtilityPage utilityPage)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				patchSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+				patchBySiteExternalReferenceCodeUtilityPageHttpResponse(
 					siteExternalReferenceCode, utilityPageExternalReferenceCode,
 					utilityPage);
 
@@ -1039,7 +1038,7 @@ public interface UtilityPageResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				patchSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+				patchBySiteExternalReferenceCodeUtilityPageHttpResponse(
 					String siteExternalReferenceCode,
 					String utilityPageExternalReferenceCode,
 					UtilityPage utilityPage)
@@ -1085,14 +1084,14 @@ public interface UtilityPageResource {
 			return httpInvoker.invoke();
 		}
 
-		public UtilityPage putSiteSiteByExternalReferenceCodeUtilityPage(
+		public UtilityPage putBySiteExternalReferenceCodeUtilityPage(
 				String siteExternalReferenceCode,
 				String utilityPageExternalReferenceCode,
 				UtilityPage utilityPage)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				putSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+				putBySiteExternalReferenceCodeUtilityPageHttpResponse(
 					siteExternalReferenceCode, utilityPageExternalReferenceCode,
 					utilityPage);
 
@@ -1156,7 +1155,7 @@ public interface UtilityPageResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				putSiteSiteByExternalReferenceCodeUtilityPageHttpResponse(
+				putBySiteExternalReferenceCodeUtilityPageHttpResponse(
 					String siteExternalReferenceCode,
 					String utilityPageExternalReferenceCode,
 					UtilityPage utilityPage)
@@ -1203,14 +1202,14 @@ public interface UtilityPageResource {
 		}
 
 		public ContentPageSpecification
-				postSiteSiteByExternalReferenceCodeUtilityPagePageSpecification(
+				postBySiteExternalReferenceCodeUtilityPagePageSpecification(
 					String siteExternalReferenceCode,
 					String utilityPageExternalReferenceCode,
 					ContentPageSpecification contentPageSpecification)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				postSiteSiteByExternalReferenceCodeUtilityPagePageSpecificationHttpResponse(
+				postBySiteExternalReferenceCodeUtilityPagePageSpecificationHttpResponse(
 					siteExternalReferenceCode, utilityPageExternalReferenceCode,
 					contentPageSpecification);
 
@@ -1274,7 +1273,7 @@ public interface UtilityPageResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				postSiteSiteByExternalReferenceCodeUtilityPagePageSpecificationHttpResponse(
+				postBySiteExternalReferenceCodeUtilityPagePageSpecificationHttpResponse(
 					String siteExternalReferenceCode,
 					String utilityPageExternalReferenceCode,
 					ContentPageSpecification contentPageSpecification)

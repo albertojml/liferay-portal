@@ -48,44 +48,44 @@ import org.osgi.annotation.versioning.ProviderType;
 public interface PageTemplateSetResource {
 
 	public Page<PageTemplateSet>
-			getSiteSiteByExternalReferenceCodePageTemplateSetsPage(
+			getBySiteExternalReferenceCodePageTemplateSetsPage(
 				String siteExternalReferenceCode, String search,
 				com.liferay.portal.vulcan.aggregation.Aggregation aggregation,
 				Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public PageTemplateSet postSiteSiteByExternalReferenceCodePageTemplateSet(
+	public PageTemplateSet postBySiteExternalReferenceCodePageTemplateSet(
 			String siteExternalReferenceCode, PageTemplateSet pageTemplateSet)
 		throws Exception;
 
 	public Page<com.liferay.portal.vulcan.permission.Permission>
-			getSiteSiteByExternalReferenceCodePageTemplateSetPermissionsPage(
+			getBySiteExternalReferenceCodePageTemplateSetPermissionsPage(
 				String siteExternalReferenceCode, String roleNames)
 		throws Exception;
 
 	public Page<com.liferay.portal.vulcan.permission.Permission>
-			putSiteSiteByExternalReferenceCodePageTemplateSetPermissionsPage(
+			putBySiteExternalReferenceCodePageTemplateSetPermissionsPage(
 				String siteExternalReferenceCode,
 				com.liferay.portal.vulcan.permission.Permission[] permissions)
 		throws Exception;
 
-	public void deleteSiteSiteByExternalReferenceCodePageTemplateSet(
+	public void deleteBySiteExternalReferenceCodePageTemplateSet(
 			String siteExternalReferenceCode,
 			String pageTemplateSetExternalReferenceCode)
 		throws Exception;
 
-	public PageTemplateSet getSiteSiteByExternalReferenceCodePageTemplateSet(
+	public PageTemplateSet getBySiteExternalReferenceCodePageTemplateSet(
 			String siteExternalReferenceCode,
 			String pageTemplateSetExternalReferenceCode)
 		throws Exception;
 
-	public PageTemplateSet patchSiteSiteByExternalReferenceCodePageTemplateSet(
+	public PageTemplateSet patchBySiteExternalReferenceCodePageTemplateSet(
 			String siteExternalReferenceCode,
 			String pageTemplateSetExternalReferenceCode,
 			PageTemplateSet pageTemplateSet)
 		throws Exception;
 
-	public PageTemplateSet putSiteSiteByExternalReferenceCodePageTemplateSet(
+	public PageTemplateSet putBySiteExternalReferenceCodePageTemplateSet(
 			String siteExternalReferenceCode,
 			String pageTemplateSetExternalReferenceCode,
 			PageTemplateSet pageTemplateSet)

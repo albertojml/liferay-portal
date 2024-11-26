@@ -113,7 +113,7 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<WidgetPageWidgetInstance>
-			getSiteSiteByExternalReferenceCodeSitePageWidgetInstancesPage(
+			getBySiteExternalReferenceCodeSitePageWidgetInstancesPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -173,7 +173,7 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public WidgetPageWidgetInstance
-			postSiteSiteByExternalReferenceCodeSitePageWidgetInstance(
+			postBySiteExternalReferenceCodeSitePageWidgetInstance(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -226,7 +226,7 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public void
-			deleteSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+			deleteBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -292,7 +292,7 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public WidgetPageWidgetInstance
-			getSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+			getBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -361,7 +361,7 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public WidgetPageWidgetInstance
-			patchSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+			patchBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -378,7 +378,7 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 		throws Exception {
 
 		WidgetPageWidgetInstance existingWidgetPageWidgetInstance =
-			getSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+			getBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 				siteExternalReferenceCode, sitePageExternalReferenceCode,
 				widgetInstanceExternalReferenceCode);
 
@@ -424,7 +424,7 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 		preparePatch(
 			widgetPageWidgetInstance, existingWidgetPageWidgetInstance);
 
-		return putSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+		return putBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 			siteExternalReferenceCode, sitePageExternalReferenceCode,
 			widgetInstanceExternalReferenceCode,
 			existingWidgetPageWidgetInstance);
@@ -481,7 +481,7 @@ public abstract class BaseWidgetPageWidgetInstanceResourceImpl
 	@javax.ws.rs.PUT
 	@Override
 	public WidgetPageWidgetInstance
-			putSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+			putBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")

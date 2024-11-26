@@ -53,6 +53,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -133,7 +134,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<DisplayPageTemplateFolder>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFoldersPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFoldersPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -183,7 +184,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public DisplayPageTemplateFolder
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+			postBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -233,7 +234,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Page<Permission>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderPermissionsPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFolderPermissionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -274,7 +275,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	@javax.ws.rs.PUT
 	@Override
 	public Page<Permission>
-			putSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderPermissionsPage(
+			putBySiteExternalReferenceCodeDisplayPageTemplateFolderPermissionsPage(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -318,7 +319,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+	public void deleteBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -378,7 +379,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public DisplayPageTemplateFolder
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -441,7 +442,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public DisplayPageTemplateFolder
-			patchSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+			patchBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -456,7 +457,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 		throws Exception {
 
 		DisplayPageTemplateFolder existingDisplayPageTemplateFolder =
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 				siteExternalReferenceCode,
 				displayPageTemplateFolderExternalReferenceCode);
 
@@ -515,7 +516,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 		preparePatch(
 			displayPageTemplateFolder, existingDisplayPageTemplateFolder);
 
-		return putSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+		return putBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 			siteExternalReferenceCode,
 			displayPageTemplateFolderExternalReferenceCode,
 			existingDisplayPageTemplateFolder);
@@ -568,7 +569,7 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 	@javax.ws.rs.PUT
 	@Override
 	public DisplayPageTemplateFolder
-			putSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+			putBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("siteExternalReferenceCode")
@@ -753,8 +754,10 @@ public abstract class BaseDisplayPageTemplateFolderResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+					{
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: []");
+					}
 	}
 
 	@Override
