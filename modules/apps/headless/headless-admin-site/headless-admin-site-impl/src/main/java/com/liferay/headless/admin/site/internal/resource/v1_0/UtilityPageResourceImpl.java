@@ -41,7 +41,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class UtilityPageResourceImpl extends BaseUtilityPageResourceImpl {
 
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodeUtilityPage(
+	public void deleteBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode)
 		throws Exception {
@@ -58,7 +58,7 @@ public class UtilityPageResourceImpl extends BaseUtilityPageResourceImpl {
 	}
 
 	@Override
-	public UtilityPage getSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage getBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode)
 		throws Exception {
@@ -77,7 +77,7 @@ public class UtilityPageResourceImpl extends BaseUtilityPageResourceImpl {
 	}
 
 	@Override
-	public Page<UtilityPage> getSiteSiteByExternalReferenceCodeUtilityPagesPage(
+	public Page<UtilityPage> getBySiteExternalReferenceCodeUtilityPagesPage(
 			String siteExternalReferenceCode, String search,
 			Aggregation aggregation, Filter filter, Pagination pagination,
 			Sort[] sorts)
@@ -99,7 +99,7 @@ public class UtilityPageResourceImpl extends BaseUtilityPageResourceImpl {
 	}
 
 	@Override
-	public UtilityPage postSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage postBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode, UtilityPage utilityPage)
 		throws Exception {
 
@@ -115,7 +115,7 @@ public class UtilityPageResourceImpl extends BaseUtilityPageResourceImpl {
 	}
 
 	@Override
-	public UtilityPage putSiteSiteByExternalReferenceCodeUtilityPage(
+	public UtilityPage putBySiteExternalReferenceCodeUtilityPage(
 			String siteExternalReferenceCode,
 			String utilityPageExternalReferenceCode, UtilityPage utilityPage)
 		throws Exception {

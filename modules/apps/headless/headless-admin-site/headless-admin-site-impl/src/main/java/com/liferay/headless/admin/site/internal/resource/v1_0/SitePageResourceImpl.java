@@ -57,7 +57,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class SitePageResourceImpl extends BaseSitePageResourceImpl {
 
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodeSitePage(
+	public void deleteBySiteExternalReferenceCodeSitePage(
 			String siteExternalReferenceCode,
 			String sitePageExternalReferenceCode)
 		throws Exception {
@@ -74,7 +74,7 @@ public class SitePageResourceImpl extends BaseSitePageResourceImpl {
 	}
 
 	@Override
-	public SitePage getSiteSiteByExternalReferenceCodeSitePage(
+	public SitePage getBySiteExternalReferenceCodeSitePage(
 			String siteExternalReferenceCode,
 			String sitePageExternalReferenceCode)
 		throws Exception {
@@ -93,7 +93,7 @@ public class SitePageResourceImpl extends BaseSitePageResourceImpl {
 	}
 
 	@Override
-	public Page<SitePage> getSiteSiteByExternalReferenceCodeSitePagesPage(
+	public Page<SitePage> getBySiteExternalReferenceCodeSitePagesPage(
 			String siteExternalReferenceCode, String search,
 			Aggregation aggregation, Filter filter, Pagination pagination,
 			Sort[] sorts)
@@ -141,7 +141,7 @@ public class SitePageResourceImpl extends BaseSitePageResourceImpl {
 	}
 
 	@Override
-	public SitePage postByExternalReferenceCodeSitePage(
+	public SitePage postBySiteExternalReferenceCodeSitePage(
 			String siteExternalReferenceCode, SitePage sitePage)
 		throws Exception {
 
@@ -196,7 +196,7 @@ public class SitePageResourceImpl extends BaseSitePageResourceImpl {
 			Group group = _groupLocalService.getGroup(
 				(Long)parameters.get("siteId"));
 
-			return getSiteSiteByExternalReferenceCodeSitePagesPage(
+			return getBySiteExternalReferenceCodeSitePagesPage(
 				group.getExternalReferenceCode(), search, null, filter,
 				pagination, sorts);
 		}

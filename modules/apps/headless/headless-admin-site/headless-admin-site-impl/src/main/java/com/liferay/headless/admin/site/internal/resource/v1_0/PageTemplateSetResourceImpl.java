@@ -37,7 +37,7 @@ public class PageTemplateSetResourceImpl
 	extends BasePageTemplateSetResourceImpl {
 
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodePageTemplateSet(
+	public void deleteBySiteExternalReferenceCodePageTemplateSet(
 			String siteExternalReferenceCode,
 			String pageTemplateSetExternalReferenceCode)
 		throws Exception {
@@ -54,7 +54,7 @@ public class PageTemplateSetResourceImpl
 	}
 
 	@Override
-	public PageTemplateSet getSiteSiteByExternalReferenceCodePageTemplateSet(
+	public PageTemplateSet getBySiteExternalReferenceCodePageTemplateSet(
 			String siteExternalReferenceCode,
 			String pageTemplateSetExternalReferenceCode)
 		throws Exception {
@@ -74,7 +74,7 @@ public class PageTemplateSetResourceImpl
 
 	@Override
 	public Page<PageTemplateSet>
-			getSiteSiteByExternalReferenceCodePageTemplateSetsPage(
+			getBySiteExternalReferenceCodePageTemplateSetsPage(
 				String siteExternalReferenceCode, String search,
 				Aggregation aggregation, Filter filter, Pagination pagination,
 				Sort[] sorts)
@@ -103,7 +103,7 @@ public class PageTemplateSetResourceImpl
 	}
 
 	@Override
-	public PageTemplateSet postSiteSiteByExternalReferenceCodePageTemplateSet(
+	public PageTemplateSet postBySiteExternalReferenceCodePageTemplateSet(
 			String siteExternalReferenceCode, PageTemplateSet pageTemplateSet)
 		throws Exception {
 
@@ -120,7 +120,7 @@ public class PageTemplateSetResourceImpl
 	}
 
 	@Override
-	public PageTemplateSet putSiteSiteByExternalReferenceCodePageTemplateSet(
+	public PageTemplateSet putBySiteExternalReferenceCodePageTemplateSet(
 			String siteExternalReferenceCode,
 			String pageTemplateSetExternalReferenceCode,
 			PageTemplateSet pageTemplateSet)

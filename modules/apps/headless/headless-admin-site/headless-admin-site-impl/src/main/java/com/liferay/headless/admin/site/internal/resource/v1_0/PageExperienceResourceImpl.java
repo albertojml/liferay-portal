@@ -47,7 +47,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class PageExperienceResourceImpl extends BasePageExperienceResourceImpl {
 
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodePageExperience(
+	public void deleteBySiteExternalReferenceCodePageExperience(
 			String siteExternalReferenceCode,
 			String pageExperienceExternalReferenceCode)
 		throws Exception {
@@ -64,7 +64,7 @@ public class PageExperienceResourceImpl extends BasePageExperienceResourceImpl {
 	}
 
 	@Override
-	public PageExperience getSiteSiteByExternalReferenceCodePageExperience(
+	public PageExperience getBySiteExternalReferenceCodePageExperience(
 			String siteExternalReferenceCode,
 			String pageExperienceExternalReferenceCode)
 		throws Exception {
@@ -84,7 +84,7 @@ public class PageExperienceResourceImpl extends BasePageExperienceResourceImpl {
 
 	@Override
 	public Page<PageExperience>
-			getSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage(
+			getBySiteExternalReferenceCodePageSpecificationPageExperiencesPage(
 				String siteExternalReferenceCode,
 				String pageSpecificationExternalReferenceCode)
 		throws Exception {
@@ -113,7 +113,7 @@ public class PageExperienceResourceImpl extends BasePageExperienceResourceImpl {
 
 	@Override
 	public PageExperience
-			postSiteSiteByExternalReferenceCodePageSpecificationPageExperience(
+			postBySiteExternalReferenceCodePageSpecificationPageExperience(
 				String siteExternalReferenceCode,
 				String pageSpecificationExternalReferenceCode,
 				PageExperience pageExperience)
@@ -131,7 +131,7 @@ public class PageExperienceResourceImpl extends BasePageExperienceResourceImpl {
 	}
 
 	@Override
-	public PageExperience putSiteSiteByExternalReferenceCodePageExperience(
+	public PageExperience putBySiteExternalReferenceCodePageExperience(
 			String siteExternalReferenceCode,
 			String pageExperienceExternalReferenceCode,
 			PageExperience pageExperience)

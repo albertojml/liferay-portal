@@ -43,7 +43,7 @@ public class DisplayPageTemplateFolderResourceImpl
 	extends BaseDisplayPageTemplateFolderResourceImpl {
 
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+	public void deleteBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 			String siteExternalReferenceCode,
 			String displayPageTemplateFolderExternalReferenceCode)
 		throws Exception {
@@ -61,7 +61,7 @@ public class DisplayPageTemplateFolderResourceImpl
 
 	@Override
 	public DisplayPageTemplateFolder
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 				String siteExternalReferenceCode,
 				String displayPageTemplateFolderExternalReferenceCode)
 		throws Exception {
@@ -81,7 +81,7 @@ public class DisplayPageTemplateFolderResourceImpl
 
 	@Override
 	public Page<DisplayPageTemplateFolder>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFoldersPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFoldersPage(
 				String siteExternalReferenceCode, String search,
 				Aggregation aggregation, Filter filter, Pagination pagination,
 				Sort[] sorts)
@@ -106,7 +106,7 @@ public class DisplayPageTemplateFolderResourceImpl
 
 	@Override
 	public DisplayPageTemplateFolder
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+			postBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 				String siteExternalReferenceCode,
 				DisplayPageTemplateFolder displayPageTemplateFolder)
 		throws Exception {
@@ -124,7 +124,7 @@ public class DisplayPageTemplateFolderResourceImpl
 
 	@Override
 	public DisplayPageTemplateFolder
-			putSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder(
+			putBySiteExternalReferenceCodeDisplayPageTemplateFolder(
 				String siteExternalReferenceCode,
 				String displayPageTemplateFolderExternalReferenceCode,
 				DisplayPageTemplateFolder displayPageTemplateFolder)

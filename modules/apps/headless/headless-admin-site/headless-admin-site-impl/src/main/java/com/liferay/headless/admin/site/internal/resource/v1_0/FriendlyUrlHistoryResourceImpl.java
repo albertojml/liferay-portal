@@ -53,7 +53,7 @@ public class FriendlyUrlHistoryResourceImpl
 	)
 	@Override
 	public FriendlyUrlHistory
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory(
 				String siteExternalReferenceCode,
 				@NestedFieldId(value = "externalReferenceCode") String
 					displayPageTemplateExternalReferenceCode)
@@ -84,7 +84,7 @@ public class FriendlyUrlHistoryResourceImpl
 	@NestedField(parentClass = SitePage.class, value = "friendlyUrlHistory")
 	@Override
 	public FriendlyUrlHistory
-			getSiteSiteByExternalReferenceCodeSitePageFriendlyUrlHistory(
+			getBySiteExternalReferenceCodeSitePageFriendlyUrlHistory(
 				String siteExternalReferenceCode,
 				@NestedFieldId(value = "externalReferenceCode") String
 					sitePageExternalReferenceCode)
@@ -120,7 +120,7 @@ public class FriendlyUrlHistoryResourceImpl
 	@NestedField(parentClass = UtilityPage.class, value = "friendlyUrlHistory")
 	@Override
 	public FriendlyUrlHistory
-			getSiteSiteByExternalReferenceCodeUtilityPageFriendlyUrlHistory(
+			getBySiteExternalReferenceCodeUtilityPageFriendlyUrlHistory(
 				String siteExternalReferenceCode,
 				@NestedFieldId(value = "externalReferenceCode") String
 					utilityPageExternalReferenceCode)

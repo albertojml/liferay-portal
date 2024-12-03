@@ -42,7 +42,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class MasterPageResourceImpl extends BaseMasterPageResourceImpl {
 
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodeMasterPage(
+	public void deleteBySiteExternalReferenceCodeMasterPage(
 			String siteExternalReferenceCode,
 			String masterPageExternalReferenceCode)
 		throws Exception {
@@ -59,7 +59,7 @@ public class MasterPageResourceImpl extends BaseMasterPageResourceImpl {
 	}
 
 	@Override
-	public MasterPage getSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage getBySiteExternalReferenceCodeMasterPage(
 			String siteExternalReferenceCode,
 			String masterPageExternalReferenceCode)
 		throws Exception {
@@ -87,7 +87,7 @@ public class MasterPageResourceImpl extends BaseMasterPageResourceImpl {
 	}
 
 	@Override
-	public Page<MasterPage> getSiteSiteByExternalReferenceCodeMasterPagesPage(
+	public Page<MasterPage> getBySiteExternalReferenceCodeMasterPagesPage(
 			String siteExternalReferenceCode, String search,
 			Aggregation aggregation, Filter filter, Pagination pagination,
 			Sort[] sorts)
@@ -110,7 +110,7 @@ public class MasterPageResourceImpl extends BaseMasterPageResourceImpl {
 	}
 
 	@Override
-	public MasterPage postSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage postBySiteExternalReferenceCodeMasterPage(
 			String siteExternalReferenceCode, MasterPage masterPage)
 		throws Exception {
 
@@ -126,7 +126,7 @@ public class MasterPageResourceImpl extends BaseMasterPageResourceImpl {
 	}
 
 	@Override
-	public MasterPage putSiteSiteByExternalReferenceCodeMasterPage(
+	public MasterPage putBySiteExternalReferenceCodeMasterPage(
 			String siteExternalReferenceCode,
 			String masterPageExternalReferenceCode, MasterPage masterPage)
 		throws Exception {

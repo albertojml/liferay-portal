@@ -44,7 +44,7 @@ public class WidgetPageWidgetInstanceResourceImpl
 
 	@Override
 	public void
-			deleteSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+			deleteBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 				String siteExternalReferenceCode,
 				String sitePageExternalReferenceCode,
 				String widgetInstanceExternalReferenceCode)
@@ -89,7 +89,7 @@ public class WidgetPageWidgetInstanceResourceImpl
 
 	@Override
 	public Page<WidgetPageWidgetInstance>
-			getSiteSiteByExternalReferenceCodeSitePageWidgetInstancesPage(
+			getBySiteExternalReferenceCodeSitePageWidgetInstancesPage(
 				String siteExternalReferenceCode,
 				String sitePageExternalReferenceCode)
 		throws Exception {
@@ -125,7 +125,7 @@ public class WidgetPageWidgetInstanceResourceImpl
 
 	@Override
 	public WidgetPageWidgetInstance
-			getSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+			getBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 				String siteExternalReferenceCode,
 				String sitePageExternalReferenceCode,
 				String widgetInstanceExternalReferenceCode)
@@ -166,7 +166,7 @@ public class WidgetPageWidgetInstanceResourceImpl
 
 	@Override
 	public WidgetPageWidgetInstance
-			postSiteSiteByExternalReferenceCodeSitePageWidgetInstance(
+			postBySiteExternalReferenceCodeSitePageWidgetInstance(
 				String siteExternalReferenceCode,
 				String sitePageExternalReferenceCode,
 				WidgetPageWidgetInstance widgetPageWidgetInstance)
@@ -203,7 +203,7 @@ public class WidgetPageWidgetInstanceResourceImpl
 
 	@Override
 	public WidgetPageWidgetInstance
-			putSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+			putBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 				String siteExternalReferenceCode,
 				String sitePageExternalReferenceCode,
 				String widgetInstanceExternalReferenceCode,

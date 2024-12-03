@@ -53,7 +53,7 @@ public class PageSpecificationResourceImpl
 	)
 	@Override
 	public Page<PageSpecification>
-			getByExternalReferenceCodeDisplayPageTemplatePageSpecificationsPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplatePageSpecificationsPage(
 				String siteExternalReferenceCode,
 				@NestedFieldId(value = "externalReferenceCode") String
 					displayPageTemplateExternalReferenceCode)
@@ -87,7 +87,7 @@ public class PageSpecificationResourceImpl
 	@NestedField(parentClass = MasterPage.class, value = "pageSpecifications")
 	@Override
 	public Page<PageSpecification>
-			getByExternalReferenceCodeMasterPagePageSpecificationsPage(
+			getBySiteExternalReferenceCodeMasterPagePageSpecificationsPage(
 				String siteExternalReferenceCode,
 				@NestedFieldId(value = "externalReferenceCode") String
 					masterPageExternalReferenceCode)
@@ -119,10 +119,9 @@ public class PageSpecificationResourceImpl
 	}
 
 	@Override
-	public PageSpecification
-			getByExternalReferenceCodePageSpecification(
-				String siteExternalReferenceCode,
-				String pageSpecificationExternalReferenceCode)
+	public PageSpecification getBySiteExternalReferenceCodePageSpecification(
+			String siteExternalReferenceCode,
+			String pageSpecificationExternalReferenceCode)
 		throws Exception {
 
 		if (!FeatureFlagManagerUtil.isEnabled("LPD-35443")) {
@@ -145,7 +144,7 @@ public class PageSpecificationResourceImpl
 	@NestedField(parentClass = PageTemplate.class, value = "pageSpecifications")
 	@Override
 	public Page<PageSpecification>
-			getByExternalReferenceCodePageTemplatePageSpecificationsPage(
+			getBySiteExternalReferenceCodePageTemplatePageSpecificationsPage(
 				String siteExternalReferenceCode,
 				@NestedFieldId(value = "externalReferenceCode") String
 					pageTemplateExternalReferenceCode)
@@ -182,7 +181,7 @@ public class PageSpecificationResourceImpl
 	@NestedField(parentClass = SitePage.class, value = "pageSpecifications")
 	@Override
 	public Page<PageSpecification>
-			getByExternalReferenceCodeSitePagePageSpecificationsPage(
+			getBySiteExternalReferenceCodeSitePagePageSpecificationsPage(
 				String siteExternalReferenceCode,
 				@NestedFieldId(value = "externalReferenceCode") String
 					sitePageExternalReferenceCode)
@@ -218,7 +217,7 @@ public class PageSpecificationResourceImpl
 	@NestedField(parentClass = UtilityPage.class, value = "pageSpecifications")
 	@Override
 	public Page<PageSpecification>
-			getByExternalReferenceCodeUtilityPagePageSpecificationsPage(
+			getBySiteExternalReferenceCodeUtilityPagePageSpecificationsPage(
 				String siteExternalReferenceCode,
 				@NestedFieldId(value = "externalReferenceCode") String
 					utilityPageExternalReferenceCode)

@@ -54,7 +54,7 @@ public class DisplayPageTemplateResourceImpl
 	extends BaseDisplayPageTemplateResourceImpl {
 
 	@Override
-	public void deleteSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+	public void deleteBySiteExternalReferenceCodeDisplayPageTemplate(
 			String siteExternalReferenceCode,
 			String displayPageTemplateExternalReferenceCode)
 		throws Exception {
@@ -72,7 +72,7 @@ public class DisplayPageTemplateResourceImpl
 
 	@Override
 	public DisplayPageTemplate
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			getBySiteExternalReferenceCodeDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode)
 		throws Exception {
@@ -101,7 +101,7 @@ public class DisplayPageTemplateResourceImpl
 
 	@Override
 	public Page<DisplayPageTemplate>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage(
 				String siteExternalReferenceCode,
 				String displayPageTemplateFolderExternalReferenceCode,
 				Boolean flatten)
@@ -140,7 +140,7 @@ public class DisplayPageTemplateResourceImpl
 
 	@Override
 	public Page<DisplayPageTemplate>
-			getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage(
+			getBySiteExternalReferenceCodeDisplayPageTemplatesPage(
 				String siteExternalReferenceCode, String search,
 				Aggregation aggregation, Filter filter, Pagination pagination,
 				Sort[] sorts)
@@ -165,7 +165,7 @@ public class DisplayPageTemplateResourceImpl
 
 	@Override
 	public DisplayPageTemplate
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			postBySiteExternalReferenceCodeDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
 		throws Exception {
@@ -184,7 +184,7 @@ public class DisplayPageTemplateResourceImpl
 
 	@Override
 	public DisplayPageTemplate
-			postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate(
+			postBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				String displayPageTemplateFolderExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
@@ -216,7 +216,7 @@ public class DisplayPageTemplateResourceImpl
 
 	@Override
 	public DisplayPageTemplate
-			putSiteSiteByExternalReferenceCodeDisplayPageTemplate(
+			putBySiteExternalReferenceCodeDisplayPageTemplate(
 				String siteExternalReferenceCode,
 				String displayPageTemplateExternalReferenceCode,
 				DisplayPageTemplate displayPageTemplate)
