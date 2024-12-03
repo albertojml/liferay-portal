@@ -3433,7 +3433,7 @@ paths:
             # @review
             description:
                 Retrieves the display page template folders of the site.
-            operationId: getSiteSiteByExternalReferenceCodeDisplayPageTemplateFoldersPage
+            operationId: getBySiteExternalReferenceCodeDisplayPageTemplateFoldersPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3496,7 +3496,7 @@ paths:
             # @review
             description:
                 Adds a new display page template folder.
-            operationId: postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder
+            operationId: postBySiteExternalReferenceCodeDisplayPageTemplateFolder
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3524,7 +3524,7 @@ paths:
             tags: ["DisplayPageTemplateFolder"]
     "/sites/{siteExternalReferenceCode}/display-page-template-folders/permissions":
         get:
-            operationId: getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderPermissionsPage
+            operationId: getBySiteExternalReferenceCodeDisplayPageTemplateFolderPermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3550,7 +3550,7 @@ paths:
                         application/xml: {}
             tags: ["DisplayPageTemplateFolder"]
         put:
-            operationId: putSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderPermissionsPage
+            operationId: putBySiteExternalReferenceCodeDisplayPageTemplateFolderPermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3572,7 +3572,7 @@ paths:
             # @review
             description:
                 Deletes a specific display page template folder of a site.
-            operationId: deleteSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder
+            operationId: deleteBySiteExternalReferenceCodeDisplayPageTemplateFolder
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3594,7 +3594,7 @@ paths:
             # @review
             description:
                 Retrieves a specific display page template folder of a site.
-            operationId: getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder
+            operationId: getBySiteExternalReferenceCodeDisplayPageTemplateFolder
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3632,7 +3632,7 @@ paths:
             # @review
             description:
                 Updates only the fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder
+            operationId: patchBySiteExternalReferenceCodeDisplayPageTemplateFolder
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3679,7 +3679,7 @@ paths:
             description:
                 Updates the display page template folder with the given external reference code, or creates it if it
                 does not exist.
-            operationId: putSiteSiteByExternalReferenceCodeDisplayPageTemplateFolder
+            operationId: putBySiteExternalReferenceCodeDisplayPageTemplateFolder
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3726,7 +3726,7 @@ paths:
             # @review
             description:
                 Retrieves all the display page templates within a display page template folder of a site page.
-            operationId: getSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage
+            operationId: getBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplatesPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3773,7 +3773,7 @@ paths:
             # @review
             description:
                 Adds a new display page template in draft status to a display page template folder.
-            operationId: postSiteSiteByExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate
+            operationId: postBySiteExternalReferenceCodeDisplayPageTemplateFolderDisplayPageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3874,7 +3874,7 @@ paths:
             # @review
             description:
                 Retrieves the display page templates of the site
-            operationId: getSiteSiteByExternalReferenceCodeDisplayPageTemplatesPage
+            operationId: getBySiteExternalReferenceCodeDisplayPageTemplatesPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3937,7 +3937,7 @@ paths:
             # @review
             description:
                 Adds a new display page template
-            operationId: postSiteSiteByExternalReferenceCodeDisplayPageTemplate
+            operationId: postBySiteExternalReferenceCodeDisplayPageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3965,7 +3965,7 @@ paths:
             tags: ["DisplayPageTemplate"]
     "/sites/{siteExternalReferenceCode}/display-page-templates/permissions":
         get:
-            operationId: getSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage
+            operationId: getBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -3991,7 +3991,7 @@ paths:
                         application/xml: {}
             tags: ["DisplayPageTemplate"]
         put:
-            operationId: putSiteSiteByExternalReferenceCodeDisplayPageTemplatePermissionsPage
+            operationId: putBySiteExternalReferenceCodeDisplayPageTemplatePermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4013,7 +4013,7 @@ paths:
             # @review
             description:
                 Deletes a specific display page template of a site.
-            operationId: deleteSiteSiteByExternalReferenceCodeDisplayPageTemplate
+            operationId: deleteBySiteExternalReferenceCodeDisplayPageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4035,7 +4035,7 @@ paths:
             # @review
             description:
                 Retrieves a specific display page template of a site.
-            operationId: getSiteSiteByExternalReferenceCodeDisplayPageTemplate
+            operationId: getBySiteExternalReferenceCodeDisplayPageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4073,7 +4073,7 @@ paths:
             # @review
             description:
                 Updates only the fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodeDisplayPageTemplate
+            operationId: patchBySiteExternalReferenceCodeDisplayPageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4120,7 +4120,7 @@ paths:
             description:
                 Updates the display page template with the given external reference code, or creates it if it does not
                 exist.
-            operationId: putSiteSiteByExternalReferenceCodeDisplayPageTemplate
+            operationId: putBySiteExternalReferenceCodeDisplayPageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4167,7 +4167,7 @@ paths:
             # @review
             description:
                 Retrieves the history of previously used URLs for a display page template.
-            operationId: getSiteSiteByExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory
+            operationId: getBySiteExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4205,7 +4205,7 @@ paths:
             # @review
             description:
                 Retrieves all the page specifications of a display page template.
-            operationId: getSiteSiteByExternalReferenceCodeDisplayPageTemplatePageSpecificationsPage
+            operationId: getBySiteExternalReferenceCodeDisplayPageTemplatePageSpecificationsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4247,7 +4247,7 @@ paths:
             # @review
             description:
                 Adds a new page specification in draft status to a display page template.
-            operationId: postSiteSiteByExternalReferenceCodeDisplayPageTemplatePageSpecification
+            operationId: postBySiteExternalReferenceCodeDisplayPageTemplatePageSpecification
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4348,7 +4348,7 @@ paths:
             # @review
             description:
                 Retrieves the fragment compositions of the site.
-            operationId: getSiteSiteByExternalReferenceCodeFragmentCompositionsPage
+            operationId: getBySiteExternalReferenceCodeFragmentCompositionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4407,7 +4407,7 @@ paths:
                 Adds a new fragment composition. If the page element of the fragment composition does not contain a
                 definition property and contains an external reference code, the page element will be retrieved based on
                 the externalReferenceCode and used for creating the fragment composition.
-            operationId: postSiteSiteByExternalReferenceCodeFragmentComposition
+            operationId: postBySiteExternalReferenceCodeFragmentComposition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4450,7 +4450,7 @@ paths:
             # @review
             description:
                 Deletes a specific fragment composition of a site.
-            operationId: deleteSiteSiteByExternalReferenceCodeFragmentComposition
+            operationId: deleteBySiteExternalReferenceCodeFragmentComposition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4472,7 +4472,7 @@ paths:
             # @review
             description:
                 Retrieves a specific fragment composition of a site.
-            operationId: getSiteSiteByExternalReferenceCodeFragmentComposition
+            operationId: getBySiteExternalReferenceCodeFragmentComposition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4510,7 +4510,7 @@ paths:
             # @review
             description:
                 Updates only the fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodeFragmentComposition
+            operationId: patchBySiteExternalReferenceCodeFragmentComposition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4557,7 +4557,7 @@ paths:
             description:
                 Updates the fragment composition with the given external reference code, or creates it if it does not
                 exist.
-            operationId: putSiteSiteByExternalReferenceCodeFragmentComposition
+            operationId: putBySiteExternalReferenceCodeFragmentComposition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4604,7 +4604,7 @@ paths:
             # @review
             description:
                 Retrieves the master pages of the site.
-            operationId: getSiteSiteByExternalReferenceCodeMasterPagesPage
+            operationId: getBySiteExternalReferenceCodeMasterPagesPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4667,7 +4667,7 @@ paths:
             # @review
             description:
                 Adds a new master page.
-            operationId: postSiteSiteByExternalReferenceCodeMasterPage
+            operationId: postBySiteExternalReferenceCodeMasterPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4695,7 +4695,7 @@ paths:
             tags: ["MasterPage"]
     "/sites/{siteExternalReferenceCode}/master-pages/permissions":
         get:
-            operationId: getSiteSiteByExternalReferenceCodeMasterPagePermissionsPage
+            operationId: getBySiteExternalReferenceCodeMasterPagePermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4721,7 +4721,7 @@ paths:
                         application/xml: {}
             tags: ["MasterPage"]
         put:
-            operationId: putSiteSiteByExternalReferenceCodeMasterPagePermissionsPage
+            operationId: putBySiteExternalReferenceCodeMasterPagePermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4743,7 +4743,7 @@ paths:
             # @review
             description:
                 Deletes a specific master page of a site.
-            operationId: deleteSiteSiteByExternalReferenceCodeMasterPage
+            operationId: deleteBySiteExternalReferenceCodeMasterPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4765,7 +4765,7 @@ paths:
             # @review
             description:
                 Retrieves a specific master page of a site.
-            operationId: getSiteSiteByExternalReferenceCodeMasterPage
+            operationId: getBySiteExternalReferenceCodeMasterPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4803,7 +4803,7 @@ paths:
             # @review
             description:
                 Updates only the fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodeMasterPage
+            operationId: patchBySiteExternalReferenceCodeMasterPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4849,7 +4849,7 @@ paths:
             # @review
             description:
                 Updates the master page with the given external reference code, or creates it if it does not exist.
-            operationId: putSiteSiteByExternalReferenceCodeMasterPage
+            operationId: putBySiteExternalReferenceCodeMasterPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4896,7 +4896,7 @@ paths:
             # @review
             description:
                 Retrieves all the page specifications of a master page.
-            operationId: getSiteSiteByExternalReferenceCodeMasterPagePageSpecificationsPage
+            operationId: getBySiteExternalReferenceCodeMasterPagePageSpecificationsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -4938,7 +4938,7 @@ paths:
             # @review
             description:
                 Adds a new page specification in draft status to a master page.
-            operationId: postSiteSiteByExternalReferenceCodeMasterPagePageSpecification
+            operationId: postBySiteExternalReferenceCodeMasterPagePageSpecification
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5040,7 +5040,7 @@ paths:
             description:
                 Deletes a page element within an experience of a specific page specification of a site page within a
                 site.
-            operationId: deleteSiteSiteByExternalReferenceCodePageElement
+            operationId: deleteBySiteExternalReferenceCodePageElement
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5063,7 +5063,7 @@ paths:
             description:
                 Retrieves a page element within an experience of a specific page specification of a site page within a
                 site.
-            operationId: getSiteSiteByExternalReferenceCodePageElement
+            operationId: getBySiteExternalReferenceCodePageElement
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5102,7 +5102,7 @@ paths:
             description:
                 Updates a page element within an experience of a specific page specification of a site page within a
                 site. Updates only the fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodePageElement
+            operationId: patchBySiteExternalReferenceCodePageElement
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5149,7 +5149,7 @@ paths:
             description:
                 Updates a page element within an experience of a specific page specification of a site page within a
                 site.
-            operationId: putSiteSiteByExternalReferenceCodePageElement
+            operationId: putBySiteExternalReferenceCodePageElement
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5198,7 +5198,7 @@ paths:
                 Adds a new fragment composition under a page element of an experience in a page specification of a site
                 page. If successful, the response will contain the page element in which the fragment composition is
                 converted.
-            operationId: postSiteSiteByExternalReferenceCodePageElementFragmentComposition
+            operationId: postBySiteExternalReferenceCodePageElementFragmentComposition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5257,7 +5257,7 @@ paths:
             description:
                 Retrieves all the descendant page elements of a page element within an experience in a page
                 specification of a site page.
-            operationId: getSiteSiteByExternalReferenceCodePageElementPageElementsPage
+            operationId: getBySiteExternalReferenceCodePageElementPageElementsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5306,7 +5306,7 @@ paths:
             description:
                 Deletes an experience of a specific page specification of a site page within a site. The default
                 experience cannot be deleted.
-            operationId: deleteSiteSiteByExternalReferenceCodePageExperience
+            operationId: deleteBySiteExternalReferenceCodePageExperience
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5340,7 +5340,7 @@ paths:
             # @review
             description:
                 Retrieves an experience of a specific page specification of a site page within a site.
-            operationId: getSiteSiteByExternalReferenceCodePageExperience
+            operationId: getBySiteExternalReferenceCodePageExperience
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5379,7 +5379,7 @@ paths:
             description:
                 Updates an experience of a specific page specification of a site page within a site. Updates only the
                 fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodePageExperience
+            operationId: patchBySiteExternalReferenceCodePageExperience
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5425,7 +5425,7 @@ paths:
             # @review
             description:
                 Updates an experience of a specific page specification of a site page within a site.
-            operationId: putSiteSiteByExternalReferenceCodePageExperience
+            operationId: putBySiteExternalReferenceCodePageExperience
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5472,7 +5472,7 @@ paths:
             # @review
             description:
                 Retrieves all the page elements within an experience in a page specification of a site page.
-            operationId: getSiteSiteByExternalReferenceCodePageExperiencePageElementsPage
+            operationId: getBySiteExternalReferenceCodePageExperiencePageElementsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5518,7 +5518,7 @@ paths:
             # @review
             description:
                 Adds a new page element to an experience in a page specification in draft status of a site page.
-            operationId: postSiteSiteByExternalReferenceCodePageExperiencePageElement
+            operationId: postBySiteExternalReferenceCodePageExperiencePageElement
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5566,7 +5566,7 @@ paths:
             # @review
             description:
                 Retrieves all the page rules within an experience in a page specification of a site page.
-            operationId: getSiteSiteByExternalReferenceCodePageExperiencePageRulesPage
+            operationId: getBySiteExternalReferenceCodePageExperiencePageRulesPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5612,7 +5612,7 @@ paths:
             # @review
             description:
                 Adds a new page rule to an experience in a page specification in draft status of a site page.
-            operationId: postSiteSiteByExternalReferenceCodePageExperiencePageRule
+            operationId: postBySiteExternalReferenceCodePageExperiencePageRule
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5660,7 +5660,7 @@ paths:
             description:
                 Deletes a page rule action within a page rule of an experience of a specific page specification of a
                 site page within a site.
-            operationId: deleteSiteSiteByExternalReferenceCodePageRuleAction
+            operationId: deleteBySiteExternalReferenceCodePageRuleAction
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5695,7 +5695,7 @@ paths:
             description:
                 Retrieves a page rule action within a page rule of an experience of a specific page specification of a
                 site page within a site.
-            operationId: getSiteSiteByExternalReferenceCodePageRuleAction
+            operationId: getBySiteExternalReferenceCodePageRuleAction
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5735,7 +5735,7 @@ paths:
                 Updates a page rule action within a page rule of an experience of a specific page specification of a
                 site page within a site. Updates only the fields received in the request body, leaving any other fields
                 untouched.
-            operationId: patchSiteSiteByExternalReferenceCodePageRuleAction
+            operationId: patchBySiteExternalReferenceCodePageRuleAction
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5782,7 +5782,7 @@ paths:
             description:
                 Updates a page rule action within a page rule of an experience of a specific page specification of a
                 site page within a site.
-            operationId: putSiteSiteByExternalReferenceCodePageRuleAction
+            operationId: putBySiteExternalReferenceCodePageRuleAction
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5830,7 +5830,7 @@ paths:
             description:
                 Deletes a page rule condition within a page rule of an experience of a specific page specification of a
                 site page within a site.
-            operationId: deleteSiteSiteByExternalReferenceCodePageRuleCondition
+            operationId: deleteBySiteExternalReferenceCodePageRuleCondition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5865,7 +5865,7 @@ paths:
             description:
                 Retrieves a page rule condition within a page rule of an experience of a specific page specification of
                 a site page within a site.
-            operationId: getSiteSiteByExternalReferenceCodePageRuleCondition
+            operationId: getBySiteExternalReferenceCodePageRuleCondition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5905,7 +5905,7 @@ paths:
                 Updates a page rule condition within a page rule of an experience of a specific page specification of a
                 site page within a site. Updates only the fields received in the request body, leaving any other fields
                 untouched.
-            operationId: patchSiteSiteByExternalReferenceCodePageRuleCondition
+            operationId: patchBySiteExternalReferenceCodePageRuleCondition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5952,7 +5952,7 @@ paths:
             description:
                 Updates a page rule condition within a page rule of an experience of a specific page specification of a
                 site page within a site.
-            operationId: putSiteSiteByExternalReferenceCodePageRuleCondition
+            operationId: putBySiteExternalReferenceCodePageRuleCondition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -5999,7 +5999,7 @@ paths:
             # @review
             description:
                 Deletes a page rule within an experience of a specific page specification of a site page within a site.
-            operationId: deleteSiteSiteByExternalReferenceCodePageRule
+            operationId: deleteBySiteExternalReferenceCodePageRule
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6033,7 +6033,7 @@ paths:
             # @review
             description:
                 Retrieves page rule within an experience of a specific page specification of a site page within a site.
-            operationId: getSiteSiteByExternalReferenceCodePageRule
+            operationId: getBySiteExternalReferenceCodePageRule
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6072,7 +6072,7 @@ paths:
             description:
                 Updates a page rule within an experience of a specific page specification of a site page within a site.
                 Updates only the fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodePageRule
+            operationId: patchBySiteExternalReferenceCodePageRule
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6118,7 +6118,7 @@ paths:
             # @review
             description:
                 Updates a page rule within an experience of a specific page specification of a site page within a site.
-            operationId: putSiteSiteByExternalReferenceCodePageRule
+            operationId: putBySiteExternalReferenceCodePageRule
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6165,7 +6165,7 @@ paths:
             # @review
             description:
                 Retrieves all the page rule action actions within an experience in a page specification of a site page.
-            operationId: getSiteSiteByExternalReferenceCodePageRulePageRuleActionsPage
+            operationId: getBySiteExternalReferenceCodePageRulePageRuleActionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6213,7 +6213,7 @@ paths:
             description:
                 Adds a new page rule action to a page rule in an experience in a page specification in draft status of a
                 site page.
-            operationId: postSiteSiteByExternalReferenceCodePageRulePageRuleAction
+            operationId: postBySiteExternalReferenceCodePageRulePageRuleAction
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6261,7 +6261,7 @@ paths:
             description:
                 Retrieves all the page rule condition conditions within an experience in a page specification of a site
                 page.
-            operationId: getSiteSiteByExternalReferenceCodePageRulePageRuleConditionsPage
+            operationId: getBySiteExternalReferenceCodePageRulePageRuleConditionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6309,7 +6309,7 @@ paths:
             description:
                 Adds a new page rule condition to a page rule in an experience in a page specification in draft status
                 of a site page.
-            operationId: postSiteSiteByExternalReferenceCodePageRulePageRuleCondition
+            operationId: postBySiteExternalReferenceCodePageRulePageRuleCondition
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6356,7 +6356,7 @@ paths:
             # @review
             description:
                 Deletes a page specification of a site page.
-            operationId: deleteSiteSiteByExternalReferenceCodePageSpecification
+            operationId: deleteBySiteExternalReferenceCodePageSpecification
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6390,7 +6390,7 @@ paths:
             # @review
             description:
                 Retrieves a page specification of a site page.
-            operationId: getSiteSiteByExternalReferenceCodePageSpecification
+            operationId: getBySiteExternalReferenceCodePageSpecification
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6429,7 +6429,7 @@ paths:
             description:
                 Updates a page specification of a site page. Updates only the fields received in the request body,
                 leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodePageSpecification
+            operationId: patchBySiteExternalReferenceCodePageSpecification
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6475,7 +6475,7 @@ paths:
             # @review
             description:
                 Updates a page specification of a site page.
-            operationId: putSiteSiteByExternalReferenceCodePageSpecification
+            operationId: putBySiteExternalReferenceCodePageSpecification
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6522,7 +6522,7 @@ paths:
             # @review
             description:
                 Retrieves all the experiences of a page specification.
-            operationId: getSiteSiteByExternalReferenceCodePageSpecificationPageExperiencesPage
+            operationId: getBySiteExternalReferenceCodePageSpecificationPageExperiencesPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6565,7 +6565,7 @@ paths:
             # @review
             description:
                 Adds a new experience to a page specification of a site page.
-            operationId: postSiteSiteByExternalReferenceCodePageSpecificationPageExperience
+            operationId: postBySiteExternalReferenceCodePageSpecificationPageExperience
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6613,7 +6613,7 @@ paths:
             # @review
             description:
                 Publishes a page specification in draft status of a site page.
-            operationId: postSiteSiteByExternalReferenceCodePageSpecificationPublish
+            operationId: postBySiteExternalReferenceCodePageSpecificationPublish
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6657,7 +6657,7 @@ paths:
             # @review
             description:
                 Retrieves the page template sets of the site
-            operationId: getSiteSiteByExternalReferenceCodePageTemplateSetsPage
+            operationId: getBySiteExternalReferenceCodePageTemplateSetsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6720,7 +6720,7 @@ paths:
             # @review
             description:
                 Adds a new page template set
-            operationId: postSiteSiteByExternalReferenceCodePageTemplateSet
+            operationId: postBySiteExternalReferenceCodePageTemplateSet
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6748,7 +6748,7 @@ paths:
             tags: ["PageTemplateSet"]
     "/sites/{siteExternalReferenceCode}/page-template-sets/permissions":
         get:
-            operationId: getSiteSiteByExternalReferenceCodePageTemplateSetPermissionsPage
+            operationId: getBySiteExternalReferenceCodePageTemplateSetPermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6774,7 +6774,7 @@ paths:
                         application/xml: {}
             tags: ["PageTemplateSet"]
         put:
-            operationId: putSiteSiteByExternalReferenceCodePageTemplateSetPermissionsPage
+            operationId: putBySiteExternalReferenceCodePageTemplateSetPermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6796,7 +6796,7 @@ paths:
             # @review
             description:
                 Deletes a specific page template set of a site.
-            operationId: deleteSiteSiteByExternalReferenceCodePageTemplateSet
+            operationId: deleteBySiteExternalReferenceCodePageTemplateSet
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6818,7 +6818,7 @@ paths:
             # @review
             description:
                 Retrieves a specific page template set of a site.
-            operationId: getSiteSiteByExternalReferenceCodePageTemplateSet
+            operationId: getBySiteExternalReferenceCodePageTemplateSet
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6856,7 +6856,7 @@ paths:
             # @review
             description:
                 Updates only the fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodePageTemplateSet
+            operationId: patchBySiteExternalReferenceCodePageTemplateSet
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6903,7 +6903,7 @@ paths:
             description:
                 Updates the page template set with the given external reference code, or creates it if it does not
                 exist.
-            operationId: putSiteSiteByExternalReferenceCodePageTemplateSet
+            operationId: putBySiteExternalReferenceCodePageTemplateSet
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6950,7 +6950,7 @@ paths:
             # @review
             description:
                 Retrieves all the page templates within a page template set of a site page.
-            operationId: getSiteSiteByExternalReferenceCodePageTemplateSetPageTemplatesPage
+            operationId: getBySiteExternalReferenceCodePageTemplateSetPageTemplatesPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -6997,7 +6997,7 @@ paths:
             # @review
             description:
                 Adds a new page template in draft status to a page template set.
-            operationId: postSiteSiteByExternalReferenceCodePageTemplateSetPageTemplate
+            operationId: postBySiteExternalReferenceCodePageTemplateSetPageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7098,7 +7098,7 @@ paths:
             # @review
             description:
                 Retrieves the page templates of the site
-            operationId: getSiteSiteByExternalReferenceCodePageTemplatesPage
+            operationId: getBySiteExternalReferenceCodePageTemplatesPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7161,7 +7161,7 @@ paths:
             # @review
             description:
                 Adds a new page template
-            operationId: postSiteSiteByExternalReferenceCodePageTemplate
+            operationId: postBySiteExternalReferenceCodePageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7189,7 +7189,7 @@ paths:
             tags: ["PageTemplate"]
     "/sites/{siteExternalReferenceCode}/page-templates/permissions":
         get:
-            operationId: getSiteSiteByExternalReferenceCodePageTemplatePermissionsPage
+            operationId: getBySiteExternalReferenceCodePageTemplatePermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7215,7 +7215,7 @@ paths:
                         application/xml: {}
             tags: ["PageTemplate"]
         put:
-            operationId: putSiteSiteByExternalReferenceCodePageTemplatePermissionsPage
+            operationId: putBySiteExternalReferenceCodePageTemplatePermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7237,7 +7237,7 @@ paths:
             # @review
             description:
                 Deletes a specific page template of a site.
-            operationId: deleteSiteSiteByExternalReferenceCodePageTemplate
+            operationId: deleteBySiteExternalReferenceCodePageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7259,7 +7259,7 @@ paths:
             # @review
             description:
                 Retrieves a specific page template of a site.
-            operationId: getSiteSiteByExternalReferenceCodePageTemplate
+            operationId: getBySiteExternalReferenceCodePageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7297,7 +7297,7 @@ paths:
             # @review
             description:
                 Updates only the fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodePageTemplate
+            operationId: patchBySiteExternalReferenceCodePageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7343,7 +7343,7 @@ paths:
             # @review
             description:
                 Updates the page template with the given external reference code, or creates it if it does not exist.
-            operationId: putSiteSiteByExternalReferenceCodePageTemplate
+            operationId: putBySiteExternalReferenceCodePageTemplate
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7390,7 +7390,7 @@ paths:
             # @review
             description:
                 Retrieves all the page specifications of a page template.
-            operationId: getSiteSiteByExternalReferenceCodePageTemplatePageSpecificationsPage
+            operationId: getBySiteExternalReferenceCodePageTemplatePageSpecificationsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7432,7 +7432,7 @@ paths:
             # @review
             description:
                 Adds a new page specification in draft status to a page template.
-            operationId: postSiteSiteByExternalReferenceCodePageTemplatePageSpecification
+            operationId: postBySiteExternalReferenceCodePageTemplatePageSpecification
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7533,7 +7533,7 @@ paths:
             # @review
             description:
                 Retrieves the public pages of the site
-            operationId: getSiteSiteByExternalReferenceCodeSitePagesPage
+            operationId: getBySiteExternalReferenceCodeSitePagesPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7624,7 +7624,7 @@ paths:
             tags: ["SitePage"]
     "/sites/{siteExternalReferenceCode}/site-pages/permissions":
         get:
-            operationId: getSiteSiteByExternalReferenceCodeSitePagePermissionsPage
+            operationId: getBySiteExternalReferenceCodeSitePagePermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7650,7 +7650,7 @@ paths:
                         application/xml: {}
             tags: ["SitePage"]
         put:
-            operationId: putSiteSiteByExternalReferenceCodeSitePagePermissionsPage
+            operationId: putBySiteExternalReferenceCodeSitePagePermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7672,7 +7672,7 @@ paths:
             # @review
             description:
                 Deletes a specific public page of a site.
-            operationId: deleteSiteSiteByExternalReferenceCodeSitePage
+            operationId: deleteBySiteExternalReferenceCodeSitePage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7694,7 +7694,7 @@ paths:
             # @review
             description:
                 Retrieves a specific public page of a site.
-            operationId: getSiteSiteByExternalReferenceCodeSitePage
+            operationId: getBySiteExternalReferenceCodeSitePage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7732,7 +7732,7 @@ paths:
             # @review
             description:
                 Updates only the fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodeSitePage
+            operationId: patchBySiteExternalReferenceCodeSitePage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7778,7 +7778,7 @@ paths:
             # @review
             description:
                 Updates the site page with the given external reference code, or creates it if it does not exist.
-            operationId: putSiteSiteByExternalReferenceCodeSitePage
+            operationId: putBySiteExternalReferenceCodeSitePage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7825,7 +7825,7 @@ paths:
             # @review
             description:
                 Retrieves the history of previously used URLs for a page.
-            operationId: getSiteSiteByExternalReferenceCodeSitePageFriendlyUrlHistory
+            operationId: getBySiteExternalReferenceCodeSitePageFriendlyUrlHistory
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7863,7 +7863,7 @@ paths:
             # @review
             description:
                 Retrieves all the page specifications of a site page.
-            operationId: getSiteSiteByExternalReferenceCodeSitePagePageSpecificationsPage
+            operationId: getBySiteExternalReferenceCodeSitePagePageSpecificationsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -7905,7 +7905,7 @@ paths:
             # @review
             description:
                 Adds a new page specification to a site page.
-            operationId: postSiteSiteByExternalReferenceCodeSitePagePageSpecification
+            operationId: postBySiteExternalReferenceCodeSitePagePageSpecification
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8005,7 +8005,7 @@ paths:
             # @review
             description:
                 Retrieves all the widget instances of a widget page.
-            operationId: getSiteSiteByExternalReferenceCodeSitePageWidgetInstancesPage
+            operationId: getBySiteExternalReferenceCodeSitePageWidgetInstancesPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8047,7 +8047,7 @@ paths:
             # @review
             description:
                 Adds a new widget instance to a widget page.
-            operationId: postSiteSiteByExternalReferenceCodeSitePageWidgetInstance
+            operationId: postBySiteExternalReferenceCodeSitePageWidgetInstance
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8095,7 +8095,7 @@ paths:
             # @review
             description:
                 Deletes a widget instance of a specific widget page or widget page template within a site.
-            operationId: deleteSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode
+            operationId: deleteBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8122,7 +8122,7 @@ paths:
             # @review
             description:
                 Retrieves a widget instance of a widget page or widget page template within a site.
-            operationId: getSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode
+            operationId: getBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8166,7 +8166,7 @@ paths:
             description:
                 Updates a widget instance of a widget page or widget page template within a site. Updates only the
                 fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode
+            operationId: patchBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8217,7 +8217,7 @@ paths:
             # @review
             description:
                 Updates a widget instance of a widget page or widget page template within a site.
-            operationId: putSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode
+            operationId: putBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8269,7 +8269,7 @@ paths:
             # @review
             description:
                 Retrieves the utility pages of the site.
-            operationId: getSiteSiteByExternalReferenceCodeUtilityPagesPage
+            operationId: getBySiteExternalReferenceCodeUtilityPagesPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8332,7 +8332,7 @@ paths:
             # @review
             description:
                 Adds a new utility page
-            operationId: postSiteSiteByExternalReferenceCodeUtilityPage
+            operationId: postBySiteExternalReferenceCodeUtilityPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8360,7 +8360,7 @@ paths:
             tags: ["UtilityPage"]
     "/sites/{siteExternalReferenceCode}/utility-pages/permissions":
         get:
-            operationId: getSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage
+            operationId: getBySiteExternalReferenceCodeUtilityPagePermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8386,7 +8386,7 @@ paths:
                         application/xml: {}
             tags: ["UtilityPage"]
         put:
-            operationId: putSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage
+            operationId: putBySiteExternalReferenceCodeUtilityPagePermissionsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8408,7 +8408,7 @@ paths:
             # @review
             description:
                 Deletes a specific utility page of a site.
-            operationId: deleteSiteSiteByExternalReferenceCodeUtilityPage
+            operationId: deleteBySiteExternalReferenceCodeUtilityPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8430,7 +8430,7 @@ paths:
             # @review
             description:
                 Retrieves a specific utility page of a site.
-            operationId: getSiteSiteByExternalReferenceCodeUtilityPage
+            operationId: getBySiteExternalReferenceCodeUtilityPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8468,7 +8468,7 @@ paths:
             # @review
             description:
                 Updates only the fields received in the request body, leaving any other fields untouched.
-            operationId: patchSiteSiteByExternalReferenceCodeUtilityPage
+            operationId: patchBySiteExternalReferenceCodeUtilityPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8514,7 +8514,7 @@ paths:
             # @review
             description:
                 Updates the utility page with the given external reference code, or creates it if it does not exist.
-            operationId: putSiteSiteByExternalReferenceCodeUtilityPage
+            operationId: putBySiteExternalReferenceCodeUtilityPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8561,7 +8561,7 @@ paths:
             # @review
             description:
                 Retrieves the history of previously used URLs for a utility page.
-            operationId: getSiteSiteByExternalReferenceCodeUtilityPageFriendlyUrlHistory
+            operationId: getBySiteExternalReferenceCodeUtilityPageFriendlyUrlHistory
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8599,7 +8599,7 @@ paths:
             # @review
             description:
                 Retrieves all the page specifications of a utility page.
-            operationId: getSiteSiteByExternalReferenceCodeUtilityPagePageSpecificationsPage
+            operationId: getBySiteExternalReferenceCodeUtilityPagePageSpecificationsPage
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
@@ -8641,7 +8641,7 @@ paths:
             # @review
             description:
                 Adds a new page specification to a utility page.
-            operationId: postSiteSiteByExternalReferenceCodeUtilityPagePageSpecification
+            operationId: postBySiteExternalReferenceCodeUtilityPagePageSpecification
             parameters:
                 - in: path
                   name: siteExternalReferenceCode
