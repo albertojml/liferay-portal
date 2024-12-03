@@ -55,7 +55,7 @@ public class FriendlyUrlHistoryResourceTest
 
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory()
+	public void testGetBySiteExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory()
 		throws Exception {
 
 		ServiceContext serviceContext =
@@ -70,7 +70,7 @@ public class FriendlyUrlHistoryResourceTest
 
 		FriendlyUrlHistory friendlyUrlHistory =
 			friendlyUrlHistoryResource.
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory(
+				getBySiteExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory(
 					testGroup.getExternalReferenceCode(),
 					layoutPageTemplateEntry.getExternalReferenceCode());
 
@@ -88,19 +88,17 @@ public class FriendlyUrlHistoryResourceTest
 
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeSitePageFriendlyUrlHistory()
+	public void testGetBySiteExternalReferenceCodeSitePageFriendlyUrlHistory()
 		throws Exception {
 
 		Layout layout = LayoutTestUtil.addTypePortletLayout(
 			testGroup.getGroupId());
 
-		_testGetSiteSiteByExternalReferenceCodeSitePageFriendlyUrlHistory(
-			layout);
+		_testGetBySiteExternalReferenceCodeSitePageFriendlyUrlHistory(layout);
 
 		layout = LayoutTestUtil.addTypeContentLayout(testGroup);
 
-		_testGetSiteSiteByExternalReferenceCodeSitePageFriendlyUrlHistory(
-			layout);
+		_testGetBySiteExternalReferenceCodeSitePageFriendlyUrlHistory(layout);
 
 		_assertProblemException(layout.fetchDraftLayout());
 
@@ -120,7 +118,7 @@ public class FriendlyUrlHistoryResourceTest
 
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeUtilityPageFriendlyUrlHistory()
+	public void testGetBySiteExternalReferenceCodeUtilityPageFriendlyUrlHistory()
 		throws Exception {
 
 		LayoutUtilityPageEntry layoutUtilityPageEntry =
@@ -133,7 +131,7 @@ public class FriendlyUrlHistoryResourceTest
 
 		FriendlyUrlHistory friendlyUrlHistory =
 			friendlyUrlHistoryResource.
-				getSiteSiteByExternalReferenceCodeUtilityPageFriendlyUrlHistory(
+				getBySiteExternalReferenceCodeUtilityPageFriendlyUrlHistory(
 					testGroup.getExternalReferenceCode(),
 					layoutUtilityPageEntry.getExternalReferenceCode());
 
@@ -162,7 +160,7 @@ public class FriendlyUrlHistoryResourceTest
 	private void _assertProblemException(Layout layout) throws Exception {
 		try {
 			friendlyUrlHistoryResource.
-				getSiteSiteByExternalReferenceCodeSitePageFriendlyUrlHistory(
+				getBySiteExternalReferenceCodeSitePageFriendlyUrlHistory(
 					testGroup.getExternalReferenceCode(),
 					layout.getExternalReferenceCode());
 
@@ -182,7 +180,7 @@ public class FriendlyUrlHistoryResourceTest
 
 		try {
 			friendlyUrlHistoryResource.
-				getSiteSiteByExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory(
+				getBySiteExternalReferenceCodeDisplayPageTemplateFriendlyUrlHistory(
 					testGroup.getExternalReferenceCode(),
 					layoutPageTemplateEntry.getExternalReferenceCode());
 
@@ -299,16 +297,15 @@ public class FriendlyUrlHistoryResourceTest
 		return _layoutLocalService.getLayout(layoutPageTemplateEntry.getPlid());
 	}
 
-	private void
-			_testGetSiteSiteByExternalReferenceCodeSitePageFriendlyUrlHistory(
-				Layout layout)
+	private void _testGetBySiteExternalReferenceCodeSitePageFriendlyUrlHistory(
+			Layout layout)
 		throws Exception {
 
 		List<String> friendlyURLs = _updateLayout(layout);
 
 		FriendlyUrlHistory friendlyUrlHistory =
 			friendlyUrlHistoryResource.
-				getSiteSiteByExternalReferenceCodeSitePageFriendlyUrlHistory(
+				getBySiteExternalReferenceCodeSitePageFriendlyUrlHistory(
 					testGroup.getExternalReferenceCode(),
 					layout.getExternalReferenceCode());
 

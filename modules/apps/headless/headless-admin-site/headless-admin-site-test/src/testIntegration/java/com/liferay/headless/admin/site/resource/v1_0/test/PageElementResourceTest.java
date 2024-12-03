@@ -22,77 +22,75 @@ public class PageElementResourceTest extends BasePageElementResourceTestCase {
 	@Ignore
 	@Override
 	@Test
-	public void testDeleteSiteSiteByExternalReferenceCodePageElement()
+	public void testDeleteBySiteExternalReferenceCodePageElement()
 		throws Exception {
 
-		super.testDeleteSiteSiteByExternalReferenceCodePageElement();
+		super.testDeleteBySiteExternalReferenceCodePageElement();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodePageElement()
+	public void testGetBySiteExternalReferenceCodePageElement()
 		throws Exception {
 
-		super.testGetSiteSiteByExternalReferenceCodePageElement();
+		super.testGetBySiteExternalReferenceCodePageElement();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodePageElementPageElementsPage()
+	public void testGetBySiteExternalReferenceCodePageElementPageElementsPage()
+		throws Exception {
+
+		super.testGetBySiteExternalReferenceCodePageElementPageElementsPage();
+	}
+
+	@Ignore
+	@Override
+	@Test
+	public void testGetBySiteExternalReferenceCodePageExperiencePageElementsPage()
 		throws Exception {
 
 		super.
-			testGetSiteSiteByExternalReferenceCodePageElementPageElementsPage();
+			testGetBySiteExternalReferenceCodePageExperiencePageElementsPage();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodePageExperiencePageElementsPage()
+	public void testPatchBySiteExternalReferenceCodePageElement()
+		throws Exception {
+
+		super.testPatchBySiteExternalReferenceCodePageElement();
+	}
+
+	@Ignore
+	@Override
+	@Test
+	public void testPostBySiteExternalReferenceCodePageElementFragmentComposition()
 		throws Exception {
 
 		super.
-			testGetSiteSiteByExternalReferenceCodePageExperiencePageElementsPage();
+			testPostBySiteExternalReferenceCodePageElementFragmentComposition();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testPatchSiteSiteByExternalReferenceCodePageElement()
+	public void testPostBySiteExternalReferenceCodePageExperiencePageElement()
 		throws Exception {
 
-		super.testPatchSiteSiteByExternalReferenceCodePageElement();
+		super.testPostBySiteExternalReferenceCodePageExperiencePageElement();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testPostSiteSiteByExternalReferenceCodePageElementFragmentComposition()
+	public void testPutBySiteExternalReferenceCodePageElement()
 		throws Exception {
 
-		super.
-			testPostSiteSiteByExternalReferenceCodePageElementFragmentComposition();
-	}
-
-	@Ignore
-	@Override
-	@Test
-	public void testPostSiteSiteByExternalReferenceCodePageExperiencePageElement()
-		throws Exception {
-
-		super.
-			testPostSiteSiteByExternalReferenceCodePageExperiencePageElement();
-	}
-
-	@Ignore
-	@Override
-	@Test
-	public void testPutSiteSiteByExternalReferenceCodePageElement()
-		throws Exception {
-
-		super.testPutSiteSiteByExternalReferenceCodePageElement();
+		super.testPutBySiteExternalReferenceCodePageElement();
 	}
 
 }

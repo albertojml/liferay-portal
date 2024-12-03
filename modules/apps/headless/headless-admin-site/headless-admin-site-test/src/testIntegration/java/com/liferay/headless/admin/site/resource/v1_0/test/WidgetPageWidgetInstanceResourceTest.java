@@ -41,11 +41,11 @@ public class WidgetPageWidgetInstanceResourceTest
 
 	@Override
 	@Test
-	public void testDeleteSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode()
+	public void testDeleteBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode()
 		throws Exception {
 
 		WidgetPageWidgetInstance widgetPageWidgetInstance =
-			testPostSiteSiteByExternalReferenceCodeSitePageWidgetInstance_addWidgetPageWidgetInstance(
+			testPostBySiteExternalReferenceCodeSitePageWidgetInstance_addWidgetPageWidgetInstance(
 				randomWidgetPageWidgetInstance());
 
 		_layout = _layoutLocalService.fetchLayout(_layout.getPlid());
@@ -60,7 +60,7 @@ public class WidgetPageWidgetInstanceResourceTest
 		Assert.assertTrue(layoutTypePortlet.hasPortletId(portletId));
 
 		widgetPageWidgetInstanceResource.
-			deleteSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+			deleteBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 				testGroup.getExternalReferenceCode(),
 				_layout.getExternalReferenceCode(), portletId);
 
@@ -72,7 +72,7 @@ public class WidgetPageWidgetInstanceResourceTest
 
 		try {
 			widgetPageWidgetInstanceResource.
-				deleteSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+				deleteBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 					testGroup.getExternalReferenceCode(),
 					_layout.getExternalReferenceCode(), portletId);
 
@@ -88,11 +88,11 @@ public class WidgetPageWidgetInstanceResourceTest
 
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode()
+	public void testGetBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode()
 		throws Exception {
 
 		WidgetPageWidgetInstance postWidgetPageWidgetInstance =
-			testPostSiteSiteByExternalReferenceCodeSitePageWidgetInstance_addWidgetPageWidgetInstance(
+			testPostBySiteExternalReferenceCodeSitePageWidgetInstance_addWidgetPageWidgetInstance(
 				randomWidgetPageWidgetInstance());
 
 		String portletId = PortletIdCodec.encode(
@@ -101,7 +101,7 @@ public class WidgetPageWidgetInstanceResourceTest
 
 		WidgetPageWidgetInstance getWidgetPageWidgetInstance =
 			widgetPageWidgetInstanceResource.
-				getSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+				getBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 					testGroup.getExternalReferenceCode(),
 					_layout.getExternalReferenceCode(), portletId);
 
@@ -110,7 +110,7 @@ public class WidgetPageWidgetInstanceResourceTest
 
 		try {
 			widgetPageWidgetInstanceResource.
-				getSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+				getBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 					testGroup.getExternalReferenceCode(),
 					_layout.getExternalReferenceCode(),
 					RandomTestUtil.randomString());
@@ -127,11 +127,11 @@ public class WidgetPageWidgetInstanceResourceTest
 
 	@Override
 	@Test
-	public void testPatchSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode()
+	public void testPatchBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode()
 		throws Exception {
 
 		WidgetPageWidgetInstance postWidgetPageWidgetInstance =
-			testPostSiteSiteByExternalReferenceCodeSitePageWidgetInstance_addWidgetPageWidgetInstance(
+			testPostBySiteExternalReferenceCodeSitePageWidgetInstance_addWidgetPageWidgetInstance(
 				randomWidgetPageWidgetInstance());
 
 		String portletId = PortletIdCodec.encode(
@@ -140,7 +140,7 @@ public class WidgetPageWidgetInstanceResourceTest
 
 		WidgetPageWidgetInstance patchWidgetPageWidgetInstance =
 			widgetPageWidgetInstanceResource.
-				patchSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+				patchBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 					testGroup.getExternalReferenceCode(),
 					_layout.getExternalReferenceCode(), portletId,
 					postWidgetPageWidgetInstance);
@@ -151,7 +151,7 @@ public class WidgetPageWidgetInstanceResourceTest
 
 		try {
 			widgetPageWidgetInstanceResource.
-				patchSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+				patchBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 					testGroup.getExternalReferenceCode(),
 					_layout.getExternalReferenceCode(),
 					RandomTestUtil.randomString(),
@@ -169,7 +169,7 @@ public class WidgetPageWidgetInstanceResourceTest
 
 	@Override
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode()
+	public void testPutBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode()
 		throws Exception {
 
 		WidgetPageWidgetInstance widgetPageWidgetInstance =
@@ -181,7 +181,7 @@ public class WidgetPageWidgetInstanceResourceTest
 
 		WidgetPageWidgetInstance putWidgetPageWidgetInstance =
 			widgetPageWidgetInstanceResource.
-				putSiteSiteByExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
+				putBySiteExternalReferenceCodeWidgetInstanceWidgetInstanceExternalReferenceCode(
 					testGroup.getExternalReferenceCode(),
 					_layout.getExternalReferenceCode(), portletId,
 					widgetPageWidgetInstance);
@@ -222,21 +222,21 @@ public class WidgetPageWidgetInstanceResourceTest
 
 	@Override
 	protected WidgetPageWidgetInstance
-			testGetSiteSiteByExternalReferenceCodeSitePageWidgetInstancesPage_addWidgetPageWidgetInstance(
+			testGetBySiteExternalReferenceCodeSitePageWidgetInstancesPage_addWidgetPageWidgetInstance(
 				String siteExternalReferenceCode,
 				String sitePageExternalReferenceCode,
 				WidgetPageWidgetInstance widgetPageWidgetInstance)
 		throws Exception {
 
 		return widgetPageWidgetInstanceResource.
-			postSiteSiteByExternalReferenceCodeSitePageWidgetInstance(
+			postBySiteExternalReferenceCodeSitePageWidgetInstance(
 				siteExternalReferenceCode, sitePageExternalReferenceCode,
 				widgetPageWidgetInstance);
 	}
 
 	@Override
 	protected String
-			testGetSiteSiteByExternalReferenceCodeSitePageWidgetInstancesPage_getIrrelevantSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeSitePageWidgetInstancesPage_getIrrelevantSiteExternalReferenceCode()
 		throws Exception {
 
 		return irrelevantGroup.getExternalReferenceCode();
@@ -244,7 +244,7 @@ public class WidgetPageWidgetInstanceResourceTest
 
 	@Override
 	protected String
-			testGetSiteSiteByExternalReferenceCodeSitePageWidgetInstancesPage_getSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeSitePageWidgetInstancesPage_getSiteExternalReferenceCode()
 		throws Exception {
 
 		return testGroup.getExternalReferenceCode();
@@ -252,7 +252,7 @@ public class WidgetPageWidgetInstanceResourceTest
 
 	@Override
 	protected String
-			testGetSiteSiteByExternalReferenceCodeSitePageWidgetInstancesPage_getSitePageExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeSitePageWidgetInstancesPage_getSitePageExternalReferenceCode()
 		throws Exception {
 
 		return _layout.getExternalReferenceCode();
@@ -260,12 +260,12 @@ public class WidgetPageWidgetInstanceResourceTest
 
 	@Override
 	protected WidgetPageWidgetInstance
-			testPostSiteSiteByExternalReferenceCodeSitePageWidgetInstance_addWidgetPageWidgetInstance(
+			testPostBySiteExternalReferenceCodeSitePageWidgetInstance_addWidgetPageWidgetInstance(
 				WidgetPageWidgetInstance widgetPageWidgetInstance)
 		throws Exception {
 
 		return widgetPageWidgetInstanceResource.
-			postSiteSiteByExternalReferenceCodeSitePageWidgetInstance(
+			postBySiteExternalReferenceCodeSitePageWidgetInstance(
 				testGroup.getExternalReferenceCode(),
 				_layout.getExternalReferenceCode(), widgetPageWidgetInstance);
 	}

@@ -47,11 +47,11 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 
 	@Override
 	@Test
-	public void testDeleteSiteSiteByExternalReferenceCodeUtilityPage()
+	public void testDeleteBySiteExternalReferenceCodeUtilityPage()
 		throws Exception {
 
 		UtilityPage postUtilityPage =
-			testPostSiteSiteByExternalReferenceCodeUtilityPage_addUtilityPage(
+			testPostBySiteExternalReferenceCodeUtilityPage_addUtilityPage(
 				randomUtilityPage());
 
 		Assert.assertNotNull(
@@ -60,7 +60,7 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 					postUtilityPage.getExternalReferenceCode(),
 					testGroup.getGroupId()));
 
-		utilityPageResource.deleteSiteSiteByExternalReferenceCodeUtilityPage(
+		utilityPageResource.deleteBySiteExternalReferenceCodeUtilityPage(
 			testGroup.getExternalReferenceCode(),
 			postUtilityPage.getExternalReferenceCode());
 
@@ -71,10 +71,9 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 					testGroup.getGroupId()));
 
 		try {
-			utilityPageResource.
-				deleteSiteSiteByExternalReferenceCodeUtilityPage(
-					testGroup.getExternalReferenceCode(),
-					postUtilityPage.getExternalReferenceCode());
+			utilityPageResource.deleteBySiteExternalReferenceCodeUtilityPage(
+				testGroup.getExternalReferenceCode(),
+				postUtilityPage.getExternalReferenceCode());
 
 			Assert.fail();
 		}
@@ -88,15 +87,15 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeUtilityPage()
+	public void testGetBySiteExternalReferenceCodeUtilityPage()
 		throws Exception {
 
 		UtilityPage postUtilityPage =
-			testPostSiteSiteByExternalReferenceCodeUtilityPage_addUtilityPage(
+			testPostBySiteExternalReferenceCodeUtilityPage_addUtilityPage(
 				randomUtilityPage());
 
 		UtilityPage getUtilityPage =
-			utilityPageResource.getSiteSiteByExternalReferenceCodeUtilityPage(
+			utilityPageResource.getBySiteExternalReferenceCodeUtilityPage(
 				testGroup.getExternalReferenceCode(),
 				postUtilityPage.getExternalReferenceCode());
 
@@ -104,7 +103,7 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 		assertValid(getUtilityPage);
 
 		try {
-			utilityPageResource.getSiteSiteByExternalReferenceCodeUtilityPage(
+			utilityPageResource.getBySiteExternalReferenceCodeUtilityPage(
 				testGroup.getExternalReferenceCode(),
 				RandomTestUtil.randomString());
 
@@ -120,80 +119,78 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 		UtilityPageResource curUtilityPageResource = _getUtilityPageResource();
 
 		_assertNestedFields(
-			curUtilityPageResource.
-				getSiteSiteByExternalReferenceCodeUtilityPage(
-					testGroup.getExternalReferenceCode(),
-					postUtilityPage.getExternalReferenceCode()));
+			curUtilityPageResource.getBySiteExternalReferenceCodeUtilityPage(
+				testGroup.getExternalReferenceCode(),
+				postUtilityPage.getExternalReferenceCode()));
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage()
+	public void testGetBySiteExternalReferenceCodeUtilityPagePermissionsPage()
 		throws Exception {
 
-		super.
-			testGetSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage();
+		super.testGetBySiteExternalReferenceCodeUtilityPagePermissionsPage();
 	}
 
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeUtilityPagesPage()
+	public void testGetBySiteExternalReferenceCodeUtilityPagesPage()
 		throws Exception {
 
-		super.testGetSiteSiteByExternalReferenceCodeUtilityPagesPage();
+		super.testGetBySiteExternalReferenceCodeUtilityPagesPage();
 
-		_testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithNestedFields();
-	}
-
-	@Ignore
-	@Override
-	@Test
-	public void testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithPagination()
-		throws Exception {
-
-		super.
-			testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithPagination();
+		_testGetBySiteExternalReferenceCodeUtilityPagesPageWithNestedFields();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithSortDateTime()
+	public void testGetBySiteExternalReferenceCodeUtilityPagesPageWithPagination()
 		throws Exception {
 
 		super.
-			testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithSortDateTime();
+			testGetBySiteExternalReferenceCodeUtilityPagesPageWithPagination();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithSortDouble()
+	public void testGetBySiteExternalReferenceCodeUtilityPagesPageWithSortDateTime()
 		throws Exception {
 
 		super.
-			testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithSortDouble();
+			testGetBySiteExternalReferenceCodeUtilityPagesPageWithSortDateTime();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithSortInteger()
+	public void testGetBySiteExternalReferenceCodeUtilityPagesPageWithSortDouble()
 		throws Exception {
 
 		super.
-			testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithSortInteger();
+			testGetBySiteExternalReferenceCodeUtilityPagesPageWithSortDouble();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithSortString()
+	public void testGetBySiteExternalReferenceCodeUtilityPagesPageWithSortInteger()
 		throws Exception {
 
 		super.
-			testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithSortString();
+			testGetBySiteExternalReferenceCodeUtilityPagesPageWithSortInteger();
+	}
+
+	@Ignore
+	@Override
+	@Test
+	public void testGetBySiteExternalReferenceCodeUtilityPagesPageWithSortString()
+		throws Exception {
+
+		super.
+			testGetBySiteExternalReferenceCodeUtilityPagesPageWithSortString();
 	}
 
 	@Ignore
@@ -207,27 +204,27 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 
 	@Override
 	@Test
-	public void testPatchSiteSiteByExternalReferenceCodeUtilityPage()
+	public void testPatchBySiteExternalReferenceCodeUtilityPage()
 		throws Exception {
 
 		UtilityPage utilityPage =
-			testPostSiteSiteByExternalReferenceCodeUtilityPage_addUtilityPage(
+			testPostBySiteExternalReferenceCodeUtilityPage_addUtilityPage(
 				randomUtilityPage());
 
-		_testPatchSiteSiteByExternalReferenceCodeUtilityPage(
+		_testPatchBySiteExternalReferenceCodeUtilityPage(
 			Boolean.FALSE,
 			_getUtilityPage(
 				Boolean.FALSE, utilityPage.getExternalReferenceCode()));
-		_testPatchSiteSiteByExternalReferenceCodeUtilityPage(
+		_testPatchBySiteExternalReferenceCodeUtilityPage(
 			Boolean.TRUE,
 			_getUtilityPage(
 				Boolean.TRUE, utilityPage.getExternalReferenceCode()));
-		_testPatchSiteSiteByExternalReferenceCodeUtilityPage(
+		_testPatchBySiteExternalReferenceCodeUtilityPage(
 			Boolean.TRUE,
 			_getUtilityPage(null, utilityPage.getExternalReferenceCode()));
 
 		try {
-			utilityPageResource.patchSiteSiteByExternalReferenceCodeUtilityPage(
+			utilityPageResource.patchBySiteExternalReferenceCodeUtilityPage(
 				testGroup.getExternalReferenceCode(),
 				RandomTestUtil.randomString(), randomUtilityPage());
 
@@ -244,36 +241,34 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 	@Ignore
 	@Override
 	@Test
-	public void testPostSiteSiteByExternalReferenceCodeUtilityPagePageSpecification()
+	public void testPostBySiteExternalReferenceCodeUtilityPagePageSpecification()
 		throws Exception {
 
-		super.
-			testPostSiteSiteByExternalReferenceCodeUtilityPagePageSpecification();
+		super.testPostBySiteExternalReferenceCodeUtilityPagePageSpecification();
 	}
 
 	@Override
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodeUtilityPage()
+	public void testPutBySiteExternalReferenceCodeUtilityPage()
 		throws Exception {
 
-		_testPutSiteSiteByExternalReferenceCodeUtilityPage(randomUtilityPage());
+		_testPutBySiteExternalReferenceCodeUtilityPage(randomUtilityPage());
 
 		UtilityPage utilityPage =
-			testPostSiteSiteByExternalReferenceCodeUtilityPage_addUtilityPage(
+			testPostBySiteExternalReferenceCodeUtilityPage_addUtilityPage(
 				randomUtilityPage());
 
-		_testPutSiteSiteByExternalReferenceCodeUtilityPage(
+		_testPutBySiteExternalReferenceCodeUtilityPage(
 			_getUtilityPage(null, utilityPage.getExternalReferenceCode()));
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage()
+	public void testPutBySiteExternalReferenceCodeUtilityPagePermissionsPage()
 		throws Exception {
 
-		super.
-			testPutSiteSiteByExternalReferenceCodeUtilityPagePermissionsPage();
+		super.testPutBySiteExternalReferenceCodeUtilityPagePermissionsPage();
 	}
 
 	@Ignore
@@ -301,18 +296,17 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 
 	@Override
 	protected UtilityPage
-			testGetSiteSiteByExternalReferenceCodeUtilityPagesPage_addUtilityPage(
+			testGetBySiteExternalReferenceCodeUtilityPagesPage_addUtilityPage(
 				String siteExternalReferenceCode, UtilityPage utilityPage)
 		throws Exception {
 
-		return utilityPageResource.
-			postSiteSiteByExternalReferenceCodeUtilityPage(
-				siteExternalReferenceCode, utilityPage);
+		return utilityPageResource.postBySiteExternalReferenceCodeUtilityPage(
+			siteExternalReferenceCode, utilityPage);
 	}
 
 	@Override
 	protected String
-			testGetSiteSiteByExternalReferenceCodeUtilityPagesPage_getIrrelevantSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeUtilityPagesPage_getIrrelevantSiteExternalReferenceCode()
 		throws Exception {
 
 		return irrelevantGroup.getExternalReferenceCode();
@@ -320,7 +314,7 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 
 	@Override
 	protected String
-			testGetSiteSiteByExternalReferenceCodeUtilityPagesPage_getSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodeUtilityPagesPage_getSiteExternalReferenceCode()
 		throws Exception {
 
 		return testGroup.getExternalReferenceCode();
@@ -328,11 +322,11 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 
 	@Override
 	protected UtilityPage
-			testPostSiteSiteByExternalReferenceCodeUtilityPage_addUtilityPage(
+			testPostBySiteExternalReferenceCodeUtilityPage_addUtilityPage(
 				UtilityPage utilityPage)
 		throws Exception {
 
-		return testGetSiteSiteByExternalReferenceCodeUtilityPagesPage_addUtilityPage(
+		return testGetBySiteExternalReferenceCodeUtilityPagesPage_addUtilityPage(
 			testGroup.getExternalReferenceCode(), utilityPage);
 	}
 
@@ -413,26 +407,25 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 		).build();
 	}
 
-	private void _testGetSiteSiteByExternalReferenceCodeUtilityPagesPageWithNestedFields()
+	private void _testGetBySiteExternalReferenceCodeUtilityPagesPageWithNestedFields()
 		throws Exception {
 
 		Page<UtilityPage> page =
-			utilityPageResource.
-				getSiteSiteByExternalReferenceCodeUtilityPagesPage(
-					testGroup.getExternalReferenceCode(), null, null, null,
-					Pagination.of(1, 10), null);
+			utilityPageResource.getBySiteExternalReferenceCodeUtilityPagesPage(
+				testGroup.getExternalReferenceCode(), null, null, null,
+				Pagination.of(1, 10), null);
 
 		long totalCount = page.getTotalCount();
 
 		UtilityPage utilityPage =
-			testGetSiteSiteByExternalReferenceCodeUtilityPagesPage_addUtilityPage(
+			testGetBySiteExternalReferenceCodeUtilityPagesPage_addUtilityPage(
 				testGroup.getExternalReferenceCode(), randomUtilityPage());
 
 		UtilityPageResource curUtilityPageResource = _getUtilityPageResource();
 
 		page =
 			curUtilityPageResource.
-				getSiteSiteByExternalReferenceCodeUtilityPagesPage(
+				getBySiteExternalReferenceCodeUtilityPagesPage(
 					testGroup.getExternalReferenceCode(), null, null, null,
 					Pagination.of(1, 10), null);
 
@@ -444,12 +437,12 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 				(List<UtilityPage>)page.getItems()));
 	}
 
-	private void _testPatchSiteSiteByExternalReferenceCodeUtilityPage(
+	private void _testPatchBySiteExternalReferenceCodeUtilityPage(
 			Boolean expectedMarkedAsDefault, UtilityPage utilityPage)
 		throws Exception {
 
 		UtilityPage pathUtilityPage =
-			utilityPageResource.patchSiteSiteByExternalReferenceCodeUtilityPage(
+			utilityPageResource.patchBySiteExternalReferenceCodeUtilityPage(
 				testGroup.getExternalReferenceCode(),
 				utilityPage.getExternalReferenceCode(), utilityPage);
 
@@ -460,12 +453,12 @@ public class UtilityPageResourceTest extends BaseUtilityPageResourceTestCase {
 			expectedMarkedAsDefault, pathUtilityPage.getMarkedAsDefault());
 	}
 
-	private void _testPutSiteSiteByExternalReferenceCodeUtilityPage(
+	private void _testPutBySiteExternalReferenceCodeUtilityPage(
 			UtilityPage utilityPage)
 		throws Exception {
 
 		UtilityPage putUtilityPage =
-			utilityPageResource.putSiteSiteByExternalReferenceCodeUtilityPage(
+			utilityPageResource.putBySiteExternalReferenceCodeUtilityPage(
 				testGroup.getExternalReferenceCode(),
 				utilityPage.getExternalReferenceCode(), utilityPage);
 

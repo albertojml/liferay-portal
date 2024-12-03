@@ -44,14 +44,14 @@ public class SitePageResourceTest extends BaseSitePageResourceTestCase {
 
 	@Override
 	@Test
-	public void testDeleteSiteSiteByExternalReferenceCodeSitePage()
+	public void testDeleteBySiteExternalReferenceCodeSitePage()
 		throws Exception {
 
 		SitePage postSitePage =
-			testGetSiteSiteByExternalReferenceCodeSitePagesPage_addSitePage(
+			testGetBySiteExternalReferenceCodeSitePagesPage_addSitePage(
 				testGroup.getExternalReferenceCode(), randomSitePage());
 
-		sitePageResource.deleteSiteSiteByExternalReferenceCodeSitePage(
+		sitePageResource.deleteBySiteExternalReferenceCodeSitePage(
 			testGroup.getExternalReferenceCode(),
 			postSitePage.getExternalReferenceCode());
 
@@ -63,52 +63,49 @@ public class SitePageResourceTest extends BaseSitePageResourceTestCase {
 
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeSitePage()
-		throws Exception {
-
+	public void testGetBySiteExternalReferenceCodeSitePage() throws Exception {
 		SitePage postSitePage =
-			testGetSiteSiteByExternalReferenceCodeSitePagesPage_addSitePage(
+			testGetBySiteExternalReferenceCodeSitePagesPage_addSitePage(
 				testGroup.getExternalReferenceCode(), randomSitePage());
 
 		SitePage getSitePage =
-			sitePageResource.getSiteSiteByExternalReferenceCodeSitePage(
+			sitePageResource.getBySiteExternalReferenceCodeSitePage(
 				testGroup.getExternalReferenceCode(),
 				postSitePage.getExternalReferenceCode());
 
 		assertEquals(postSitePage, getSitePage);
 		assertValid(getSitePage);
 
-		_testGetSiteSiteByExternalReferenceCodeSitePageWithNestedFields(
-			testGetSiteSiteByExternalReferenceCodeSitePagesPage_addSitePage(
+		_testGetBySiteExternalReferenceCodeSitePageWithNestedFields(
+			testGetBySiteExternalReferenceCodeSitePagesPage_addSitePage(
 				testGroup.getExternalReferenceCode(), randomSitePage()));
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeSitePagePermissionsPage()
+	public void testGetBySiteExternalReferenceCodeSitePagePermissionsPage()
 		throws Exception {
 
-		super.testGetSiteSiteByExternalReferenceCodeSitePagePermissionsPage();
+		super.testGetBySiteExternalReferenceCodeSitePagePermissionsPage();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeSitePagesPage()
+	public void testGetBySiteExternalReferenceCodeSitePagesPage()
 		throws Exception {
 
-		super.testGetSiteSiteByExternalReferenceCodeSitePagesPage();
+		super.testGetBySiteExternalReferenceCodeSitePagesPage();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodeSitePagesPageWithPagination()
+	public void testGetBySiteExternalReferenceCodeSitePagesPageWithPagination()
 		throws Exception {
 
-		super.
-			testGetSiteSiteByExternalReferenceCodeSitePagesPageWithPagination();
+		super.testGetBySiteExternalReferenceCodeSitePagesPageWithPagination();
 	}
 
 	@Ignore
@@ -123,28 +120,26 @@ public class SitePageResourceTest extends BaseSitePageResourceTestCase {
 	@Ignore
 	@Override
 	@Test
-	public void testPatchSiteSiteByExternalReferenceCodeSitePage()
+	public void testPatchBySiteExternalReferenceCodeSitePage()
 		throws Exception {
 
-		super.testPatchSiteSiteByExternalReferenceCodeSitePage();
+		super.testPatchBySiteExternalReferenceCodeSitePage();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodeSitePage()
-		throws Exception {
-
-		super.testPutSiteSiteByExternalReferenceCodeSitePage();
+	public void testPutBySiteExternalReferenceCodeSitePage() throws Exception {
+		super.testPutBySiteExternalReferenceCodeSitePage();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodeSitePagePermissionsPage()
+	public void testPutBySiteExternalReferenceCodeSitePagePermissionsPage()
 		throws Exception {
 
-		super.testPutSiteSiteByExternalReferenceCodeSitePagePermissionsPage();
+		super.testPutBySiteExternalReferenceCodeSitePagePermissionsPage();
 	}
 
 	@Ignore
@@ -203,19 +198,20 @@ public class SitePageResourceTest extends BaseSitePageResourceTestCase {
 
 	@Override
 	protected SitePage
-			testGetSiteSiteByExternalReferenceCodeSitePagesPage_addSitePage(
+			testGetBySiteExternalReferenceCodeSitePagesPage_addSitePage(
 				String siteExternalReferenceCode, SitePage sitePage)
 		throws Exception {
 
-		return testPostByExternalReferenceCodeSitePage_addSitePage(sitePage);
+		return testPostBySiteExternalReferenceCodeSitePage_addSitePage(
+			sitePage);
 	}
 
 	@Override
-	protected SitePage testPostByExternalReferenceCodeSitePage_addSitePage(
+	protected SitePage testPostBySiteExternalReferenceCodeSitePage_addSitePage(
 			SitePage sitePage)
 		throws Exception {
 
-		return sitePageResource.postByExternalReferenceCodeSitePage(
+		return sitePageResource.postBySiteExternalReferenceCodeSitePage(
 			sitePage.getSiteExternalReferenceCode(), sitePage);
 	}
 
@@ -263,15 +259,14 @@ public class SitePageResourceTest extends BaseSitePageResourceTestCase {
 		).build();
 	}
 
-	private void
-			_testGetSiteSiteByExternalReferenceCodeSitePageWithNestedFields(
-				SitePage sitePage)
+	private void _testGetBySiteExternalReferenceCodeSitePageWithNestedFields(
+			SitePage sitePage)
 		throws Exception {
 
 		SitePageResource curSitePageResource = _getSitePageResource();
 
 		_assertNestedFields(
-			curSitePageResource.getSiteSiteByExternalReferenceCodeSitePage(
+			curSitePageResource.getBySiteExternalReferenceCodeSitePage(
 				testGroup.getExternalReferenceCode(),
 				sitePage.getExternalReferenceCode()));
 	}

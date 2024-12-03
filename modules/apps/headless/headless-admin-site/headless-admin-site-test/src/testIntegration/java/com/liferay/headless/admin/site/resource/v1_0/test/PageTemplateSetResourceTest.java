@@ -44,15 +44,15 @@ public class PageTemplateSetResourceTest
 
 	@Override
 	@Test
-	public void testDeleteSiteSiteByExternalReferenceCodePageTemplateSet()
+	public void testDeleteBySiteExternalReferenceCodePageTemplateSet()
 		throws Exception {
 
 		PageTemplateSet pageTemplateSet =
-			testGetSiteSiteByExternalReferenceCodePageTemplateSetsPage_addPageTemplateSet(
+			testGetBySiteExternalReferenceCodePageTemplateSetsPage_addPageTemplateSet(
 				testGroup.getExternalReferenceCode(), randomPageTemplateSet());
 
 		pageTemplateSetResource.
-			deleteSiteSiteByExternalReferenceCodePageTemplateSet(
+			deleteBySiteExternalReferenceCodePageTemplateSet(
 				testGroup.getExternalReferenceCode(),
 				pageTemplateSet.getExternalReferenceCode());
 
@@ -63,7 +63,7 @@ public class PageTemplateSetResourceTest
 					testGroup.getGroupId()));
 
 		PageTemplateSet liveGroupPageTemplateSet =
-			testGetSiteSiteByExternalReferenceCodePageTemplateSetsPage_addPageTemplateSet(
+			testGetBySiteExternalReferenceCodePageTemplateSetsPage_addPageTemplateSet(
 				testGroup.getExternalReferenceCode(), randomPageTemplateSet());
 
 		_enableLocalStaging();
@@ -72,45 +72,45 @@ public class PageTemplateSetResourceTest
 			"BAD_REQUEST",
 			() ->
 				pageTemplateSetResource.
-					deleteSiteSiteByExternalReferenceCodePageTemplateSet(
+					deleteBySiteExternalReferenceCodePageTemplateSet(
 						testGroup.getExternalReferenceCode(),
 						liveGroupPageTemplateSet.getExternalReferenceCode()));
 	}
 
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodePageTemplateSet()
+	public void testGetBySiteExternalReferenceCodePageTemplateSet()
 		throws Exception {
 
 		PageTemplateSet pageTemplateSet =
-			testGetSiteSiteByExternalReferenceCodePageTemplateSetsPage_addPageTemplateSet(
+			testGetBySiteExternalReferenceCodePageTemplateSetsPage_addPageTemplateSet(
 				testGroup.getExternalReferenceCode(), randomPageTemplateSet());
 
-		_testGetSiteSiteByExternalReferenceCodePageTemplateSet(pageTemplateSet);
+		_testGetBySiteExternalReferenceCodePageTemplateSet(pageTemplateSet);
 
 		_enableLocalStaging();
 
-		_testGetSiteSiteByExternalReferenceCodePageTemplateSet(pageTemplateSet);
+		_testGetBySiteExternalReferenceCodePageTemplateSet(pageTemplateSet);
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodePageTemplateSetPermissionsPage()
+	public void testGetBySiteExternalReferenceCodePageTemplateSetPermissionsPage()
 		throws Exception {
 
 		super.
-			testGetSiteSiteByExternalReferenceCodePageTemplateSetPermissionsPage();
+			testGetBySiteExternalReferenceCodePageTemplateSetPermissionsPage();
 	}
 
 	@Ignore
 	@Override
 	@Test
-	public void testGetSiteSiteByExternalReferenceCodePageTemplateSetsPageWithPagination()
+	public void testGetBySiteExternalReferenceCodePageTemplateSetsPageWithPagination()
 		throws Exception {
 
 		super.
-			testGetSiteSiteByExternalReferenceCodePageTemplateSetsPageWithPagination();
+			testGetBySiteExternalReferenceCodePageTemplateSetsPageWithPagination();
 	}
 
 	@Ignore
@@ -125,21 +125,20 @@ public class PageTemplateSetResourceTest
 
 	@Override
 	@Test
-	public void testPatchSiteSiteByExternalReferenceCodePageTemplateSet()
+	public void testPatchBySiteExternalReferenceCodePageTemplateSet()
 		throws Exception {
 
 		PageTemplateSet pageTemplateSet = randomPageTemplateSet();
 
-		pageTemplateSetResource.
-			putSiteSiteByExternalReferenceCodePageTemplateSet(
-				testGroup.getExternalReferenceCode(),
-				pageTemplateSet.getExternalReferenceCode(), pageTemplateSet);
+		pageTemplateSetResource.putBySiteExternalReferenceCodePageTemplateSet(
+			testGroup.getExternalReferenceCode(),
+			pageTemplateSet.getExternalReferenceCode(), pageTemplateSet);
 
 		pageTemplateSet.setDescription(RandomTestUtil.randomString());
 
 		PageTemplateSet patchPageTemplateSet =
 			pageTemplateSetResource.
-				patchSiteSiteByExternalReferenceCodePageTemplateSet(
+				patchBySiteExternalReferenceCodePageTemplateSet(
 					testGroup.getExternalReferenceCode(),
 					pageTemplateSet.getExternalReferenceCode(),
 					pageTemplateSet);
@@ -151,7 +150,7 @@ public class PageTemplateSetResourceTest
 
 		patchPageTemplateSet =
 			pageTemplateSetResource.
-				patchSiteSiteByExternalReferenceCodePageTemplateSet(
+				patchBySiteExternalReferenceCodePageTemplateSet(
 					testGroup.getExternalReferenceCode(),
 					pageTemplateSet.getExternalReferenceCode(),
 					pageTemplateSet);
@@ -165,7 +164,7 @@ public class PageTemplateSetResourceTest
 			"BAD_REQUEST",
 			() ->
 				pageTemplateSetResource.
-					patchSiteSiteByExternalReferenceCodePageTemplateSet(
+					patchBySiteExternalReferenceCodePageTemplateSet(
 						testGroup.getExternalReferenceCode(),
 						pageTemplateSet.getExternalReferenceCode(),
 						pageTemplateSet));
@@ -173,14 +172,14 @@ public class PageTemplateSetResourceTest
 
 	@Override
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodePageTemplateSet()
+	public void testPutBySiteExternalReferenceCodePageTemplateSet()
 		throws Exception {
 
 		PageTemplateSet pageTemplateSet = randomPageTemplateSet();
 
 		PageTemplateSet putPageTemplateSet =
 			pageTemplateSetResource.
-				putSiteSiteByExternalReferenceCodePageTemplateSet(
+				putBySiteExternalReferenceCodePageTemplateSet(
 					testGroup.getExternalReferenceCode(),
 					pageTemplateSet.getExternalReferenceCode(),
 					pageTemplateSet);
@@ -194,7 +193,7 @@ public class PageTemplateSetResourceTest
 			"BAD_REQUEST",
 			() ->
 				pageTemplateSetResource.
-					putSiteSiteByExternalReferenceCodePageTemplateSet(
+					putBySiteExternalReferenceCodePageTemplateSet(
 						testGroup.getExternalReferenceCode(),
 						pageTemplateSet.getExternalReferenceCode(),
 						pageTemplateSet));
@@ -203,11 +202,11 @@ public class PageTemplateSetResourceTest
 	@Ignore
 	@Override
 	@Test
-	public void testPutSiteSiteByExternalReferenceCodePageTemplateSetPermissionsPage()
+	public void testPutBySiteExternalReferenceCodePageTemplateSetPermissionsPage()
 		throws Exception {
 
 		super.
-			testPutSiteSiteByExternalReferenceCodePageTemplateSetPermissionsPage();
+			testPutBySiteExternalReferenceCodePageTemplateSetPermissionsPage();
 	}
 
 	@Ignore
@@ -227,20 +226,20 @@ public class PageTemplateSetResourceTest
 
 	@Override
 	protected PageTemplateSet
-			testGetSiteSiteByExternalReferenceCodePageTemplateSetsPage_addPageTemplateSet(
+			testGetBySiteExternalReferenceCodePageTemplateSetsPage_addPageTemplateSet(
 				String siteExternalReferenceCode,
 				PageTemplateSet pageTemplateSet)
 		throws Exception {
 
 		return pageTemplateSetResource.
-			putSiteSiteByExternalReferenceCodePageTemplateSet(
+			putBySiteExternalReferenceCodePageTemplateSet(
 				siteExternalReferenceCode,
 				pageTemplateSet.getExternalReferenceCode(), pageTemplateSet);
 	}
 
 	@Override
 	protected String
-			testGetSiteSiteByExternalReferenceCodePageTemplateSetsPage_getSiteExternalReferenceCode()
+			testGetBySiteExternalReferenceCodePageTemplateSetsPage_getSiteExternalReferenceCode()
 		throws Exception {
 
 		return testGroup.getExternalReferenceCode();
@@ -248,12 +247,12 @@ public class PageTemplateSetResourceTest
 
 	@Override
 	protected PageTemplateSet
-			testPostSiteSiteByExternalReferenceCodePageTemplateSet_addPageTemplateSet(
+			testPostBySiteExternalReferenceCodePageTemplateSet_addPageTemplateSet(
 				PageTemplateSet pageTemplateSet)
 		throws Exception {
 
 		return pageTemplateSetResource.
-			putSiteSiteByExternalReferenceCodePageTemplateSet(
+			putBySiteExternalReferenceCodePageTemplateSet(
 				testGroup.getExternalReferenceCode(),
 				pageTemplateSet.getExternalReferenceCode(), pageTemplateSet);
 	}
@@ -282,13 +281,13 @@ public class PageTemplateSetResourceTest
 				testGroup, TestPropsValues.getUserId()));
 	}
 
-	private void _testGetSiteSiteByExternalReferenceCodePageTemplateSet(
+	private void _testGetBySiteExternalReferenceCodePageTemplateSet(
 			PageTemplateSet pageTemplateSet)
 		throws Exception {
 
 		PageTemplateSet getPageTemplateSet =
 			pageTemplateSetResource.
-				getSiteSiteByExternalReferenceCodePageTemplateSet(
+				getBySiteExternalReferenceCodePageTemplateSet(
 					testGroup.getExternalReferenceCode(),
 					pageTemplateSet.getExternalReferenceCode());
 
