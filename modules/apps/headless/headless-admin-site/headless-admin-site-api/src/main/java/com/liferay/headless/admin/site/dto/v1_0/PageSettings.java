@@ -13,16 +13,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.TreeNode;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import java.util.Iterator;
@@ -336,6 +347,7 @@ public abstract class PageSettings implements Serializable {
 		};
 	}
 
+	@JsonSerialize(using = JsonPageSettingsTypeSerializer.class)
 	@GraphQLField
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Type type;
@@ -468,6 +480,21 @@ public abstract class PageSettings implements Serializable {
 		name = "x-class-name"
 	)
 	public String xClassName;
+
+	public class JsonPageSettingsTypeSerializer
+		extends JsonSerializer<Type> {
+
+		@Override
+		public void serialize(
+			Type type, JsonGenerator jsonGenerator,
+			SerializerProvider serializerProvider) throws IOException {
+
+			if (type.toString().contains("$")) {
+				serialize(type, jsonGenerator, serializerProvider);
+			}
+
+		}
+	}
 
 	@GraphQLName("Type")
 	public static enum Type {
