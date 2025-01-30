@@ -12,6 +12,7 @@ import com.liferay.batch.engine.model.BatchEngineImportTask;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.vulcan.exeptions.ExternalReferenceCodeNotFoundException;
 
 import java.util.List;
 
@@ -38,6 +39,14 @@ public class OnErrorContinueBatchEngineImportStrategy
 
 		try {
 			persistedItem = unsafeFunction.apply(item);
+		}
+		catch (ExternalReferenceCodeNotFoundException
+					externalReferenceCodeNotFoundException) {
+
+			_log.error(externalReferenceCodeNotFoundException);
+
+			// Add the missingReference and create the Referrer/Referrer entry
+
 		}
 		catch (Exception exception) {
 			_log.error(exception);
