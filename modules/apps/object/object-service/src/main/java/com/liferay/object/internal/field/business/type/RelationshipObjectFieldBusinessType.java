@@ -9,6 +9,7 @@ import com.liferay.object.constants.ObjectFieldConstants;
 import com.liferay.object.constants.ObjectFieldSettingConstants;
 import com.liferay.object.constants.ObjectRelationshipConstants;
 import com.liferay.object.dynamic.data.mapping.form.field.type.constants.ObjectDDMFormFieldTypeConstants;
+import com.liferay.object.exception.NoSuchObjectEntryException;
 import com.liferay.object.exception.ObjectEntryValuesException;
 import com.liferay.object.field.business.type.ObjectFieldBusinessType;
 import com.liferay.object.field.setting.util.ObjectFieldSettingUtil;
@@ -32,6 +33,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.vulcan.exeptions.ExternalReferenceCodeNotFoundException;
 import com.liferay.portal.vulcan.extension.PropertyDefinition;
 
 import java.util.Locale;
@@ -219,9 +221,19 @@ public class RelationshipObjectFieldBusinessType
 					externalReferenceCode, objectDefinition, 0L);
 			}
 
-			ObjectEntry objectEntry = _objectEntryLocalService.getObjectEntry(
-				externalReferenceCode,
-				objectDefinition.getObjectDefinitionId());
+			ObjectEntry objectEntry = null;
+
+			try {
+				objectEntry = _objectEntryLocalService.getObjectEntry(
+					externalReferenceCode,
+					objectDefinition.getObjectDefinitionId());
+			}
+			catch (NoSuchObjectEntryException noSuchObjectEntryException) {
+				throw new ExternalReferenceCodeNotFoundException(
+					objectDefinition.getClassName(), externalReferenceCode,
+					objectDefinition.getScope(), "LOCATE_SCOPE_KEY",
+					objectDefinition.getName());
+			}
 
 			return objectEntry.getObjectEntryId();
 		}
