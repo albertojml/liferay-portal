@@ -15,13 +15,30 @@ public class ExternalReferenceCodeNotFoundException extends PortalException {
 
 	public ExternalReferenceCodeNotFoundException(
 		String className, String externalReferenceCode, String scope,
+		String scopeKey) {
+
+		super(
+			StringBundler.concat(
+				className, " with externalReferenceCode ",
+				externalReferenceCode, " could not be found in ", scope, " ",
+				scopeKey));
+
+		_className = className;
+		_externalReferenceCode = externalReferenceCode;
+		_scope = scope;
+		_scopeKey = scopeKey;
+
+		_taskItemDelegateName = null;
+	}
+
+	public ExternalReferenceCodeNotFoundException(
+		String className, String externalReferenceCode, String scope,
 		String scopeKey, String taskItemDelegateName) {
 
 		super(
 			StringBundler.concat(
-				className,
-				(taskItemDelegateName != null) ? "#" + taskItemDelegateName :
-					"",
+				className, "#", taskItemDelegateName,
+				" with externalReferenceCode ", externalReferenceCode,
 				" could not be found in ", scope, " ", scopeKey));
 
 		_className = className;
