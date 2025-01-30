@@ -5,7 +5,6 @@
 
 package com.liferay.portal.vulcan.exeptions;
 
-import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.PortalException;
 
 /**
@@ -14,32 +13,10 @@ import com.liferay.portal.kernel.exception.PortalException;
 public class ExternalReferenceCodeNotFoundException extends PortalException {
 
 	public ExternalReferenceCodeNotFoundException(
-		String className, String externalReferenceCode, String scope,
-		String scopeKey) {
+		String className, String externalReferenceCode, String message,
+		String scope, String scopeKey, String taskItemDelegateName) {
 
-		super(
-			StringBundler.concat(
-				className, " with externalReferenceCode ",
-				externalReferenceCode, " could not be found in ", scope, " ",
-				scopeKey));
-
-		_className = className;
-		_externalReferenceCode = externalReferenceCode;
-		_scope = scope;
-		_scopeKey = scopeKey;
-
-		_taskItemDelegateName = null;
-	}
-
-	public ExternalReferenceCodeNotFoundException(
-		String className, String externalReferenceCode, String scope,
-		String scopeKey, String taskItemDelegateName) {
-
-		super(
-			StringBundler.concat(
-				className, "#", taskItemDelegateName,
-				" with externalReferenceCode ", externalReferenceCode,
-				" could not be found in ", scope, " ", scopeKey));
+		super(message);
 
 		_className = className;
 		_externalReferenceCode = externalReferenceCode;

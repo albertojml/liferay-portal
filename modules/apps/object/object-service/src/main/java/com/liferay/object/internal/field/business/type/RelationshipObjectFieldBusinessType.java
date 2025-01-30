@@ -231,6 +231,7 @@ public class RelationshipObjectFieldBusinessType
 			catch (NoSuchObjectEntryException noSuchObjectEntryException) {
 				throw new ExternalReferenceCodeNotFoundException(
 					objectDefinition.getClassName(), externalReferenceCode,
+					noSuchObjectEntryException.getMessage(),
 					objectDefinition.getScope(), "LOCATE_SCOPE_KEY",
 					objectDefinition.getName());
 			}
