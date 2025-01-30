@@ -56,6 +56,11 @@ public class OnErrorContinueBatchEngineImportStrategy
 				batchEngineImportTask.getUserId(),
 				batchEngineImportTask.getBatchEngineImportTaskId(),
 				item.toString(), ItemIndexThreadLocal.get(), exception);
+
+			// Somewhere arround here or upper in the execution chain we should
+			// be able to fill the entityId, entityExternalReferenceCode, scope,
+			// scopeKey
+
 		}
 		finally {
 			ItemIndexThreadLocal.remove();
