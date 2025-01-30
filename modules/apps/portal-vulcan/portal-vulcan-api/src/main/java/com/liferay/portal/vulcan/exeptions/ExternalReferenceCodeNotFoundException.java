@@ -5,12 +5,13 @@
 
 package com.liferay.portal.vulcan.exeptions;
 
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 
 /**
  * @author Alberto Javier Moreno Lage
  */
-public class ExternalReferenceCodeNotFoundException extends PortalException {
+public class ExternalReferenceCodeNotFoundException
+	extends NoSuchModelException {
 
 	public ExternalReferenceCodeNotFoundException(
 		String className, String externalReferenceCode, String message,
