@@ -324,7 +324,7 @@ public abstract class BaseERCAssetLibraryTestEntityResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode()
+	public void testGetAssetLibraryERCAssetLibraryTestEntity()
 		throws Exception {
 
 		Assert.assertTrue(false);
@@ -356,7 +356,7 @@ public abstract class BaseERCAssetLibraryTestEntityResourceTestCase {
 	}
 
 	@Test
-	public void testPutAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode()
+	public void testPutAssetLibraryERCAssetLibraryTestEntity()
 		throws Exception {
 
 		Assert.assertTrue(false);

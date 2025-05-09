@@ -86,7 +86,7 @@ export class ERCSiteTestEntityAPI {
 				 * @param siteExternalReferenceCode
 		 * @param headers Optional custom request headers
 		 */
-		public async getSiteERCSiteTestEntityErcSiteTestEntityExternalReferenceCode(
+		public async getSiteERCSiteTestEntity(
 						ercSiteTestEntityExternalReferenceCode: string,
 						siteExternalReferenceCode: string,
 			headers?: {[name: string]: string},
@@ -103,11 +103,11 @@ export class ERCSiteTestEntityAPI {
 			const queryParameters: any = {};
 
 						if (ercSiteTestEntityExternalReferenceCode === null || ercSiteTestEntityExternalReferenceCode === undefined) {
-							throw new Error("Required parameter ercSiteTestEntityExternalReferenceCode was null or undefined when calling getSiteERCSiteTestEntityErcSiteTestEntityExternalReferenceCode.");
+							throw new Error("Required parameter ercSiteTestEntityExternalReferenceCode was null or undefined when calling getSiteERCSiteTestEntity.");
 						}
 
 						if (siteExternalReferenceCode === null || siteExternalReferenceCode === undefined) {
-							throw new Error("Required parameter siteExternalReferenceCode was null or undefined when calling getSiteERCSiteTestEntityErcSiteTestEntityExternalReferenceCode.");
+							throw new Error("Required parameter siteExternalReferenceCode was null or undefined when calling getSiteERCSiteTestEntity.");
 						}
 
 			const queryString = Object.keys(queryParameters).length ?
@@ -249,7 +249,7 @@ export class ERCSiteTestEntityAPI {
 		 		* @param requestBody Request body that can be one of multiple content types
 		 * @param headers Optional custom request headers
 		 */
-		public async putSiteERCSiteTestEntityErcSiteTestEntityExternalReferenceCodeWithContentType(
+		public async putSiteERCSiteTestEntityWithContentType(
 						ercSiteTestEntityExternalReferenceCode: string,
 						siteExternalReferenceCode: string,
 					requestBody:
@@ -288,11 +288,11 @@ export class ERCSiteTestEntityAPI {
 			const queryParameters: any = {};
 
 						if (ercSiteTestEntityExternalReferenceCode === null || ercSiteTestEntityExternalReferenceCode === undefined) {
-							throw new Error("Required parameter ercSiteTestEntityExternalReferenceCode was null or undefined when calling putSiteERCSiteTestEntityErcSiteTestEntityExternalReferenceCode.");
+							throw new Error("Required parameter ercSiteTestEntityExternalReferenceCode was null or undefined when calling putSiteERCSiteTestEntity.");
 						}
 
 						if (siteExternalReferenceCode === null || siteExternalReferenceCode === undefined) {
-							throw new Error("Required parameter siteExternalReferenceCode was null or undefined when calling putSiteERCSiteTestEntityErcSiteTestEntityExternalReferenceCode.");
+							throw new Error("Required parameter siteExternalReferenceCode was null or undefined when calling putSiteERCSiteTestEntity.");
 						}
 
 			const queryString = Object.keys(queryParameters).length ?
@@ -333,7 +333,7 @@ export class ERCSiteTestEntityAPI {
 							 * @param siteExternalReferenceCode
 						 * @param eRCSiteTestEntity
 					 */
-					public async putSiteERCSiteTestEntityErcSiteTestEntityExternalReferenceCode(
+					public async putSiteERCSiteTestEntity(
 									ercSiteTestEntityExternalReferenceCode: string,
 									siteExternalReferenceCode: string,
 							eRCSiteTestEntity?: ERCSiteTestEntity,
@@ -342,7 +342,7 @@ export class ERCSiteTestEntityAPI {
 							body: ERCSiteTestEntity;
 						response: Response;
 					}> {
-						return this.putSiteERCSiteTestEntityErcSiteTestEntityExternalReferenceCodeWithContentType(
+						return this.putSiteERCSiteTestEntityWithContentType(
 										ercSiteTestEntityExternalReferenceCode,
 										siteExternalReferenceCode,
 							{

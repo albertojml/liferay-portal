@@ -137,18 +137,17 @@ public abstract class BaseERCAssetLibraryTestEntityResourceImpl
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public ERCAssetLibraryTestEntity
-			getAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode(
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("assetLibraryExternalReferenceCode")
-				String assetLibraryExternalReferenceCode,
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam(
-					"ercAssetLibraryTestEntityExternalReferenceCode"
-				)
-				String ercAssetLibraryTestEntityExternalReferenceCode)
+	public ERCAssetLibraryTestEntity getAssetLibraryERCAssetLibraryTestEntity(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("assetLibraryExternalReferenceCode")
+			String assetLibraryExternalReferenceCode,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam(
+				"ercAssetLibraryTestEntityExternalReferenceCode"
+			)
+			String ercAssetLibraryTestEntityExternalReferenceCode)
 		throws Exception {
 
 		return new ERCAssetLibraryTestEntity();
@@ -357,19 +356,18 @@ public abstract class BaseERCAssetLibraryTestEntityResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@javax.ws.rs.PUT
 	@Override
-	public ERCAssetLibraryTestEntity
-			putAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode(
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam("assetLibraryExternalReferenceCode")
-				String assetLibraryExternalReferenceCode,
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@javax.validation.constraints.NotNull
-				@javax.ws.rs.PathParam(
-					"ercAssetLibraryTestEntityExternalReferenceCode"
-				)
-				String ercAssetLibraryTestEntityExternalReferenceCode,
-				ERCAssetLibraryTestEntity ercAssetLibraryTestEntity)
+	public ERCAssetLibraryTestEntity putAssetLibraryERCAssetLibraryTestEntity(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("assetLibraryExternalReferenceCode")
+			String assetLibraryExternalReferenceCode,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam(
+				"ercAssetLibraryTestEntityExternalReferenceCode"
+			)
+			String ercAssetLibraryTestEntityExternalReferenceCode,
+			ERCAssetLibraryTestEntity ercAssetLibraryTestEntity)
 		throws Exception {
 
 		return new ERCAssetLibraryTestEntity();

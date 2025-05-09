@@ -54,10 +54,9 @@ public interface ERCAssetLibraryTestEntityResource {
 				String assetLibraryExternalReferenceCode)
 		throws Exception;
 
-	public ERCAssetLibraryTestEntity
-			getAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String ercAssetLibraryTestEntityExternalReferenceCode)
+	public ERCAssetLibraryTestEntity getAssetLibraryERCAssetLibraryTestEntity(
+			String assetLibraryExternalReferenceCode,
+			String ercAssetLibraryTestEntityExternalReferenceCode)
 		throws Exception;
 
 	public Response postAssetLibraryERCAssetLibraryTestEntitiesPageExportBatch(
@@ -75,11 +74,10 @@ public interface ERCAssetLibraryTestEntityResource {
 			Object object)
 		throws Exception;
 
-	public ERCAssetLibraryTestEntity
-			putAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String ercAssetLibraryTestEntityExternalReferenceCode,
-				ERCAssetLibraryTestEntity ercAssetLibraryTestEntity)
+	public ERCAssetLibraryTestEntity putAssetLibraryERCAssetLibraryTestEntity(
+			String assetLibraryExternalReferenceCode,
+			String ercAssetLibraryTestEntityExternalReferenceCode,
+			ERCAssetLibraryTestEntity ercAssetLibraryTestEntity)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

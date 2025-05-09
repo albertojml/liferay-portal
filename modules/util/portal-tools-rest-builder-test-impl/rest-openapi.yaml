@@ -359,7 +359,7 @@ paths:
             tags: ["ERCAssetLibraryTestEntity"]
     /asset-libraries/{assetLibraryExternalReferenceCode}/erc-asset-library-test-entities/{ercAssetLibraryTestEntityExternalReferenceCode}:
         get:
-            operationId: getAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode
+            operationId: getAssetLibraryERCAssetLibraryTestEntity
             parameters:
                 -   in: path
                     name: assetLibraryExternalReferenceCode
@@ -384,7 +384,7 @@ paths:
                         "OK"
             tags: ["ERCAssetLibraryTestEntity"]
         put:
-            operationId: putAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode
+            operationId: putAssetLibraryERCAssetLibraryTestEntity
             parameters:
                 -   in: path
                     name: assetLibraryExternalReferenceCode
@@ -972,7 +972,7 @@ paths:
             tags: ["ERCSiteTestEntity"]
     /sites/{siteExternalReferenceCode}/erc-site-test-entities/{ercSiteTestEntityExternalReferenceCode}:
         get:
-            operationId: getSiteERCSiteTestEntityErcSiteTestEntityExternalReferenceCode
+            operationId: getSiteERCSiteTestEntity
             parameters:
                 -   in: path
                     name: ercSiteTestEntityExternalReferenceCode
@@ -997,7 +997,7 @@ paths:
                         "OK"
             tags: ["ERCSiteTestEntity"]
         put:
-            operationId: putSiteERCSiteTestEntityErcSiteTestEntityExternalReferenceCode
+            operationId: putSiteERCSiteTestEntity
             parameters:
                 -   in: path
                     name: ercSiteTestEntityExternalReferenceCode

@@ -86,7 +86,7 @@ export class ERCAssetLibraryTestEntityAPI {
 				 * @param ercAssetLibraryTestEntityExternalReferenceCode
 		 * @param headers Optional custom request headers
 		 */
-		public async getAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode(
+		public async getAssetLibraryERCAssetLibraryTestEntity(
 						assetLibraryExternalReferenceCode: string,
 						ercAssetLibraryTestEntityExternalReferenceCode: string,
 			headers?: {[name: string]: string},
@@ -103,11 +103,11 @@ export class ERCAssetLibraryTestEntityAPI {
 			const queryParameters: any = {};
 
 						if (assetLibraryExternalReferenceCode === null || assetLibraryExternalReferenceCode === undefined) {
-							throw new Error("Required parameter assetLibraryExternalReferenceCode was null or undefined when calling getAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode.");
+							throw new Error("Required parameter assetLibraryExternalReferenceCode was null or undefined when calling getAssetLibraryERCAssetLibraryTestEntity.");
 						}
 
 						if (ercAssetLibraryTestEntityExternalReferenceCode === null || ercAssetLibraryTestEntityExternalReferenceCode === undefined) {
-							throw new Error("Required parameter ercAssetLibraryTestEntityExternalReferenceCode was null or undefined when calling getAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode.");
+							throw new Error("Required parameter ercAssetLibraryTestEntityExternalReferenceCode was null or undefined when calling getAssetLibraryERCAssetLibraryTestEntity.");
 						}
 
 			const queryString = Object.keys(queryParameters).length ?
@@ -249,7 +249,7 @@ export class ERCAssetLibraryTestEntityAPI {
 		 		* @param requestBody Request body that can be one of multiple content types
 		 * @param headers Optional custom request headers
 		 */
-		public async putAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCodeWithContentType(
+		public async putAssetLibraryERCAssetLibraryTestEntityWithContentType(
 						assetLibraryExternalReferenceCode: string,
 						ercAssetLibraryTestEntityExternalReferenceCode: string,
 					requestBody:
@@ -288,11 +288,11 @@ export class ERCAssetLibraryTestEntityAPI {
 			const queryParameters: any = {};
 
 						if (assetLibraryExternalReferenceCode === null || assetLibraryExternalReferenceCode === undefined) {
-							throw new Error("Required parameter assetLibraryExternalReferenceCode was null or undefined when calling putAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode.");
+							throw new Error("Required parameter assetLibraryExternalReferenceCode was null or undefined when calling putAssetLibraryERCAssetLibraryTestEntity.");
 						}
 
 						if (ercAssetLibraryTestEntityExternalReferenceCode === null || ercAssetLibraryTestEntityExternalReferenceCode === undefined) {
-							throw new Error("Required parameter ercAssetLibraryTestEntityExternalReferenceCode was null or undefined when calling putAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode.");
+							throw new Error("Required parameter ercAssetLibraryTestEntityExternalReferenceCode was null or undefined when calling putAssetLibraryERCAssetLibraryTestEntity.");
 						}
 
 			const queryString = Object.keys(queryParameters).length ?
@@ -333,7 +333,7 @@ export class ERCAssetLibraryTestEntityAPI {
 							 * @param ercAssetLibraryTestEntityExternalReferenceCode
 						 * @param eRCAssetLibraryTestEntity
 					 */
-					public async putAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCode(
+					public async putAssetLibraryERCAssetLibraryTestEntity(
 									assetLibraryExternalReferenceCode: string,
 									ercAssetLibraryTestEntityExternalReferenceCode: string,
 							eRCAssetLibraryTestEntity?: ERCAssetLibraryTestEntity,
@@ -342,7 +342,7 @@ export class ERCAssetLibraryTestEntityAPI {
 							body: ERCAssetLibraryTestEntity;
 						response: Response;
 					}> {
-						return this.putAssetLibraryERCAssetLibraryTestEntityErcAssetLibraryTestEntityExternalReferenceCodeWithContentType(
+						return this.putAssetLibraryERCAssetLibraryTestEntityWithContentType(
 										assetLibraryExternalReferenceCode,
 										ercAssetLibraryTestEntityExternalReferenceCode,
 							{
