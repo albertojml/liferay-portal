@@ -1147,6 +1147,18 @@ public class DefaultObjectEntryManagerImpl
 							serviceBuilderObjectEntry.getPrimaryKey());
 					}
 
+					if ((scopeKey == null) &&
+						!Objects.equals(
+							relatedObjectDefinition.getScope(),
+							ObjectDefinitionConstants.SCOPE_COMPANY)) {
+
+						Map<String, Object> nestedObjectEntryProperties =
+							nestedObjectEntry.getProperties();
+
+						scopeKey = (String)nestedObjectEntryProperties.get(
+							"scopeKey");
+					}
+
 					nestedObjectEntry = objectEntryManager.updateObjectEntry(
 						objectDefinition.getCompanyId(), dtoConverterContext,
 						nestedObjectEntry.getExternalReferenceCode(),
