@@ -224,6 +224,11 @@ public class AccountGroupResourceImpl
 	}
 
 	@Override
+	public long getTotalCount(Long companyId, Long groupId) throws Exception {
+		return 0;
+	}
+
+	@Override
 	public AccountGroup patchAccountGroup(
 			Long accountGroupId, AccountGroup accountGroup)
 		throws Exception {

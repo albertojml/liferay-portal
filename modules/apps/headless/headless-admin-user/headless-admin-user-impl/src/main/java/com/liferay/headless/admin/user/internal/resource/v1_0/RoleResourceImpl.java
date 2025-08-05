@@ -256,6 +256,11 @@ public class RoleResourceImpl
 	}
 
 	@Override
+	public long getTotalCount(Long companyId, Long groupId) throws Exception {
+		return 0;
+	}
+
+	@Override
 	public Role patchRole(Long roleId, Role role) throws Exception {
 		com.liferay.portal.kernel.model.Role serviceBuilderRole =
 			_roleService.getRole(roleId);

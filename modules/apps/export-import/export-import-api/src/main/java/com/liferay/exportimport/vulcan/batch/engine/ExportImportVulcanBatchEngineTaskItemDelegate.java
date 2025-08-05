@@ -23,6 +23,8 @@ public interface ExportImportVulcanBatchEngineTaskItemDelegate<T>
 
 	public Scope getScope();
 
+	public long getTotalCount(Long companyId, Long groupId) throws Exception;
+
 	public enum Scope {
 
 		COMPANY, SITE

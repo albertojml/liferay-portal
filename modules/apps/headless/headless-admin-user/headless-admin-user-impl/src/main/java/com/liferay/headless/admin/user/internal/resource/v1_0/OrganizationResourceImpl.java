@@ -420,6 +420,11 @@ public class OrganizationResourceImpl
 	}
 
 	@Override
+	public long getTotalCount(Long companyId, Long groupId) throws Exception {
+		return 0;
+	}
+
+	@Override
 	public Organization patchOrganization(
 			String organizationId, Organization organization)
 		throws Exception {

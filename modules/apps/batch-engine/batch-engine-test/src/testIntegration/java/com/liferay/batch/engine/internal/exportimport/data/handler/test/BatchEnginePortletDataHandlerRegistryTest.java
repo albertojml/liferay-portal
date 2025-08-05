@@ -198,6 +198,13 @@ public class BatchEnginePortletDataHandlerRegistryTest {
 		}
 
 		@Override
+		public long getTotalCount(Long companyId, Long groupId)
+			throws Exception {
+
+			return 0;
+		}
+
+		@Override
 		public Page<Object> read(
 			Filter filter, Pagination pagination, Sort[] sorts,
 			Map<String, Serializable> parameters, String search) {

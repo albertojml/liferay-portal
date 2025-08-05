@@ -31,11 +31,14 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.odata.entity.EntityModel;
+import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.aggregation.Aggregation;
 import com.liferay.portal.vulcan.dto.converter.DTOConverterRegistry;
 import com.liferay.portal.vulcan.dto.converter.DefaultDTOConverterContext;
@@ -50,6 +53,8 @@ import jakarta.ws.rs.core.Response;
 import java.io.Serializable;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -63,6 +68,7 @@ public class ObjectEntryResourceImpl
 		DTOConverterRegistry dtoConverterRegistry,
 		EntityModelProvider entityModelProvider,
 		ObjectDefinition objectDefinition,
+		CompanyLocalService companyLocalService,
 		Map<Long, ObjectDefinition> objectDefinitions,
 		ObjectDefinitionLocalService objectDefinitionLocalService,
 		ObjectEntryLocalService objectEntryLocalService,
@@ -76,6 +82,7 @@ public class ObjectEntryResourceImpl
 		_dtoConverterRegistry = dtoConverterRegistry;
 		_entityModelProvider = entityModelProvider;
 		_objectDefinition = objectDefinition;
+		_companyLocalService = companyLocalService;
 		_objectDefinitions = objectDefinitions;
 		_objectDefinitionLocalService = objectDefinitionLocalService;
 		_objectEntryLocalService = objectEntryLocalService;
@@ -512,6 +519,50 @@ public class ObjectEntryResourceImpl
 			contextCompany.getCompanyId(), _objectDefinition, scopeKey,
 			aggregation, _getDTOConverterContext(null), _getFilterString(),
 			pagination, search, sorts);
+	}
+
+	@Override
+	public long getTotalCount(Long companyId, Long groupId) throws Exception {
+		Page<ObjectEntry> objectEntriesPage = null;
+
+		setContextCompany(_companyLocalService.getCompany(companyId));
+
+		this.contextAcceptLanguage = new AcceptLanguage() {
+
+			@Override
+			public List<Locale> getLocales() {
+				return null;
+			}
+
+			@Override
+			public String getPreferredLanguageId() {
+				return "en-US";
+			}
+
+			@Override
+			public Locale getPreferredLocale() {
+				return LocaleUtil.fromLanguageId("en-US");
+			}
+
+		};
+
+		if (groupId == null) {
+			objectEntriesPage = getObjectEntriesPage(
+				null, null, null, Pagination.of(0, 0), null);
+		}
+		else {
+			objectEntriesPage = getScopeScopeKeyPage(
+				String.valueOf(groupId), null, null, null, Pagination.of(0, 0),
+				null);
+		}
+
+		long totalCount = 0;
+
+		if (objectEntriesPage != null) {
+			totalCount = objectEntriesPage.getTotalCount();
+		}
+
+		return totalCount;
 	}
 
 	@Override
@@ -1129,6 +1180,7 @@ public class ObjectEntryResourceImpl
 	private static final Log _log = LogFactoryUtil.getLog(
 		ObjectEntryResourceImpl.class);
 
+	private final CompanyLocalService _companyLocalService;
 	private final DTOConverterRegistry _dtoConverterRegistry;
 	private final EntityModelProvider _entityModelProvider;
 

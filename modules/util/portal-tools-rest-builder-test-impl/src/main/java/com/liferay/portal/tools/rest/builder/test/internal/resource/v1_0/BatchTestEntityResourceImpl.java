@@ -126,6 +126,11 @@ public class BatchTestEntityResourceImpl
 	}
 
 	@Override
+	public long getTotalCount(Long companyId, Long groupId) throws Exception {
+		return 0;
+	}
+
+	@Override
 	public BatchTestEntity postBatchTestEntity(
 		BatchTestEntity batchTestEntity) {
 
