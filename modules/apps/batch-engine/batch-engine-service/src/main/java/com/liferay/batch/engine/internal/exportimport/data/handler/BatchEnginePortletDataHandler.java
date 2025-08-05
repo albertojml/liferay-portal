@@ -134,8 +134,8 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 			return _exportImportVulcanBatchEngineTaskItemDelegate.getTotalCount(
 				companyId, groupId);
 		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
+		catch (Exception exception) {
+			throw new RuntimeException(exception);
 		}
 	}
 

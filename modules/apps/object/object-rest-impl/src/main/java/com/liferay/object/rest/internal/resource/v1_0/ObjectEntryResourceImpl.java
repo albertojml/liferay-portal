@@ -527,7 +527,7 @@ public class ObjectEntryResourceImpl
 
 		setContextCompany(_companyLocalService.getCompany(companyId));
 
-		this.contextAcceptLanguage = new AcceptLanguage() {
+		contextAcceptLanguage = new AcceptLanguage() {
 
 			@Override
 			public List<Locale> getLocales() {
