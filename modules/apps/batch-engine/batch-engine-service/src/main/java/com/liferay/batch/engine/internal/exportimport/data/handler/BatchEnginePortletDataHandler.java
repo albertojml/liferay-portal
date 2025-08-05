@@ -18,10 +18,8 @@ import com.liferay.batch.engine.service.BatchEngineImportTaskService;
 import com.liferay.exportimport.kernel.lar.BasePortletDataHandler;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
-import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
-import com.liferay.exportimport.kernel.lar.PortletDataHandlerControl;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.petra.io.StreamUtil;
@@ -128,6 +126,17 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 	@Override
 	public StagedModelType[] getDeletionSystemEventStagedModelTypes() {
 		return new StagedModelType[] {new StagedModelType(_itemClassName)};
+	}
+
+	@Override
+	public long getExportModelCount(long companyId, long groupId) {
+		try {
+			return _exportImportVulcanBatchEngineTaskItemDelegate.getTotalCount(
+				companyId, groupId);
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
@@ -308,16 +317,6 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 		}
 
 		return portletPreferences;
-	}
-
-	@Override
-	protected long getExportModelCount(
-		ManifestSummary manifestSummary,
-		PortletDataHandlerControl[] portletDataHandlerControls) {
-
-		// TODO LPD-45048
-
-		return 0;
 	}
 
 	protected static final TransactionConfig transactionConfig =

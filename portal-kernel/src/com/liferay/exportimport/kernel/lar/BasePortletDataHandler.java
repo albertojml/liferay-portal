@@ -269,6 +269,11 @@ public abstract class BasePortletDataHandler implements PortletDataHandler {
 	}
 
 	@Override
+	public long getExportModelCount(long companyId, long groupId) {
+		return 0;
+	}
+
+	@Override
 	public long getExportModelCount(ManifestSummary manifestSummary) {
 		return getExportModelCount(manifestSummary, getExportControls());
 	}

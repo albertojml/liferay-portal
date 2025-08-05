@@ -122,6 +122,8 @@ public interface PortletDataHandler {
 	public PortletDataHandlerControl[] getExportMetadataControls()
 		throws PortletDataException;
 
+	public long getExportModelCount(long companyId, long groupId);
+
 	/**
 	 * Returns the number of entities defined for this data handler that are
 	 * available for export according to the provided manifest summary, or
