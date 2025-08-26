@@ -28,6 +28,7 @@ import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerControl;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
+import com.liferay.exportimport.kernel.service.ExportImportConfigurationService;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.petra.io.StreamUtil;
 import com.liferay.petra.io.unsync.UnsyncByteArrayOutputStream;
@@ -76,6 +77,7 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 		BatchEngineImportTaskService batchEngineImportTaskService,
 		BatchEngineTaskItemDelegateRegistry batchEngineTaskItemDelegateRegistry,
 		String className, CompanyLocalService companyLocalService,
+		ExportImportConfigurationService exportImportConfigurationService,
 		ExportImportVulcanBatchEngineTaskItemDelegate
 			exportImportVulcanBatchEngineTaskItemDelegate,
 		String itemClassName, String taskItemDelegateName,
@@ -89,6 +91,7 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 			batchEngineTaskItemDelegateRegistry;
 		_className = className;
 		_companyLocalService = companyLocalService;
+		_exportImportConfigurationService = exportImportConfigurationService;
 		_exportImportVulcanBatchEngineTaskItemDelegate =
 			exportImportVulcanBatchEngineTaskItemDelegate;
 		_itemClassName = itemClassName;
@@ -316,6 +319,10 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 					batchEngineImportTask.getErrorMessage());
 		}
 
+		_exportImportConfigurationService.incrementProcessedItemsCount(
+			GetterUtil.getLong(portletDataContext.getExportImportProcessId()),
+			batchEngineImportTask.getProcessedItemsCount());
+
 		return portletPreferences;
 	}
 
@@ -416,6 +423,8 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 	private final String _className;
 	private final CompanyLocalService _companyLocalService;
 	private final String _deletionsFileName;
+	private final ExportImportConfigurationService
+		_exportImportConfigurationService;
 	private final ExportImportVulcanBatchEngineTaskItemDelegate<?>
 		_exportImportVulcanBatchEngineTaskItemDelegate;
 	private final String _fileName;

@@ -11,6 +11,7 @@ import com.liferay.batch.engine.BatchEngineTaskItemDelegateRegistry;
 import com.liferay.batch.engine.service.BatchEngineExportTaskService;
 import com.liferay.batch.engine.service.BatchEngineImportTaskService;
 import com.liferay.exportimport.kernel.lar.PortletDataHandler;
+import com.liferay.exportimport.kernel.service.ExportImportConfigurationService;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.osgi.util.ServiceTrackerFactory;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagListener;
@@ -83,6 +84,9 @@ public class BatchEnginePortletDataHandlerRegistry {
 	@Reference
 	private CompanyLocalService _companyLocalService;
 
+	@Reference
+	private ExportImportConfigurationService _exportImportConfigurationService;
+
 	private ServiceRegistration<FeatureFlagListener> _serviceRegistration;
 	private ServiceTracker
 		<VulcanBatchEngineTaskItemDelegate,
@@ -137,7 +141,7 @@ public class BatchEnginePortletDataHandlerRegistry {
 							"batch.engine.task.item.delegate.class.name"),
 						() -> (String)serviceReference.getProperty(
 							"batch.engine.entity.class.name")),
-					_companyLocalService,
+					_companyLocalService, _exportImportConfigurationService,
 					exportImportVulcanBatchEngineTaskItemDelegate,
 					(String)serviceReference.getProperty(
 						"batch.engine.task.item.delegate.item.class.name"),
