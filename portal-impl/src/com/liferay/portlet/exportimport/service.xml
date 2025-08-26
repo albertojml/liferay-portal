@@ -27,8 +27,9 @@
 
 		<column name="name" type="String" />
 		<column name="description" type="String" />
-		<column name="type" type="int" />
+		<column name="processedItemsCount" type="int" />
 		<column name="settings" type="String" />
+		<column name="type" type="int" />
 		<column name="status" type="int" />
 		<column name="statusByUserId" type="long" />
 		<column name="statusByUserName" type="String" />
