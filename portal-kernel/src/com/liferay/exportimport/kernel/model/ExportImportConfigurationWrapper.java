@@ -49,12 +49,13 @@ public class ExportImportConfigurationWrapper
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("name", getName());
 		attributes.put("description", getDescription());
-		attributes.put("type", getType());
+		attributes.put("processedItemsCount", getProcessedItemsCount());
 		attributes.put("settings", getSettings());
 		attributes.put("status", getStatus());
 		attributes.put("statusByUserId", getStatusByUserId());
 		attributes.put("statusByUserName", getStatusByUserName());
 		attributes.put("statusDate", getStatusDate());
+		attributes.put("type", getType());
 
 		return attributes;
 	}
@@ -122,10 +123,11 @@ public class ExportImportConfigurationWrapper
 			setDescription(description);
 		}
 
-		Integer type = (Integer)attributes.get("type");
+		Integer processedItemsCount = (Integer)attributes.get(
+			"processedItemsCount");
 
-		if (type != null) {
-			setType(type);
+		if (processedItemsCount != null) {
+			setProcessedItemsCount(processedItemsCount);
 		}
 
 		String settings = (String)attributes.get("settings");
@@ -156,6 +158,12 @@ public class ExportImportConfigurationWrapper
 
 		if (statusDate != null) {
 			setStatusDate(statusDate);
+		}
+
+		Integer type = (Integer)attributes.get("type");
+
+		if (type != null) {
+			setType(type);
 		}
 	}
 
@@ -252,6 +260,16 @@ public class ExportImportConfigurationWrapper
 	@Override
 	public long getPrimaryKey() {
 		return model.getPrimaryKey();
+	}
+
+	/**
+	 * Returns the processed items count of this export import configuration.
+	 *
+	 * @return the processed items count of this export import configuration
+	 */
+	@Override
+	public int getProcessedItemsCount() {
+		return model.getProcessedItemsCount();
 	}
 
 	/**
@@ -554,6 +572,16 @@ public class ExportImportConfigurationWrapper
 	@Override
 	public void setPrimaryKey(long primaryKey) {
 		model.setPrimaryKey(primaryKey);
+	}
+
+	/**
+	 * Sets the processed items count of this export import configuration.
+	 *
+	 * @param processedItemsCount the processed items count of this export import configuration
+	 */
+	@Override
+	public void setProcessedItemsCount(int processedItemsCount) {
+		model.setProcessedItemsCount(processedItemsCount);
 	}
 
 	/**

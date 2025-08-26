@@ -582,12 +582,13 @@ create table ExportImportConfiguration (
 	modifiedDate DATE null,
 	name VARCHAR(200) null,
 	description STRING null,
-	type_ INTEGER,
+	processedItemsCount INTEGER,
 	settings_ TEXT null,
 	status INTEGER,
 	statusByUserId LONG,
 	statusByUserName VARCHAR(75) null,
-	statusDate DATE null
+	statusDate DATE null,
+	type_ INTEGER
 );
 
 create table Group_ (

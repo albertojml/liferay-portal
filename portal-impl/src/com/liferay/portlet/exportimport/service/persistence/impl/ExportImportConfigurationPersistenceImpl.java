@@ -2769,8 +2769,8 @@ public class ExportImportConfigurationPersistenceImpl
 	public ExportImportConfigurationPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
-		dbColumnNames.put("type", "type_");
 		dbColumnNames.put("settings", "settings_");
+		dbColumnNames.put("type", "type_");
 
 		setDBColumnNames(dbColumnNames);
 
@@ -3491,7 +3491,7 @@ public class ExportImportConfigurationPersistenceImpl
 		ExportImportConfigurationPersistenceImpl.class);
 
 	private static final Set<String> _badColumnNames = SetUtil.fromArray(
-		new String[] {"type", "settings"});
+		new String[] {"settings", "type"});
 
 	@Override
 	protected FinderCache getFinderCache() {

@@ -28,8 +28,8 @@ public class ExportImportConfigurationFinderBaseImpl
 
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
-		dbColumnNames.put("type", "type_");
 		dbColumnNames.put("settings", "settings_");
+		dbColumnNames.put("type", "type_");
 
 		setDBColumnNames(dbColumnNames);
 	}

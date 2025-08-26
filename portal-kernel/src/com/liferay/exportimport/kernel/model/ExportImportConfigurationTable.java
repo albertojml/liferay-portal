@@ -54,9 +54,10 @@ public class ExportImportConfigurationTable
 	public final Column<ExportImportConfigurationTable, String> description =
 		createColumn(
 			"description", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
-	public final Column<ExportImportConfigurationTable, Integer> type =
-		createColumn(
-			"type_", Integer.class, Types.INTEGER, Column.FLAG_DEFAULT);
+	public final Column<ExportImportConfigurationTable, Integer>
+		processedItemsCount = createColumn(
+			"processedItemsCount", Integer.class, Types.INTEGER,
+			Column.FLAG_DEFAULT);
 	public final Column<ExportImportConfigurationTable, Clob> settings =
 		createColumn("settings_", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
 	public final Column<ExportImportConfigurationTable, Integer> status =
@@ -72,6 +73,9 @@ public class ExportImportConfigurationTable
 	public final Column<ExportImportConfigurationTable, Date> statusDate =
 		createColumn(
 			"statusDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
+	public final Column<ExportImportConfigurationTable, Integer> type =
+		createColumn(
+			"type_", Integer.class, Types.INTEGER, Column.FLAG_DEFAULT);
 
 	private ExportImportConfigurationTable() {
 		super("ExportImportConfiguration", ExportImportConfigurationTable::new);

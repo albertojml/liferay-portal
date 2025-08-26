@@ -136,7 +136,8 @@ public class ExportImportConfigurationPersistenceTest {
 		newExportImportConfiguration.setDescription(
 			RandomTestUtil.randomString());
 
-		newExportImportConfiguration.setType(RandomTestUtil.nextInt());
+		newExportImportConfiguration.setProcessedItemsCount(
+			RandomTestUtil.nextInt());
 
 		newExportImportConfiguration.setSettings(RandomTestUtil.randomString());
 
@@ -149,6 +150,8 @@ public class ExportImportConfigurationPersistenceTest {
 			RandomTestUtil.randomString());
 
 		newExportImportConfiguration.setStatusDate(RandomTestUtil.nextDate());
+
+		newExportImportConfiguration.setType(RandomTestUtil.nextInt());
 
 		_exportImportConfigurations.add(
 			_persistence.update(newExportImportConfiguration));
@@ -192,8 +195,8 @@ public class ExportImportConfigurationPersistenceTest {
 			existingExportImportConfiguration.getDescription(),
 			newExportImportConfiguration.getDescription());
 		Assert.assertEquals(
-			existingExportImportConfiguration.getType(),
-			newExportImportConfiguration.getType());
+			existingExportImportConfiguration.getProcessedItemsCount(),
+			newExportImportConfiguration.getProcessedItemsCount());
 		Assert.assertEquals(
 			existingExportImportConfiguration.getSettings(),
 			newExportImportConfiguration.getSettings());
@@ -211,6 +214,9 @@ public class ExportImportConfigurationPersistenceTest {
 				existingExportImportConfiguration.getStatusDate()),
 			Time.getShortTimestamp(
 				newExportImportConfiguration.getStatusDate()));
+		Assert.assertEquals(
+			existingExportImportConfiguration.getType(),
+			newExportImportConfiguration.getType());
 	}
 
 	@Test
@@ -285,9 +291,9 @@ public class ExportImportConfigurationPersistenceTest {
 			"ExportImportConfiguration", "mvccVersion", true,
 			"exportImportConfigurationId", true, "groupId", true, "companyId",
 			true, "userId", true, "userName", true, "createDate", true,
-			"modifiedDate", true, "name", true, "description", true, "type",
-			true, "status", true, "statusByUserId", true, "statusByUserName",
-			true, "statusDate", true);
+			"modifiedDate", true, "name", true, "description", true,
+			"processedItemsCount", true, "status", true, "statusByUserId", true,
+			"statusByUserName", true, "statusDate", true, "type", true);
 	}
 
 	@Test
@@ -560,7 +566,8 @@ public class ExportImportConfigurationPersistenceTest {
 
 		exportImportConfiguration.setDescription(RandomTestUtil.randomString());
 
-		exportImportConfiguration.setType(RandomTestUtil.nextInt());
+		exportImportConfiguration.setProcessedItemsCount(
+			RandomTestUtil.nextInt());
 
 		exportImportConfiguration.setSettings(RandomTestUtil.randomString());
 
@@ -572,6 +579,8 @@ public class ExportImportConfigurationPersistenceTest {
 			RandomTestUtil.randomString());
 
 		exportImportConfiguration.setStatusDate(RandomTestUtil.nextDate());
+
+		exportImportConfiguration.setType(RandomTestUtil.nextInt());
 
 		_exportImportConfigurations.add(
 			_persistence.update(exportImportConfiguration));

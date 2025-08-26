@@ -228,18 +228,18 @@ public interface ExportImportConfigurationModel
 	public void setDescription(String description);
 
 	/**
-	 * Returns the type of this export import configuration.
+	 * Returns the processed items count of this export import configuration.
 	 *
-	 * @return the type of this export import configuration
+	 * @return the processed items count of this export import configuration
 	 */
-	public int getType();
+	public int getProcessedItemsCount();
 
 	/**
-	 * Sets the type of this export import configuration.
+	 * Sets the processed items count of this export import configuration.
 	 *
-	 * @param type the type of this export import configuration
+	 * @param processedItemsCount the processed items count of this export import configuration
 	 */
-	public void setType(int type);
+	public void setProcessedItemsCount(int processedItemsCount);
 
 	/**
 	 * Returns the settings of this export import configuration.
@@ -336,6 +336,20 @@ public interface ExportImportConfigurationModel
 	 */
 	@Override
 	public void setStatusDate(Date statusDate);
+
+	/**
+	 * Returns the type of this export import configuration.
+	 *
+	 * @return the type of this export import configuration
+	 */
+	public int getType();
+
+	/**
+	 * Sets the type of this export import configuration.
+	 *
+	 * @param type the type of this export import configuration
+	 */
+	public void setType(int type);
 
 	/**
 	 * Returns the class primary key of the trash entry for this export import configuration.

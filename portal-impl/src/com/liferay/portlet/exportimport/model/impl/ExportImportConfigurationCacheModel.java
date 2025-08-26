@@ -72,7 +72,7 @@ public class ExportImportConfigurationCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(33);
+		StringBundler sb = new StringBundler(35);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -94,8 +94,8 @@ public class ExportImportConfigurationCacheModel
 		sb.append(name);
 		sb.append(", description=");
 		sb.append(description);
-		sb.append(", type=");
-		sb.append(type);
+		sb.append(", processedItemsCount=");
+		sb.append(processedItemsCount);
 		sb.append(", settings=");
 		sb.append(settings);
 		sb.append(", status=");
@@ -106,6 +106,8 @@ public class ExportImportConfigurationCacheModel
 		sb.append(statusByUserName);
 		sb.append(", statusDate=");
 		sb.append(statusDate);
+		sb.append(", type=");
+		sb.append(type);
 		sb.append("}");
 
 		return sb.toString();
@@ -159,7 +161,8 @@ public class ExportImportConfigurationCacheModel
 			exportImportConfigurationImpl.setDescription(description);
 		}
 
-		exportImportConfigurationImpl.setType(type);
+		exportImportConfigurationImpl.setProcessedItemsCount(
+			processedItemsCount);
 
 		if (settings == null) {
 			exportImportConfigurationImpl.setSettings("");
@@ -185,6 +188,8 @@ public class ExportImportConfigurationCacheModel
 			exportImportConfigurationImpl.setStatusDate(new Date(statusDate));
 		}
 
+		exportImportConfigurationImpl.setType(type);
+
 		exportImportConfigurationImpl.resetOriginalValues();
 
 		return exportImportConfigurationImpl;
@@ -209,7 +214,7 @@ public class ExportImportConfigurationCacheModel
 		name = objectInput.readUTF();
 		description = objectInput.readUTF();
 
-		type = objectInput.readInt();
+		processedItemsCount = objectInput.readInt();
 		settings = (String)objectInput.readObject();
 
 		status = objectInput.readInt();
@@ -217,6 +222,8 @@ public class ExportImportConfigurationCacheModel
 		statusByUserId = objectInput.readLong();
 		statusByUserName = objectInput.readUTF();
 		statusDate = objectInput.readLong();
+
+		type = objectInput.readInt();
 	}
 
 	@Override
@@ -255,7 +262,7 @@ public class ExportImportConfigurationCacheModel
 			objectOutput.writeUTF(description);
 		}
 
-		objectOutput.writeInt(type);
+		objectOutput.writeInt(processedItemsCount);
 
 		if (settings == null) {
 			objectOutput.writeObject("");
@@ -276,6 +283,8 @@ public class ExportImportConfigurationCacheModel
 		}
 
 		objectOutput.writeLong(statusDate);
+
+		objectOutput.writeInt(type);
 	}
 
 	public long mvccVersion;
@@ -288,11 +297,12 @@ public class ExportImportConfigurationCacheModel
 	public long modifiedDate;
 	public String name;
 	public String description;
-	public int type;
+	public int processedItemsCount;
 	public String settings;
 	public int status;
 	public long statusByUserId;
 	public String statusByUserName;
 	public long statusDate;
+	public int type;
 
 }

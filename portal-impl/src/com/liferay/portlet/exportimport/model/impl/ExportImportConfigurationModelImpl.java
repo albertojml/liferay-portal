@@ -71,9 +71,10 @@ public class ExportImportConfigurationModelImpl
 		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
 		{"name", Types.VARCHAR}, {"description", Types.VARCHAR},
-		{"type_", Types.INTEGER}, {"settings_", Types.CLOB},
+		{"processedItemsCount", Types.INTEGER}, {"settings_", Types.CLOB},
 		{"status", Types.INTEGER}, {"statusByUserId", Types.BIGINT},
-		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP}
+		{"statusByUserName", Types.VARCHAR}, {"statusDate", Types.TIMESTAMP},
+		{"type_", Types.INTEGER}
 	};
 
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP =
@@ -90,16 +91,17 @@ public class ExportImportConfigurationModelImpl
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("name", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("type_", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("processedItemsCount", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("settings_", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
+		TABLE_COLUMNS_MAP.put("type_", Types.INTEGER);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table ExportImportConfiguration (mvccVersion LONG default 0 not null,exportImportConfigurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(200) null,description STRING null,type_ INTEGER,settings_ TEXT null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
+		"create table ExportImportConfiguration (mvccVersion LONG default 0 not null,exportImportConfigurationId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(200) null,description STRING null,processedItemsCount INTEGER,settings_ TEXT null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null,type_ INTEGER)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table ExportImportConfiguration";
@@ -289,7 +291,8 @@ public class ExportImportConfigurationModelImpl
 			attributeGetterFunctions.put(
 				"description", ExportImportConfiguration::getDescription);
 			attributeGetterFunctions.put(
-				"type", ExportImportConfiguration::getType);
+				"processedItemsCount",
+				ExportImportConfiguration::getProcessedItemsCount);
 			attributeGetterFunctions.put(
 				"settings", ExportImportConfiguration::getSettings);
 			attributeGetterFunctions.put(
@@ -301,6 +304,8 @@ public class ExportImportConfigurationModelImpl
 				ExportImportConfiguration::getStatusByUserName);
 			attributeGetterFunctions.put(
 				"statusDate", ExportImportConfiguration::getStatusDate);
+			attributeGetterFunctions.put(
+				"type", ExportImportConfiguration::getType);
 
 			_attributeGetterFunctions = Collections.unmodifiableMap(
 				attributeGetterFunctions);
@@ -361,9 +366,9 @@ public class ExportImportConfigurationModelImpl
 				(BiConsumer<ExportImportConfiguration, String>)
 					ExportImportConfiguration::setDescription);
 			attributeSetterBiConsumers.put(
-				"type",
+				"processedItemsCount",
 				(BiConsumer<ExportImportConfiguration, Integer>)
-					ExportImportConfiguration::setType);
+					ExportImportConfiguration::setProcessedItemsCount);
 			attributeSetterBiConsumers.put(
 				"settings",
 				(BiConsumer<ExportImportConfiguration, String>)
@@ -384,6 +389,10 @@ public class ExportImportConfigurationModelImpl
 				"statusDate",
 				(BiConsumer<ExportImportConfiguration, Date>)
 					ExportImportConfiguration::setStatusDate);
+			attributeSetterBiConsumers.put(
+				"type",
+				(BiConsumer<ExportImportConfiguration, Integer>)
+					ExportImportConfiguration::setType);
 
 			_attributeSetterBiConsumers = Collections.unmodifiableMap(
 				(Map)attributeSetterBiConsumers);
@@ -601,27 +610,17 @@ public class ExportImportConfigurationModelImpl
 
 	@JSON
 	@Override
-	public int getType() {
-		return _type;
+	public int getProcessedItemsCount() {
+		return _processedItemsCount;
 	}
 
 	@Override
-	public void setType(int type) {
+	public void setProcessedItemsCount(int processedItemsCount) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
-		_type = type;
-	}
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
-	 *             #getColumnOriginalValue(String)}
-	 */
-	@Deprecated
-	public int getOriginalType() {
-		return GetterUtil.getInteger(
-			this.<Integer>getColumnOriginalValue("type_"));
+		_processedItemsCount = processedItemsCount;
 	}
 
 	@JSON
@@ -733,6 +732,31 @@ public class ExportImportConfigurationModelImpl
 		}
 
 		_statusDate = statusDate;
+	}
+
+	@JSON
+	@Override
+	public int getType() {
+		return _type;
+	}
+
+	@Override
+	public void setType(int type) {
+		if (_columnOriginalValues == Collections.EMPTY_MAP) {
+			_setColumnOriginalValues();
+		}
+
+		_type = type;
+	}
+
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getColumnOriginalValue(String)}
+	 */
+	@Deprecated
+	public int getOriginalType() {
+		return GetterUtil.getInteger(
+			this.<Integer>getColumnOriginalValue("type_"));
 	}
 
 	@Override
@@ -899,13 +923,15 @@ public class ExportImportConfigurationModelImpl
 		exportImportConfigurationImpl.setModifiedDate(getModifiedDate());
 		exportImportConfigurationImpl.setName(getName());
 		exportImportConfigurationImpl.setDescription(getDescription());
-		exportImportConfigurationImpl.setType(getType());
+		exportImportConfigurationImpl.setProcessedItemsCount(
+			getProcessedItemsCount());
 		exportImportConfigurationImpl.setSettings(getSettings());
 		exportImportConfigurationImpl.setStatus(getStatus());
 		exportImportConfigurationImpl.setStatusByUserId(getStatusByUserId());
 		exportImportConfigurationImpl.setStatusByUserName(
 			getStatusByUserName());
 		exportImportConfigurationImpl.setStatusDate(getStatusDate());
+		exportImportConfigurationImpl.setType(getType());
 
 		exportImportConfigurationImpl.resetOriginalValues();
 
@@ -937,8 +963,8 @@ public class ExportImportConfigurationModelImpl
 			this.<String>getColumnOriginalValue("name"));
 		exportImportConfigurationImpl.setDescription(
 			this.<String>getColumnOriginalValue("description"));
-		exportImportConfigurationImpl.setType(
-			this.<Integer>getColumnOriginalValue("type_"));
+		exportImportConfigurationImpl.setProcessedItemsCount(
+			this.<Integer>getColumnOriginalValue("processedItemsCount"));
 		exportImportConfigurationImpl.setSettings(
 			this.<String>getColumnOriginalValue("settings_"));
 		exportImportConfigurationImpl.setStatus(
@@ -949,6 +975,8 @@ public class ExportImportConfigurationModelImpl
 			this.<String>getColumnOriginalValue("statusByUserName"));
 		exportImportConfigurationImpl.setStatusDate(
 			this.<Date>getColumnOriginalValue("statusDate"));
+		exportImportConfigurationImpl.setType(
+			this.<Integer>getColumnOriginalValue("type_"));
 
 		return exportImportConfigurationImpl;
 	}
@@ -1083,7 +1111,8 @@ public class ExportImportConfigurationModelImpl
 			exportImportConfigurationCacheModel.description = null;
 		}
 
-		exportImportConfigurationCacheModel.type = getType();
+		exportImportConfigurationCacheModel.processedItemsCount =
+			getProcessedItemsCount();
 
 		exportImportConfigurationCacheModel.settings = getSettings();
 
@@ -1117,6 +1146,8 @@ public class ExportImportConfigurationModelImpl
 		else {
 			exportImportConfigurationCacheModel.statusDate = Long.MIN_VALUE;
 		}
+
+		exportImportConfigurationCacheModel.type = getType();
 
 		return exportImportConfigurationCacheModel;
 	}
@@ -1192,12 +1223,13 @@ public class ExportImportConfigurationModelImpl
 	private boolean _setModifiedDate;
 	private String _name;
 	private String _description;
-	private int _type;
+	private int _processedItemsCount;
 	private String _settings;
 	private int _status;
 	private long _statusByUserId;
 	private String _statusByUserName;
 	private Date _statusDate;
+	private int _type;
 
 	public <T> T getColumnValue(String columnName) {
 		columnName = _attributeNames.getOrDefault(columnName, columnName);
@@ -1240,12 +1272,13 @@ public class ExportImportConfigurationModelImpl
 		_columnOriginalValues.put("modifiedDate", _modifiedDate);
 		_columnOriginalValues.put("name", _name);
 		_columnOriginalValues.put("description", _description);
-		_columnOriginalValues.put("type_", _type);
+		_columnOriginalValues.put("processedItemsCount", _processedItemsCount);
 		_columnOriginalValues.put("settings_", _settings);
 		_columnOriginalValues.put("status", _status);
 		_columnOriginalValues.put("statusByUserId", _statusByUserId);
 		_columnOriginalValues.put("statusByUserName", _statusByUserName);
 		_columnOriginalValues.put("statusDate", _statusDate);
+		_columnOriginalValues.put("type_", _type);
 	}
 
 	private static final Map<String, String> _attributeNames;
@@ -1253,8 +1286,8 @@ public class ExportImportConfigurationModelImpl
 	static {
 		Map<String, String> attributeNames = new HashMap<>();
 
-		attributeNames.put("type_", "type");
 		attributeNames.put("settings_", "settings");
+		attributeNames.put("type_", "type");
 
 		_attributeNames = Collections.unmodifiableMap(attributeNames);
 	}
@@ -1290,7 +1323,7 @@ public class ExportImportConfigurationModelImpl
 
 		columnBitmasks.put("description", 512L);
 
-		columnBitmasks.put("type_", 1024L);
+		columnBitmasks.put("processedItemsCount", 1024L);
 
 		columnBitmasks.put("settings_", 2048L);
 
@@ -1301,6 +1334,8 @@ public class ExportImportConfigurationModelImpl
 		columnBitmasks.put("statusByUserName", 16384L);
 
 		columnBitmasks.put("statusDate", 32768L);
+
+		columnBitmasks.put("type_", 65536L);
 
 		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
 	}
