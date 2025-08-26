@@ -49,6 +49,16 @@ public class ExportImportConfigurationServiceWrapper
 
 	@Override
 	public com.liferay.exportimport.kernel.model.ExportImportConfiguration
+			incrementProcessedItemsCount(
+				long exportImportConfigurationId, int processedItemsCountToAdd)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _exportImportConfigurationService.incrementProcessedItemsCount(
+			exportImportConfigurationId, processedItemsCountToAdd);
+	}
+
+	@Override
+	public com.liferay.exportimport.kernel.model.ExportImportConfiguration
 			moveExportImportConfigurationToTrash(
 				long exportImportConfigurationId)
 		throws com.liferay.portal.kernel.exception.PortalException {

@@ -289,6 +289,24 @@ public class ExportImportConfigurationLocalServiceImpl
 
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
+	public ExportImportConfiguration incrementProcessedItemsCount(
+		long exportImportConfigurationId, int processedItemsCountToAdd)
+		throws PortalException {
+
+		ExportImportConfiguration exportImportConfiguration =
+			exportImportConfigurationPersistence.findByPrimaryKey(
+				exportImportConfigurationId);
+
+		exportImportConfiguration.setProcessedItemsCount(
+			exportImportConfiguration.getProcessedItemsCount() +
+			processedItemsCountToAdd);
+
+		return exportImportConfigurationPersistence.update(
+			exportImportConfiguration);
+	}
+
+	@Indexable(type = IndexableType.REINDEX)
+	@Override
 	public ExportImportConfiguration moveExportImportConfigurationToTrash(
 			long userId, long exportImportConfigurationId)
 		throws PortalException {

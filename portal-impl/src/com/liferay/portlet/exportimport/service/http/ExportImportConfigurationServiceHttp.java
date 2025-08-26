@@ -80,6 +80,53 @@ public class ExportImportConfigurationServiceHttp {
 
 	public static
 		com.liferay.exportimport.kernel.model.ExportImportConfiguration
+				incrementProcessedItemsCount(
+					HttpPrincipal httpPrincipal,
+					long exportImportConfigurationId,
+					int processedItemsCountToAdd)
+			throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				ExportImportConfigurationServiceUtil.class,
+				"incrementProcessedItemsCount",
+				_incrementProcessedItemsCountParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, exportImportConfigurationId,
+				processedItemsCountToAdd);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.liferay.exportimport.kernel.model.
+				ExportImportConfiguration)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static
+		com.liferay.exportimport.kernel.model.ExportImportConfiguration
 				moveExportImportConfigurationToTrash(
 					HttpPrincipal httpPrincipal,
 					long exportImportConfigurationId)
@@ -89,7 +136,7 @@ public class ExportImportConfigurationServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				ExportImportConfigurationServiceUtil.class,
 				"moveExportImportConfigurationToTrash",
-				_moveExportImportConfigurationToTrashParameterTypes1);
+				_moveExportImportConfigurationToTrashParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, exportImportConfigurationId);
@@ -134,7 +181,7 @@ public class ExportImportConfigurationServiceHttp {
 			MethodKey methodKey = new MethodKey(
 				ExportImportConfigurationServiceUtil.class,
 				"restoreExportImportConfigurationFromTrash",
-				_restoreExportImportConfigurationFromTrashParameterTypes2);
+				_restoreExportImportConfigurationFromTrashParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, exportImportConfigurationId);
@@ -176,11 +223,15 @@ public class ExportImportConfigurationServiceHttp {
 			long.class
 		};
 	private static final Class<?>[]
-		_moveExportImportConfigurationToTrashParameterTypes1 = new Class[] {
+		_incrementProcessedItemsCountParameterTypes1 = new Class[] {
+			long.class, int.class
+		};
+	private static final Class<?>[]
+		_moveExportImportConfigurationToTrashParameterTypes2 = new Class[] {
 			long.class
 		};
 	private static final Class<?>[]
-		_restoreExportImportConfigurationFromTrashParameterTypes2 =
+		_restoreExportImportConfigurationFromTrashParameterTypes3 =
 			new Class[] {long.class};
 
 }

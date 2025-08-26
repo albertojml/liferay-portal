@@ -44,6 +44,14 @@ public class ExportImportConfigurationServiceUtil {
 		return getService().getOSGiServiceIdentifier();
 	}
 
+	public static ExportImportConfiguration incrementProcessedItemsCount(
+			long exportImportConfigurationId, int processedItemsCountToAdd)
+		throws PortalException {
+
+		return getService().incrementProcessedItemsCount(
+			exportImportConfigurationId, processedItemsCountToAdd);
+	}
+
 	public static ExportImportConfiguration
 			moveExportImportConfigurationToTrash(
 				long exportImportConfigurationId)

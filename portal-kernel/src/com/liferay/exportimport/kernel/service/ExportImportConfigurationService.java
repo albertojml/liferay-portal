@@ -50,6 +50,10 @@ public interface ExportImportConfigurationService extends BaseService {
 	 */
 	public String getOSGiServiceIdentifier();
 
+	public ExportImportConfiguration incrementProcessedItemsCount(
+			long exportImportConfigurationId, int processedItemsCountToAdd)
+		throws PortalException;
+
 	public ExportImportConfiguration moveExportImportConfigurationToTrash(
 			long exportImportConfigurationId)
 		throws PortalException;

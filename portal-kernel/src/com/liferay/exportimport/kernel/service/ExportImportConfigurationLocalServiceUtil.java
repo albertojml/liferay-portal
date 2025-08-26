@@ -394,6 +394,14 @@ public class ExportImportConfigurationLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static ExportImportConfiguration incrementProcessedItemsCount(
+			long exportImportConfigurationId, int processedItemsCountToAdd)
+		throws PortalException {
+
+		return getService().incrementProcessedItemsCount(
+			exportImportConfigurationId, processedItemsCountToAdd);
+	}
+
 	public static ExportImportConfiguration
 			moveExportImportConfigurationToTrash(
 				long userId, long exportImportConfigurationId)

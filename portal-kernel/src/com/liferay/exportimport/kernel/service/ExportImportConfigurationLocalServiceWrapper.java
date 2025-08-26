@@ -486,6 +486,17 @@ public class ExportImportConfigurationLocalServiceWrapper
 
 	@Override
 	public com.liferay.exportimport.kernel.model.ExportImportConfiguration
+			incrementProcessedItemsCount(
+				long exportImportConfigurationId, int processedItemsCountToAdd)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _exportImportConfigurationLocalService.
+			incrementProcessedItemsCount(
+				exportImportConfigurationId, processedItemsCountToAdd);
+	}
+
+	@Override
+	public com.liferay.exportimport.kernel.model.ExportImportConfiguration
 			moveExportImportConfigurationToTrash(
 				long userId, long exportImportConfigurationId)
 		throws com.liferay.portal.kernel.exception.PortalException {

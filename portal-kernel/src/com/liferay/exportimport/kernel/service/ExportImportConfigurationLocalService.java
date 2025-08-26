@@ -339,6 +339,11 @@ public interface ExportImportConfigurationLocalService
 		throws PortalException;
 
 	@Indexable(type = IndexableType.REINDEX)
+	public ExportImportConfiguration incrementProcessedItemsCount(
+			long exportImportConfigurationId, int processedItemsCountToAdd)
+		throws PortalException;
+
+	@Indexable(type = IndexableType.REINDEX)
 	public ExportImportConfiguration moveExportImportConfigurationToTrash(
 			long userId, long exportImportConfigurationId)
 		throws PortalException;
