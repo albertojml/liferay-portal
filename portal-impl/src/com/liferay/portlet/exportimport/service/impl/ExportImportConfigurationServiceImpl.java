@@ -37,7 +37,7 @@ public class ExportImportConfigurationServiceImpl
 
 	@Override
 	public ExportImportConfiguration incrementProcessedItemsCount(
-		long exportImportConfigurationId, int processedItemsCountToAdd)
+			long exportImportConfigurationId, int processedItemsCountToAdd)
 		throws PortalException {
 
 		ExportImportConfiguration exportImportConfiguration =
@@ -48,8 +48,9 @@ public class ExportImportConfigurationServiceImpl
 			getPermissionChecker(), exportImportConfiguration.getGroupId(),
 			ActionKeys.UPDATE);
 
-		return exportImportConfigurationLocalService.incrementProcessedItemsCount
-			(exportImportConfigurationId, processedItemsCountToAdd);
+		return exportImportConfigurationLocalService.
+			incrementProcessedItemsCount(
+				exportImportConfigurationId, processedItemsCountToAdd);
 	}
 
 	@Override

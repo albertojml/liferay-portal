@@ -290,7 +290,7 @@ public class ExportImportConfigurationLocalServiceImpl
 	@Indexable(type = IndexableType.REINDEX)
 	@Override
 	public ExportImportConfiguration incrementProcessedItemsCount(
-		long exportImportConfigurationId, int processedItemsCountToAdd)
+			long exportImportConfigurationId, int processedItemsCountToAdd)
 		throws PortalException {
 
 		ExportImportConfiguration exportImportConfiguration =
@@ -299,7 +299,7 @@ public class ExportImportConfigurationLocalServiceImpl
 
 		exportImportConfiguration.setProcessedItemsCount(
 			exportImportConfiguration.getProcessedItemsCount() +
-			processedItemsCountToAdd);
+				processedItemsCountToAdd);
 
 		return exportImportConfigurationPersistence.update(
 			exportImportConfiguration);
