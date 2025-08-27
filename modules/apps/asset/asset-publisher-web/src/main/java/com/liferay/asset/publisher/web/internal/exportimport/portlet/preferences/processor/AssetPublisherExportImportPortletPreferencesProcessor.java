@@ -50,6 +50,7 @@ import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.NoSuchGroupException;
 import com.liferay.portal.kernel.exception.NoSuchLayoutException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
@@ -756,7 +757,7 @@ public class AssetPublisherExportImportPortletPreferencesProcessor
 	}
 
 	private void _importLayoutReferences(PortletDataContext portletDataContext)
-		throws PortletDataException {
+		throws PortalException {
 
 		Element importDataRootElement =
 			portletDataContext.getImportDataRootElement();

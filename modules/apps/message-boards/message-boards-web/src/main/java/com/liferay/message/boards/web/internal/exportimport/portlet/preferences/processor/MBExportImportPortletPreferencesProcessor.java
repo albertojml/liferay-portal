@@ -165,7 +165,7 @@ public class MBExportImportPortletPreferencesProcessor
 	public PortletPreferences processImportPortletPreferences(
 			PortletDataContext portletDataContext,
 			PortletPreferences portletPreferences)
-		throws PortletDataException {
+		throws PortalException {
 
 		try {
 			portletDataContext.importPortletPermissions(

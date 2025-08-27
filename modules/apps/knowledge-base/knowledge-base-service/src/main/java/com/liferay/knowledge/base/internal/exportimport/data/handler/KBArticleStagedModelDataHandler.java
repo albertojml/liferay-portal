@@ -13,7 +13,6 @@ import com.liferay.exportimport.content.processor.ExportImportContentProcessor;
 import com.liferay.exportimport.kernel.lar.BaseStagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandler;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelModifiedDateComparator;
@@ -303,7 +302,7 @@ public class KBArticleStagedModelDataHandler
 	@Override
 	protected void importReferenceStagedModels(
 			PortletDataContext portletDataContext, KBArticle stagedModel)
-		throws PortletDataException {
+		throws PortalException {
 
 		super.importReferenceStagedModels(portletDataContext, stagedModel);
 

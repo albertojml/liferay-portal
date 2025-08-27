@@ -7,8 +7,8 @@ package com.liferay.adaptive.media.image.internal.exportimport.content.processor
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
-import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.exportimport.kernel.lar.StagedModelDataHandlerUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.util.MapUtil;
 
@@ -32,7 +32,7 @@ public class AMEmbeddedReferenceSet {
 		return _embeddedReferences.containsKey(path);
 	}
 
-	public long importReference(String path) throws PortletDataException {
+	public long importReference(String path) throws PortalException {
 		long classPK = _embeddedReferences.get(path);
 
 		StagedModelDataHandlerUtil.importReferenceStagedModel(

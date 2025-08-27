@@ -109,7 +109,7 @@ public class BlogsExportImportPortletPreferencesProcessor
 	public PortletPreferences processImportPortletPreferences(
 			PortletDataContext portletDataContext,
 			PortletPreferences portletPreferences)
-		throws PortletDataException {
+		throws PortalException {
 
 		if (!portletDataContext.getBooleanParameter(
 				_blogsPortletDataHandler.getNamespace(), "entries")) {

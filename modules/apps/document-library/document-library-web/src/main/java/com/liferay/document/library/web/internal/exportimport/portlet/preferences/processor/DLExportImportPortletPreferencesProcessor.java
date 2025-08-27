@@ -324,7 +324,7 @@ public class DLExportImportPortletPreferencesProcessor
 	public PortletPreferences processImportPortletPreferences(
 			PortletDataContext portletDataContext,
 			PortletPreferences portletPreferences)
-		throws PortletDataException {
+		throws PortalException {
 
 		JSONObject stagingPreferencesMappingJSONObject =
 			_fetchStagingPreferencesMappingJSONObject(portletDataContext);

@@ -684,7 +684,7 @@ public abstract class BaseStagedModelDataHandler<T extends StagedModel>
 
 	protected void importAssetCategories(
 			PortletDataContext portletDataContext, T stagedModel)
-		throws PortletDataException {
+		throws PortalException {
 
 		List<Element> referenceElements =
 			portletDataContext.getReferenceElements(
@@ -727,7 +727,7 @@ public abstract class BaseStagedModelDataHandler<T extends StagedModel>
 
 	protected void importAssetTags(
 			PortletDataContext portletDataContext, T stagedModel)
-		throws PortletDataException {
+		throws PortalException {
 
 		List<Element> referenceElements =
 			portletDataContext.getReferenceElements(
@@ -844,7 +844,7 @@ public abstract class BaseStagedModelDataHandler<T extends StagedModel>
 
 	protected void importReferenceStagedModels(
 			PortletDataContext portletDataContext, T stagedModel)
-		throws PortletDataException {
+		throws PortalException {
 
 		if (isSkipImportReferenceStagedModels()) {
 			return;

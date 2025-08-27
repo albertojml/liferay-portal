@@ -5,6 +5,7 @@
 
 package com.liferay.exportimport.kernel.lar;
 
+import com.liferay.exportimport.kernel.service.ExportImportConfigurationLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -212,7 +213,7 @@ public class StagedModelDataHandlerUtil {
 	public static void importReferenceStagedModel(
 			PortletDataContext portletDataContext, Class<?> stagedModelClass,
 			Serializable classPK)
-		throws PortletDataException {
+		throws PortalException {
 
 		importReferenceStagedModel(
 			portletDataContext, stagedModelClass.getName(), classPK);
@@ -235,7 +236,7 @@ public class StagedModelDataHandlerUtil {
 	public static void importReferenceStagedModel(
 			PortletDataContext portletDataContext, String stagedModelClassName,
 			Serializable classPK)
-		throws PortletDataException {
+		throws PortalException {
 
 		Element referenceElement = portletDataContext.getReferenceElement(
 			stagedModelClassName, classPK);
@@ -262,7 +263,7 @@ public class StagedModelDataHandlerUtil {
 	public static <T extends StagedModel> void importReferenceStagedModel(
 			PortletDataContext portletDataContext, T referrerStagedModel,
 			Class<?> stagedModelClass, Serializable classPK)
-		throws PortletDataException {
+		throws PortalException {
 
 		importReferenceStagedModel(
 			portletDataContext, referrerStagedModel, stagedModelClass.getName(),
@@ -287,7 +288,7 @@ public class StagedModelDataHandlerUtil {
 	public static <T extends StagedModel> void importReferenceStagedModel(
 			PortletDataContext portletDataContext, T referrerStagedModel,
 			String stagedModelClassName, Serializable classPK)
-		throws PortletDataException {
+		throws PortalException {
 
 		Element referenceElement = portletDataContext.getReferenceElement(
 			referrerStagedModel, stagedModelClassName, classPK);
@@ -298,7 +299,7 @@ public class StagedModelDataHandlerUtil {
 
 	public static void importReferenceStagedModels(
 			PortletDataContext portletDataContext, Class<?> stagedModelClass)
-		throws PortletDataException {
+		throws PortalException {
 
 		Element importDataRootElement =
 			portletDataContext.getImportDataRootElement();
@@ -341,7 +342,7 @@ public class StagedModelDataHandlerUtil {
 	public static <T extends StagedModel> void importReferenceStagedModels(
 			PortletDataContext portletDataContext, T referrerStagedModel,
 			Class<?> stagedModelClass)
-		throws PortletDataException {
+		throws PortalException {
 
 		List<Element> referenceElements =
 			portletDataContext.getReferenceElements(
@@ -359,7 +360,7 @@ public class StagedModelDataHandlerUtil {
 
 	public static void importStagedModel(
 			PortletDataContext portletDataContext, Element element)
-		throws PortletDataException {
+		throws PortalException {
 
 		StagedModel stagedModel = _getStagedModel(portletDataContext, element);
 
@@ -368,7 +369,7 @@ public class StagedModelDataHandlerUtil {
 
 	public static <T extends StagedModel> void importStagedModel(
 			PortletDataContext portletDataContext, T stagedModel)
-		throws PortletDataException {
+		throws PortalException {
 
 		StagedModelDataHandler<T> stagedModelDataHandler =
 			_getStagedModelDataHandler(stagedModel);
@@ -380,13 +381,17 @@ public class StagedModelDataHandlerUtil {
 		stagedModelDataHandler.importStagedModel(
 			portletDataContext, stagedModel);
 
+		ExportImportConfigurationLocalServiceUtil.incrementProcessedItemsCount(
+			GetterUtil.getLong(portletDataContext.getExportImportProcessId()),
+			1);
+
 		LastSessionRecorderHelperUtil.syncLastSessionState();
 	}
 
 	protected static void doImportReferenceStagedModel(
 			PortletDataContext portletDataContext, Element referenceElement,
 			String stagedModelClassName)
-		throws PortletDataException {
+		throws PortalException {
 
 		if (referenceElement == null) {
 			return;

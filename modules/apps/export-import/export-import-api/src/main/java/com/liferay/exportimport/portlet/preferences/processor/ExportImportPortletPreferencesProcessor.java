@@ -7,6 +7,7 @@ package com.liferay.exportimport.portlet.preferences.processor;
 
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
+import com.liferay.portal.kernel.exception.PortalException;
 
 import jakarta.portlet.PortletPreferences;
 
@@ -33,6 +34,6 @@ public interface ExportImportPortletPreferencesProcessor {
 	public PortletPreferences processImportPortletPreferences(
 			PortletDataContext portletDataContext,
 			PortletPreferences portletPreferences)
-		throws PortletDataException;
+		throws PortalException;
 
 }

@@ -8,6 +8,7 @@ package com.liferay.portal.kernel.comment;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.StagedModel;
 
 /**
@@ -30,6 +31,6 @@ public interface DiscussionStagingHandler {
 
 	public <T extends StagedModel> void importReferenceDiscussions(
 			PortletDataContext portletDataContext, T stagedModel)
-		throws PortletDataException;
+		throws PortalException;
 
 }

@@ -148,7 +148,7 @@ public class WikiExportImportPortletPreferencesProcessor
 	public PortletPreferences processImportPortletPreferences(
 			PortletDataContext portletDataContext,
 			PortletPreferences portletPreferences)
-		throws PortletDataException {
+		throws PortalException {
 
 		if (!portletDataContext.getBooleanParameter(
 				_wikiPortletDataHandler.getNamespace(), "wiki-pages")) {

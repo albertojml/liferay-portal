@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.StagedModel;
@@ -171,7 +172,7 @@ public class MBDiscussionStagingHandler implements DiscussionStagingHandler {
 	@Override
 	public <T extends StagedModel> void importReferenceDiscussions(
 			PortletDataContext portletDataContext, T stagedModel)
-		throws PortletDataException {
+		throws PortalException {
 
 		StagedModelDataHandlerUtil.importReferenceStagedModels(
 			portletDataContext, stagedModel, MBMessage.class);

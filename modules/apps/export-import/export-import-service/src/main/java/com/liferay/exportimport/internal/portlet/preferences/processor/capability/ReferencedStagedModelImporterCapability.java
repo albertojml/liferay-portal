@@ -41,7 +41,7 @@ public class ReferencedStagedModelImporterCapability implements Capability {
 	public PortletPreferences process(
 			PortletDataContext portletDataContext,
 			PortletPreferences portletPreferences)
-		throws PortletDataException {
+		throws PortalException {
 
 		Element importDataRootElement =
 			portletDataContext.getImportDataRootElement();

@@ -10,6 +10,7 @@ import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataException;
 import com.liferay.exportimport.portlet.preferences.processor.Capability;
 import com.liferay.exportimport.portlet.preferences.processor.ExportImportPortletPreferencesProcessor;
+import com.liferay.portal.kernel.exception.PortalException;
 
 import jakarta.portlet.PortletPreferences;
 
@@ -63,7 +64,7 @@ public class IGDisplayExportImportPortletPreferencesProcessor
 	public PortletPreferences processImportPortletPreferences(
 			PortletDataContext portletDataContext,
 			PortletPreferences portletPreferences)
-		throws PortletDataException {
+		throws PortalException {
 
 		return _dlExportImportPortletPreferencesProcessor.
 			processImportPortletPreferences(

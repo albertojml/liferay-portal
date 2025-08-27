@@ -152,7 +152,7 @@ public class BookmarksExportImportPortletPreferencesProcessor
 	public PortletPreferences processImportPortletPreferences(
 			PortletDataContext portletDataContext,
 			PortletPreferences portletPreferences)
-		throws PortletDataException {
+		throws PortalException {
 
 		try {
 			portletDataContext.importPortletPermissions(

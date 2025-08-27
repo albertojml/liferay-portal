@@ -97,7 +97,7 @@ public class SiteNavigationMenuExportImportPortletPreferencesProcessor
 	public PortletPreferences processImportPortletPreferences(
 			PortletDataContext portletDataContext,
 			PortletPreferences portletPreferences)
-		throws PortletDataException {
+		throws PortalException {
 
 		try {
 			portletDataContext.importPortletPermissions(
@@ -231,7 +231,7 @@ public class SiteNavigationMenuExportImportPortletPreferencesProcessor
 
 	private void _importSiteNavigationMenuReference(
 			PortletDataContext portletDataContext)
-		throws PortletDataException {
+		throws PortalException {
 
 		Element importDataRootElement =
 			portletDataContext.getImportDataRootElement();
