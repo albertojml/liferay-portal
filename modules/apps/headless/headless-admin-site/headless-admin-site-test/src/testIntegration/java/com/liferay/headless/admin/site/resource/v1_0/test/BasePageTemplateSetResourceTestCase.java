@@ -1194,7 +1194,8 @@ public abstract class BasePageTemplateSetResourceTestCase {
 			200,
 			pageTemplateSetResource.
 				putSitePageTemplateSetPermissionsPageHttpResponse(
-					testGroup.getExternalReferenceCode(), null,
+					testGroup.getExternalReferenceCode(),
+					pageTemplateSet.getExternalReferenceCode(),
 					new Permission[] {
 						new Permission() {
 							{
@@ -1208,7 +1209,8 @@ public abstract class BasePageTemplateSetResourceTestCase {
 			404,
 			pageTemplateSetResource.
 				putSitePageTemplateSetPermissionsPageHttpResponse(
-					testGroup.getExternalReferenceCode(), null,
+					testGroup.getExternalReferenceCode(),
+					pageTemplateSet.getExternalReferenceCode(),
 					new Permission[] {
 						new Permission() {
 							{

@@ -1131,7 +1131,8 @@ public abstract class BaseUtilityPageResourceTestCase {
 		assertHttpResponseStatusCode(
 			200,
 			utilityPageResource.putSiteUtilityPagePermissionsPageHttpResponse(
-				testGroup.getExternalReferenceCode(), null,
+				testGroup.getExternalReferenceCode(),
+				utilityPage.getExternalReferenceCode(),
 				new Permission[] {
 					new Permission() {
 						{
@@ -1144,7 +1145,8 @@ public abstract class BaseUtilityPageResourceTestCase {
 		assertHttpResponseStatusCode(
 			404,
 			utilityPageResource.putSiteUtilityPagePermissionsPageHttpResponse(
-				testGroup.getExternalReferenceCode(), null,
+				testGroup.getExternalReferenceCode(),
+				utilityPage.getExternalReferenceCode(),
 				new Permission[] {
 					new Permission() {
 						{

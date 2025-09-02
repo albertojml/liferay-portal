@@ -1289,8 +1289,10 @@ public abstract class BaseDisplayPageTemplateFolderResourceTestCase {
 				DisplayPageTemplateFolder displayPageTemplateFolder)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		return permissionsDisplayPageTemplateFolderResource.
+			postSiteDisplayPageTemplateFolder(
+				testGetSiteDisplayPageTemplateFoldersPage_getSiteExternalReferenceCode(),
+				displayPageTemplateFolder);
 	}
 
 	@Test
@@ -1370,7 +1372,8 @@ public abstract class BaseDisplayPageTemplateFolderResourceTestCase {
 			200,
 			displayPageTemplateFolderResource.
 				putSiteDisplayPageTemplateFolderPermissionsPageHttpResponse(
-					testGroup.getExternalReferenceCode(), null,
+					testGroup.getExternalReferenceCode(),
+					displayPageTemplateFolder.getExternalReferenceCode(),
 					new Permission[] {
 						new Permission() {
 							{
@@ -1384,7 +1387,8 @@ public abstract class BaseDisplayPageTemplateFolderResourceTestCase {
 			404,
 			displayPageTemplateFolderResource.
 				putSiteDisplayPageTemplateFolderPermissionsPageHttpResponse(
-					testGroup.getExternalReferenceCode(), null,
+					testGroup.getExternalReferenceCode(),
+					displayPageTemplateFolder.getExternalReferenceCode(),
 					new Permission[] {
 						new Permission() {
 							{
