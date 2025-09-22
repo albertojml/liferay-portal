@@ -24,7 +24,6 @@ import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Collections;
@@ -52,10 +51,6 @@ public interface UserGroupResource {
 				String userGroupExternalReferenceCode)
 		throws Exception;
 
-	public void deleteAssetLibraryUserGroup(
-			Long assetLibraryId, Long userGroupId)
-		throws Exception;
-
 	public UserGroup
 			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCode(
 				String assetLibraryExternalReferenceCode,
@@ -68,30 +63,10 @@ public interface UserGroupResource {
 			com.liferay.portal.kernel.search.Sort[] sorts)
 		throws Exception;
 
-	public UserGroup getAssetLibraryUserGroup(
-			Long assetLibraryId, Long userGroupId)
-		throws Exception;
-
-	public Page<UserGroup> getAssetLibraryUserGroupsPage(
-			Long assetLibraryId, String keywords, String search,
-			Pagination pagination,
-			com.liferay.portal.kernel.search.Sort[] sorts)
-		throws Exception;
-
-	public Response postAssetLibraryUserGroupsPageExportBatch(
-			Long assetLibraryId, String keywords, String search,
-			com.liferay.portal.kernel.search.Sort[] sorts, String callbackURL,
-			String contentType, String fieldNames)
-		throws Exception;
-
 	public UserGroup
 			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCode(
 				String assetLibraryExternalReferenceCode,
 				String userGroupExternalReferenceCode)
-		throws Exception;
-
-	public UserGroup putAssetLibraryUserGroup(
-			Long assetLibraryId, Long userGroupId)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

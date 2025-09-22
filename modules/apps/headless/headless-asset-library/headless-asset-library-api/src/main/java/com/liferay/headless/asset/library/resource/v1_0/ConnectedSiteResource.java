@@ -24,7 +24,6 @@ import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Collections;
@@ -52,10 +51,6 @@ public interface ConnectedSiteResource {
 				String connectedSiteExternalReferenceCode)
 		throws Exception;
 
-	public void deleteAssetLibraryConnectedSite(
-			Long assetLibraryId, Long connectedSiteId)
-		throws Exception;
-
 	public ConnectedSite
 			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
 				String assetLibraryExternalReferenceCode,
@@ -67,29 +62,11 @@ public interface ConnectedSiteResource {
 				String externalReferenceCode, Pagination pagination)
 		throws Exception;
 
-	public ConnectedSite getAssetLibraryConnectedSite(
-			Long assetLibraryId, Long connectedSiteId)
-		throws Exception;
-
-	public Page<ConnectedSite> getAssetLibraryConnectedSitesPage(
-			Long assetLibraryId, Pagination pagination)
-		throws Exception;
-
-	public Response postAssetLibraryConnectedSitesPageExportBatch(
-			Long assetLibraryId, String callbackURL, String contentType,
-			String fieldNames)
-		throws Exception;
-
 	public ConnectedSite
 			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
 				String assetLibraryExternalReferenceCode,
 				String connectedSiteExternalReferenceCode,
 				ConnectedSite connectedSite)
-		throws Exception;
-
-	public ConnectedSite putAssetLibraryConnectedSite(
-			Long assetLibraryId, Long connectedSiteId,
-			ConnectedSite connectedSite)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

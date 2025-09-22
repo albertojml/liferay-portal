@@ -25,7 +25,6 @@ import com.liferay.headless.asset.library.client.serdes.v1_0.AssetLibrarySerDes;
 import com.liferay.headless.batch.engine.client.dto.v1_0.ImportTask;
 import com.liferay.headless.batch.engine.client.http.HttpInvoker.HttpResponse;
 import com.liferay.headless.batch.engine.client.resource.v1_0.ImportTaskResource;
-import com.liferay.oauth2.provider.scope.ScopeChecker;
 import com.liferay.petra.function.UnsafeTriConsumer;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.reflect.ReflectionUtil;
@@ -35,13 +34,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
-import com.liferay.portal.kernel.service.GroupLocalService;
-import com.liferay.portal.kernel.service.ResourceActionLocalService;
-import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
-import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.UserLocalService;
-import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
@@ -58,25 +51,13 @@ import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.search.test.rule.SearchTestRule;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
-import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
-import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
-import com.liferay.portal.vulcan.crud.VulcanCRUDItemDelegate;
-import com.liferay.portal.vulcan.crud.VulcanCRUDItemDelegateBuilderRegistry;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 
 import jakarta.annotation.Generated;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import jakarta.ws.rs.core.MultivaluedHashMap;
-import jakarta.ws.rs.core.MultivaluedMap;
-import jakarta.ws.rs.core.PathSegment;
-import jakarta.ws.rs.core.UriBuilder;
-import jakarta.ws.rs.core.UriInfo;
 
 import java.lang.reflect.Method;
-
-import java.net.URI;
 
 import java.text.Format;
 
@@ -87,7 +68,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -100,9 +80,6 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
-
 /**
  * @author Roberto Díaz
  * @generated
@@ -112,10 +89,8 @@ public abstract class BaseAssetLibraryResourceTestCase {
 
 	@ClassRule
 	@Rule
-	public static final AggregateTestRule aggregateTestRule =
-		new AggregateTestRule(
-			new LiferayIntegrationTestRule(),
-			PermissionCheckerMethodTestRule.INSTANCE);
+	public static final LiferayIntegrationTestRule liferayIntegrationTestRule =
+		new LiferayIntegrationTestRule();
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
@@ -254,108 +229,6 @@ public abstract class BaseAssetLibraryResourceTestCase {
 	}
 
 	@Test
-	public void testDeleteAssetLibrary() throws Exception {
-		@SuppressWarnings("PMD.UnusedLocalVariable")
-		AssetLibrary assetLibrary = testDeleteAssetLibrary_addAssetLibrary();
-
-		assertHttpResponseStatusCode(
-			204,
-			assetLibraryResource.deleteAssetLibraryHttpResponse(
-				assetLibrary.getId()));
-
-		assertHttpResponseStatusCode(
-			404,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary.getId()));
-		assertHttpResponseStatusCode(
-			404, assetLibraryResource.getAssetLibraryHttpResponse(0L));
-	}
-
-	protected AssetLibrary testDeleteAssetLibrary_addAssetLibrary()
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testDeleteAssetLibraryBatch() throws Exception {
-		AssetLibrary assetLibrary1 =
-			testDeleteAssetLibraryBatch_addAssetLibrary();
-
-		testDeleteAssetLibraryBatch_deleteAssetLibrary(
-			202, assetLibrary1.getExternalReferenceCode(), null);
-
-		assertHttpResponseStatusCode(
-			404,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary1.getId()));
-
-		assetLibrary1 = testDeleteAssetLibraryBatch_addAssetLibrary();
-
-		testDeleteAssetLibraryBatch_deleteAssetLibrary(
-			202, null, assetLibrary1.getId());
-
-		assertHttpResponseStatusCode(
-			404,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary1.getId()));
-
-		assetLibrary1 = testDeleteAssetLibraryBatch_addAssetLibrary();
-		AssetLibrary assetLibrary2 =
-			testDeleteAssetLibraryBatch_addAssetLibrary();
-
-		testDeleteAssetLibraryBatch_deleteAssetLibrary(
-			202, assetLibrary2.getExternalReferenceCode(),
-			assetLibrary1.getId());
-
-		assertHttpResponseStatusCode(
-			404,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary1.getId()));
-		assertHttpResponseStatusCode(
-			200,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary2.getId()));
-
-		testDeleteAssetLibraryBatch_deleteAssetLibrary(
-			202, assetLibrary2.getExternalReferenceCode(),
-			assetLibrary1.getId());
-
-		assertHttpResponseStatusCode(
-			404,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary2.getId()));
-	}
-
-	protected AssetLibrary testDeleteAssetLibraryBatch_addAssetLibrary()
-		throws Exception {
-
-		return testDeleteAssetLibrary_addAssetLibrary();
-	}
-
-	protected void testDeleteAssetLibraryBatch_deleteAssetLibrary(
-			int expectedStatusCode, String externalReferenceCode, Long id)
-		throws Exception {
-
-		HttpInvoker.HttpResponse httpResponse =
-			assetLibraryResource.deleteAssetLibraryBatchHttpResponse(
-				null,
-				JSONUtil.putAll(
-					JSONUtil.put(
-						"externalReferenceCode", () -> externalReferenceCode
-					).put(
-						"id", () -> id
-					)));
-
-		Assert.assertEquals(expectedStatusCode, httpResponse.getStatusCode());
-
-		waitForFinish(
-			"COMPLETED",
-			JSONFactoryUtil.createJSONObject(httpResponse.getContent()));
-	}
-
-	@Test
 	public void testDeleteAssetLibraryByExternalReferenceCode()
 		throws Exception {
 
@@ -412,24 +285,6 @@ public abstract class BaseAssetLibraryResourceTestCase {
 	}
 
 	@Test
-	public void testDeleteAssetLibraryPin() throws Exception {
-		@SuppressWarnings("PMD.UnusedLocalVariable")
-		AssetLibrary assetLibrary = testDeleteAssetLibraryPin_addAssetLibrary();
-
-		assertHttpResponseStatusCode(
-			204,
-			assetLibraryResource.deleteAssetLibraryPinHttpResponse(
-				assetLibrary.getId()));
-	}
-
-	protected AssetLibrary testDeleteAssetLibraryPin_addAssetLibrary()
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
 	public void testGetAssetLibrariesPage() throws Exception {
 		Page<AssetLibrary> page = assetLibraryResource.getAssetLibrariesPage(
 			null, null, null, Pagination.of(1, 10), null);
@@ -450,10 +305,6 @@ public abstract class BaseAssetLibraryResourceTestCase {
 		assertContains(assetLibrary1, (List<AssetLibrary>)page.getItems());
 		assertContains(assetLibrary2, (List<AssetLibrary>)page.getItems());
 		assertValid(page, testGetAssetLibrariesPage_getExpectedActions());
-
-		assetLibraryResource.deleteAssetLibrary(assetLibrary1.getId());
-
-		assetLibraryResource.deleteAssetLibrary(assetLibrary2.getId());
 	}
 
 	protected Map<String, Map<String, String>>
@@ -817,10 +668,6 @@ public abstract class BaseAssetLibraryResourceTestCase {
 		assertContains(assetLibrary2, (List<AssetLibrary>)page.getItems());
 		assertValid(
 			page, testGetAssetLibrariesPinnedByMePage_getExpectedActions());
-
-		assetLibraryResource.deleteAssetLibrary(assetLibrary1.getId());
-
-		assetLibraryResource.deleteAssetLibrary(assetLibrary2.getId());
 	}
 
 	protected Map<String, Map<String, String>>
@@ -928,213 +775,6 @@ public abstract class BaseAssetLibraryResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibrary() throws Exception {
-		AssetLibrary postAssetLibrary = testGetAssetLibrary_addAssetLibrary();
-
-		AssetLibrary getAssetLibrary = assetLibraryResource.getAssetLibrary(
-			postAssetLibrary.getId());
-
-		assertEquals(postAssetLibrary, getAssetLibrary);
-		assertValid(getAssetLibrary);
-	}
-
-	@Test
-	public void testVulcanCRUDItemDelegateGetItem() throws Exception {
-		AssetLibrary postAssetLibrary = testGetAssetLibrary_addAssetLibrary();
-
-		AssetLibrary getAssetLibrary = assetLibraryResource.getAssetLibrary(
-			postAssetLibrary.getId());
-
-		VulcanCRUDItemDelegate vulcanCRUDItemDelegate =
-			_vulcanCRUDItemDelegateBuilderRegistry.builder(
-				testCompany,
-				"com.liferay.headless.asset.library.dto.v1_0.AssetLibrary"
-			).acceptLanguage(
-				new AcceptLanguage() {
-
-					@Override
-					public List<Locale> getLocales() {
-						return Arrays.asList(LocaleUtil.getDefault());
-					}
-
-					@Override
-					public String getPreferredLanguageId() {
-						return LocaleUtil.toLanguageId(LocaleUtil.getDefault());
-					}
-
-					@Override
-					public Locale getPreferredLocale() {
-						return LocaleUtil.getDefault();
-					}
-
-				}
-			).groupLocalService(
-				_groupLocalService
-			).httpServletRequest(
-				testVulcanCRUDItemDelegate_getHttpServletRequest()
-			).httpServletResponse(
-				new MockHttpServletResponse()
-			).resourceActionLocalService(
-				_resourceActionLocalService
-			).resourcePermissionLocalService(
-				_resourcePermissionLocalService
-			).roleLocalService(
-				_roleLocalService
-			).scopeChecker(
-				_scopeChecker
-			).uriInfo(
-				testVulcanCRUDItemDelegate_getUriInfo()
-			).user(
-				testVulcanCRUDItemDelegate_getUser()
-			).build();
-
-		Object item = vulcanCRUDItemDelegate.getItem(postAssetLibrary.getId());
-
-		assertEquals(
-			getAssetLibrary, AssetLibrarySerDes.toDTO(item.toString()));
-	}
-
-	protected HttpServletRequest
-		testVulcanCRUDItemDelegate_getHttpServletRequest() {
-
-		return new MockHttpServletRequest() {
-
-			@Override
-			public StringBuffer getRequestURL() {
-				return new StringBuffer(
-					StringBundler.concat(
-						"http://localhost:8080/o/v1.0/",
-						RandomTestUtil.randomString(), "/",
-						RandomTestUtil.randomString()));
-			}
-
-		};
-	}
-
-	protected UriInfo testVulcanCRUDItemDelegate_getUriInfo() {
-		String applicationPath = RandomTestUtil.randomString() + "/";
-		String resourcePath = RandomTestUtil.randomString();
-
-		return new UriInfo() {
-
-			@Override
-			public String getPath() {
-				return resourcePath;
-			}
-
-			@Override
-			public String getPath(boolean decode) {
-				return getPath();
-			}
-
-			@Override
-			public List<PathSegment> getPathSegments() {
-				return Collections.emptyList();
-			}
-
-			@Override
-			public List<PathSegment> getPathSegments(boolean decode) {
-				return getPathSegments();
-			}
-
-			@Override
-			public URI getRequestUri() {
-				return URI.create(
-					"http://localhost:8080/o/" + applicationPath +
-						resourcePath);
-			}
-
-			@Override
-			public UriBuilder getRequestUriBuilder() {
-				return UriBuilder.fromUri(getRequestUri());
-			}
-
-			@Override
-			public URI getAbsolutePath() {
-				return getRequestUri();
-			}
-
-			@Override
-			public UriBuilder getAbsolutePathBuilder() {
-				return getRequestUriBuilder();
-			}
-
-			@Override
-			public URI getBaseUri() {
-				return URI.create("http://localhost:8080/o/" + applicationPath);
-			}
-
-			@Override
-			public UriBuilder getBaseUriBuilder() {
-				return UriBuilder.fromUri(getBaseUri());
-			}
-
-			@Override
-			public MultivaluedMap<String, String> getPathParameters() {
-				return new MultivaluedHashMap<>();
-			}
-
-			@Override
-			public MultivaluedMap<String, String> getPathParameters(
-				boolean decode) {
-
-				return getPathParameters();
-			}
-
-			@Override
-			public MultivaluedMap<String, String> getQueryParameters() {
-				return new MultivaluedHashMap<>();
-			}
-
-			@Override
-			public MultivaluedMap<String, String> getQueryParameters(
-				boolean decode) {
-
-				return getQueryParameters();
-			}
-
-			@Override
-			public List<String> getMatchedURIs() {
-				return Collections.emptyList();
-			}
-
-			@Override
-			public List<String> getMatchedURIs(boolean decode) {
-				return getMatchedURIs();
-			}
-
-			@Override
-			public List<Object> getMatchedResources() {
-				return Collections.emptyList();
-			}
-
-			@Override
-			public URI resolve(URI requestUri) {
-				return getBaseUri().resolve(requestUri);
-			}
-
-			@Override
-			public URI relativize(URI uri) {
-				return getBaseUri().relativize(uri);
-			}
-
-		};
-	}
-
-	protected com.liferay.portal.kernel.model.User
-		testVulcanCRUDItemDelegate_getUser() {
-
-		return _testCompanyAdminUser;
-	}
-
-	protected AssetLibrary testGetAssetLibrary_addAssetLibrary()
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
 	public void testGetAssetLibraryByExternalReferenceCode() throws Exception {
 		AssetLibrary postAssetLibrary =
 			testGetAssetLibraryByExternalReferenceCode_addAssetLibrary();
@@ -1149,35 +789,6 @@ public abstract class BaseAssetLibraryResourceTestCase {
 
 	protected AssetLibrary
 			testGetAssetLibraryByExternalReferenceCode_addAssetLibrary()
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testPatchAssetLibrary() throws Exception {
-		AssetLibrary postAssetLibrary = testPatchAssetLibrary_addAssetLibrary();
-
-		AssetLibrary randomPatchAssetLibrary = randomPatchAssetLibrary();
-
-		@SuppressWarnings("PMD.UnusedLocalVariable")
-		AssetLibrary patchAssetLibrary = assetLibraryResource.patchAssetLibrary(
-			postAssetLibrary.getId(), randomPatchAssetLibrary);
-
-		AssetLibrary expectedPatchAssetLibrary = postAssetLibrary.clone();
-
-		BeanTestUtil.copyProperties(
-			randomPatchAssetLibrary, expectedPatchAssetLibrary);
-
-		AssetLibrary getAssetLibrary = assetLibraryResource.getAssetLibrary(
-			testDepotEntry.getDepotEntryId());
-
-		assertEquals(expectedPatchAssetLibrary, getAssetLibrary);
-		assertValid(getAssetLibrary);
-	}
-
-	protected AssetLibrary testPatchAssetLibrary_addAssetLibrary()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -1338,97 +949,23 @@ public abstract class BaseAssetLibraryResourceTestCase {
 	}
 
 	@Test
-	public void testPutAssetLibraryPin() throws Exception {
-		AssetLibrary postAssetLibrary =
-			testPutAssetLibraryPin_addAssetLibrary();
-
-		AssetLibrary randomAssetLibrary = randomAssetLibrary();
-
-		AssetLibrary putAssetLibrary = assetLibraryResource.putAssetLibraryPin(
-			postAssetLibrary.getId());
-
-		assertEquals(randomAssetLibrary, putAssetLibrary);
-		assertValid(putAssetLibrary);
-
-		AssetLibrary getAssetLibrary = testPutAssetLibraryPin_getAssetLibrary(
-			putAssetLibrary.getId());
-
-		assertEquals(randomAssetLibrary, getAssetLibrary);
-		assertValid(getAssetLibrary);
-	}
-
-	protected AssetLibrary testPutAssetLibraryPin_getAssetLibrary(
-		Long assetLibraryId) {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	protected AssetLibrary testPutAssetLibraryPin_addAssetLibrary()
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
 	public void testBatchEngineDeleteImportTask() throws Exception {
 		AssetLibrary assetLibrary1 =
 			testBatchEngineDeleteImportTask_addAssetLibrary();
 
 		testBatchEngineDeleteImportTask_deleteAssetLibrary(
-			200, assetLibrary1.getExternalReferenceCode(), null);
-
-		assertHttpResponseStatusCode(
-			404,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary1.getId()));
-
-		assetLibrary1 = testBatchEngineDeleteImportTask_addAssetLibrary();
-
-		testBatchEngineDeleteImportTask_deleteAssetLibrary(
-			200, null, assetLibrary1.getId());
-
-		assertHttpResponseStatusCode(
-			404,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary1.getId()));
-
-		assetLibrary1 = testBatchEngineDeleteImportTask_addAssetLibrary();
-		AssetLibrary assetLibrary2 =
-			testBatchEngineDeleteImportTask_addAssetLibrary();
-
-		testBatchEngineDeleteImportTask_deleteAssetLibrary(
-			200, assetLibrary2.getExternalReferenceCode(),
-			assetLibrary1.getId());
-
-		assertHttpResponseStatusCode(
-			404,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary1.getId()));
-		assertHttpResponseStatusCode(
-			200,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary2.getId()));
-
-		testBatchEngineDeleteImportTask_deleteAssetLibrary(
-			200, assetLibrary2.getExternalReferenceCode(),
-			assetLibrary1.getId());
-
-		assertHttpResponseStatusCode(
-			404,
-			assetLibraryResource.getAssetLibraryHttpResponse(
-				assetLibrary2.getId()));
+			200, assetLibrary1.getExternalReferenceCode());
 	}
 
 	protected AssetLibrary testBatchEngineDeleteImportTask_addAssetLibrary()
 		throws Exception {
 
-		return testDeleteAssetLibrary_addAssetLibrary();
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	protected void testBatchEngineDeleteImportTask_deleteAssetLibrary(
-			int expectedStatusCode, String externalReferenceCode, Long id,
+			int expectedStatusCode, String externalReferenceCode,
 			String... parameters)
 		throws Exception {
 
@@ -1448,10 +985,7 @@ public abstract class BaseAssetLibraryResourceTestCase {
 				null, null, null, null,
 				JSONUtil.putAll(
 					JSONUtil.put(
-						"externalReferenceCode", () -> externalReferenceCode
-					).put(
-						"id", () -> id
-					)));
+						"externalReferenceCode", () -> externalReferenceCode)));
 
 		Assert.assertEquals(expectedStatusCode, httpResponse.getStatusCode());
 
@@ -2758,27 +2292,5 @@ public abstract class BaseAssetLibraryResourceTestCase {
 	private
 		com.liferay.headless.asset.library.resource.v1_0.AssetLibraryResource
 			_assetLibraryResource;
-
-	@Inject
-	private GroupLocalService _groupLocalService;
-
-	@Inject
-	private ResourceActionLocalService _resourceActionLocalService;
-
-	@Inject
-	private ResourcePermissionLocalService _resourcePermissionLocalService;
-
-	@Inject
-	private RoleLocalService _roleLocalService;
-
-	@Inject
-	private ScopeChecker _scopeChecker;
-
-	@Inject
-	private UserLocalService _userLocalService;
-
-	@Inject
-	private VulcanCRUDItemDelegateBuilderRegistry
-		_vulcanCRUDItemDelegateBuilderRegistry;
 
 }

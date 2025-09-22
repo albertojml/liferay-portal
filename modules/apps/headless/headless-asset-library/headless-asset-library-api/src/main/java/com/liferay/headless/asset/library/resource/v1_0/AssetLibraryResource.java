@@ -46,11 +46,6 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface AssetLibraryResource {
 
-	public void deleteAssetLibrary(Long assetLibraryId) throws Exception;
-
-	public Response deleteAssetLibraryBatch(String callbackURL, Object object)
-		throws Exception;
-
 	public void deleteAssetLibraryByExternalReferenceCode(
 			String externalReferenceCode)
 		throws Exception;
@@ -58,8 +53,6 @@ public interface AssetLibraryResource {
 	public void deleteAssetLibraryByExternalReferenceCodePin(
 			String externalReferenceCode)
 		throws Exception;
-
-	public void deleteAssetLibraryPin(Long assetLibraryId) throws Exception;
 
 	public Page<AssetLibrary> getAssetLibrariesPage(
 			String keywords, String search,
@@ -72,14 +65,8 @@ public interface AssetLibraryResource {
 			Pagination pagination)
 		throws Exception;
 
-	public AssetLibrary getAssetLibrary(Long assetLibraryId) throws Exception;
-
 	public AssetLibrary getAssetLibraryByExternalReferenceCode(
 			String externalReferenceCode)
-		throws Exception;
-
-	public AssetLibrary patchAssetLibrary(
-			Long assetLibraryId, AssetLibrary assetLibrary)
 		throws Exception;
 
 	public AssetLibrary patchAssetLibraryByExternalReferenceCode(
@@ -105,9 +92,6 @@ public interface AssetLibraryResource {
 
 	public AssetLibrary putAssetLibraryByExternalReferenceCodePin(
 			String externalReferenceCode)
-		throws Exception;
-
-	public AssetLibrary putAssetLibraryPin(Long assetLibraryId)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(
