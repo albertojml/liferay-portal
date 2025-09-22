@@ -46,52 +46,31 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface UserGroupResource {
 
-	public void
-			deleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String userGroupExternalReferenceCode)
-		throws Exception;
-
 	public void deleteAssetLibraryUserGroup(
-			Long assetLibraryId, Long userGroupId)
+			String assetLibraryExternalReferenceCode,
+			String userGroupExternalReferenceCode)
 		throws Exception;
 
-	public UserGroup
-			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String userGroupExternalReferenceCode)
+	public UserGroup getAssetLibraryUserGroup(
+			String assetLibraryExternalReferenceCode,
+			String userGroupExternalReferenceCode)
 		throws Exception;
 
-	public Page<UserGroup> getAssetLibraryByExternalReferenceCodeUserGroupsPage(
+	public Page<UserGroup> getAssetLibraryUserGroupsPage(
 			String externalReferenceCode, String keywords, String search,
 			Pagination pagination,
 			com.liferay.portal.kernel.search.Sort[] sorts)
 		throws Exception;
 
-	public UserGroup getAssetLibraryUserGroup(
-			Long assetLibraryId, Long userGroupId)
-		throws Exception;
-
-	public Page<UserGroup> getAssetLibraryUserGroupsPage(
-			Long assetLibraryId, String keywords, String search,
-			Pagination pagination,
-			com.liferay.portal.kernel.search.Sort[] sorts)
-		throws Exception;
-
 	public Response postAssetLibraryUserGroupsPageExportBatch(
-			Long assetLibraryId, String keywords, String search,
+			String externalReferenceCode, String keywords, String search,
 			com.liferay.portal.kernel.search.Sort[] sorts, String callbackURL,
 			String contentType, String fieldNames)
 		throws Exception;
 
-	public UserGroup
-			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String userGroupExternalReferenceCode)
-		throws Exception;
-
 	public UserGroup putAssetLibraryUserGroup(
-			Long assetLibraryId, Long userGroupId)
+			String assetLibraryExternalReferenceCode,
+			String userGroupExternalReferenceCode)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(
