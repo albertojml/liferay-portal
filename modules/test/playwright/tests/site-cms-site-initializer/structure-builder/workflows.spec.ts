@@ -49,7 +49,7 @@ test(
 
 		const spaceName = `Space ${getRandomString()}`;
 
-		const {id: spaceId} =
+		const {id: externalReferenceCode} =
 			await apiHelpers.headlessAssetLibrary.createAssetLibrary({
 				name: spaceName,
 				settings: {},
@@ -186,7 +186,9 @@ test(
 		// Delete space
 
 		expect(
-			await apiHelpers.headlessAssetLibrary.deleteAssetLibrary(spaceId)
+			await apiHelpers.headlessAssetLibrary.deleteAssetLibrary(
+				externalReferenceCode
+			)
 		).toBeOK();
 	}
 );
