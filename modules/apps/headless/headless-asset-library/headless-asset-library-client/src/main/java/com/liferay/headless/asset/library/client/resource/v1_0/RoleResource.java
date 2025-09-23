@@ -35,50 +35,46 @@ public interface RoleResource {
 		return new Builder();
 	}
 
-	public Page<Role>
-			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage(
+	public Page<Role> getAssetLibraryUserAccountRolesPage(
+			String assetLibraryExternalReferenceCode,
+			String userAccountExternalReferenceCode)
+		throws Exception;
+
+	public HttpInvoker.HttpResponse
+			getAssetLibraryUserAccountRolesPageHttpResponse(
 				String assetLibraryExternalReferenceCode,
 				String userAccountExternalReferenceCode)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse
-			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPageHttpResponse(
-				String assetLibraryExternalReferenceCode,
-				String userAccountExternalReferenceCode)
+	public Page<Role> getAssetLibraryUserGroupRolesPage(
+			String assetLibraryExternalReferenceCode,
+			String userGroupExternalReferenceCode)
 		throws Exception;
 
-	public Page<Role>
-			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage(
+	public HttpInvoker.HttpResponse
+			getAssetLibraryUserGroupRolesPageHttpResponse(
 				String assetLibraryExternalReferenceCode,
 				String userGroupExternalReferenceCode)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse
-			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPageHttpResponse(
-				String assetLibraryExternalReferenceCode,
-				String userGroupExternalReferenceCode)
+	public Page<Role> putAssetLibraryUserAccountRolesPage(
+			String assetLibraryExternalReferenceCode,
+			String userAccountExternalReferenceCode, Role[] roles)
 		throws Exception;
 
-	public Page<Role>
-			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage(
+	public HttpInvoker.HttpResponse
+			putAssetLibraryUserAccountRolesPageHttpResponse(
 				String assetLibraryExternalReferenceCode,
 				String userAccountExternalReferenceCode, Role[] roles)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse
-			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPageHttpResponse(
-				String assetLibraryExternalReferenceCode,
-				String userAccountExternalReferenceCode, Role[] roles)
-		throws Exception;
-
-	public Page<Role>
-			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage(
-				String assetLibraryExternalReferenceCode,
-				String userGroupExternalReferenceCode, Role[] roles)
+	public Page<Role> putAssetLibraryUserGroupRolesPage(
+			String assetLibraryExternalReferenceCode,
+			String userGroupExternalReferenceCode, Role[] roles)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPageHttpResponse(
+			putAssetLibraryUserGroupRolesPageHttpResponse(
 				String assetLibraryExternalReferenceCode,
 				String userGroupExternalReferenceCode, Role[] roles)
 		throws Exception;
@@ -191,14 +187,13 @@ public interface RoleResource {
 
 	public static class RoleResourceImpl implements RoleResource {
 
-		public Page<Role>
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage(
-					String assetLibraryExternalReferenceCode,
-					String userAccountExternalReferenceCode)
+		public Page<Role> getAssetLibraryUserAccountRolesPage(
+				String assetLibraryExternalReferenceCode,
+				String userAccountExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPageHttpResponse(
+				getAssetLibraryUserAccountRolesPageHttpResponse(
 					assetLibraryExternalReferenceCode,
 					userAccountExternalReferenceCode);
 
@@ -262,7 +257,7 @@ public interface RoleResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPageHttpResponse(
+				getAssetLibraryUserAccountRolesPageHttpResponse(
 					String assetLibraryExternalReferenceCode,
 					String userAccountExternalReferenceCode)
 			throws Exception {
@@ -291,7 +286,7 @@ public interface RoleResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{assetLibraryExternalReferenceCode}/user-accounts/by-external-reference-code/{userAccountExternalReferenceCode}/roles");
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/user-accounts/{userAccountExternalReferenceCode}/roles");
 
 			httpInvoker.path(
 				"assetLibraryExternalReferenceCode",
@@ -308,14 +303,13 @@ public interface RoleResource {
 			return httpInvoker.invoke();
 		}
 
-		public Page<Role>
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage(
-					String assetLibraryExternalReferenceCode,
-					String userGroupExternalReferenceCode)
+		public Page<Role> getAssetLibraryUserGroupRolesPage(
+				String assetLibraryExternalReferenceCode,
+				String userGroupExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPageHttpResponse(
+				getAssetLibraryUserGroupRolesPageHttpResponse(
 					assetLibraryExternalReferenceCode,
 					userGroupExternalReferenceCode);
 
@@ -379,7 +373,7 @@ public interface RoleResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPageHttpResponse(
+				getAssetLibraryUserGroupRolesPageHttpResponse(
 					String assetLibraryExternalReferenceCode,
 					String userGroupExternalReferenceCode)
 			throws Exception {
@@ -408,7 +402,7 @@ public interface RoleResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{assetLibraryExternalReferenceCode}/user-groups/by-external-reference-code/{userGroupExternalReferenceCode}/roles");
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/user-groups/{userGroupExternalReferenceCode}/roles");
 
 			httpInvoker.path(
 				"assetLibraryExternalReferenceCode",
@@ -425,14 +419,13 @@ public interface RoleResource {
 			return httpInvoker.invoke();
 		}
 
-		public Page<Role>
-				putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage(
-					String assetLibraryExternalReferenceCode,
-					String userAccountExternalReferenceCode, Role[] roles)
+		public Page<Role> putAssetLibraryUserAccountRolesPage(
+				String assetLibraryExternalReferenceCode,
+				String userAccountExternalReferenceCode, Role[] roles)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPageHttpResponse(
+				putAssetLibraryUserAccountRolesPageHttpResponse(
 					assetLibraryExternalReferenceCode,
 					userAccountExternalReferenceCode, roles);
 
@@ -496,7 +489,7 @@ public interface RoleResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPageHttpResponse(
+				putAssetLibraryUserAccountRolesPageHttpResponse(
 					String assetLibraryExternalReferenceCode,
 					String userAccountExternalReferenceCode, Role[] roles)
 			throws Exception {
@@ -533,7 +526,7 @@ public interface RoleResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{assetLibraryExternalReferenceCode}/user-accounts/by-external-reference-code/{userAccountExternalReferenceCode}/roles");
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/user-accounts/{userAccountExternalReferenceCode}/roles");
 
 			httpInvoker.path(
 				"assetLibraryExternalReferenceCode",
@@ -550,14 +543,13 @@ public interface RoleResource {
 			return httpInvoker.invoke();
 		}
 
-		public Page<Role>
-				putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage(
-					String assetLibraryExternalReferenceCode,
-					String userGroupExternalReferenceCode, Role[] roles)
+		public Page<Role> putAssetLibraryUserGroupRolesPage(
+				String assetLibraryExternalReferenceCode,
+				String userGroupExternalReferenceCode, Role[] roles)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPageHttpResponse(
+				putAssetLibraryUserGroupRolesPageHttpResponse(
 					assetLibraryExternalReferenceCode,
 					userGroupExternalReferenceCode, roles);
 
@@ -621,7 +613,7 @@ public interface RoleResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPageHttpResponse(
+				putAssetLibraryUserGroupRolesPageHttpResponse(
 					String assetLibraryExternalReferenceCode,
 					String userGroupExternalReferenceCode, Role[] roles)
 			throws Exception {
@@ -658,7 +650,7 @@ public interface RoleResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{assetLibraryExternalReferenceCode}/user-groups/by-external-reference-code/{userGroupExternalReferenceCode}/roles");
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/user-groups/{userGroupExternalReferenceCode}/roles");
 
 			httpInvoker.path(
 				"assetLibraryExternalReferenceCode",

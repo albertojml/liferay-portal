@@ -22,6 +22,9 @@ import com.liferay.headless.asset.library.client.pagination.Page;
 import com.liferay.headless.asset.library.client.pagination.Pagination;
 import com.liferay.headless.asset.library.client.resource.v1_0.ConnectedSiteResource;
 import com.liferay.headless.asset.library.client.serdes.v1_0.ConnectedSiteSerDes;
+import com.liferay.headless.batch.engine.client.dto.v1_0.ImportTask;
+import com.liferay.headless.batch.engine.client.http.HttpInvoker.HttpResponse;
+import com.liferay.headless.batch.engine.client.resource.v1_0.ImportTaskResource;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
@@ -137,6 +140,16 @@ public abstract class BaseConnectedSiteResourceTestCase {
 		).locale(
 			LocaleUtil.getDefault()
 		).build();
+
+		importTaskResource = ImportTaskResource.builder(
+		).authentication(
+			_testCompanyAdminUser.getEmailAddress(),
+			PropsValues.DEFAULT_ADMIN_PASSWORD
+		).endpoint(
+			testCompany.getVirtualHostname(), 8080, "http"
+		).locale(
+			LocaleUtil.getDefault()
+		).build();
 	}
 
 	@After
@@ -211,36 +224,31 @@ public abstract class BaseConnectedSiteResourceTestCase {
 	}
 
 	@Test
-	public void testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode()
-		throws Exception {
-
+	public void testDeleteAssetLibraryConnectedSite() throws Exception {
 		@SuppressWarnings("PMD.UnusedLocalVariable")
 		ConnectedSite connectedSite =
-			testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_addConnectedSite();
+			testDeleteAssetLibraryConnectedSite_addConnectedSite();
 
 		assertHttpResponseStatusCode(
 			204,
-			connectedSiteResource.
-				deleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCodeHttpResponse(
-					testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					connectedSite.getExternalReferenceCode()));
+			connectedSiteResource.deleteAssetLibraryConnectedSiteHttpResponse(
+				testDeleteAssetLibraryConnectedSite_getAssetLibraryExternalReferenceCode(),
+				connectedSite.getExternalReferenceCode()));
 
 		assertHttpResponseStatusCode(
 			404,
-			connectedSiteResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCodeHttpResponse(
-					testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					connectedSite.getExternalReferenceCode()));
+			connectedSiteResource.getAssetLibraryConnectedSiteHttpResponse(
+				testDeleteAssetLibraryConnectedSite_getAssetLibraryExternalReferenceCode(),
+				connectedSite.getExternalReferenceCode()));
 		assertHttpResponseStatusCode(
 			404,
-			connectedSiteResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCodeHttpResponse(
-					testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					"-"));
+			connectedSiteResource.getAssetLibraryConnectedSiteHttpResponse(
+				testDeleteAssetLibraryConnectedSite_getAssetLibraryExternalReferenceCode(),
+				"-"));
 	}
 
 	protected ConnectedSite
-			testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_addConnectedSite()
+			testDeleteAssetLibraryConnectedSite_addConnectedSite()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -248,7 +256,7 @@ public abstract class BaseConnectedSiteResourceTestCase {
 	}
 
 	protected String
-			testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_getAssetLibraryExternalReferenceCode()
+			testDeleteAssetLibraryConnectedSite_getAssetLibraryExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -256,24 +264,20 @@ public abstract class BaseConnectedSiteResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode()
-		throws Exception {
-
+	public void testGetAssetLibraryConnectedSite() throws Exception {
 		ConnectedSite postConnectedSite =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_addConnectedSite();
+			testGetAssetLibraryConnectedSite_addConnectedSite();
 
 		ConnectedSite getConnectedSite =
-			connectedSiteResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
-					testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					postConnectedSite.getExternalReferenceCode());
+			connectedSiteResource.getAssetLibraryConnectedSite(
+				testGetAssetLibraryConnectedSite_getAssetLibraryExternalReferenceCode(),
+				postConnectedSite.getExternalReferenceCode());
 
 		assertEquals(postConnectedSite, getConnectedSite);
 		assertValid(getConnectedSite);
 	}
 
-	protected ConnectedSite
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_addConnectedSite()
+	protected ConnectedSite testGetAssetLibraryConnectedSite_addConnectedSite()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -281,7 +285,7 @@ public abstract class BaseConnectedSiteResourceTestCase {
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_getAssetLibraryExternalReferenceCode()
+			testGetAssetLibraryConnectedSite_getAssetLibraryExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -289,32 +293,27 @@ public abstract class BaseConnectedSiteResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage()
-		throws Exception {
-
-		String externalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_getExternalReferenceCode();
-		String irrelevantExternalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_getIrrelevantExternalReferenceCode();
+	public void testGetAssetLibraryConnectedSitesPage() throws Exception {
+		String assetLibraryExternalReferenceCode =
+			testGetAssetLibraryConnectedSitesPage_getAssetLibraryExternalReferenceCode();
+		String irrelevantAssetLibraryExternalReferenceCode =
+			testGetAssetLibraryConnectedSitesPage_getIrrelevantAssetLibraryExternalReferenceCode();
 
 		Page<ConnectedSite> page =
-			connectedSiteResource.
-				getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-					externalReferenceCode, Pagination.of(1, 10));
+			connectedSiteResource.getAssetLibraryConnectedSitesPage(
+				assetLibraryExternalReferenceCode, Pagination.of(1, 10));
 
 		long totalCount = page.getTotalCount();
 
-		if (irrelevantExternalReferenceCode != null) {
+		if (irrelevantAssetLibraryExternalReferenceCode != null) {
 			ConnectedSite irrelevantConnectedSite =
-				testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_addConnectedSite(
-					irrelevantExternalReferenceCode,
+				testGetAssetLibraryConnectedSitesPage_addConnectedSite(
+					irrelevantAssetLibraryExternalReferenceCode,
 					randomIrrelevantConnectedSite());
 
-			page =
-				connectedSiteResource.
-					getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-						irrelevantExternalReferenceCode,
-						Pagination.of(1, (int)totalCount + 1));
+			page = connectedSiteResource.getAssetLibraryConnectedSitesPage(
+				irrelevantAssetLibraryExternalReferenceCode,
+				Pagination.of(1, (int)totalCount + 1));
 
 			Assert.assertEquals(totalCount + 1, page.getTotalCount());
 
@@ -322,22 +321,20 @@ public abstract class BaseConnectedSiteResourceTestCase {
 				irrelevantConnectedSite, (List<ConnectedSite>)page.getItems());
 			assertValid(
 				page,
-				testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_getExpectedActions(
-					irrelevantExternalReferenceCode));
+				testGetAssetLibraryConnectedSitesPage_getExpectedActions(
+					irrelevantAssetLibraryExternalReferenceCode));
 		}
 
 		ConnectedSite connectedSite1 =
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_addConnectedSite(
-				externalReferenceCode, randomConnectedSite());
+			testGetAssetLibraryConnectedSitesPage_addConnectedSite(
+				assetLibraryExternalReferenceCode, randomConnectedSite());
 
 		ConnectedSite connectedSite2 =
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_addConnectedSite(
-				externalReferenceCode, randomConnectedSite());
+			testGetAssetLibraryConnectedSitesPage_addConnectedSite(
+				assetLibraryExternalReferenceCode, randomConnectedSite());
 
-		page =
-			connectedSiteResource.
-				getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-					externalReferenceCode, Pagination.of(1, 10));
+		page = connectedSiteResource.getAssetLibraryConnectedSitesPage(
+			assetLibraryExternalReferenceCode, Pagination.of(1, 10));
 
 		Assert.assertEquals(totalCount + 2, page.getTotalCount());
 
@@ -345,13 +342,13 @@ public abstract class BaseConnectedSiteResourceTestCase {
 		assertContains(connectedSite2, (List<ConnectedSite>)page.getItems());
 		assertValid(
 			page,
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_getExpectedActions(
-				externalReferenceCode));
+			testGetAssetLibraryConnectedSitesPage_getExpectedActions(
+				assetLibraryExternalReferenceCode));
 	}
 
 	protected Map<String, Map<String, String>>
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_getExpectedActions(
-				String externalReferenceCode)
+			testGetAssetLibraryConnectedSitesPage_getExpectedActions(
+				String assetLibraryExternalReferenceCode)
 		throws Exception {
 
 		Map<String, Map<String, String>> expectedActions = new HashMap<>();
@@ -360,31 +357,30 @@ public abstract class BaseConnectedSiteResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeConnectedSitesPageWithPagination()
+	public void testGetAssetLibraryConnectedSitesPageWithPagination()
 		throws Exception {
 
-		String externalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_getExternalReferenceCode();
+		String assetLibraryExternalReferenceCode =
+			testGetAssetLibraryConnectedSitesPage_getAssetLibraryExternalReferenceCode();
 
 		Page<ConnectedSite> connectedSitesPage =
-			connectedSiteResource.
-				getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-					externalReferenceCode, null);
+			connectedSiteResource.getAssetLibraryConnectedSitesPage(
+				assetLibraryExternalReferenceCode, null);
 
 		int totalCount = GetterUtil.getInteger(
 			connectedSitesPage.getTotalCount());
 
 		ConnectedSite connectedSite1 =
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_addConnectedSite(
-				externalReferenceCode, randomConnectedSite());
+			testGetAssetLibraryConnectedSitesPage_addConnectedSite(
+				assetLibraryExternalReferenceCode, randomConnectedSite());
 
 		ConnectedSite connectedSite2 =
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_addConnectedSite(
-				externalReferenceCode, randomConnectedSite());
+			testGetAssetLibraryConnectedSitesPage_addConnectedSite(
+				assetLibraryExternalReferenceCode, randomConnectedSite());
 
 		ConnectedSite connectedSite3 =
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_addConnectedSite(
-				externalReferenceCode, randomConnectedSite());
+			testGetAssetLibraryConnectedSitesPage_addConnectedSite(
+				assetLibraryExternalReferenceCode, randomConnectedSite());
 
 		// See com.liferay.portal.vulcan.internal.configuration.HeadlessAPICompanyConfiguration#pageSizeLimit
 
@@ -392,12 +388,11 @@ public abstract class BaseConnectedSiteResourceTestCase {
 
 		if (totalCount >= (pageSizeLimit - 2)) {
 			Page<ConnectedSite> page1 =
-				connectedSiteResource.
-					getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-						externalReferenceCode,
-						Pagination.of(
-							(int)Math.ceil((totalCount + 1.0) / pageSizeLimit),
-							pageSizeLimit));
+				connectedSiteResource.getAssetLibraryConnectedSitesPage(
+					assetLibraryExternalReferenceCode,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 1.0) / pageSizeLimit),
+						pageSizeLimit));
 
 			Assert.assertEquals(totalCount + 3, page1.getTotalCount());
 
@@ -405,33 +400,30 @@ public abstract class BaseConnectedSiteResourceTestCase {
 				connectedSite1, (List<ConnectedSite>)page1.getItems());
 
 			Page<ConnectedSite> page2 =
-				connectedSiteResource.
-					getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-						externalReferenceCode,
-						Pagination.of(
-							(int)Math.ceil((totalCount + 2.0) / pageSizeLimit),
-							pageSizeLimit));
+				connectedSiteResource.getAssetLibraryConnectedSitesPage(
+					assetLibraryExternalReferenceCode,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 2.0) / pageSizeLimit),
+						pageSizeLimit));
 
 			assertContains(
 				connectedSite2, (List<ConnectedSite>)page2.getItems());
 
 			Page<ConnectedSite> page3 =
-				connectedSiteResource.
-					getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-						externalReferenceCode,
-						Pagination.of(
-							(int)Math.ceil((totalCount + 3.0) / pageSizeLimit),
-							pageSizeLimit));
+				connectedSiteResource.getAssetLibraryConnectedSitesPage(
+					assetLibraryExternalReferenceCode,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 3.0) / pageSizeLimit),
+						pageSizeLimit));
 
 			assertContains(
 				connectedSite3, (List<ConnectedSite>)page3.getItems());
 		}
 		else {
 			Page<ConnectedSite> page1 =
-				connectedSiteResource.
-					getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-						externalReferenceCode,
-						Pagination.of(1, totalCount + 2));
+				connectedSiteResource.getAssetLibraryConnectedSitesPage(
+					assetLibraryExternalReferenceCode,
+					Pagination.of(1, totalCount + 2));
 
 			List<ConnectedSite> connectedSites1 =
 				(List<ConnectedSite>)page1.getItems();
@@ -441,10 +433,9 @@ public abstract class BaseConnectedSiteResourceTestCase {
 				connectedSites1.size());
 
 			Page<ConnectedSite> page2 =
-				connectedSiteResource.
-					getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-						externalReferenceCode,
-						Pagination.of(2, totalCount + 2));
+				connectedSiteResource.getAssetLibraryConnectedSitesPage(
+					assetLibraryExternalReferenceCode,
+					Pagination.of(2, totalCount + 2));
 
 			Assert.assertEquals(totalCount + 3, page2.getTotalCount());
 
@@ -455,10 +446,9 @@ public abstract class BaseConnectedSiteResourceTestCase {
 				connectedSites2.toString(), 1, connectedSites2.size());
 
 			Page<ConnectedSite> page3 =
-				connectedSiteResource.
-					getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-						externalReferenceCode,
-						Pagination.of(1, (int)totalCount + 3));
+				connectedSiteResource.getAssetLibraryConnectedSitesPage(
+					assetLibraryExternalReferenceCode,
+					Pagination.of(1, (int)totalCount + 3));
 
 			assertContains(
 				connectedSite1, (List<ConnectedSite>)page3.getItems());
@@ -470,8 +460,9 @@ public abstract class BaseConnectedSiteResourceTestCase {
 	}
 
 	protected ConnectedSite
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_addConnectedSite(
-				String externalReferenceCode, ConnectedSite connectedSite)
+			testGetAssetLibraryConnectedSitesPage_addConnectedSite(
+				String assetLibraryExternalReferenceCode,
+				ConnectedSite connectedSite)
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -479,51 +470,45 @@ public abstract class BaseConnectedSiteResourceTestCase {
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_getExternalReferenceCode()
+			testGetAssetLibraryConnectedSitesPage_getAssetLibraryExternalReferenceCode()
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		return testDepotEntryGroup.getExternalReferenceCode();
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeConnectedSitesPage_getIrrelevantExternalReferenceCode()
+			testGetAssetLibraryConnectedSitesPage_getIrrelevantAssetLibraryExternalReferenceCode()
 		throws Exception {
 
-		return null;
+		return irrelevantDepotEntryGroup.getExternalReferenceCode();
 	}
 
 	@Test
-	public void testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode()
-		throws Exception {
-
+	public void testPutAssetLibraryConnectedSite() throws Exception {
 		ConnectedSite postConnectedSite =
-			testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_addConnectedSite();
+			testPutAssetLibraryConnectedSite_addConnectedSite();
 
 		ConnectedSite randomConnectedSite = randomConnectedSite();
 
 		ConnectedSite putConnectedSite =
-			connectedSiteResource.
-				putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
-					testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					postConnectedSite.getExternalReferenceCode(),
-					randomConnectedSite);
+			connectedSiteResource.putAssetLibraryConnectedSite(
+				testPutAssetLibraryConnectedSite_getAssetLibraryExternalReferenceCode(),
+				postConnectedSite.getExternalReferenceCode(),
+				randomConnectedSite);
 
 		assertEquals(randomConnectedSite, putConnectedSite);
 		assertValid(putConnectedSite);
 
 		ConnectedSite getConnectedSite =
-			connectedSiteResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
-					testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					putConnectedSite.getExternalReferenceCode());
+			connectedSiteResource.getAssetLibraryConnectedSite(
+				testPutAssetLibraryConnectedSite_getAssetLibraryExternalReferenceCode(),
+				putConnectedSite.getExternalReferenceCode());
 
 		assertEquals(randomConnectedSite, getConnectedSite);
 		assertValid(getConnectedSite);
 	}
 
-	protected ConnectedSite
-			testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_addConnectedSite()
+	protected ConnectedSite testPutAssetLibraryConnectedSite_addConnectedSite()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -531,7 +516,7 @@ public abstract class BaseConnectedSiteResourceTestCase {
 	}
 
 	protected String
-			testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode_getAssetLibraryExternalReferenceCode()
+			testPutAssetLibraryConnectedSite_getAssetLibraryExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -540,7 +525,66 @@ public abstract class BaseConnectedSiteResourceTestCase {
 
 	@Test
 	public void testBatchEngineDeleteImportTask() throws Exception {
-		Assert.assertTrue(true);
+		ConnectedSite connectedSite1 =
+			testBatchEngineDeleteImportTask_addAssetLibraryConnectedSite();
+
+		testBatchEngineDeleteImportTask_deleteConnectedSite(
+			200, connectedSite1.getExternalReferenceCode(),
+			"assetLibraryExternalReferenceCode",
+			testDepotEntryGroup.getExternalReferenceCode());
+
+		assertHttpResponseStatusCode(
+			404,
+			connectedSiteResource.getAssetLibraryConnectedSiteHttpResponse(
+				testBatchEngineDeleteImportTask_getAssetLibraryExternalReferenceCode(),
+				connectedSite1.getExternalReferenceCode()));
+	}
+
+	protected ConnectedSite
+			testBatchEngineDeleteImportTask_addAssetLibraryConnectedSite()
+		throws Exception {
+
+		return testDeleteAssetLibraryConnectedSite_addConnectedSite();
+	}
+
+	protected void testBatchEngineDeleteImportTask_deleteConnectedSite(
+			int expectedStatusCode, String externalReferenceCode,
+			String... parameters)
+		throws Exception {
+
+		ImportTaskResource importTaskResource = ImportTaskResource.builder(
+		).authentication(
+			_testCompanyAdminUser.getEmailAddress(),
+			PropsValues.DEFAULT_ADMIN_PASSWORD
+		).endpoint(
+			testCompany.getVirtualHostname(), 8080, "http"
+		).parameters(
+			parameters
+		).build();
+
+		HttpResponse httpResponse =
+			importTaskResource.deleteImportTaskHttpResponse(
+				"com.liferay.headless.asset.library.dto.v1_0.ConnectedSite",
+				null, null, null, null,
+				JSONUtil.putAll(
+					JSONUtil.put(
+						"externalReferenceCode", () -> externalReferenceCode)));
+
+		Assert.assertEquals(expectedStatusCode, httpResponse.getStatusCode());
+
+		if (expectedStatusCode == 200) {
+			waitForFinish(
+				"COMPLETED",
+				JSONFactoryUtil.createJSONObject(httpResponse.getContent()));
+		}
+	}
+
+	protected String
+			testBatchEngineDeleteImportTask_getAssetLibraryExternalReferenceCode()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	protected void assertContains(
@@ -615,10 +659,6 @@ public abstract class BaseConnectedSiteResourceTestCase {
 
 	protected void assertValid(ConnectedSite connectedSite) throws Exception {
 		boolean valid = true;
-
-		if (connectedSite.getId() == null) {
-			valid = false;
-		}
 
 		for (String additionalAssertFieldName :
 				getAdditionalAssertFieldNames()) {
@@ -790,16 +830,6 @@ public abstract class BaseConnectedSiteResourceTestCase {
 				if (!Objects.deepEquals(
 						connectedSite1.getExternalReferenceCode(),
 						connectedSite2.getExternalReferenceCode())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("id", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						connectedSite1.getId(), connectedSite2.getId())) {
 
 					return false;
 				}
@@ -1002,11 +1032,6 @@ public abstract class BaseConnectedSiteResourceTestCase {
 			return sb.toString();
 		}
 
-		if (entityFieldName.equals("id")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
-		}
-
 		if (entityFieldName.equals("logo")) {
 			Object object = connectedSite.getLogo();
 
@@ -1156,7 +1181,6 @@ public abstract class BaseConnectedSiteResourceTestCase {
 			{
 				externalReferenceCode = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
-				id = RandomTestUtil.randomLong();
 				logo = StringUtil.toLowerCase(RandomTestUtil.randomString());
 				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
 				searchable = RandomTestUtil.randomBoolean();
@@ -1174,7 +1198,30 @@ public abstract class BaseConnectedSiteResourceTestCase {
 		return randomConnectedSite();
 	}
 
+	protected final JSONObject waitForFinish(
+			String expectedExecuteStatus, JSONObject jsonObject)
+		throws Exception {
+
+		while (true) {
+			ImportTask importTask = importTaskResource.getImportTask(
+				jsonObject.getLong("id"));
+
+			ImportTask.ExecuteStatus executeStatus =
+				importTask.getExecuteStatus();
+
+			if (StringUtil.equals(executeStatus.getValue(), "COMPLETED") ||
+				StringUtil.equals(executeStatus.getValue(), "FAILED")) {
+
+				Assert.assertEquals(
+					expectedExecuteStatus, executeStatus.getValue());
+
+				return jsonObject;
+			}
+		}
+	}
+
 	protected ConnectedSiteResource connectedSiteResource;
+	protected ImportTaskResource importTaskResource;
 	protected com.liferay.portal.kernel.model.Group irrelevantGroup;
 	protected com.liferay.portal.kernel.model.Company testCompany;
 	protected DepotEntry irrelevantDepotEntry;

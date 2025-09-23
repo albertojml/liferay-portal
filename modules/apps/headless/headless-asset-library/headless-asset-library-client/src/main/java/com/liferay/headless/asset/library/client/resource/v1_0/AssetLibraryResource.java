@@ -34,22 +34,28 @@ public interface AssetLibraryResource {
 		return new Builder();
 	}
 
-	public void deleteAssetLibraryByExternalReferenceCode(
-			String externalReferenceCode)
+	public void deleteAssetLibrary(String assetLibraryExternalReferenceCode)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse
-			deleteAssetLibraryByExternalReferenceCodeHttpResponse(
-				String externalReferenceCode)
+	public HttpInvoker.HttpResponse deleteAssetLibraryHttpResponse(
+			String assetLibraryExternalReferenceCode)
 		throws Exception;
 
-	public void deleteAssetLibraryByExternalReferenceCodePin(
-			String externalReferenceCode)
+	public void deleteAssetLibraryBatch(
+			String assetLibraryExternalReferenceCode, String callbackURL,
+			Object object)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse
-			deleteAssetLibraryByExternalReferenceCodePinHttpResponse(
-				String externalReferenceCode)
+	public HttpInvoker.HttpResponse deleteAssetLibraryBatchHttpResponse(
+			String assetLibraryExternalReferenceCode, String callbackURL,
+			Object object)
+		throws Exception;
+
+	public void deleteAssetLibraryPin(String assetLibraryExternalReferenceCode)
+		throws Exception;
+
+	public HttpInvoker.HttpResponse deleteAssetLibraryPinHttpResponse(
+			String assetLibraryExternalReferenceCode)
 		throws Exception;
 
 	public Page<AssetLibrary> getAssetLibrariesPage(
@@ -70,22 +76,20 @@ public interface AssetLibraryResource {
 			Pagination pagination)
 		throws Exception;
 
-	public AssetLibrary getAssetLibraryByExternalReferenceCode(
-			String externalReferenceCode)
+	public AssetLibrary getAssetLibrary(
+			String assetLibraryExternalReferenceCode)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse
-			getAssetLibraryByExternalReferenceCodeHttpResponse(
-				String externalReferenceCode)
+	public HttpInvoker.HttpResponse getAssetLibraryHttpResponse(
+			String assetLibraryExternalReferenceCode)
 		throws Exception;
 
-	public AssetLibrary patchAssetLibraryByExternalReferenceCode(
-			String externalReferenceCode, AssetLibrary assetLibrary)
+	public AssetLibrary patchAssetLibrary(
+			String assetLibraryExternalReferenceCode, AssetLibrary assetLibrary)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse
-			patchAssetLibraryByExternalReferenceCodeHttpResponse(
-				String externalReferenceCode, AssetLibrary assetLibrary)
+	public HttpInvoker.HttpResponse patchAssetLibraryHttpResponse(
+			String assetLibraryExternalReferenceCode, AssetLibrary assetLibrary)
 		throws Exception;
 
 	public void postAssetLibrariesPageExportBatch(
@@ -115,22 +119,30 @@ public interface AssetLibraryResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public AssetLibrary putAssetLibraryByExternalReferenceCode(
-			String externalReferenceCode, AssetLibrary assetLibrary)
+	public AssetLibrary putAssetLibrary(
+			String assetLibraryExternalReferenceCode, AssetLibrary assetLibrary)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse
-			putAssetLibraryByExternalReferenceCodeHttpResponse(
-				String externalReferenceCode, AssetLibrary assetLibrary)
+	public HttpInvoker.HttpResponse putAssetLibraryHttpResponse(
+			String assetLibraryExternalReferenceCode, AssetLibrary assetLibrary)
 		throws Exception;
 
-	public AssetLibrary putAssetLibraryByExternalReferenceCodePin(
-			String externalReferenceCode)
+	public void putAssetLibraryBatch(
+			String assetLibraryExternalReferenceCode, String callbackURL,
+			Object object)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse
-			putAssetLibraryByExternalReferenceCodePinHttpResponse(
-				String externalReferenceCode)
+	public HttpInvoker.HttpResponse putAssetLibraryBatchHttpResponse(
+			String assetLibraryExternalReferenceCode, String callbackURL,
+			Object object)
+		throws Exception;
+
+	public AssetLibrary putAssetLibraryPin(
+			String assetLibraryExternalReferenceCode)
+		throws Exception;
+
+	public HttpInvoker.HttpResponse putAssetLibraryPinHttpResponse(
+			String assetLibraryExternalReferenceCode)
 		throws Exception;
 
 	public static class Builder {
@@ -242,13 +254,12 @@ public interface AssetLibraryResource {
 	public static class AssetLibraryResourceImpl
 		implements AssetLibraryResource {
 
-		public void deleteAssetLibraryByExternalReferenceCode(
-				String externalReferenceCode)
+		public void deleteAssetLibrary(String assetLibraryExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				deleteAssetLibraryByExternalReferenceCodeHttpResponse(
-					externalReferenceCode);
+				deleteAssetLibraryHttpResponse(
+					assetLibraryExternalReferenceCode);
 
 			String content = httpResponse.getContent();
 
@@ -309,9 +320,8 @@ public interface AssetLibraryResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse
-				deleteAssetLibraryByExternalReferenceCodeHttpResponse(
-					String externalReferenceCode)
+		public HttpInvoker.HttpResponse deleteAssetLibraryHttpResponse(
+				String assetLibraryExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -338,9 +348,11 @@ public interface AssetLibraryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{externalReferenceCode}");
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}");
 
-			httpInvoker.path("externalReferenceCode", externalReferenceCode);
+			httpInvoker.path(
+				"assetLibraryExternalReferenceCode",
+				assetLibraryExternalReferenceCode);
 
 			if ((_builder._login != null) && (_builder._password != null)) {
 				httpInvoker.userNameAndPassword(
@@ -350,13 +362,120 @@ public interface AssetLibraryResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteAssetLibraryByExternalReferenceCodePin(
-				String externalReferenceCode)
+		public void deleteAssetLibraryBatch(
+				String assetLibraryExternalReferenceCode, String callbackURL,
+				Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				deleteAssetLibraryByExternalReferenceCodePinHttpResponse(
-					externalReferenceCode);
+				deleteAssetLibraryBatchHttpResponse(
+					assetLibraryExternalReferenceCode, callbackURL, object);
+
+			String content = httpResponse.getContent();
+
+			if ((httpResponse.getStatusCode() / 100) != 2) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response content: " + content);
+				_logger.log(
+					Level.WARNING,
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.log(
+					Level.WARNING,
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+
+				Problem.ProblemException problemException = null;
+
+				if (Objects.equals(
+						httpResponse.getContentType(), "application/json")) {
+
+					problemException = new Problem.ProblemException(
+						Problem.toDTO(content));
+				}
+				else {
+					_logger.log(
+						Level.WARNING,
+						"Unable to process content type: " +
+							httpResponse.getContentType());
+
+					Problem problem = new Problem();
+
+					problem.setStatus(
+						String.valueOf(httpResponse.getStatusCode()));
+
+					problemException = new Problem.ProblemException(problem);
+				}
+
+				throw problemException;
+			}
+			else {
+				_logger.fine("HTTP response content: " + content);
+				_logger.fine(
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.fine(
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+			}
+		}
+
+		public HttpInvoker.HttpResponse deleteAssetLibraryBatchHttpResponse(
+				String assetLibraryExternalReferenceCode, String callbackURL,
+				Object object)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			httpInvoker.body(object.toString(), "application/json");
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
+
+			if (callbackURL != null) {
+				httpInvoker.parameter(
+					"callbackURL", String.valueOf(callbackURL));
+			}
+
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port + _builder._contextPath +
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/batch");
+
+			httpInvoker.path(
+				"assetLibraryExternalReferenceCode",
+				assetLibraryExternalReferenceCode);
+
+			if ((_builder._login != null) && (_builder._password != null)) {
+				httpInvoker.userNameAndPassword(
+					_builder._login + ":" + _builder._password);
+			}
+
+			return httpInvoker.invoke();
+		}
+
+		public void deleteAssetLibraryPin(
+				String assetLibraryExternalReferenceCode)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse =
+				deleteAssetLibraryPinHttpResponse(
+					assetLibraryExternalReferenceCode);
 
 			String content = httpResponse.getContent();
 
@@ -417,9 +536,8 @@ public interface AssetLibraryResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse
-				deleteAssetLibraryByExternalReferenceCodePinHttpResponse(
-					String externalReferenceCode)
+		public HttpInvoker.HttpResponse deleteAssetLibraryPinHttpResponse(
+				String assetLibraryExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -446,9 +564,11 @@ public interface AssetLibraryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{externalReferenceCode}/pins");
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/pins");
 
-			httpInvoker.path("externalReferenceCode", externalReferenceCode);
+			httpInvoker.path(
+				"assetLibraryExternalReferenceCode",
+				assetLibraryExternalReferenceCode);
 
 			if ((_builder._login != null) && (_builder._password != null)) {
 				httpInvoker.userNameAndPassword(
@@ -700,13 +820,12 @@ public interface AssetLibraryResource {
 			return httpInvoker.invoke();
 		}
 
-		public AssetLibrary getAssetLibraryByExternalReferenceCode(
-				String externalReferenceCode)
+		public AssetLibrary getAssetLibrary(
+				String assetLibraryExternalReferenceCode)
 			throws Exception {
 
-			HttpInvoker.HttpResponse httpResponse =
-				getAssetLibraryByExternalReferenceCodeHttpResponse(
-					externalReferenceCode);
+			HttpInvoker.HttpResponse httpResponse = getAssetLibraryHttpResponse(
+				assetLibraryExternalReferenceCode);
 
 			String content = httpResponse.getContent();
 
@@ -767,9 +886,8 @@ public interface AssetLibraryResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse
-				getAssetLibraryByExternalReferenceCodeHttpResponse(
-					String externalReferenceCode)
+		public HttpInvoker.HttpResponse getAssetLibraryHttpResponse(
+				String assetLibraryExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -796,9 +914,11 @@ public interface AssetLibraryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{externalReferenceCode}");
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}");
 
-			httpInvoker.path("externalReferenceCode", externalReferenceCode);
+			httpInvoker.path(
+				"assetLibraryExternalReferenceCode",
+				assetLibraryExternalReferenceCode);
 
 			if ((_builder._login != null) && (_builder._password != null)) {
 				httpInvoker.userNameAndPassword(
@@ -808,13 +928,14 @@ public interface AssetLibraryResource {
 			return httpInvoker.invoke();
 		}
 
-		public AssetLibrary patchAssetLibraryByExternalReferenceCode(
-				String externalReferenceCode, AssetLibrary assetLibrary)
+		public AssetLibrary patchAssetLibrary(
+				String assetLibraryExternalReferenceCode,
+				AssetLibrary assetLibrary)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				patchAssetLibraryByExternalReferenceCodeHttpResponse(
-					externalReferenceCode, assetLibrary);
+				patchAssetLibraryHttpResponse(
+					assetLibraryExternalReferenceCode, assetLibrary);
 
 			String content = httpResponse.getContent();
 
@@ -875,9 +996,9 @@ public interface AssetLibraryResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse
-				patchAssetLibraryByExternalReferenceCodeHttpResponse(
-					String externalReferenceCode, AssetLibrary assetLibrary)
+		public HttpInvoker.HttpResponse patchAssetLibraryHttpResponse(
+				String assetLibraryExternalReferenceCode,
+				AssetLibrary assetLibrary)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -906,9 +1027,11 @@ public interface AssetLibraryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{externalReferenceCode}");
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}");
 
-			httpInvoker.path("externalReferenceCode", externalReferenceCode);
+			httpInvoker.path(
+				"assetLibraryExternalReferenceCode",
+				assetLibraryExternalReferenceCode);
 
 			if ((_builder._login != null) && (_builder._password != null)) {
 				httpInvoker.userNameAndPassword(
@@ -1254,13 +1377,13 @@ public interface AssetLibraryResource {
 			return httpInvoker.invoke();
 		}
 
-		public AssetLibrary putAssetLibraryByExternalReferenceCode(
-				String externalReferenceCode, AssetLibrary assetLibrary)
+		public AssetLibrary putAssetLibrary(
+				String assetLibraryExternalReferenceCode,
+				AssetLibrary assetLibrary)
 			throws Exception {
 
-			HttpInvoker.HttpResponse httpResponse =
-				putAssetLibraryByExternalReferenceCodeHttpResponse(
-					externalReferenceCode, assetLibrary);
+			HttpInvoker.HttpResponse httpResponse = putAssetLibraryHttpResponse(
+				assetLibraryExternalReferenceCode, assetLibrary);
 
 			String content = httpResponse.getContent();
 
@@ -1321,9 +1444,9 @@ public interface AssetLibraryResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse
-				putAssetLibraryByExternalReferenceCodeHttpResponse(
-					String externalReferenceCode, AssetLibrary assetLibrary)
+		public HttpInvoker.HttpResponse putAssetLibraryHttpResponse(
+				String assetLibraryExternalReferenceCode,
+				AssetLibrary assetLibrary)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -1352,9 +1475,11 @@ public interface AssetLibraryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{externalReferenceCode}");
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}");
 
-			httpInvoker.path("externalReferenceCode", externalReferenceCode);
+			httpInvoker.path(
+				"assetLibraryExternalReferenceCode",
+				assetLibraryExternalReferenceCode);
 
 			if ((_builder._login != null) && (_builder._password != null)) {
 				httpInvoker.userNameAndPassword(
@@ -1364,13 +1489,120 @@ public interface AssetLibraryResource {
 			return httpInvoker.invoke();
 		}
 
-		public AssetLibrary putAssetLibraryByExternalReferenceCodePin(
-				String externalReferenceCode)
+		public void putAssetLibraryBatch(
+				String assetLibraryExternalReferenceCode, String callbackURL,
+				Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				putAssetLibraryByExternalReferenceCodePinHttpResponse(
-					externalReferenceCode);
+				putAssetLibraryBatchHttpResponse(
+					assetLibraryExternalReferenceCode, callbackURL, object);
+
+			String content = httpResponse.getContent();
+
+			if ((httpResponse.getStatusCode() / 100) != 2) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response content: " + content);
+				_logger.log(
+					Level.WARNING,
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.log(
+					Level.WARNING,
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+
+				Problem.ProblemException problemException = null;
+
+				if (Objects.equals(
+						httpResponse.getContentType(), "application/json")) {
+
+					problemException = new Problem.ProblemException(
+						Problem.toDTO(content));
+				}
+				else {
+					_logger.log(
+						Level.WARNING,
+						"Unable to process content type: " +
+							httpResponse.getContentType());
+
+					Problem problem = new Problem();
+
+					problem.setStatus(
+						String.valueOf(httpResponse.getStatusCode()));
+
+					problemException = new Problem.ProblemException(problem);
+				}
+
+				throw problemException;
+			}
+			else {
+				_logger.fine("HTTP response content: " + content);
+				_logger.fine(
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.fine(
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+			}
+		}
+
+		public HttpInvoker.HttpResponse putAssetLibraryBatchHttpResponse(
+				String assetLibraryExternalReferenceCode, String callbackURL,
+				Object object)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			httpInvoker.body(object.toString(), "application/json");
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
+
+			if (callbackURL != null) {
+				httpInvoker.parameter(
+					"callbackURL", String.valueOf(callbackURL));
+			}
+
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port + _builder._contextPath +
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/batch");
+
+			httpInvoker.path(
+				"assetLibraryExternalReferenceCode",
+				assetLibraryExternalReferenceCode);
+
+			if ((_builder._login != null) && (_builder._password != null)) {
+				httpInvoker.userNameAndPassword(
+					_builder._login + ":" + _builder._password);
+			}
+
+			return httpInvoker.invoke();
+		}
+
+		public AssetLibrary putAssetLibraryPin(
+				String assetLibraryExternalReferenceCode)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse =
+				putAssetLibraryPinHttpResponse(
+					assetLibraryExternalReferenceCode);
 
 			String content = httpResponse.getContent();
 
@@ -1431,9 +1663,8 @@ public interface AssetLibraryResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse
-				putAssetLibraryByExternalReferenceCodePinHttpResponse(
-					String externalReferenceCode)
+		public HttpInvoker.HttpResponse putAssetLibraryPinHttpResponse(
+				String assetLibraryExternalReferenceCode)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -1462,9 +1693,11 @@ public interface AssetLibraryResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
-						"/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{externalReferenceCode}/pins");
+						"/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/pins");
 
-			httpInvoker.path("externalReferenceCode", externalReferenceCode);
+			httpInvoker.path(
+				"assetLibraryExternalReferenceCode",
+				assetLibraryExternalReferenceCode);
 
 			if ((_builder._login != null) && (_builder._password != null)) {
 				httpInvoker.userNameAndPassword(

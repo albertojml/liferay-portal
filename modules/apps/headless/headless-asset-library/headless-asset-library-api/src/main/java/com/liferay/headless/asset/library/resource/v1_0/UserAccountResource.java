@@ -24,6 +24,7 @@ import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Collections;
@@ -45,29 +46,31 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface UserAccountResource {
 
-	public void
-			deleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String userAccountExternalReferenceCode)
+	public void deleteAssetLibraryUserAccount(
+			String assetLibraryExternalReferenceCode,
+			String userAccountExternalReferenceCode)
 		throws Exception;
 
-	public UserAccount
-			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String userAccountExternalReferenceCode)
+	public UserAccount getAssetLibraryUserAccount(
+			String assetLibraryExternalReferenceCode,
+			String userAccountExternalReferenceCode)
 		throws Exception;
 
-	public Page<UserAccount>
-			getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-				String externalReferenceCode, String keywords, String search,
-				Pagination pagination,
-				com.liferay.portal.kernel.search.Sort[] sorts)
+	public Page<UserAccount> getAssetLibraryUserAccountsPage(
+			String assetLibraryExternalReferenceCode, String keywords,
+			String search, Pagination pagination,
+			com.liferay.portal.kernel.search.Sort[] sorts)
 		throws Exception;
 
-	public UserAccount
-			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String userAccountExternalReferenceCode)
+	public Response postAssetLibraryUserAccountsPageExportBatch(
+			String assetLibraryExternalReferenceCode, String keywords,
+			String search, com.liferay.portal.kernel.search.Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
+		throws Exception;
+
+	public UserAccount putAssetLibraryUserAccount(
+			String assetLibraryExternalReferenceCode,
+			String userAccountExternalReferenceCode)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

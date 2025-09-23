@@ -58,16 +58,6 @@ public class RoleSerDes {
 			sb.append("\"");
 		}
 
-		if (role.getId() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"id\": ");
-
-			sb.append(role.getId());
-		}
-
 		if (role.getName() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -129,13 +119,6 @@ public class RoleSerDes {
 				String.valueOf(role.getExternalReferenceCode()));
 		}
 
-		if (role.getId() == null) {
-			map.put("id", null);
-		}
-		else {
-			map.put("id", String.valueOf(role.getId()));
-		}
-
 		if (role.getName() == null) {
 			map.put("name", null);
 		}
@@ -177,9 +160,6 @@ public class RoleSerDes {
 			if (Objects.equals(jsonParserFieldName, "externalReferenceCode")) {
 				return false;
 			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
-				return false;
-			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {
 				return false;
 			}
@@ -201,11 +181,6 @@ public class RoleSerDes {
 			if (Objects.equals(jsonParserFieldName, "externalReferenceCode")) {
 				if (jsonParserFieldValue != null) {
 					role.setExternalReferenceCode((String)jsonParserFieldValue);
-				}
-			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
-				if (jsonParserFieldValue != null) {
-					role.setId(Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {

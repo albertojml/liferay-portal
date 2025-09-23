@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.odata.filter.ExpressionConvert;
@@ -42,8 +43,10 @@ import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.ws.rs.NotSupportedException;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.io.Serializable;
@@ -68,7 +71,7 @@ public abstract class BaseConnectedSiteResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{assetLibraryExternalReferenceCode}/connected-sites/by-external-reference-code/{connectedSiteExternalReferenceCode}'  -u 'test@liferay.com:test'
+	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/connected-sites/{connectedSiteExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Disconnects the site with the given external reference code from the asset library."
@@ -92,27 +95,26 @@ public abstract class BaseConnectedSiteResourceImpl
 	)
 	@jakarta.ws.rs.DELETE
 	@jakarta.ws.rs.Path(
-		"/asset-libraries/by-external-reference-code/{assetLibraryExternalReferenceCode}/connected-sites/by-external-reference-code/{connectedSiteExternalReferenceCode}"
+		"/asset-libraries/{assetLibraryExternalReferenceCode}/connected-sites/{connectedSiteExternalReferenceCode}"
 	)
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public void
-			deleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@jakarta.validation.constraints.NotNull
-				@jakarta.ws.rs.PathParam("assetLibraryExternalReferenceCode")
-				String assetLibraryExternalReferenceCode,
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@jakarta.validation.constraints.NotNull
-				@jakarta.ws.rs.PathParam("connectedSiteExternalReferenceCode")
-				String connectedSiteExternalReferenceCode)
+	public void deleteAssetLibraryConnectedSite(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("assetLibraryExternalReferenceCode")
+			String assetLibraryExternalReferenceCode,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("connectedSiteExternalReferenceCode")
+			String connectedSiteExternalReferenceCode)
 		throws Exception {
 	}
 
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{assetLibraryExternalReferenceCode}/connected-sites/by-external-reference-code/{connectedSiteExternalReferenceCode}'  -u 'test@liferay.com:test'
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/connected-sites/{connectedSiteExternalReferenceCode}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Gets a connected site from the asset library using the provided external reference codes."
@@ -136,20 +138,19 @@ public abstract class BaseConnectedSiteResourceImpl
 	)
 	@jakarta.ws.rs.GET
 	@jakarta.ws.rs.Path(
-		"/asset-libraries/by-external-reference-code/{assetLibraryExternalReferenceCode}/connected-sites/by-external-reference-code/{connectedSiteExternalReferenceCode}"
+		"/asset-libraries/{assetLibraryExternalReferenceCode}/connected-sites/{connectedSiteExternalReferenceCode}"
 	)
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public ConnectedSite
-			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@jakarta.validation.constraints.NotNull
-				@jakarta.ws.rs.PathParam("assetLibraryExternalReferenceCode")
-				String assetLibraryExternalReferenceCode,
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@jakarta.validation.constraints.NotNull
-				@jakarta.ws.rs.PathParam("connectedSiteExternalReferenceCode")
-				String connectedSiteExternalReferenceCode)
+	public ConnectedSite getAssetLibraryConnectedSite(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("assetLibraryExternalReferenceCode")
+			String assetLibraryExternalReferenceCode,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("connectedSiteExternalReferenceCode")
+			String connectedSiteExternalReferenceCode)
 		throws Exception {
 
 		return new ConnectedSite();
@@ -158,7 +159,7 @@ public abstract class BaseConnectedSiteResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{externalReferenceCode}/connected-sites'  -u 'test@liferay.com:test'
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/connected-sites'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Get the asset library's with the provided external reference code connected sites. Results can be paginated."
@@ -167,7 +168,7 @@ public abstract class BaseConnectedSiteResourceImpl
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
-				name = "externalReferenceCode"
+				name = "assetLibraryExternalReferenceCode"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
@@ -190,17 +191,16 @@ public abstract class BaseConnectedSiteResourceImpl
 	)
 	@jakarta.ws.rs.GET
 	@jakarta.ws.rs.Path(
-		"/asset-libraries/by-external-reference-code/{externalReferenceCode}/connected-sites"
+		"/asset-libraries/{assetLibraryExternalReferenceCode}/connected-sites"
 	)
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<ConnectedSite>
-			getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@jakarta.validation.constraints.NotNull
-				@jakarta.ws.rs.PathParam("externalReferenceCode")
-				String externalReferenceCode,
-				@jakarta.ws.rs.core.Context Pagination pagination)
+	public Page<ConnectedSite> getAssetLibraryConnectedSitesPage(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("assetLibraryExternalReferenceCode")
+			String assetLibraryExternalReferenceCode,
+			@jakarta.ws.rs.core.Context Pagination pagination)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -209,7 +209,80 @@ public abstract class BaseConnectedSiteResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'PUT' 'http://localhost:8080/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/{assetLibraryExternalReferenceCode}/connected-sites/by-external-reference-code/{connectedSiteExternalReferenceCode}' -d $'{"searchable": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/connected-sites/export-batch'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "assetLibraryExternalReferenceCode"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "callbackURL"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "contentType"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "fieldNames"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {
+			@io.swagger.v3.oas.annotations.tags.Tag(name = "ConnectedSite")
+		}
+	)
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.Path(
+		"/asset-libraries/{assetLibraryExternalReferenceCode}/connected-sites/export-batch"
+	)
+	@jakarta.ws.rs.POST
+	@jakarta.ws.rs.Produces("application/json")
+	@Override
+	public Response postAssetLibraryConnectedSitesPageExportBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("assetLibraryExternalReferenceCode")
+			String assetLibraryExternalReferenceCode,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.ws.rs.QueryParam("callbackURL")
+			String callbackURL,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.ws.rs.DefaultValue("JSON")
+			@jakarta.ws.rs.QueryParam("contentType")
+			String contentType,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.ws.rs.QueryParam("fieldNames")
+			String fieldNames)
+		throws Exception {
+
+		vulcanBatchEngineExportTaskResource.setContextAcceptLanguage(
+			contextAcceptLanguage);
+		vulcanBatchEngineExportTaskResource.setContextCompany(contextCompany);
+		vulcanBatchEngineExportTaskResource.setContextHttpServletRequest(
+			contextHttpServletRequest);
+		vulcanBatchEngineExportTaskResource.setContextUriInfo(contextUriInfo);
+		vulcanBatchEngineExportTaskResource.setContextUser(contextUser);
+		vulcanBatchEngineExportTaskResource.setGroupLocalService(
+			groupLocalService);
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.entity(
+			vulcanBatchEngineExportTaskResource.postExportTask(
+				ConnectedSite.class.getName(), callbackURL, contentType,
+				fieldNames)
+		).build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'PUT' 'http://localhost:8080/o/headless-asset-library/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/connected-sites/{connectedSiteExternalReferenceCode}' -d $'{"searchable": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Connects the site with the given external reference code to the asset library."
@@ -233,22 +306,21 @@ public abstract class BaseConnectedSiteResourceImpl
 	)
 	@jakarta.ws.rs.Consumes({"application/json", "application/xml"})
 	@jakarta.ws.rs.Path(
-		"/asset-libraries/by-external-reference-code/{assetLibraryExternalReferenceCode}/connected-sites/by-external-reference-code/{connectedSiteExternalReferenceCode}"
+		"/asset-libraries/{assetLibraryExternalReferenceCode}/connected-sites/{connectedSiteExternalReferenceCode}"
 	)
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@jakarta.ws.rs.PUT
 	@Override
-	public ConnectedSite
-			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@jakarta.validation.constraints.NotNull
-				@jakarta.ws.rs.PathParam("assetLibraryExternalReferenceCode")
-				String assetLibraryExternalReferenceCode,
-				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-				@jakarta.validation.constraints.NotNull
-				@jakarta.ws.rs.PathParam("connectedSiteExternalReferenceCode")
-				String connectedSiteExternalReferenceCode,
-				ConnectedSite connectedSite)
+	public ConnectedSite putAssetLibraryConnectedSite(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("assetLibraryExternalReferenceCode")
+			String assetLibraryExternalReferenceCode,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("connectedSiteExternalReferenceCode")
+			String connectedSiteExternalReferenceCode,
+			ConnectedSite connectedSite)
 		throws Exception {
 
 		return new ConnectedSite();
@@ -261,8 +333,58 @@ public abstract class BaseConnectedSiteResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		UnsafeFunction<ConnectedSite, ConnectedSite, Exception>
+			connectedSiteUnsafeFunction = null;
+
+		String createStrategy = (String)parameters.getOrDefault(
+			"createStrategy", "INSERT");
+
+		if (StringUtil.equalsIgnoreCase(createStrategy, "UPSERT")) {
+			String updateStrategy = (String)parameters.getOrDefault(
+				"updateStrategy", "UPDATE");
+
+			if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
+				connectedSiteUnsafeFunction = connectedSite -> {
+					ConnectedSite persistedConnectedSite = null;
+
+					if (parameters.containsKey(
+							"assetLibraryExternalReferenceCode")) {
+
+						persistedConnectedSite = putAssetLibraryConnectedSite(
+							(String)parameters.get(
+								"assetLibraryExternalReferenceCode"),
+							connectedSite.getExternalReferenceCode(),
+							connectedSite);
+					}
+					else {
+						throw new NotSupportedException(
+							"One of the following parameters must be specified: [assetLibraryExternalReferenceCode]");
+					}
+
+					return persistedConnectedSite;
+				};
+			}
+		}
+
+		if (connectedSiteUnsafeFunction == null) {
+			throw new NotSupportedException(
+				"Create strategy \"" + createStrategy +
+					"\" is not supported for ConnectedSite");
+		}
+
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				connectedSites, connectedSiteUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(
+				connectedSites, connectedSiteUnsafeFunction::apply);
+		}
+		else {
+			for (ConnectedSite connectedSite : connectedSites) {
+				connectedSiteUnsafeFunction.apply(connectedSite);
+			}
+		}
 	}
 
 	@Override
@@ -271,12 +393,40 @@ public abstract class BaseConnectedSiteResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		UnsafeFunction<ConnectedSite, ConnectedSite, Exception>
+			connectedSiteUnsafeFunction = connectedSite -> {
+				if (parameters.containsKey(
+						"assetLibraryExternalReferenceCode")) {
+
+					deleteAssetLibraryConnectedSite(
+						(String)parameters.get(
+							"assetLibraryExternalReferenceCode"),
+						connectedSite.getExternalReferenceCode());
+
+					return connectedSite;
+				}
+
+				throw new UnsupportedOperationException(
+					"Unable to delete by external reference code or ID");
+			};
+
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				connectedSites, connectedSiteUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(
+				connectedSites, connectedSiteUnsafeFunction::apply);
+		}
+		else {
+			for (ConnectedSite connectedSite : connectedSites) {
+				connectedSiteUnsafeFunction.apply(connectedSite);
+			}
+		}
 	}
 
 	public Set<String> getAvailableCreateStrategies() {
-		return SetUtil.fromArray();
+		return SetUtil.fromArray("UPSERT");
 	}
 
 	public Set<String> getAvailableUpdateStrategies() {
@@ -307,8 +457,15 @@ public abstract class BaseConnectedSiteResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		if (parameters.containsKey("assetLibraryId")) {
+			return getAssetLibraryConnectedSitesPage(
+				(String)parameters.get("assetLibraryExternalReferenceCode"),
+				pagination);
+		}
+		else {
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: [assetLibraryId]");
+		}
 	}
 
 	@Override

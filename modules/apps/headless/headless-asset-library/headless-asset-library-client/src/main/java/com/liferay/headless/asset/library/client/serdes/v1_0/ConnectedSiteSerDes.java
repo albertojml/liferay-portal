@@ -60,16 +60,6 @@ public class ConnectedSiteSerDes {
 			sb.append("\"");
 		}
 
-		if (connectedSite.getId() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"id\": ");
-
-			sb.append(connectedSite.getId());
-		}
-
 		if (connectedSite.getLogo() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -146,13 +136,6 @@ public class ConnectedSiteSerDes {
 				String.valueOf(connectedSite.getExternalReferenceCode()));
 		}
 
-		if (connectedSite.getId() == null) {
-			map.put("id", null);
-		}
-		else {
-			map.put("id", String.valueOf(connectedSite.getId()));
-		}
-
 		if (connectedSite.getLogo() == null) {
 			map.put("logo", null);
 		}
@@ -203,9 +186,6 @@ public class ConnectedSiteSerDes {
 			if (Objects.equals(jsonParserFieldName, "externalReferenceCode")) {
 				return false;
 			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
-				return false;
-			}
 			else if (Objects.equals(jsonParserFieldName, "logo")) {
 				return false;
 			}
@@ -231,12 +211,6 @@ public class ConnectedSiteSerDes {
 				if (jsonParserFieldValue != null) {
 					connectedSite.setExternalReferenceCode(
 						(String)jsonParserFieldValue);
-				}
-			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
-				if (jsonParserFieldValue != null) {
-					connectedSite.setId(
-						Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "logo")) {

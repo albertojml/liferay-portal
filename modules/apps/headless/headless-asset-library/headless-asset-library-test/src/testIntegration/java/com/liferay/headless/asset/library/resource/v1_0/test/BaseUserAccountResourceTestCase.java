@@ -22,6 +22,9 @@ import com.liferay.headless.asset.library.client.pagination.Page;
 import com.liferay.headless.asset.library.client.pagination.Pagination;
 import com.liferay.headless.asset.library.client.resource.v1_0.UserAccountResource;
 import com.liferay.headless.asset.library.client.serdes.v1_0.UserAccountSerDes;
+import com.liferay.headless.batch.engine.client.dto.v1_0.ImportTask;
+import com.liferay.headless.batch.engine.client.http.HttpInvoker.HttpResponse;
+import com.liferay.headless.batch.engine.client.resource.v1_0.ImportTaskResource;
 import com.liferay.petra.function.UnsafeTriConsumer;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.reflect.ReflectionUtil;
@@ -139,6 +142,16 @@ public abstract class BaseUserAccountResourceTestCase {
 		).locale(
 			LocaleUtil.getDefault()
 		).build();
+
+		importTaskResource = ImportTaskResource.builder(
+		).authentication(
+			_testCompanyAdminUser.getEmailAddress(),
+			PropsValues.DEFAULT_ADMIN_PASSWORD
+		).endpoint(
+			testCompany.getVirtualHostname(), 8080, "http"
+		).locale(
+			LocaleUtil.getDefault()
+		).build();
 	}
 
 	@After
@@ -213,36 +226,30 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	@Test
-	public void testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode()
-		throws Exception {
-
+	public void testDeleteAssetLibraryUserAccount() throws Exception {
 		@SuppressWarnings("PMD.UnusedLocalVariable")
 		UserAccount userAccount =
-			testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_addUserAccount();
+			testDeleteAssetLibraryUserAccount_addUserAccount();
 
 		assertHttpResponseStatusCode(
 			204,
-			userAccountResource.
-				deleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeHttpResponse(
-					testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					userAccount.getExternalReferenceCode()));
+			userAccountResource.deleteAssetLibraryUserAccountHttpResponse(
+				testDeleteAssetLibraryUserAccount_getAssetLibraryExternalReferenceCode(),
+				userAccount.getExternalReferenceCode()));
 
 		assertHttpResponseStatusCode(
 			404,
-			userAccountResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeHttpResponse(
-					testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					userAccount.getExternalReferenceCode()));
+			userAccountResource.getAssetLibraryUserAccountHttpResponse(
+				testDeleteAssetLibraryUserAccount_getAssetLibraryExternalReferenceCode(),
+				userAccount.getExternalReferenceCode()));
 		assertHttpResponseStatusCode(
 			404,
-			userAccountResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeHttpResponse(
-					testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					"-"));
+			userAccountResource.getAssetLibraryUserAccountHttpResponse(
+				testDeleteAssetLibraryUserAccount_getAssetLibraryExternalReferenceCode(),
+				"-"));
 	}
 
-	protected UserAccount
-			testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_addUserAccount()
+	protected UserAccount testDeleteAssetLibraryUserAccount_addUserAccount()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -250,7 +257,7 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	protected String
-			testDeleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_getAssetLibraryExternalReferenceCode()
+			testDeleteAssetLibraryUserAccount_getAssetLibraryExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -258,24 +265,20 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode()
-		throws Exception {
-
+	public void testGetAssetLibraryUserAccount() throws Exception {
 		UserAccount postUserAccount =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_addUserAccount();
+			testGetAssetLibraryUserAccount_addUserAccount();
 
 		UserAccount getUserAccount =
-			userAccountResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode(
-					testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					postUserAccount.getExternalReferenceCode());
+			userAccountResource.getAssetLibraryUserAccount(
+				testGetAssetLibraryUserAccount_getAssetLibraryExternalReferenceCode(),
+				postUserAccount.getExternalReferenceCode());
 
 		assertEquals(postUserAccount, getUserAccount);
 		assertValid(getUserAccount);
 	}
 
-	protected UserAccount
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_addUserAccount()
+	protected UserAccount testGetAssetLibraryUserAccount_addUserAccount()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -283,7 +286,7 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_getAssetLibraryExternalReferenceCode()
+			testGetAssetLibraryUserAccount_getAssetLibraryExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -291,33 +294,28 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeUserAccountsPage()
-		throws Exception {
-
-		String externalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_getExternalReferenceCode();
-		String irrelevantExternalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_getIrrelevantExternalReferenceCode();
+	public void testGetAssetLibraryUserAccountsPage() throws Exception {
+		String assetLibraryExternalReferenceCode =
+			testGetAssetLibraryUserAccountsPage_getAssetLibraryExternalReferenceCode();
+		String irrelevantAssetLibraryExternalReferenceCode =
+			testGetAssetLibraryUserAccountsPage_getIrrelevantAssetLibraryExternalReferenceCode();
 
 		Page<UserAccount> page =
-			userAccountResource.
-				getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-					externalReferenceCode, null, null, Pagination.of(1, 10),
-					null);
+			userAccountResource.getAssetLibraryUserAccountsPage(
+				assetLibraryExternalReferenceCode, null, null,
+				Pagination.of(1, 10), null);
 
 		long totalCount = page.getTotalCount();
 
-		if (irrelevantExternalReferenceCode != null) {
+		if (irrelevantAssetLibraryExternalReferenceCode != null) {
 			UserAccount irrelevantUserAccount =
-				testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_addUserAccount(
-					irrelevantExternalReferenceCode,
+				testGetAssetLibraryUserAccountsPage_addUserAccount(
+					irrelevantAssetLibraryExternalReferenceCode,
 					randomIrrelevantUserAccount());
 
-			page =
-				userAccountResource.
-					getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-						irrelevantExternalReferenceCode, null, null,
-						Pagination.of(1, (int)totalCount + 1), null);
+			page = userAccountResource.getAssetLibraryUserAccountsPage(
+				irrelevantAssetLibraryExternalReferenceCode, null, null,
+				Pagination.of(1, (int)totalCount + 1), null);
 
 			Assert.assertEquals(totalCount + 1, page.getTotalCount());
 
@@ -325,23 +323,21 @@ public abstract class BaseUserAccountResourceTestCase {
 				irrelevantUserAccount, (List<UserAccount>)page.getItems());
 			assertValid(
 				page,
-				testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_getExpectedActions(
-					irrelevantExternalReferenceCode));
+				testGetAssetLibraryUserAccountsPage_getExpectedActions(
+					irrelevantAssetLibraryExternalReferenceCode));
 		}
 
 		UserAccount userAccount1 =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_addUserAccount(
-				externalReferenceCode, randomUserAccount());
+			testGetAssetLibraryUserAccountsPage_addUserAccount(
+				assetLibraryExternalReferenceCode, randomUserAccount());
 
 		UserAccount userAccount2 =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_addUserAccount(
-				externalReferenceCode, randomUserAccount());
+			testGetAssetLibraryUserAccountsPage_addUserAccount(
+				assetLibraryExternalReferenceCode, randomUserAccount());
 
-		page =
-			userAccountResource.
-				getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-					externalReferenceCode, null, null, Pagination.of(1, 10),
-					null);
+		page = userAccountResource.getAssetLibraryUserAccountsPage(
+			assetLibraryExternalReferenceCode, null, null, Pagination.of(1, 10),
+			null);
 
 		Assert.assertEquals(totalCount + 2, page.getTotalCount());
 
@@ -349,13 +345,13 @@ public abstract class BaseUserAccountResourceTestCase {
 		assertContains(userAccount2, (List<UserAccount>)page.getItems());
 		assertValid(
 			page,
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_getExpectedActions(
-				externalReferenceCode));
+			testGetAssetLibraryUserAccountsPage_getExpectedActions(
+				assetLibraryExternalReferenceCode));
 	}
 
 	protected Map<String, Map<String, String>>
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_getExpectedActions(
-				String externalReferenceCode)
+			testGetAssetLibraryUserAccountsPage_getExpectedActions(
+				String assetLibraryExternalReferenceCode)
 		throws Exception {
 
 		Map<String, Map<String, String>> expectedActions = new HashMap<>();
@@ -364,31 +360,30 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeUserAccountsPageWithPagination()
+	public void testGetAssetLibraryUserAccountsPageWithPagination()
 		throws Exception {
 
-		String externalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_getExternalReferenceCode();
+		String assetLibraryExternalReferenceCode =
+			testGetAssetLibraryUserAccountsPage_getAssetLibraryExternalReferenceCode();
 
 		Page<UserAccount> userAccountsPage =
-			userAccountResource.
-				getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-					externalReferenceCode, null, null, null, null);
+			userAccountResource.getAssetLibraryUserAccountsPage(
+				assetLibraryExternalReferenceCode, null, null, null, null);
 
 		int totalCount = GetterUtil.getInteger(
 			userAccountsPage.getTotalCount());
 
 		UserAccount userAccount1 =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_addUserAccount(
-				externalReferenceCode, randomUserAccount());
+			testGetAssetLibraryUserAccountsPage_addUserAccount(
+				assetLibraryExternalReferenceCode, randomUserAccount());
 
 		UserAccount userAccount2 =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_addUserAccount(
-				externalReferenceCode, randomUserAccount());
+			testGetAssetLibraryUserAccountsPage_addUserAccount(
+				assetLibraryExternalReferenceCode, randomUserAccount());
 
 		UserAccount userAccount3 =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_addUserAccount(
-				externalReferenceCode, randomUserAccount());
+			testGetAssetLibraryUserAccountsPage_addUserAccount(
+				assetLibraryExternalReferenceCode, randomUserAccount());
 
 		// See com.liferay.portal.vulcan.internal.configuration.HeadlessAPICompanyConfiguration#pageSizeLimit
 
@@ -396,46 +391,42 @@ public abstract class BaseUserAccountResourceTestCase {
 
 		if (totalCount >= (pageSizeLimit - 2)) {
 			Page<UserAccount> page1 =
-				userAccountResource.
-					getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-						externalReferenceCode, null, null,
-						Pagination.of(
-							(int)Math.ceil((totalCount + 1.0) / pageSizeLimit),
-							pageSizeLimit),
-						null);
+				userAccountResource.getAssetLibraryUserAccountsPage(
+					assetLibraryExternalReferenceCode, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 1.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
 
 			Assert.assertEquals(totalCount + 3, page1.getTotalCount());
 
 			assertContains(userAccount1, (List<UserAccount>)page1.getItems());
 
 			Page<UserAccount> page2 =
-				userAccountResource.
-					getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-						externalReferenceCode, null, null,
-						Pagination.of(
-							(int)Math.ceil((totalCount + 2.0) / pageSizeLimit),
-							pageSizeLimit),
-						null);
+				userAccountResource.getAssetLibraryUserAccountsPage(
+					assetLibraryExternalReferenceCode, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 2.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
 
 			assertContains(userAccount2, (List<UserAccount>)page2.getItems());
 
 			Page<UserAccount> page3 =
-				userAccountResource.
-					getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-						externalReferenceCode, null, null,
-						Pagination.of(
-							(int)Math.ceil((totalCount + 3.0) / pageSizeLimit),
-							pageSizeLimit),
-						null);
+				userAccountResource.getAssetLibraryUserAccountsPage(
+					assetLibraryExternalReferenceCode, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 3.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
 
 			assertContains(userAccount3, (List<UserAccount>)page3.getItems());
 		}
 		else {
 			Page<UserAccount> page1 =
-				userAccountResource.
-					getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-						externalReferenceCode, null, null,
-						Pagination.of(1, totalCount + 2), null);
+				userAccountResource.getAssetLibraryUserAccountsPage(
+					assetLibraryExternalReferenceCode, null, null,
+					Pagination.of(1, totalCount + 2), null);
 
 			List<UserAccount> userAccounts1 =
 				(List<UserAccount>)page1.getItems();
@@ -444,10 +435,9 @@ public abstract class BaseUserAccountResourceTestCase {
 				userAccounts1.toString(), totalCount + 2, userAccounts1.size());
 
 			Page<UserAccount> page2 =
-				userAccountResource.
-					getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-						externalReferenceCode, null, null,
-						Pagination.of(2, totalCount + 2), null);
+				userAccountResource.getAssetLibraryUserAccountsPage(
+					assetLibraryExternalReferenceCode, null, null,
+					Pagination.of(2, totalCount + 2), null);
 
 			Assert.assertEquals(totalCount + 3, page2.getTotalCount());
 
@@ -458,10 +448,9 @@ public abstract class BaseUserAccountResourceTestCase {
 				userAccounts2.toString(), 1, userAccounts2.size());
 
 			Page<UserAccount> page3 =
-				userAccountResource.
-					getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-						externalReferenceCode, null, null,
-						Pagination.of(1, (int)totalCount + 3), null);
+				userAccountResource.getAssetLibraryUserAccountsPage(
+					assetLibraryExternalReferenceCode, null, null,
+					Pagination.of(1, (int)totalCount + 3), null);
 
 			assertContains(userAccount1, (List<UserAccount>)page3.getItems());
 			assertContains(userAccount2, (List<UserAccount>)page3.getItems());
@@ -470,10 +459,10 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeUserAccountsPageWithSortDateTime()
+	public void testGetAssetLibraryUserAccountsPageWithSortDateTime()
 		throws Exception {
 
-		testGetAssetLibraryByExternalReferenceCodeUserAccountsPageWithSort(
+		testGetAssetLibraryUserAccountsPageWithSort(
 			EntityField.Type.DATE_TIME,
 			(entityField, userAccount1, userAccount2) -> {
 				BeanTestUtil.setProperty(
@@ -483,10 +472,10 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeUserAccountsPageWithSortDouble()
+	public void testGetAssetLibraryUserAccountsPageWithSortDouble()
 		throws Exception {
 
-		testGetAssetLibraryByExternalReferenceCodeUserAccountsPageWithSort(
+		testGetAssetLibraryUserAccountsPageWithSort(
 			EntityField.Type.DOUBLE,
 			(entityField, userAccount1, userAccount2) -> {
 				BeanTestUtil.setProperty(
@@ -497,10 +486,10 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeUserAccountsPageWithSortInteger()
+	public void testGetAssetLibraryUserAccountsPageWithSortInteger()
 		throws Exception {
 
-		testGetAssetLibraryByExternalReferenceCodeUserAccountsPageWithSort(
+		testGetAssetLibraryUserAccountsPageWithSort(
 			EntityField.Type.INTEGER,
 			(entityField, userAccount1, userAccount2) -> {
 				BeanTestUtil.setProperty(
@@ -511,10 +500,10 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeUserAccountsPageWithSortString()
+	public void testGetAssetLibraryUserAccountsPageWithSortString()
 		throws Exception {
 
-		testGetAssetLibraryByExternalReferenceCodeUserAccountsPageWithSort(
+		testGetAssetLibraryUserAccountsPageWithSort(
 			EntityField.Type.STRING,
 			(entityField, userAccount1, userAccount2) -> {
 				Class<?> clazz = userAccount1.getClass();
@@ -563,12 +552,10 @@ public abstract class BaseUserAccountResourceTestCase {
 			});
 	}
 
-	protected void
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPageWithSort(
-				EntityField.Type type,
-				UnsafeTriConsumer
-					<EntityField, UserAccount, UserAccount, Exception>
-						unsafeTriConsumer)
+	protected void testGetAssetLibraryUserAccountsPageWithSort(
+			EntityField.Type type,
+			UnsafeTriConsumer<EntityField, UserAccount, UserAccount, Exception>
+				unsafeTriConsumer)
 		throws Exception {
 
 		List<EntityField> entityFields = getEntityFields(type);
@@ -577,8 +564,8 @@ public abstract class BaseUserAccountResourceTestCase {
 			return;
 		}
 
-		String externalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_getExternalReferenceCode();
+		String assetLibraryExternalReferenceCode =
+			testGetAssetLibraryUserAccountsPage_getAssetLibraryExternalReferenceCode();
 
 		UserAccount userAccount1 = randomUserAccount();
 		UserAccount userAccount2 = randomUserAccount();
@@ -587,36 +574,31 @@ public abstract class BaseUserAccountResourceTestCase {
 			unsafeTriConsumer.accept(entityField, userAccount1, userAccount2);
 		}
 
-		userAccount1 =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_addUserAccount(
-				externalReferenceCode, userAccount1);
+		userAccount1 = testGetAssetLibraryUserAccountsPage_addUserAccount(
+			assetLibraryExternalReferenceCode, userAccount1);
 
-		userAccount2 =
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_addUserAccount(
-				externalReferenceCode, userAccount2);
+		userAccount2 = testGetAssetLibraryUserAccountsPage_addUserAccount(
+			assetLibraryExternalReferenceCode, userAccount2);
 
 		Page<UserAccount> page =
-			userAccountResource.
-				getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-					externalReferenceCode, null, null, null, null);
+			userAccountResource.getAssetLibraryUserAccountsPage(
+				assetLibraryExternalReferenceCode, null, null, null, null);
 
 		for (EntityField entityField : entityFields) {
 			Page<UserAccount> ascPage =
-				userAccountResource.
-					getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-						externalReferenceCode, null, null,
-						Pagination.of(1, (int)page.getTotalCount() + 1),
-						entityField.getName() + ":asc");
+				userAccountResource.getAssetLibraryUserAccountsPage(
+					assetLibraryExternalReferenceCode, null, null,
+					Pagination.of(1, (int)page.getTotalCount() + 1),
+					entityField.getName() + ":asc");
 
 			assertContains(userAccount1, (List<UserAccount>)ascPage.getItems());
 			assertContains(userAccount2, (List<UserAccount>)ascPage.getItems());
 
 			Page<UserAccount> descPage =
-				userAccountResource.
-					getAssetLibraryByExternalReferenceCodeUserAccountsPage(
-						externalReferenceCode, null, null,
-						Pagination.of(1, (int)page.getTotalCount() + 1),
-						entityField.getName() + ":desc");
+				userAccountResource.getAssetLibraryUserAccountsPage(
+					assetLibraryExternalReferenceCode, null, null,
+					Pagination.of(1, (int)page.getTotalCount() + 1),
+					entityField.getName() + ":desc");
 
 			assertContains(
 				userAccount2, (List<UserAccount>)descPage.getItems());
@@ -625,9 +607,8 @@ public abstract class BaseUserAccountResourceTestCase {
 		}
 	}
 
-	protected UserAccount
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_addUserAccount(
-				String externalReferenceCode, UserAccount userAccount)
+	protected UserAccount testGetAssetLibraryUserAccountsPage_addUserAccount(
+			String assetLibraryExternalReferenceCode, UserAccount userAccount)
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -635,50 +616,44 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_getExternalReferenceCode()
+			testGetAssetLibraryUserAccountsPage_getAssetLibraryExternalReferenceCode()
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		return testDepotEntryGroup.getExternalReferenceCode();
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeUserAccountsPage_getIrrelevantExternalReferenceCode()
+			testGetAssetLibraryUserAccountsPage_getIrrelevantAssetLibraryExternalReferenceCode()
 		throws Exception {
 
-		return null;
+		return irrelevantDepotEntryGroup.getExternalReferenceCode();
 	}
 
 	@Test
-	public void testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode()
-		throws Exception {
-
+	public void testPutAssetLibraryUserAccount() throws Exception {
 		UserAccount postUserAccount =
-			testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_addUserAccount();
+			testPutAssetLibraryUserAccount_addUserAccount();
 
 		UserAccount randomUserAccount = randomUserAccount();
 
 		UserAccount putUserAccount =
-			userAccountResource.
-				putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode(
-					testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					postUserAccount.getExternalReferenceCode());
+			userAccountResource.putAssetLibraryUserAccount(
+				testPutAssetLibraryUserAccount_getAssetLibraryExternalReferenceCode(),
+				postUserAccount.getExternalReferenceCode());
 
 		assertEquals(randomUserAccount, putUserAccount);
 		assertValid(putUserAccount);
 
 		UserAccount getUserAccount =
-			userAccountResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode(
-					testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_getAssetLibraryExternalReferenceCode(),
-					putUserAccount.getExternalReferenceCode());
+			userAccountResource.getAssetLibraryUserAccount(
+				testPutAssetLibraryUserAccount_getAssetLibraryExternalReferenceCode(),
+				putUserAccount.getExternalReferenceCode());
 
 		assertEquals(randomUserAccount, getUserAccount);
 		assertValid(getUserAccount);
 	}
 
-	protected UserAccount
-			testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_addUserAccount()
+	protected UserAccount testPutAssetLibraryUserAccount_addUserAccount()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -686,7 +661,7 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	protected String
-			testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCode_getAssetLibraryExternalReferenceCode()
+			testPutAssetLibraryUserAccount_getAssetLibraryExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -695,7 +670,66 @@ public abstract class BaseUserAccountResourceTestCase {
 
 	@Test
 	public void testBatchEngineDeleteImportTask() throws Exception {
-		Assert.assertTrue(true);
+		UserAccount userAccount1 =
+			testBatchEngineDeleteImportTask_addAssetLibraryUserAccount();
+
+		testBatchEngineDeleteImportTask_deleteUserAccount(
+			200, userAccount1.getExternalReferenceCode(),
+			"assetLibraryExternalReferenceCode",
+			testDepotEntryGroup.getExternalReferenceCode());
+
+		assertHttpResponseStatusCode(
+			404,
+			userAccountResource.getAssetLibraryUserAccountHttpResponse(
+				testBatchEngineDeleteImportTask_getAssetLibraryExternalReferenceCode(),
+				userAccount1.getExternalReferenceCode()));
+	}
+
+	protected UserAccount
+			testBatchEngineDeleteImportTask_addAssetLibraryUserAccount()
+		throws Exception {
+
+		return testDeleteAssetLibraryUserAccount_addUserAccount();
+	}
+
+	protected void testBatchEngineDeleteImportTask_deleteUserAccount(
+			int expectedStatusCode, String externalReferenceCode,
+			String... parameters)
+		throws Exception {
+
+		ImportTaskResource importTaskResource = ImportTaskResource.builder(
+		).authentication(
+			_testCompanyAdminUser.getEmailAddress(),
+			PropsValues.DEFAULT_ADMIN_PASSWORD
+		).endpoint(
+			testCompany.getVirtualHostname(), 8080, "http"
+		).parameters(
+			parameters
+		).build();
+
+		HttpResponse httpResponse =
+			importTaskResource.deleteImportTaskHttpResponse(
+				"com.liferay.headless.asset.library.dto.v1_0.UserAccount", null,
+				null, null, null,
+				JSONUtil.putAll(
+					JSONUtil.put(
+						"externalReferenceCode", () -> externalReferenceCode)));
+
+		Assert.assertEquals(expectedStatusCode, httpResponse.getStatusCode());
+
+		if (expectedStatusCode == 200) {
+			waitForFinish(
+				"COMPLETED",
+				JSONFactoryUtil.createJSONObject(httpResponse.getContent()));
+		}
+	}
+
+	protected String
+			testBatchEngineDeleteImportTask_getAssetLibraryExternalReferenceCode()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	protected void assertContains(
@@ -767,10 +801,6 @@ public abstract class BaseUserAccountResourceTestCase {
 
 	protected void assertValid(UserAccount userAccount) throws Exception {
 		boolean valid = true;
-
-		if (userAccount.getId() == null) {
-			valid = false;
-		}
 
 		for (String additionalAssertFieldName :
 				getAdditionalAssertFieldNames()) {
@@ -934,16 +964,6 @@ public abstract class BaseUserAccountResourceTestCase {
 				if (!Objects.deepEquals(
 						userAccount1.getExternalReferenceCode(),
 						userAccount2.getExternalReferenceCode())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("id", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						userAccount1.getId(), userAccount2.getId())) {
 
 					return false;
 				}
@@ -1134,11 +1154,6 @@ public abstract class BaseUserAccountResourceTestCase {
 			return sb.toString();
 		}
 
-		if (entityFieldName.equals("id")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
-		}
-
 		if (entityFieldName.equals("image")) {
 			Object object = userAccount.getImage();
 
@@ -1283,7 +1298,6 @@ public abstract class BaseUserAccountResourceTestCase {
 			{
 				externalReferenceCode = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
-				id = RandomTestUtil.randomLong();
 				image = StringUtil.toLowerCase(RandomTestUtil.randomString());
 				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
 			}
@@ -1300,7 +1314,30 @@ public abstract class BaseUserAccountResourceTestCase {
 		return randomUserAccount();
 	}
 
+	protected final JSONObject waitForFinish(
+			String expectedExecuteStatus, JSONObject jsonObject)
+		throws Exception {
+
+		while (true) {
+			ImportTask importTask = importTaskResource.getImportTask(
+				jsonObject.getLong("id"));
+
+			ImportTask.ExecuteStatus executeStatus =
+				importTask.getExecuteStatus();
+
+			if (StringUtil.equals(executeStatus.getValue(), "COMPLETED") ||
+				StringUtil.equals(executeStatus.getValue(), "FAILED")) {
+
+				Assert.assertEquals(
+					expectedExecuteStatus, executeStatus.getValue());
+
+				return jsonObject;
+			}
+		}
+	}
+
 	protected UserAccountResource userAccountResource;
+	protected ImportTaskResource importTaskResource;
 	protected com.liferay.portal.kernel.model.Group irrelevantGroup;
 	protected com.liferay.portal.kernel.model.Company testCompany;
 	protected DepotEntry irrelevantDepotEntry;

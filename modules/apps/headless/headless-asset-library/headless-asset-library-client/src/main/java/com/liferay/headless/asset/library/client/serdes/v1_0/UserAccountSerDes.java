@@ -61,16 +61,6 @@ public class UserAccountSerDes {
 			sb.append("\"");
 		}
 
-		if (userAccount.getId() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"id\": ");
-
-			sb.append(userAccount.getId());
-		}
-
 		if (userAccount.getImage() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -147,13 +137,6 @@ public class UserAccountSerDes {
 				String.valueOf(userAccount.getExternalReferenceCode()));
 		}
 
-		if (userAccount.getId() == null) {
-			map.put("id", null);
-		}
-		else {
-			map.put("id", String.valueOf(userAccount.getId()));
-		}
-
 		if (userAccount.getImage() == null) {
 			map.put("image", null);
 		}
@@ -196,9 +179,6 @@ public class UserAccountSerDes {
 			if (Objects.equals(jsonParserFieldName, "externalReferenceCode")) {
 				return false;
 			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
-				return false;
-			}
 			else if (Objects.equals(jsonParserFieldName, "image")) {
 				return false;
 			}
@@ -221,12 +201,6 @@ public class UserAccountSerDes {
 				if (jsonParserFieldValue != null) {
 					userAccount.setExternalReferenceCode(
 						(String)jsonParserFieldValue);
-				}
-			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
-				if (jsonParserFieldValue != null) {
-					userAccount.setId(
-						Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "image")) {

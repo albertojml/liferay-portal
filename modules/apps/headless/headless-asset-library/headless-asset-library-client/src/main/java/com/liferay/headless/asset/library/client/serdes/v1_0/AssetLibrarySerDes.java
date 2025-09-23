@@ -177,16 +177,6 @@ public class AssetLibrarySerDes {
 			sb.append("\"");
 		}
 
-		if (assetLibrary.getId() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"id\": ");
-
-			sb.append(assetLibrary.getId());
-		}
-
 		if (assetLibrary.getName() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -249,16 +239,6 @@ public class AssetLibrarySerDes {
 			sb.append("\"settings\": ");
 
 			sb.append(String.valueOf(assetLibrary.getSettings()));
-		}
-
-		if (assetLibrary.getSiteId() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"siteId\": ");
-
-			sb.append(assetLibrary.getSiteId());
 		}
 
 		if (assetLibrary.getType() != null) {
@@ -415,13 +395,6 @@ public class AssetLibrarySerDes {
 				String.valueOf(assetLibrary.getExternalReferenceCode()));
 		}
 
-		if (assetLibrary.getId() == null) {
-			map.put("id", null);
-		}
-		else {
-			map.put("id", String.valueOf(assetLibrary.getId()));
-		}
-
 		if (assetLibrary.getName() == null) {
 			map.put("name", null);
 		}
@@ -468,13 +441,6 @@ public class AssetLibrarySerDes {
 		}
 		else {
 			map.put("settings", String.valueOf(assetLibrary.getSettings()));
-		}
-
-		if (assetLibrary.getSiteId() == null) {
-			map.put("siteId", null);
-		}
-		else {
-			map.put("siteId", String.valueOf(assetLibrary.getSiteId()));
 		}
 
 		if (assetLibrary.getType() == null) {
@@ -546,9 +512,6 @@ public class AssetLibrarySerDes {
 
 				return false;
 			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
-				return false;
-			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {
 				return false;
 			}
@@ -571,9 +534,6 @@ public class AssetLibrarySerDes {
 				return false;
 			}
 			else if (Objects.equals(jsonParserFieldName, "settings")) {
-				return false;
-			}
-			else if (Objects.equals(jsonParserFieldName, "siteId")) {
 				return false;
 			}
 			else if (Objects.equals(jsonParserFieldName, "type")) {
@@ -659,12 +619,6 @@ public class AssetLibrarySerDes {
 						(String)jsonParserFieldValue);
 				}
 			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
-				if (jsonParserFieldValue != null) {
-					assetLibrary.setId(
-						Long.valueOf((String)jsonParserFieldValue));
-				}
-			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {
 				if (jsonParserFieldValue != null) {
 					assetLibrary.setName((String)jsonParserFieldValue);
@@ -704,12 +658,6 @@ public class AssetLibrarySerDes {
 				if (jsonParserFieldValue != null) {
 					assetLibrary.setSettings(
 						SettingsSerDes.toDTO((String)jsonParserFieldValue));
-				}
-			}
-			else if (Objects.equals(jsonParserFieldName, "siteId")) {
-				if (jsonParserFieldValue != null) {
-					assetLibrary.setSiteId(
-						Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "type")) {

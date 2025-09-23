@@ -219,25 +219,6 @@ public class AssetLibrary implements Cloneable, Serializable {
 
 	protected String externalReferenceCode;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		try {
-			id = idUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected Long id;
-
 	public String getName() {
 		return name;
 	}
@@ -363,27 +344,6 @@ public class AssetLibrary implements Cloneable, Serializable {
 	}
 
 	protected Settings settings;
-
-	public Long getSiteId() {
-		return siteId;
-	}
-
-	public void setSiteId(Long siteId) {
-		this.siteId = siteId;
-	}
-
-	public void setSiteId(
-		UnsafeSupplier<Long, Exception> siteIdUnsafeSupplier) {
-
-		try {
-			siteId = siteIdUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected Long siteId;
 
 	public Type getType() {
 		return type;

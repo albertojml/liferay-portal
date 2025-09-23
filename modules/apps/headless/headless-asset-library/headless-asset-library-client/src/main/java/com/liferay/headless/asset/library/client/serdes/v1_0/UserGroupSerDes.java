@@ -59,16 +59,6 @@ public class UserGroupSerDes {
 			sb.append("\"");
 		}
 
-		if (userGroup.getId() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"id\": ");
-
-			sb.append(userGroup.getId());
-		}
-
 		if (userGroup.getName() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -150,13 +140,6 @@ public class UserGroupSerDes {
 				String.valueOf(userGroup.getExternalReferenceCode()));
 		}
 
-		if (userGroup.getId() == null) {
-			map.put("id", null);
-		}
-		else {
-			map.put("id", String.valueOf(userGroup.getId()));
-		}
-
 		if (userGroup.getName() == null) {
 			map.put("name", null);
 		}
@@ -207,9 +190,6 @@ public class UserGroupSerDes {
 			if (Objects.equals(jsonParserFieldName, "externalReferenceCode")) {
 				return false;
 			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
-				return false;
-			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {
 				return false;
 			}
@@ -237,11 +217,6 @@ public class UserGroupSerDes {
 				if (jsonParserFieldValue != null) {
 					userGroup.setExternalReferenceCode(
 						(String)jsonParserFieldValue);
-				}
-			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
-				if (jsonParserFieldValue != null) {
-					userGroup.setId(Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {

@@ -44,28 +44,24 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface RoleResource {
 
-	public Page<Role>
-			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage(
-				String assetLibraryExternalReferenceCode,
-				String userAccountExternalReferenceCode)
+	public Page<Role> getAssetLibraryUserAccountRolesPage(
+			String assetLibraryExternalReferenceCode,
+			String userAccountExternalReferenceCode)
 		throws Exception;
 
-	public Page<Role>
-			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage(
-				String assetLibraryExternalReferenceCode,
-				String userGroupExternalReferenceCode)
+	public Page<Role> getAssetLibraryUserGroupRolesPage(
+			String assetLibraryExternalReferenceCode,
+			String userGroupExternalReferenceCode)
 		throws Exception;
 
-	public Page<Role>
-			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage(
-				String assetLibraryExternalReferenceCode,
-				String userAccountExternalReferenceCode, Role[] roles)
+	public Page<Role> putAssetLibraryUserAccountRolesPage(
+			String assetLibraryExternalReferenceCode,
+			String userAccountExternalReferenceCode, Role[] roles)
 		throws Exception;
 
-	public Page<Role>
-			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage(
-				String assetLibraryExternalReferenceCode,
-				String userGroupExternalReferenceCode, Role[] roles)
+	public Page<Role> putAssetLibraryUserGroupRolesPage(
+			String assetLibraryExternalReferenceCode,
+			String userGroupExternalReferenceCode, Role[] roles)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

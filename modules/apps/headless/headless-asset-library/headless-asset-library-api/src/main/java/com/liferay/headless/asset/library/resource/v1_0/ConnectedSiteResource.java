@@ -24,6 +24,7 @@ import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Collections;
@@ -45,28 +46,29 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface ConnectedSiteResource {
 
-	public void
-			deleteAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String connectedSiteExternalReferenceCode)
+	public void deleteAssetLibraryConnectedSite(
+			String assetLibraryExternalReferenceCode,
+			String connectedSiteExternalReferenceCode)
 		throws Exception;
 
-	public ConnectedSite
-			getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String connectedSiteExternalReferenceCode)
+	public ConnectedSite getAssetLibraryConnectedSite(
+			String assetLibraryExternalReferenceCode,
+			String connectedSiteExternalReferenceCode)
 		throws Exception;
 
-	public Page<ConnectedSite>
-			getAssetLibraryByExternalReferenceCodeConnectedSitesPage(
-				String externalReferenceCode, Pagination pagination)
+	public Page<ConnectedSite> getAssetLibraryConnectedSitesPage(
+			String assetLibraryExternalReferenceCode, Pagination pagination)
 		throws Exception;
 
-	public ConnectedSite
-			putAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeConnectedSiteByExternalReferenceCodeConnectedSiteExternalReferenceCode(
-				String assetLibraryExternalReferenceCode,
-				String connectedSiteExternalReferenceCode,
-				ConnectedSite connectedSite)
+	public Response postAssetLibraryConnectedSitesPageExportBatch(
+			String assetLibraryExternalReferenceCode, String callbackURL,
+			String contentType, String fieldNames)
+		throws Exception;
+
+	public ConnectedSite putAssetLibraryConnectedSite(
+			String assetLibraryExternalReferenceCode,
+			String connectedSiteExternalReferenceCode,
+			ConnectedSite connectedSite)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

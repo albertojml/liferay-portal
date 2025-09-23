@@ -92,47 +92,6 @@ public class UserGroup implements Serializable {
 	private Supplier<String> _externalReferenceCodeSupplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema(
-		description = "The user group's ID."
-	)
-	public Long getId() {
-		if (_idSupplier != null) {
-			id = _idSupplier.get();
-
-			_idSupplier = null;
-		}
-
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-
-		_idSupplier = null;
-	}
-
-	@JsonIgnore
-	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		_idSupplier = () -> {
-			try {
-				return idUnsafeSupplier.get();
-			}
-			catch (RuntimeException runtimeException) {
-				throw runtimeException;
-			}
-			catch (Exception exception) {
-				throw new RuntimeException(exception);
-			}
-		};
-	}
-
-	@GraphQLField(description = "The user group's ID.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	protected Long id;
-
-	@JsonIgnore
-	private Supplier<Long> _idSupplier;
-
-	@io.swagger.v3.oas.annotations.media.Schema(
 		description = "The user group's  name."
 	)
 	public String getName() {
@@ -348,18 +307,6 @@ public class UserGroup implements Serializable {
 			sb.append(_escape(externalReferenceCode));
 
 			sb.append("\"");
-		}
-
-		Long id = getId();
-
-		if (id != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"id\": ");
-
-			sb.append(id);
 		}
 
 		String name = getName();

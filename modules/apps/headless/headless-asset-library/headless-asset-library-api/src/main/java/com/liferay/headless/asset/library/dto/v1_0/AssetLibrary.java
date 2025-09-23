@@ -455,47 +455,6 @@ public class AssetLibrary implements Serializable {
 	private Supplier<String> _externalReferenceCodeSupplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema(
-		description = "The asset library's ID."
-	)
-	public Long getId() {
-		if (_idSupplier != null) {
-			id = _idSupplier.get();
-
-			_idSupplier = null;
-		}
-
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-
-		_idSupplier = null;
-	}
-
-	@JsonIgnore
-	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
-		_idSupplier = () -> {
-			try {
-				return idUnsafeSupplier.get();
-			}
-			catch (RuntimeException runtimeException) {
-				throw runtimeException;
-			}
-			catch (Exception exception) {
-				throw new RuntimeException(exception);
-			}
-		};
-	}
-
-	@GraphQLField(description = "The asset library's ID.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	protected Long id;
-
-	@JsonIgnore
-	private Supplier<Long> _idSupplier;
-
-	@io.swagger.v3.oas.annotations.media.Schema(
 		description = "The asset library's name."
 	)
 	public String getName() {
@@ -760,49 +719,6 @@ public class AssetLibrary implements Serializable {
 
 	@JsonIgnore
 	private Supplier<Settings> _settingsSupplier;
-
-	@io.swagger.v3.oas.annotations.media.Schema(
-		description = "The asset library's site ID."
-	)
-	public Long getSiteId() {
-		if (_siteIdSupplier != null) {
-			siteId = _siteIdSupplier.get();
-
-			_siteIdSupplier = null;
-		}
-
-		return siteId;
-	}
-
-	public void setSiteId(Long siteId) {
-		this.siteId = siteId;
-
-		_siteIdSupplier = null;
-	}
-
-	@JsonIgnore
-	public void setSiteId(
-		UnsafeSupplier<Long, Exception> siteIdUnsafeSupplier) {
-
-		_siteIdSupplier = () -> {
-			try {
-				return siteIdUnsafeSupplier.get();
-			}
-			catch (RuntimeException runtimeException) {
-				throw runtimeException;
-			}
-			catch (Exception exception) {
-				throw new RuntimeException(exception);
-			}
-		};
-	}
-
-	@GraphQLField(description = "The asset library's site ID.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	protected Long siteId;
-
-	@JsonIgnore
-	private Supplier<Long> _siteIdSupplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema
 	@JsonGetter("type")
@@ -1112,18 +1028,6 @@ public class AssetLibrary implements Serializable {
 			sb.append("\"");
 		}
 
-		Long id = getId();
-
-		if (id != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"id\": ");
-
-			sb.append(id);
-		}
-
 		String name = getName();
 
 		if (name != null) {
@@ -1198,18 +1102,6 @@ public class AssetLibrary implements Serializable {
 			sb.append("\"settings\": ");
 
 			sb.append(String.valueOf(settings));
-		}
-
-		Long siteId = getSiteId();
-
-		if (siteId != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"siteId\": ");
-
-			sb.append(siteId);
 		}
 
 		Type type = getType();

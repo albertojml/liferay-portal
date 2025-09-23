@@ -46,12 +46,15 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface AssetLibraryResource {
 
-	public void deleteAssetLibraryByExternalReferenceCode(
-			String externalReferenceCode)
+	public void deleteAssetLibrary(String assetLibraryExternalReferenceCode)
 		throws Exception;
 
-	public void deleteAssetLibraryByExternalReferenceCodePin(
-			String externalReferenceCode)
+	public Response deleteAssetLibraryBatch(
+			String assetLibraryExternalReferenceCode, String callbackURL,
+			Object object)
+		throws Exception;
+
+	public void deleteAssetLibraryPin(String assetLibraryExternalReferenceCode)
 		throws Exception;
 
 	public Page<AssetLibrary> getAssetLibrariesPage(
@@ -65,12 +68,12 @@ public interface AssetLibraryResource {
 			Pagination pagination)
 		throws Exception;
 
-	public AssetLibrary getAssetLibraryByExternalReferenceCode(
-			String externalReferenceCode)
+	public AssetLibrary getAssetLibrary(
+			String assetLibraryExternalReferenceCode)
 		throws Exception;
 
-	public AssetLibrary patchAssetLibraryByExternalReferenceCode(
-			String externalReferenceCode, AssetLibrary assetLibrary)
+	public AssetLibrary patchAssetLibrary(
+			String assetLibraryExternalReferenceCode, AssetLibrary assetLibrary)
 		throws Exception;
 
 	public Response postAssetLibrariesPageExportBatch(
@@ -86,12 +89,17 @@ public interface AssetLibraryResource {
 	public Response postAssetLibraryBatch(String callbackURL, Object object)
 		throws Exception;
 
-	public AssetLibrary putAssetLibraryByExternalReferenceCode(
-			String externalReferenceCode, AssetLibrary assetLibrary)
+	public AssetLibrary putAssetLibrary(
+			String assetLibraryExternalReferenceCode, AssetLibrary assetLibrary)
 		throws Exception;
 
-	public AssetLibrary putAssetLibraryByExternalReferenceCodePin(
-			String externalReferenceCode)
+	public Response putAssetLibraryBatch(
+			String assetLibraryExternalReferenceCode, String callbackURL,
+			Object object)
+		throws Exception;
+
+	public AssetLibrary putAssetLibraryPin(
+			String assetLibraryExternalReferenceCode)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

@@ -207,23 +207,19 @@ public abstract class BaseRoleResourceTestCase {
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage()
-		throws Exception {
-
+	public void testGetAssetLibraryUserAccountRolesPage() throws Exception {
 		String assetLibraryExternalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getAssetLibraryExternalReferenceCode();
+			testGetAssetLibraryUserAccountRolesPage_getAssetLibraryExternalReferenceCode();
 		String irrelevantAssetLibraryExternalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getIrrelevantAssetLibraryExternalReferenceCode();
+			testGetAssetLibraryUserAccountRolesPage_getIrrelevantAssetLibraryExternalReferenceCode();
 		String userAccountExternalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getUserAccountExternalReferenceCode();
+			testGetAssetLibraryUserAccountRolesPage_getUserAccountExternalReferenceCode();
 		String irrelevantUserAccountExternalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getIrrelevantUserAccountExternalReferenceCode();
+			testGetAssetLibraryUserAccountRolesPage_getIrrelevantUserAccountExternalReferenceCode();
 
-		Page<Role> page =
-			roleResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage(
-					assetLibraryExternalReferenceCode,
-					userAccountExternalReferenceCode);
+		Page<Role> page = roleResource.getAssetLibraryUserAccountRolesPage(
+			assetLibraryExternalReferenceCode,
+			userAccountExternalReferenceCode);
 
 		long totalCount = page.getTotalCount();
 
@@ -231,42 +227,36 @@ public abstract class BaseRoleResourceTestCase {
 			(irrelevantUserAccountExternalReferenceCode != null)) {
 
 			Role irrelevantRole =
-				testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_addRole(
+				testGetAssetLibraryUserAccountRolesPage_addRole(
 					irrelevantAssetLibraryExternalReferenceCode,
 					irrelevantUserAccountExternalReferenceCode,
 					randomIrrelevantRole());
 
-			page =
-				roleResource.
-					getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage(
-						irrelevantAssetLibraryExternalReferenceCode,
-						irrelevantUserAccountExternalReferenceCode);
+			page = roleResource.getAssetLibraryUserAccountRolesPage(
+				irrelevantAssetLibraryExternalReferenceCode,
+				irrelevantUserAccountExternalReferenceCode);
 
 			Assert.assertEquals(totalCount + 1, page.getTotalCount());
 
 			assertContains(irrelevantRole, (List<Role>)page.getItems());
 			assertValid(
 				page,
-				testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getExpectedActions(
+				testGetAssetLibraryUserAccountRolesPage_getExpectedActions(
 					irrelevantAssetLibraryExternalReferenceCode,
 					irrelevantUserAccountExternalReferenceCode));
 		}
 
-		Role role1 =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_addRole(
-				assetLibraryExternalReferenceCode,
-				userAccountExternalReferenceCode, randomRole());
+		Role role1 = testGetAssetLibraryUserAccountRolesPage_addRole(
+			assetLibraryExternalReferenceCode, userAccountExternalReferenceCode,
+			randomRole());
 
-		Role role2 =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_addRole(
-				assetLibraryExternalReferenceCode,
-				userAccountExternalReferenceCode, randomRole());
+		Role role2 = testGetAssetLibraryUserAccountRolesPage_addRole(
+			assetLibraryExternalReferenceCode, userAccountExternalReferenceCode,
+			randomRole());
 
-		page =
-			roleResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage(
-					assetLibraryExternalReferenceCode,
-					userAccountExternalReferenceCode);
+		page = roleResource.getAssetLibraryUserAccountRolesPage(
+			assetLibraryExternalReferenceCode,
+			userAccountExternalReferenceCode);
 
 		Assert.assertEquals(totalCount + 2, page.getTotalCount());
 
@@ -274,13 +264,13 @@ public abstract class BaseRoleResourceTestCase {
 		assertContains(role2, (List<Role>)page.getItems());
 		assertValid(
 			page,
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getExpectedActions(
+			testGetAssetLibraryUserAccountRolesPage_getExpectedActions(
 				assetLibraryExternalReferenceCode,
 				userAccountExternalReferenceCode));
 	}
 
 	protected Map<String, Map<String, String>>
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getExpectedActions(
+			testGetAssetLibraryUserAccountRolesPage_getExpectedActions(
 				String assetLibraryExternalReferenceCode,
 				String userAccountExternalReferenceCode)
 		throws Exception {
@@ -290,10 +280,9 @@ public abstract class BaseRoleResourceTestCase {
 		return expectedActions;
 	}
 
-	protected Role
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_addRole(
-				String assetLibraryExternalReferenceCode,
-				String userAccountExternalReferenceCode, Role role)
+	protected Role testGetAssetLibraryUserAccountRolesPage_addRole(
+			String assetLibraryExternalReferenceCode,
+			String userAccountExternalReferenceCode, Role role)
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -301,21 +290,21 @@ public abstract class BaseRoleResourceTestCase {
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getAssetLibraryExternalReferenceCode()
+			testGetAssetLibraryUserAccountRolesPage_getAssetLibraryExternalReferenceCode()
 		throws Exception {
 
 		return testDepotEntryGroup.getExternalReferenceCode();
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getIrrelevantAssetLibraryExternalReferenceCode()
+			testGetAssetLibraryUserAccountRolesPage_getIrrelevantAssetLibraryExternalReferenceCode()
 		throws Exception {
 
 		return irrelevantDepotEntryGroup.getExternalReferenceCode();
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getUserAccountExternalReferenceCode()
+			testGetAssetLibraryUserAccountRolesPage_getUserAccountExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -323,73 +312,60 @@ public abstract class BaseRoleResourceTestCase {
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage_getIrrelevantUserAccountExternalReferenceCode()
+			testGetAssetLibraryUserAccountRolesPage_getIrrelevantUserAccountExternalReferenceCode()
 		throws Exception {
 
 		return null;
 	}
 
 	@Test
-	public void testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage()
-		throws Exception {
-
+	public void testGetAssetLibraryUserGroupRolesPage() throws Exception {
 		String assetLibraryExternalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getAssetLibraryExternalReferenceCode();
+			testGetAssetLibraryUserGroupRolesPage_getAssetLibraryExternalReferenceCode();
 		String irrelevantAssetLibraryExternalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getIrrelevantAssetLibraryExternalReferenceCode();
+			testGetAssetLibraryUserGroupRolesPage_getIrrelevantAssetLibraryExternalReferenceCode();
 		String userGroupExternalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getUserGroupExternalReferenceCode();
+			testGetAssetLibraryUserGroupRolesPage_getUserGroupExternalReferenceCode();
 		String irrelevantUserGroupExternalReferenceCode =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getIrrelevantUserGroupExternalReferenceCode();
+			testGetAssetLibraryUserGroupRolesPage_getIrrelevantUserGroupExternalReferenceCode();
 
-		Page<Role> page =
-			roleResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage(
-					assetLibraryExternalReferenceCode,
-					userGroupExternalReferenceCode);
+		Page<Role> page = roleResource.getAssetLibraryUserGroupRolesPage(
+			assetLibraryExternalReferenceCode, userGroupExternalReferenceCode);
 
 		long totalCount = page.getTotalCount();
 
 		if ((irrelevantAssetLibraryExternalReferenceCode != null) &&
 			(irrelevantUserGroupExternalReferenceCode != null)) {
 
-			Role irrelevantRole =
-				testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_addRole(
-					irrelevantAssetLibraryExternalReferenceCode,
-					irrelevantUserGroupExternalReferenceCode,
-					randomIrrelevantRole());
+			Role irrelevantRole = testGetAssetLibraryUserGroupRolesPage_addRole(
+				irrelevantAssetLibraryExternalReferenceCode,
+				irrelevantUserGroupExternalReferenceCode,
+				randomIrrelevantRole());
 
-			page =
-				roleResource.
-					getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage(
-						irrelevantAssetLibraryExternalReferenceCode,
-						irrelevantUserGroupExternalReferenceCode);
+			page = roleResource.getAssetLibraryUserGroupRolesPage(
+				irrelevantAssetLibraryExternalReferenceCode,
+				irrelevantUserGroupExternalReferenceCode);
 
 			Assert.assertEquals(totalCount + 1, page.getTotalCount());
 
 			assertContains(irrelevantRole, (List<Role>)page.getItems());
 			assertValid(
 				page,
-				testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getExpectedActions(
+				testGetAssetLibraryUserGroupRolesPage_getExpectedActions(
 					irrelevantAssetLibraryExternalReferenceCode,
 					irrelevantUserGroupExternalReferenceCode));
 		}
 
-		Role role1 =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_addRole(
-				assetLibraryExternalReferenceCode,
-				userGroupExternalReferenceCode, randomRole());
+		Role role1 = testGetAssetLibraryUserGroupRolesPage_addRole(
+			assetLibraryExternalReferenceCode, userGroupExternalReferenceCode,
+			randomRole());
 
-		Role role2 =
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_addRole(
-				assetLibraryExternalReferenceCode,
-				userGroupExternalReferenceCode, randomRole());
+		Role role2 = testGetAssetLibraryUserGroupRolesPage_addRole(
+			assetLibraryExternalReferenceCode, userGroupExternalReferenceCode,
+			randomRole());
 
-		page =
-			roleResource.
-				getAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage(
-					assetLibraryExternalReferenceCode,
-					userGroupExternalReferenceCode);
+		page = roleResource.getAssetLibraryUserGroupRolesPage(
+			assetLibraryExternalReferenceCode, userGroupExternalReferenceCode);
 
 		Assert.assertEquals(totalCount + 2, page.getTotalCount());
 
@@ -397,13 +373,13 @@ public abstract class BaseRoleResourceTestCase {
 		assertContains(role2, (List<Role>)page.getItems());
 		assertValid(
 			page,
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getExpectedActions(
+			testGetAssetLibraryUserGroupRolesPage_getExpectedActions(
 				assetLibraryExternalReferenceCode,
 				userGroupExternalReferenceCode));
 	}
 
 	protected Map<String, Map<String, String>>
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getExpectedActions(
+			testGetAssetLibraryUserGroupRolesPage_getExpectedActions(
 				String assetLibraryExternalReferenceCode,
 				String userGroupExternalReferenceCode)
 		throws Exception {
@@ -413,10 +389,9 @@ public abstract class BaseRoleResourceTestCase {
 		return expectedActions;
 	}
 
-	protected Role
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_addRole(
-				String assetLibraryExternalReferenceCode,
-				String userGroupExternalReferenceCode, Role role)
+	protected Role testGetAssetLibraryUserGroupRolesPage_addRole(
+			String assetLibraryExternalReferenceCode,
+			String userGroupExternalReferenceCode, Role role)
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -424,21 +399,21 @@ public abstract class BaseRoleResourceTestCase {
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getAssetLibraryExternalReferenceCode()
+			testGetAssetLibraryUserGroupRolesPage_getAssetLibraryExternalReferenceCode()
 		throws Exception {
 
 		return testDepotEntryGroup.getExternalReferenceCode();
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getIrrelevantAssetLibraryExternalReferenceCode()
+			testGetAssetLibraryUserGroupRolesPage_getIrrelevantAssetLibraryExternalReferenceCode()
 		throws Exception {
 
 		return irrelevantDepotEntryGroup.getExternalReferenceCode();
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getUserGroupExternalReferenceCode()
+			testGetAssetLibraryUserGroupRolesPage_getUserGroupExternalReferenceCode()
 		throws Exception {
 
 		throw new UnsupportedOperationException(
@@ -446,23 +421,19 @@ public abstract class BaseRoleResourceTestCase {
 	}
 
 	protected String
-			testGetAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage_getIrrelevantUserGroupExternalReferenceCode()
+			testGetAssetLibraryUserGroupRolesPage_getIrrelevantUserGroupExternalReferenceCode()
 		throws Exception {
 
 		return null;
 	}
 
 	@Test
-	public void testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserAccountByExternalReferenceCodeUserAccountExternalReferenceCodeRolesPage()
-		throws Exception {
-
+	public void testPutAssetLibraryUserAccountRolesPage() throws Exception {
 		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testPutAssetLibraryByExternalReferenceCodeAssetLibraryExternalReferenceCodeUserGroupByExternalReferenceCodeUserGroupExternalReferenceCodeRolesPage()
-		throws Exception {
-
+	public void testPutAssetLibraryUserGroupRolesPage() throws Exception {
 		Assert.assertTrue(false);
 	}
 
@@ -531,10 +502,6 @@ public abstract class BaseRoleResourceTestCase {
 
 	protected void assertValid(Role role) throws Exception {
 		boolean valid = true;
-
-		if (role.getId() == null) {
-			valid = false;
-		}
 
 		for (String additionalAssertFieldName :
 				getAdditionalAssertFieldNames()) {
@@ -695,14 +662,6 @@ public abstract class BaseRoleResourceTestCase {
 						role1.getExternalReferenceCode(),
 						role2.getExternalReferenceCode())) {
 
-					return false;
-				}
-
-				continue;
-			}
-
-			if (Objects.equals("id", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(role1.getId(), role2.getId())) {
 					return false;
 				}
 
@@ -890,11 +849,6 @@ public abstract class BaseRoleResourceTestCase {
 			return sb.toString();
 		}
 
-		if (entityFieldName.equals("id")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
-		}
-
 		if (entityFieldName.equals("name")) {
 			Object object = role.getName();
 
@@ -999,7 +953,6 @@ public abstract class BaseRoleResourceTestCase {
 			{
 				externalReferenceCode = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
-				id = RandomTestUtil.randomLong();
 				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
 				roleType = RandomTestUtil.randomInt();
 			}
