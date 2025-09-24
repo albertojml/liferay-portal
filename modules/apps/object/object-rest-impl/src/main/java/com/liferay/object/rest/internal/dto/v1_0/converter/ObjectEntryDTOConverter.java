@@ -421,6 +421,32 @@ public class ObjectEntryDTOConverter
 						ObjectEntryVersionModel::getReviewDate,
 						serviceBuilderObjectEntry,
 						ObjectEntryModel::getReviewDate));
+				setScope(
+					() -> {
+						Group group = _groupLocalService.fetchGroup(
+							serviceBuilderObjectEntry.getGroupId());
+
+						if (group == null) {
+							return null;
+						}
+
+						Scope scope = new Scope();
+
+						scope.setExternalReferenceCode(
+							group::getExternalReferenceCode);
+						scope.setType(
+							() -> {
+								if (group.getType() ==
+										GroupConstants.TYPE_DEPOT) {
+
+									return Scope.Type.ASSET_LIBRARY;
+								}
+
+								return Scope.Type.SITE;
+							});
+
+						return scope;
+					});
 				setScopeId(serviceBuilderObjectEntry::getGroupId);
 				setScopeKey(
 					() -> _getScopeKey(
