@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.liferay.headless.delivery.dto.v1_0.Creator;
+import com.liferay.headless.object.dto.v1_0.Scope;
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -949,6 +950,46 @@ public class ObjectEntry implements Serializable {
 	private Supplier<Date> _reviewDateSupplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema
+	@Valid
+	public Scope getScope() {
+		if (_scopeSupplier != null) {
+			scope = _scopeSupplier.get();
+
+			_scopeSupplier = null;
+		}
+
+		return scope;
+	}
+
+	public void setScope(Scope scope) {
+		this.scope = scope;
+
+		_scopeSupplier = null;
+	}
+
+	@JsonIgnore
+	public void setScope(UnsafeSupplier<Scope, Exception> scopeUnsafeSupplier) {
+		_scopeSupplier = () -> {
+			try {
+				return scopeUnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Scope scope;
+
+	@JsonIgnore
+	private Supplier<Scope> _scopeSupplier;
+
+	@io.swagger.v3.oas.annotations.media.Schema
 	public Long getScopeId() {
 		if (_scopeIdSupplier != null) {
 			scopeId = _scopeIdSupplier.get();
@@ -1283,6 +1324,9 @@ public class ObjectEntry implements Serializable {
 		}
 		else if (Objects.equals(propertyName, "reviewDate")) {
 			return getReviewDate();
+		}
+		else if (Objects.equals(propertyName, "scope")) {
+			return getScope();
 		}
 		else if (Objects.equals(propertyName, "scopeId")) {
 			return getScopeId();
@@ -1681,6 +1725,18 @@ public class ObjectEntry implements Serializable {
 			sb.append(liferayToJSONDateFormat.format(reviewDate));
 
 			sb.append("\"");
+		}
+
+		Scope scope = getScope();
+
+		if (scope != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"scope\": ");
+
+			sb.append(scope);
 		}
 
 		Long scopeId = getScopeId();
