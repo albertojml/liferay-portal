@@ -79,8 +79,8 @@ async function getObjectEntry({
 	throw new Error(error || '');
 }
 
-async function getSpace(spaceId: number): Promise<Space> {
-	const url = `/o/headless-asset-library/v1.0/asset-libraries/${spaceId}`;
+async function getSpace(externalReferenceCode: string): Promise<Space> {
+	const url = `/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/${externalReferenceCode}`;
 
 	const {data, error} = await ApiHelper.get<Space>(url);
 

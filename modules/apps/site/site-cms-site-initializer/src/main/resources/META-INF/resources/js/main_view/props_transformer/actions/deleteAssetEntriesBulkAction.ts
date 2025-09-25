@@ -67,10 +67,11 @@ async function getEntriesSpaces(
 	items: IBulkActionFDSData['items'] = []
 ): Promise<any[]> {
 	const promises = items
-		.filter((item) => item.embedded.scopeId)
+		.filter((item) => item.embedded.scope.externalReferenceCode)
 		.map((item) =>
 			SpaceService.getSpace({
-				spaceId: item.embedded.scopeId,
+				externalReferenceCode:
+					item.embedded.scope.externalReferenceCode,
 			})
 		);
 
