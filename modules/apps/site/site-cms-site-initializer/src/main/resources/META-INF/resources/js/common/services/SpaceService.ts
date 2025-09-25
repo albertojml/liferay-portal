@@ -29,18 +29,10 @@ async function addSpace({
 
 async function getSpace({
 	externalReferenceCode,
-	spaceId,
-}:
-	| {externalReferenceCode: string; spaceId?: undefined}
-	| {
-			externalReferenceCode?: undefined;
-			spaceId: number | string;
-	  }): Promise<Space> {
-	let url = `/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/${externalReferenceCode}`;
-
-	if (spaceId) {
-		url = `/o/headless-asset-library/v1.0/asset-libraries/${spaceId}`;
-	}
+}: {
+	externalReferenceCode: string;
+}): Promise<Space> {
+	const url = `/o/headless-asset-library/v1.0/asset-libraries/by-external-reference-code/${externalReferenceCode}`;
 
 	const {data, error} = await ApiHelper.get<Space>(url);
 
