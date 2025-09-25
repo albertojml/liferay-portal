@@ -6,6 +6,7 @@
 package com.liferay.object.rest.internal.dto.v1_0.converter.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.headless.object.dto.v1_0.Scope;
 import com.liferay.list.type.entry.util.ListTypeEntryUtil;
 import com.liferay.list.type.model.ListTypeDefinition;
 import com.liferay.list.type.service.ListTypeDefinitionLocalService;
@@ -15,7 +16,6 @@ import com.liferay.object.field.builder.PicklistObjectFieldBuilder;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.rest.dto.v1_0.ListEntry;
 import com.liferay.object.rest.dto.v1_0.ObjectEntry;
-import com.liferay.object.rest.dto.v1_0.Scope;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectEntryVersionLocalService;
 import com.liferay.object.test.util.ObjectDefinitionTestUtil;
@@ -116,6 +116,7 @@ public class ObjectEntryDTOConverterTest {
 		Assert.assertEquals(
 			group.getGroupId(), GetterUtil.getLong(objectEntry.getScopeId()));
 		Assert.assertEquals(group.getGroupKey(), objectEntry.getScopeKey());
+
 		Scope scope = objectEntry.getScope();
 
 		Assert.assertNotNull(scope);
