@@ -119,7 +119,6 @@ public class ObjectEntryDTOConverterTest {
 
 		Scope scope = objectEntry.getScope();
 
-		Assert.assertNotNull(scope);
 		Assert.assertEquals(
 			group.getExternalReferenceCode(), scope.getExternalReferenceCode());
 		Assert.assertEquals(Scope.Type.SITE, scope.getType());
