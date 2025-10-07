@@ -1,13 +1,16 @@
 /**
- * SPDX-FileCopyrightText: (c) 2024 Liferay, Inc. https://liferay.com
+ * SPDX-FileCopyrightText: (c) 2025 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package com.liferay.headless.admin.site.dto.v1_0;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFilter;
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
@@ -36,50 +39,49 @@ import java.util.function.Supplier;
  */
 @Generated("")
 @GraphQLName(
-	description = "The settings of a widget page template.",
-	value = "WidgetPageTemplateSettings"
+	description = "The navigation settings of a site page.",
+	value = "SitePageNavigationSettings"
 )
 @JsonFilter("Liferay.Vulcan")
-@XmlRootElement(name = "WidgetPageTemplateSettings")
-public class WidgetPageTemplateSettings
-	extends PageTemplateSettings implements Serializable {
+@XmlRootElement(name = "SitePageNavigationSettings")
+public class SitePageNavigationSettings implements Serializable {
 
-	public static WidgetPageTemplateSettings toDTO(String json) {
+	public static SitePageNavigationSettings toDTO(String json) {
 		return ObjectMapperUtil.readValue(
-			WidgetPageTemplateSettings.class, json);
+			SitePageNavigationSettings.class, json);
 	}
 
-	public static WidgetPageTemplateSettings unsafeToDTO(String json) {
+	public static SitePageNavigationSettings unsafeToDTO(String json) {
 		return ObjectMapperUtil.unsafeReadValue(
-			WidgetPageTemplateSettings.class, json);
+			SitePageNavigationSettings.class, json);
 	}
 
 	@io.swagger.v3.oas.annotations.media.Schema(
-		description = "The identifier of the layout template."
+		description = "The default parameter for a page."
 	)
-	public String getLayoutTemplateId() {
-		if (_layoutTemplateIdSupplier != null) {
-			layoutTemplateId = _layoutTemplateIdSupplier.get();
+	public String getQueryString() {
+		if (_queryStringSupplier != null) {
+			queryString = _queryStringSupplier.get();
 
-			_layoutTemplateIdSupplier = null;
+			_queryStringSupplier = null;
 		}
 
-		return layoutTemplateId;
+		return queryString;
 	}
 
-	public void setLayoutTemplateId(String layoutTemplateId) {
-		this.layoutTemplateId = layoutTemplateId;
+	public void setQueryString(String queryString) {
+		this.queryString = queryString;
 
-		_layoutTemplateIdSupplier = null;
+		_queryStringSupplier = null;
 	}
 
 	@JsonIgnore
-	public void setLayoutTemplateId(
-		UnsafeSupplier<String, Exception> layoutTemplateIdUnsafeSupplier) {
+	public void setQueryString(
+		UnsafeSupplier<String, Exception> queryStringUnsafeSupplier) {
 
-		_layoutTemplateIdSupplier = () -> {
+		_queryStringSupplier = () -> {
 			try {
-				return layoutTemplateIdUnsafeSupplier.get();
+				return queryStringUnsafeSupplier.get();
 			}
 			catch (RuntimeException runtimeException) {
 				throw runtimeException;
@@ -90,41 +92,95 @@ public class WidgetPageTemplateSettings
 		};
 	}
 
-	@GraphQLField(description = "The identifier of the layout template.")
+	@GraphQLField(description = "The default parameter for a page.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected String layoutTemplateId;
+	protected String queryString;
 
 	@JsonIgnore
-	private Supplier<String> _layoutTemplateIdSupplier;
+	private Supplier<String> _queryStringSupplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema(
-		description = "The widget page template's navigation settings."
+		description = "The ID of the target specific frame."
 	)
-	@Valid
-	public NavigationSettings getNavigationSettings() {
-		if (_navigationSettingsSupplier != null) {
-			navigationSettings = _navigationSettingsSupplier.get();
+	public String getTarget() {
+		if (_targetSupplier != null) {
+			target = _targetSupplier.get();
 
-			_navigationSettingsSupplier = null;
+			_targetSupplier = null;
 		}
 
-		return navigationSettings;
+		return target;
 	}
 
-	public void setNavigationSettings(NavigationSettings navigationSettings) {
-		this.navigationSettings = navigationSettings;
+	public void setTarget(String target) {
+		this.target = target;
 
-		_navigationSettingsSupplier = null;
+		_targetSupplier = null;
 	}
 
 	@JsonIgnore
-	public void setNavigationSettings(
-		UnsafeSupplier<NavigationSettings, Exception>
-			navigationSettingsUnsafeSupplier) {
+	public void setTarget(
+		UnsafeSupplier<String, Exception> targetUnsafeSupplier) {
 
-		_navigationSettingsSupplier = () -> {
+		_targetSupplier = () -> {
 			try {
-				return navigationSettingsUnsafeSupplier.get();
+				return targetUnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField(description = "The ID of the target specific frame.")
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected String target;
+
+	@JsonIgnore
+	private Supplier<String> _targetSupplier;
+
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "The target's type (specific frame or new tab)."
+	)
+	@JsonGetter("targetType")
+	@Valid
+	public TargetType getTargetType() {
+		if (_targetTypeSupplier != null) {
+			targetType = _targetTypeSupplier.get();
+
+			_targetTypeSupplier = null;
+		}
+
+		return targetType;
+	}
+
+	@JsonIgnore
+	public String getTargetTypeAsString() {
+		TargetType targetType = getTargetType();
+
+		if (targetType == null) {
+			return null;
+		}
+
+		return targetType.toString();
+	}
+
+	public void setTargetType(TargetType targetType) {
+		this.targetType = targetType;
+
+		_targetTypeSupplier = null;
+	}
+
+	@JsonIgnore
+	public void setTargetType(
+		UnsafeSupplier<TargetType, Exception> targetTypeUnsafeSupplier) {
+
+		_targetTypeSupplier = () -> {
+			try {
+				return targetTypeUnsafeSupplier.get();
 			}
 			catch (RuntimeException runtimeException) {
 				throw runtimeException;
@@ -136,13 +192,13 @@ public class WidgetPageTemplateSettings
 	}
 
 	@GraphQLField(
-		description = "The widget page template's navigation settings."
+		description = "The target's type (specific frame or new tab)."
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected NavigationSettings navigationSettings;
+	protected TargetType targetType;
 
 	@JsonIgnore
-	private Supplier<NavigationSettings> _navigationSettingsSupplier;
+	private Supplier<TargetType> _targetTypeSupplier;
 
 	@Override
 	public boolean equals(Object object) {
@@ -150,15 +206,15 @@ public class WidgetPageTemplateSettings
 			return true;
 		}
 
-		if (!(object instanceof WidgetPageTemplateSettings)) {
+		if (!(object instanceof SitePageNavigationSettings)) {
 			return false;
 		}
 
-		WidgetPageTemplateSettings widgetPageTemplateSettings =
-			(WidgetPageTemplateSettings)object;
+		SitePageNavigationSettings sitePageNavigationSettings =
+			(SitePageNavigationSettings)object;
 
 		return Objects.equals(
-			toString(), widgetPageTemplateSettings.toString());
+			toString(), sitePageNavigationSettings.toString());
 	}
 
 	@Override
@@ -173,46 +229,50 @@ public class WidgetPageTemplateSettings
 
 		sb.append("{");
 
-		String layoutTemplateId = getLayoutTemplateId();
+		String queryString = getQueryString();
 
-		if (layoutTemplateId != null) {
+		if (queryString != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
 			}
 
-			sb.append("\"layoutTemplateId\": ");
+			sb.append("\"queryString\": ");
 
 			sb.append("\"");
 
-			sb.append(_escape(layoutTemplateId));
+			sb.append(_escape(queryString));
 
 			sb.append("\"");
 		}
 
-		NavigationSettings navigationSettings = getNavigationSettings();
+		String target = getTarget();
 
-		if (navigationSettings != null) {
+		if (target != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
 			}
 
-			sb.append("\"navigationSettings\": ");
-
-			sb.append(String.valueOf(navigationSettings));
-		}
-
-		Type type = getType();
-
-		if (type != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"type\": ");
+			sb.append("\"target\": ");
 
 			sb.append("\"");
 
-			sb.append(type);
+			sb.append(_escape(target));
+
+			sb.append("\"");
+		}
+
+		TargetType targetType = getTargetType();
+
+		if (targetType != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"targetType\": ");
+
+			sb.append("\"");
+
+			sb.append(targetType);
 
 			sb.append("\"");
 		}
@@ -224,10 +284,48 @@ public class WidgetPageTemplateSettings
 
 	@io.swagger.v3.oas.annotations.media.Schema(
 		accessMode = io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY,
-		defaultValue = "com.liferay.headless.admin.site.dto.v1_0.WidgetPageTemplateSettings",
+		defaultValue = "com.liferay.headless.admin.site.dto.v1_0.SitePageNavigationSettings",
 		name = "x-class-name"
 	)
 	public String xClassName;
+
+	@GraphQLName("TargetType")
+	public static enum TargetType {
+
+		SPECIFIC_FRAME("SpecificFrame"), NEW_TAB("NewTab");
+
+		@JsonCreator
+		public static TargetType create(String value) {
+			if ((value == null) || value.equals("")) {
+				return null;
+			}
+
+			for (TargetType targetType : values()) {
+				if (Objects.equals(targetType.getValue(), value)) {
+					return targetType;
+				}
+			}
+
+			throw new IllegalArgumentException("Invalid enum value: " + value);
+		}
+
+		@JsonValue
+		public String getValue() {
+			return _value;
+		}
+
+		@Override
+		public String toString() {
+			return _value;
+		}
+
+		private TargetType(String value) {
+			_value = value;
+		}
+
+		private final String _value;
+
+	}
 
 	private static String _escape(Object object) {
 		return StringUtil.replace(
