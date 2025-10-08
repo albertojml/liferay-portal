@@ -435,7 +435,7 @@ public class ContainerPageElementDefinition
 		description = "the container page element's layout."
 	)
 	@Valid
-	public Layout getLayout() {
+	public LayoutExpanded getLayout() {
 		if (_layoutSupplier != null) {
 			layout = _layoutSupplier.get();
 
@@ -445,7 +445,7 @@ public class ContainerPageElementDefinition
 		return layout;
 	}
 
-	public void setLayout(Layout layout) {
+	public void setLayout(LayoutExpanded layout) {
 		this.layout = layout;
 
 		_layoutSupplier = null;
@@ -453,7 +453,7 @@ public class ContainerPageElementDefinition
 
 	@JsonIgnore
 	public void setLayout(
-		UnsafeSupplier<Layout, Exception> layoutUnsafeSupplier) {
+		UnsafeSupplier<LayoutExpanded, Exception> layoutUnsafeSupplier) {
 
 		_layoutSupplier = () -> {
 			try {
@@ -470,10 +470,10 @@ public class ContainerPageElementDefinition
 
 	@GraphQLField(description = "the container page element's layout.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected Layout layout;
+	protected LayoutExpanded layout;
 
 	@JsonIgnore
-	private Supplier<Layout> _layoutSupplier;
+	private Supplier<LayoutExpanded> _layoutSupplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema(
 		description = "The custom name of a container page element."
@@ -673,7 +673,7 @@ public class ContainerPageElementDefinition
 			sb.append(indexed);
 		}
 
-		Layout layout = getLayout();
+		LayoutExpanded layout = getLayout();
 
 		if (layout != null) {
 			if (sb.length() > 1) {

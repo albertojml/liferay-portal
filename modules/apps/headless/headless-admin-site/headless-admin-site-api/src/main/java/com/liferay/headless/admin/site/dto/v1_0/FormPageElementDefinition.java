@@ -371,7 +371,7 @@ public class FormPageElementDefinition
 		description = "The form page element's layout."
 	)
 	@Valid
-	public Layout getLayout() {
+	public LayoutExpanded getLayout() {
 		if (_layoutSupplier != null) {
 			layout = _layoutSupplier.get();
 
@@ -381,7 +381,7 @@ public class FormPageElementDefinition
 		return layout;
 	}
 
-	public void setLayout(Layout layout) {
+	public void setLayout(LayoutExpanded layout) {
 		this.layout = layout;
 
 		_layoutSupplier = null;
@@ -389,7 +389,7 @@ public class FormPageElementDefinition
 
 	@JsonIgnore
 	public void setLayout(
-		UnsafeSupplier<Layout, Exception> layoutUnsafeSupplier) {
+		UnsafeSupplier<LayoutExpanded, Exception> layoutUnsafeSupplier) {
 
 		_layoutSupplier = () -> {
 			try {
@@ -406,10 +406,10 @@ public class FormPageElementDefinition
 
 	@GraphQLField(description = "The form page element's layout.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected Layout layout;
+	protected LayoutExpanded layout;
 
 	@JsonIgnore
-	private Supplier<Layout> _layoutSupplier;
+	private Supplier<LayoutExpanded> _layoutSupplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema(
 		description = "The custom name of a form page element."
@@ -602,7 +602,7 @@ public class FormPageElementDefinition
 			sb.append(indexed);
 		}
 
-		Layout layout = getLayout();
+		LayoutExpanded layout = getLayout();
 
 		if (layout != null) {
 			if (sb.length() > 1) {

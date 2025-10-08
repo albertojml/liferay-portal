@@ -1,12 +1,12 @@
 /**
- * SPDX-FileCopyrightText: (c) 2024 Liferay, Inc. https://liferay.com
+ * SPDX-FileCopyrightText: (c) 2025 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
 package com.liferay.headless.admin.site.client.dto.v1_0;
 
 import com.liferay.headless.admin.site.client.function.UnsafeSupplier;
-import com.liferay.headless.admin.site.client.serdes.v1_0.LayoutSerDes;
+import com.liferay.headless.admin.site.client.serdes.v1_0.LayoutExpandedSerDes;
 
 import jakarta.annotation.Generated;
 
@@ -19,10 +19,10 @@ import java.util.Objects;
  * @generated
  */
 @Generated("")
-public class Layout implements Cloneable, Serializable {
+public class LayoutExpanded implements Cloneable, Serializable {
 
-	public static Layout toDTO(String json) {
-		return LayoutSerDes.toDTO(json);
+	public static LayoutExpanded toDTO(String json) {
+		return LayoutExpandedSerDes.toDTO(json);
 	}
 
 	public Align getAlign() {
@@ -51,6 +51,36 @@ public class Layout implements Cloneable, Serializable {
 	}
 
 	protected Align align;
+
+	public ContentDisplay getContentDisplay() {
+		return contentDisplay;
+	}
+
+	public String getContentDisplayAsString() {
+		if (contentDisplay == null) {
+			return null;
+		}
+
+		return contentDisplay.toString();
+	}
+
+	public void setContentDisplay(ContentDisplay contentDisplay) {
+		this.contentDisplay = contentDisplay;
+	}
+
+	public void setContentDisplay(
+		UnsafeSupplier<ContentDisplay, Exception>
+			contentDisplayUnsafeSupplier) {
+
+		try {
+			contentDisplay = contentDisplayUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected ContentDisplay contentDisplay;
 
 	public FlexWrap getFlexWrap() {
 		return flexWrap;
@@ -110,9 +140,38 @@ public class Layout implements Cloneable, Serializable {
 
 	protected Justify justify;
 
+	public WidthType getWidthType() {
+		return widthType;
+	}
+
+	public String getWidthTypeAsString() {
+		if (widthType == null) {
+			return null;
+		}
+
+		return widthType.toString();
+	}
+
+	public void setWidthType(WidthType widthType) {
+		this.widthType = widthType;
+	}
+
+	public void setWidthType(
+		UnsafeSupplier<WidthType, Exception> widthTypeUnsafeSupplier) {
+
+		try {
+			widthType = widthTypeUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected WidthType widthType;
+
 	@Override
-	public Layout clone() throws CloneNotSupportedException {
-		return (Layout)super.clone();
+	public LayoutExpanded clone() throws CloneNotSupportedException {
+		return (LayoutExpanded)super.clone();
 	}
 
 	@Override
@@ -121,13 +180,13 @@ public class Layout implements Cloneable, Serializable {
 			return true;
 		}
 
-		if (!(object instanceof Layout)) {
+		if (!(object instanceof LayoutExpanded)) {
 			return false;
 		}
 
-		Layout layout = (Layout)object;
+		LayoutExpanded layoutExpanded = (LayoutExpanded)object;
 
-		return Objects.equals(toString(), layout.toString());
+		return Objects.equals(toString(), layoutExpanded.toString());
 	}
 
 	@Override
@@ -138,7 +197,7 @@ public class Layout implements Cloneable, Serializable {
 	}
 
 	public String toString() {
-		return LayoutSerDes.toJSON(this);
+		return LayoutExpandedSerDes.toJSON(this);
 	}
 
 	public static enum Align {
@@ -168,6 +227,39 @@ public class Layout implements Cloneable, Serializable {
 		}
 
 		private Align(String value) {
+			_value = value;
+		}
+
+		private final String _value;
+
+	}
+
+	public static enum ContentDisplay {
+
+		BLOCK("Block"), FLEX_COLUMN("FlexColumn"), FLEX_ROW("FlexRow");
+
+		public static ContentDisplay create(String value) {
+			for (ContentDisplay contentDisplay : values()) {
+				if (Objects.equals(contentDisplay.getValue(), value) ||
+					Objects.equals(contentDisplay.name(), value)) {
+
+					return contentDisplay;
+				}
+			}
+
+			return null;
+		}
+
+		public String getValue() {
+			return _value;
+		}
+
+		@Override
+		public String toString() {
+			return _value;
+		}
+
+		private ContentDisplay(String value) {
 			_value = value;
 		}
 
@@ -235,6 +327,39 @@ public class Layout implements Cloneable, Serializable {
 		}
 
 		private Justify(String value) {
+			_value = value;
+		}
+
+		private final String _value;
+
+	}
+
+	public static enum WidthType {
+
+		FIXED("Fixed"), FLUID("Fluid");
+
+		public static WidthType create(String value) {
+			for (WidthType widthType : values()) {
+				if (Objects.equals(widthType.getValue(), value) ||
+					Objects.equals(widthType.name(), value)) {
+
+					return widthType;
+				}
+			}
+
+			return null;
+		}
+
+		public String getValue() {
+			return _value;
+		}
+
+		@Override
+		public String toString() {
+			return _value;
+		}
+
+		private WidthType(String value) {
 			_value = value;
 		}
 

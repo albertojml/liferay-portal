@@ -58,20 +58,6 @@ public class LayoutSerDes {
 			sb.append("\"");
 		}
 
-		if (layout.getContentDisplay() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"contentDisplay\": ");
-
-			sb.append("\"");
-
-			sb.append(layout.getContentDisplay());
-
-			sb.append("\"");
-		}
-
 		if (layout.getFlexWrap() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -96,20 +82,6 @@ public class LayoutSerDes {
 			sb.append("\"");
 
 			sb.append(layout.getJustify());
-
-			sb.append("\"");
-		}
-
-		if (layout.getWidthType() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"widthType\": ");
-
-			sb.append("\"");
-
-			sb.append(layout.getWidthType());
 
 			sb.append("\"");
 		}
@@ -139,14 +111,6 @@ public class LayoutSerDes {
 			map.put("align", String.valueOf(layout.getAlign()));
 		}
 
-		if (layout.getContentDisplay() == null) {
-			map.put("contentDisplay", null);
-		}
-		else {
-			map.put(
-				"contentDisplay", String.valueOf(layout.getContentDisplay()));
-		}
-
 		if (layout.getFlexWrap() == null) {
 			map.put("flexWrap", null);
 		}
@@ -159,13 +123,6 @@ public class LayoutSerDes {
 		}
 		else {
 			map.put("justify", String.valueOf(layout.getJustify()));
-		}
-
-		if (layout.getWidthType() == null) {
-			map.put("widthType", null);
-		}
-		else {
-			map.put("widthType", String.valueOf(layout.getWidthType()));
 		}
 
 		return map;
@@ -188,16 +145,10 @@ public class LayoutSerDes {
 			if (Objects.equals(jsonParserFieldName, "align")) {
 				return false;
 			}
-			else if (Objects.equals(jsonParserFieldName, "contentDisplay")) {
-				return false;
-			}
 			else if (Objects.equals(jsonParserFieldName, "flexWrap")) {
 				return false;
 			}
 			else if (Objects.equals(jsonParserFieldName, "justify")) {
-				return false;
-			}
-			else if (Objects.equals(jsonParserFieldName, "widthType")) {
 				return false;
 			}
 
@@ -215,13 +166,6 @@ public class LayoutSerDes {
 						Layout.Align.create((String)jsonParserFieldValue));
 				}
 			}
-			else if (Objects.equals(jsonParserFieldName, "contentDisplay")) {
-				if (jsonParserFieldValue != null) {
-					layout.setContentDisplay(
-						Layout.ContentDisplay.create(
-							(String)jsonParserFieldValue));
-				}
-			}
 			else if (Objects.equals(jsonParserFieldName, "flexWrap")) {
 				if (jsonParserFieldValue != null) {
 					layout.setFlexWrap(
@@ -232,12 +176,6 @@ public class LayoutSerDes {
 				if (jsonParserFieldValue != null) {
 					layout.setJustify(
 						Layout.Justify.create((String)jsonParserFieldValue));
-				}
-			}
-			else if (Objects.equals(jsonParserFieldName, "widthType")) {
-				if (jsonParserFieldValue != null) {
-					layout.setWidthType(
-						Layout.WidthType.create((String)jsonParserFieldValue));
 				}
 			}
 		}
