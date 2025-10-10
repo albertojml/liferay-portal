@@ -1,5 +1,5 @@
 /**
- * SPDX-FileCopyrightText: (c) 2024 Liferay, Inc. https://liferay.com
+ * SPDX-FileCopyrightText: (c) 2025 Liferay, Inc. https://liferay.com
  * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
  */
 
@@ -85,37 +85,7 @@ public class OpenAPIResourceImpl {
 
 	private final Set<Class<?>> _resourceClasses = new HashSet<Class<?>>() {
 		{
-			add(AssetLibraryTestEntityResourceImpl.class);
-
-			add(BatchTestEntityResourceImpl.class);
-
-			add(CompanyTestEntityResourceImpl.class);
-
-			add(ERCAssetLibraryTestEntityResourceImpl.class);
-
-			add(ERCScopedTestEntityResourceImpl.class);
-
-			add(ERCSiteTestEntityResourceImpl.class);
-
-			add(EntityModelResourceTestEntity1ResourceImpl.class);
-
-			add(EntityModelResourceTestEntity2ResourceImpl.class);
-
-			add(FilterResourceImpl.class);
-
-			add(MultipartTestEntityResourceImpl.class);
-
-			add(SchemaResourceImpl.class);
-
-			add(ScopedTestEntityResourceImpl.class);
-
-			add(SiteTestEntityResourceImpl.class);
-
-			add(SortResourceImpl.class);
-
-			add(TestEntityResourceImpl.class);
-
-			add(TestEntityAddressResourceImpl.class);
+			add(TestDocumentResourceImpl.class);
 
 			add(OpenAPIResourceImpl.class);
 		}
