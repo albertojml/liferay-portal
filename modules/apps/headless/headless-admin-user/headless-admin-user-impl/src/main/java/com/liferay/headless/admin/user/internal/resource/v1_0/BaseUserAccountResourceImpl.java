@@ -46,6 +46,7 @@ import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
 import com.liferay.portal.vulcan.crud.VulcanCRUDItemDelegate;
+import com.liferay.portal.vulcan.fields.NestedFieldsSupplier;
 import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -572,6 +573,13 @@ public abstract class BaseUserAccountResourceImpl
 		return Page.of(Collections.emptyList());
 	}
 
+	protected abstract Page<UserAccount> doGetAccountUserAccountsPage(
+			Long accountId, String search,
+			com.liferay.portal.kernel.search.filter.Filter filter,
+			Pagination pagination,
+			com.liferay.portal.kernel.search.Sort[] sorts)
+		throws Exception;
+
 	/**
 	 * Invoke this method with the command line:
 	 *
@@ -615,7 +623,7 @@ public abstract class BaseUserAccountResourceImpl
 	@jakarta.ws.rs.Path("/accounts/{accountId}/user-accounts")
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<UserAccount> getAccountUserAccountsPage(
+	public final Page<UserAccount> getAccountUserAccountsPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.validation.constraints.NotNull
 			@jakarta.ws.rs.PathParam("accountId")
@@ -630,7 +638,27 @@ public abstract class BaseUserAccountResourceImpl
 				sorts)
 		throws Exception {
 
-		return Page.of(Collections.emptyList());
+		Page<UserAccount> userAccountsPage = doGetAccountUserAccountsPage(
+			accountId, search, filter, pagination, sorts);
+
+		for (UserAccount userAccount : userAccountsPage.getItems()) {
+			userAccount.setPermissions(
+				() -> NestedFieldsSupplier.supply(
+					"permissions",
+					nestedField -> {
+						Page<Permission> permissionsPage =
+							getUserAccountPermissionsPage(
+								userAccount.getId(), null);
+
+						Collection<Permission> permissions =
+							permissionsPage.getItems();
+
+						return permissions.toArray(
+							new Permission[permissions.size()]);
+					}));
+		}
+
+		return userAccountsPage;
 	}
 
 	/**
@@ -716,6 +744,13 @@ public abstract class BaseUserAccountResourceImpl
 		return Page.of(Collections.emptyList());
 	}
 
+	protected abstract Page<UserAccount> doGetOrganizationUserAccountsPage(
+			String organizationId, String search,
+			com.liferay.portal.kernel.search.filter.Filter filter,
+			Pagination pagination,
+			com.liferay.portal.kernel.search.Sort[] sorts)
+		throws Exception;
+
 	/**
 	 * Invoke this method with the command line:
 	 *
@@ -759,7 +794,7 @@ public abstract class BaseUserAccountResourceImpl
 	@jakarta.ws.rs.Path("/organizations/{organizationId}/user-accounts")
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<UserAccount> getOrganizationUserAccountsPage(
+	public final Page<UserAccount> getOrganizationUserAccountsPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.validation.constraints.NotNull
 			@jakarta.ws.rs.PathParam("organizationId")
@@ -774,7 +809,27 @@ public abstract class BaseUserAccountResourceImpl
 				sorts)
 		throws Exception {
 
-		return Page.of(Collections.emptyList());
+		Page<UserAccount> userAccountsPage = doGetOrganizationUserAccountsPage(
+			organizationId, search, filter, pagination, sorts);
+
+		for (UserAccount userAccount : userAccountsPage.getItems()) {
+			userAccount.setPermissions(
+				() -> NestedFieldsSupplier.supply(
+					"permissions",
+					nestedField -> {
+						Page<Permission> permissionsPage =
+							getUserAccountPermissionsPage(
+								userAccount.getId(), null);
+
+						Collection<Permission> permissions =
+							permissionsPage.getItems();
+
+						return permissions.toArray(
+							new Permission[permissions.size()]);
+					}));
+		}
+
+		return userAccountsPage;
 	}
 
 	/**
@@ -880,6 +935,13 @@ public abstract class BaseUserAccountResourceImpl
 		return false;
 	}
 
+	protected abstract Page<UserAccount> doGetSiteUserAccountsPage(
+			Long siteId, String search,
+			com.liferay.portal.kernel.search.filter.Filter filter,
+			Pagination pagination,
+			com.liferay.portal.kernel.search.Sort[] sorts)
+		throws Exception;
+
 	/**
 	 * Invoke this method with the command line:
 	 *
@@ -923,7 +985,7 @@ public abstract class BaseUserAccountResourceImpl
 	@jakarta.ws.rs.Path("/sites/{siteId}/user-accounts")
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<UserAccount> getSiteUserAccountsPage(
+	public final Page<UserAccount> getSiteUserAccountsPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.validation.constraints.NotNull
 			@jakarta.ws.rs.PathParam("siteId")
@@ -938,8 +1000,31 @@ public abstract class BaseUserAccountResourceImpl
 				sorts)
 		throws Exception {
 
-		return Page.of(Collections.emptyList());
+		Page<UserAccount> userAccountsPage = doGetSiteUserAccountsPage(
+			siteId, search, filter, pagination, sorts);
+
+		for (UserAccount userAccount : userAccountsPage.getItems()) {
+			userAccount.setPermissions(
+				() -> NestedFieldsSupplier.supply(
+					"permissions",
+					nestedField -> {
+						Page<Permission> permissionsPage =
+							getUserAccountPermissionsPage(
+								userAccount.getId(), null);
+
+						Collection<Permission> permissions =
+							permissionsPage.getItems();
+
+						return permissions.toArray(
+							new Permission[permissions.size()]);
+					}));
+		}
+
+		return userAccountsPage;
 	}
+
+	protected abstract UserAccount doGetUserAccount(Long userAccountId)
+		throws Exception;
 
 	/**
 	 * Invoke this method with the command line:
@@ -964,14 +1049,31 @@ public abstract class BaseUserAccountResourceImpl
 	@jakarta.ws.rs.Path("/user-accounts/{userAccountId}")
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public UserAccount getUserAccount(
+	public final UserAccount getUserAccount(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.validation.constraints.NotNull
 			@jakarta.ws.rs.PathParam("userAccountId")
 			Long userAccountId)
 		throws Exception {
 
-		return new UserAccount();
+		UserAccount getUserAccount = doGetUserAccount(userAccountId);
+
+		getUserAccount.setPermissions(
+			() -> NestedFieldsSupplier.supply(
+				"permissions",
+				nestedField -> {
+					Page<Permission> permissionsPage =
+						getUserAccountPermissionsPage(
+							getUserAccount.getId(), null);
+
+					Collection<Permission> permissions =
+						permissionsPage.getItems();
+
+					return permissions.toArray(
+						new Permission[permissions.size()]);
+				}));
+
+		return getUserAccount;
 	}
 
 	/**
@@ -1004,6 +1106,10 @@ public abstract class BaseUserAccountResourceImpl
 		return new UserAccount();
 	}
 
+	protected abstract UserAccount doGetUserAccountByExternalReferenceCode(
+			String externalReferenceCode)
+		throws Exception;
+
 	/**
 	 * Invoke this method with the command line:
 	 *
@@ -1026,14 +1132,32 @@ public abstract class BaseUserAccountResourceImpl
 	)
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public UserAccount getUserAccountByExternalReferenceCode(
+	public final UserAccount getUserAccountByExternalReferenceCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.validation.constraints.NotNull
 			@jakarta.ws.rs.PathParam("externalReferenceCode")
 			String externalReferenceCode)
 		throws Exception {
 
-		return new UserAccount();
+		UserAccount getUserAccount = doGetUserAccountByExternalReferenceCode(
+			externalReferenceCode);
+
+		getUserAccount.setPermissions(
+			() -> NestedFieldsSupplier.supply(
+				"permissions",
+				nestedField -> {
+					Page<Permission> permissionsPage =
+						getUserAccountPermissionsPage(
+							getUserAccount.getId(), null);
+
+					Collection<Permission> permissions =
+						permissionsPage.getItems();
+
+					return permissions.toArray(
+						new Permission[permissions.size()]);
+				}));
+
+		return getUserAccount;
 	}
 
 	/**
@@ -1163,6 +1287,13 @@ public abstract class BaseUserAccountResourceImpl
 		return Page.of(Collections.emptyList());
 	}
 
+	protected abstract Page<UserAccount> doGetUserAccountsPage(
+			String search,
+			com.liferay.portal.kernel.search.filter.Filter filter,
+			Pagination pagination,
+			com.liferay.portal.kernel.search.Sort[] sorts)
+		throws Exception;
+
 	/**
 	 * Invoke this method with the command line:
 	 *
@@ -1202,7 +1333,7 @@ public abstract class BaseUserAccountResourceImpl
 	@jakarta.ws.rs.Path("/user-accounts")
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<UserAccount> getUserAccountsPage(
+	public final Page<UserAccount> getUserAccountsPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.ws.rs.QueryParam("search")
 			String search,
@@ -1213,7 +1344,27 @@ public abstract class BaseUserAccountResourceImpl
 				sorts)
 		throws Exception {
 
-		return Page.of(Collections.emptyList());
+		Page<UserAccount> userAccountsPage = doGetUserAccountsPage(
+			search, filter, pagination, sorts);
+
+		for (UserAccount userAccount : userAccountsPage.getItems()) {
+			userAccount.setPermissions(
+				() -> NestedFieldsSupplier.supply(
+					"permissions",
+					nestedField -> {
+						Page<Permission> permissionsPage =
+							getUserAccountPermissionsPage(
+								userAccount.getId(), null);
+
+						Collection<Permission> permissions =
+							permissionsPage.getItems();
+
+						return permissions.toArray(
+							new Permission[permissions.size()]);
+					}));
+		}
+
+		return userAccountsPage;
 	}
 
 	/**
@@ -1729,6 +1880,10 @@ public abstract class BaseUserAccountResourceImpl
 		throws Exception {
 	}
 
+	protected abstract UserAccount doPostAccountUserAccount(
+			Long accountId, UserAccount userAccount)
+		throws Exception;
+
 	/**
 	 * Invoke this method with the command line:
 	 *
@@ -1753,7 +1908,7 @@ public abstract class BaseUserAccountResourceImpl
 	@jakarta.ws.rs.POST
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public UserAccount postAccountUserAccount(
+	public final UserAccount postAccountUserAccount(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.validation.constraints.NotNull
 			@jakarta.ws.rs.PathParam("accountId")
@@ -1761,7 +1916,28 @@ public abstract class BaseUserAccountResourceImpl
 			UserAccount userAccount)
 		throws Exception {
 
-		return new UserAccount();
+		Permission[] permissions = userAccount.getPermissions();
+
+		UserAccount postUserAccount = doPostAccountUserAccount(
+			accountId, userAccount);
+
+		if (permissions != null) {
+			Page<Permission> permissionsPage = putUserAccountPermissionsPage(
+				postUserAccount.getId(), permissions);
+
+			postUserAccount.setPermissions(
+				() -> NestedFieldsSupplier.supply(
+					"permissions",
+					nestedField -> {
+						Collection<Permission> collection =
+							permissionsPage.getItems();
+
+						return collection.toArray(
+							new Permission[collection.size()]);
+					}));
+		}
+
+		return postUserAccount;
 	}
 
 	/**
@@ -2293,6 +2469,10 @@ public abstract class BaseUserAccountResourceImpl
 		).build();
 	}
 
+	protected abstract UserAccount doPostUserAccount(
+			String captchaAnswer, String captchaToken, UserAccount userAccount)
+		throws Exception;
+
 	/**
 	 * Invoke this method with the command line:
 	 *
@@ -2321,7 +2501,7 @@ public abstract class BaseUserAccountResourceImpl
 	@jakarta.ws.rs.POST
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public UserAccount postUserAccount(
+	public final UserAccount postUserAccount(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.ws.rs.QueryParam("captchaAnswer")
 			String captchaAnswer,
@@ -2331,7 +2511,28 @@ public abstract class BaseUserAccountResourceImpl
 			UserAccount userAccount)
 		throws Exception {
 
-		return new UserAccount();
+		Permission[] permissions = userAccount.getPermissions();
+
+		UserAccount postUserAccount = doPostUserAccount(
+			captchaAnswer, captchaToken, userAccount);
+
+		if (permissions != null) {
+			Page<Permission> permissionsPage = putUserAccountPermissionsPage(
+				postUserAccount.getId(), permissions);
+
+			postUserAccount.setPermissions(
+				() -> NestedFieldsSupplier.supply(
+					"permissions",
+					nestedField -> {
+						Collection<Permission> collection =
+							permissionsPage.getItems();
+
+						return collection.toArray(
+							new Permission[collection.size()]);
+					}));
+		}
+
+		return postUserAccount;
 	}
 
 	/**
@@ -2505,6 +2706,10 @@ public abstract class BaseUserAccountResourceImpl
 		).build();
 	}
 
+	protected abstract UserAccount doPutUserAccount(
+			Long userAccountId, UserAccount userAccount)
+		throws Exception;
+
 	/**
 	 * Invoke this method with the command line:
 	 *
@@ -2529,7 +2734,7 @@ public abstract class BaseUserAccountResourceImpl
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@jakarta.ws.rs.PUT
 	@Override
-	public UserAccount putUserAccount(
+	public final UserAccount putUserAccount(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.validation.constraints.NotNull
 			@jakarta.ws.rs.PathParam("userAccountId")
@@ -2537,7 +2742,28 @@ public abstract class BaseUserAccountResourceImpl
 			UserAccount userAccount)
 		throws Exception {
 
-		return new UserAccount();
+		Permission[] permissions = userAccount.getPermissions();
+
+		UserAccount putUserAccount = doPutUserAccount(
+			userAccountId, userAccount);
+
+		if (permissions != null) {
+			Page<Permission> permissionsPage = putUserAccountPermissionsPage(
+				putUserAccount.getId(), permissions);
+
+			putUserAccount.setPermissions(
+				() -> NestedFieldsSupplier.supply(
+					"permissions",
+					nestedField -> {
+						Collection<Permission> collection =
+							permissionsPage.getItems();
+
+						return collection.toArray(
+							new Permission[collection.size()]);
+					}));
+		}
+
+		return putUserAccount;
 	}
 
 	/**
@@ -2584,6 +2810,10 @@ public abstract class BaseUserAccountResourceImpl
 		).build();
 	}
 
+	protected abstract UserAccount doPutUserAccountByExternalReferenceCode(
+			String externalReferenceCode, UserAccount userAccount)
+		throws Exception;
+
 	/**
 	 * Invoke this method with the command line:
 	 *
@@ -2607,7 +2837,7 @@ public abstract class BaseUserAccountResourceImpl
 	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
 	@jakarta.ws.rs.PUT
 	@Override
-	public UserAccount putUserAccountByExternalReferenceCode(
+	public final UserAccount putUserAccountByExternalReferenceCode(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@jakarta.validation.constraints.NotNull
 			@jakarta.ws.rs.PathParam("externalReferenceCode")
@@ -2615,7 +2845,28 @@ public abstract class BaseUserAccountResourceImpl
 			UserAccount userAccount)
 		throws Exception {
 
-		return new UserAccount();
+		Permission[] permissions = userAccount.getPermissions();
+
+		UserAccount putUserAccount = doPutUserAccountByExternalReferenceCode(
+			externalReferenceCode, userAccount);
+
+		if (permissions != null) {
+			Page<Permission> permissionsPage = putUserAccountPermissionsPage(
+				putUserAccount.getId(), permissions);
+
+			putUserAccount.setPermissions(
+				() -> NestedFieldsSupplier.supply(
+					"permissions",
+					nestedField -> {
+						Collection<Permission> collection =
+							permissionsPage.getItems();
+
+						return collection.toArray(
+							new Permission[collection.size()]);
+					}));
+		}
+
+		return putUserAccount;
 	}
 
 	/**
