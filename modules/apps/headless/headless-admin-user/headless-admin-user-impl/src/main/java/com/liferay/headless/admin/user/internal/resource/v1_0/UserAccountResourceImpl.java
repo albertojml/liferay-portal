@@ -279,58 +279,6 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 			search, filter, pagination, sorts);
 	}
 
-	@NestedField(parentClass = Account.class, value = "accountUserAccounts")
-	@Override
-	public Page<UserAccount> getAccountUserAccountsPage(
-			@NestedFieldId(value = "id") Long accountId, String search,
-			Filter filter, Pagination pagination, Sort[] sorts)
-		throws Exception {
-
-		Map<String, Map<String, String>> actions = _getModelActions(
-			Collections.singletonMap(
-				ActionKeys.MANAGE_USERS,
-				new String[] {
-					"deleteAccountUserAccountByEmailAddress",
-					"deleteAccountUserAccountByExternalReferenceCodeBy" +
-						"EmailAddress",
-					"deleteAccountUserAccountsByEmailAddress",
-					"deleteAccountUserAccountsByExternalReferenceCodeBy" +
-						"EmailAddress",
-					"getAccountUserAccountsByExternalReferenceCodePage",
-					"getAccountUserAccountsPage", "postAccountUserAccount",
-					"postAccountUserAccountBatch",
-					"postAccountUserAccountByEmailAddress",
-					"postAccountUserAccountByExternalReferenceCode",
-					"postAccountUserAccountByExternalReferenceCodeBy" +
-						"EmailAddress",
-					"postAccountUserAccountsByEmailAddress",
-					"postAccountUserAccountsByExternalReferenceCodeBy" +
-						"EmailAddress"
-				}),
-			accountId, _accountEntryModelResourcePermission);
-
-		return SearchUtil.search(
-			actions,
-			booleanQuery -> {
-				BooleanFilter booleanFilter =
-					booleanQuery.getPreBooleanFilter();
-
-				booleanFilter.add(
-					new TermFilter(
-						"accountEntryIds", String.valueOf(accountId)),
-					BooleanClauseOccur.MUST);
-			},
-			filter, User.class.getName(), search, pagination,
-			queryConfig -> queryConfig.setSelectedFieldNames(
-				Field.ENTRY_CLASS_PK),
-			searchContext -> searchContext.setCompanyId(
-				contextCompany.getCompanyId()),
-			sorts,
-			document -> _toUserAccount(
-				actions,
-				GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK))));
-	}
-
 	@Override
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap) {
 		return new UserAccountEntityModel(
@@ -363,40 +311,6 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 		return getOrganizationUserAccountsPage(
 			String.valueOf(organization.getOrganizationId()), search, filter,
 			pagination, sorts);
-	}
-
-	@NestedField(
-		parentClass = com.liferay.headless.admin.user.dto.v1_0.Organization.class,
-		value = "userAccounts"
-	)
-	@Override
-	public Page<UserAccount> getOrganizationUserAccountsPage(
-			@NestedFieldId(value = "id") String organizationId, String search,
-			Filter filter, Pagination pagination, Sort[] sorts)
-		throws Exception {
-
-		return _getUserAccountsPage(
-			_getModelActions(
-				Collections.singletonMap(
-					ActionKeys.MANAGE_USERS,
-					new String[] {"getOrganizationUserAccountsPage"}),
-				DTOConverterUtil.getModelPrimaryKey(
-					_organizationOrganizationDTOConverter, organizationId),
-				_organizationModelResourcePermission),
-			booleanQuery -> {
-				BooleanFilter booleanFilter =
-					booleanQuery.getPreBooleanFilter();
-
-				booleanFilter.add(
-					new TermFilter(
-						"organizationIds",
-						String.valueOf(
-							DTOConverterUtil.getModelPrimaryKey(
-								_organizationOrganizationDTOConverter,
-								organizationId))),
-					BooleanClauseOccur.MUST);
-			},
-			filter, search, pagination, sorts, null);
 	}
 
 	@Override
@@ -442,50 +356,12 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 	}
 
 	@Override
-	public Page<UserAccount> getSiteUserAccountsPage(
-			Long siteId, String search, Filter filter, Pagination pagination,
-			Sort[] sorts)
-		throws Exception {
-
-		return _getUserAccountsPage(
-			Collections.singletonMap(
-				_formatActionMapKey("getSiteUserAccountsPage"),
-				addAction(
-					_formatActionMapKey("getSiteUserAccountsPage"),
-					"getSiteUserAccountsPage", User.class.getName(), siteId)),
-			booleanQuery -> {
-				BooleanFilter booleanFilter =
-					booleanQuery.getPreBooleanFilter();
-
-				booleanFilter.add(
-					new TermFilter("groupId", String.valueOf(siteId)),
-					BooleanClauseOccur.MUST);
-			},
-			filter, search, pagination, sorts, null);
-	}
-
-	@Override
-	public UserAccount getUserAccount(Long userAccountId) throws Exception {
-		return _toUserAccount(_userService.getUserById(userAccountId));
-	}
-
-	@Override
 	public UserAccount getUserAccountByEmailAddress(String emailAddress)
 		throws Exception {
 
 		return _toUserAccount(
 			_userService.getUserByEmailAddress(
 				contextCompany.getCompanyId(), emailAddress));
-	}
-
-	@Override
-	public UserAccount getUserAccountByExternalReferenceCode(
-			String externalReferenceCode)
-		throws Exception {
-
-		return _toUserAccount(
-			_userService.getUserByExternalReferenceCode(
-				externalReferenceCode, contextCompany.getCompanyId()));
 	}
 
 	@Override
@@ -542,36 +418,6 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 					BooleanClauseOccur.MUST_NOT);
 			},
 			filter, search, pagination, sorts, statusInteger);
-	}
-
-	@Override
-	public Page<UserAccount> getUserAccountsPage(
-			String search, Filter filter, Pagination pagination, Sort[] sorts)
-		throws Exception {
-
-		return _getUserAccountsPage(
-			HashMapBuilder.<String, Map<String, String>>putAll(
-				_getCompanyScopeActions(
-					ActionKeys.VIEW, new String[] {"getUserAccountsPage"},
-					User.class.getName())
-			).putAll(
-				_getCompanyScopeActions(
-					ActionKeys.ADD_USER,
-					new String[] {
-						"postUserAccount",
-						"putUserAccountByExternalReferenceCode"
-					},
-					PortletKeys.PORTAL)
-			).build(),
-			booleanQuery -> {
-				BooleanFilter booleanFilter =
-					booleanQuery.getPreBooleanFilter();
-
-				booleanFilter.add(
-					new TermFilter("userName", StringPool.BLANK),
-					BooleanClauseOccur.MUST_NOT);
-			},
-			filter, search, pagination, sorts, null);
 	}
 
 	@Override
@@ -829,75 +675,6 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 	}
 
 	@Override
-	public UserAccount postAccountUserAccount(
-			Long accountId, UserAccount userAccount)
-		throws Exception {
-
-		AccountEntryUserRel accountEntryUserRel =
-			_accountEntryUserRelService.addAccountEntryUserRel(
-				accountId, contextUser.getUserId(),
-				userAccount.getAlternateName(), userAccount.getEmailAddress(),
-				_getLocale(userAccount), userAccount.getGivenName(),
-				userAccount.getAdditionalName(), userAccount.getFamilyName(),
-				_getPrefixId(null, userAccount),
-				_getSuffixId(null, userAccount), userAccount.getJobTitle(),
-				ServiceContextFactory.getInstance(contextHttpServletRequest));
-
-		User user = accountEntryUserRel.getUser();
-
-		Contact contact = user.getContact();
-
-		String sms = null;
-		String facebook = null;
-		String jabber = null;
-		String skype = null;
-		String twitter = null;
-
-		UserAccountContactInformation userAccountContactInformation =
-			userAccount.getUserAccountContactInformation();
-
-		if (userAccountContactInformation != null) {
-			sms = userAccountContactInformation.getSms();
-			facebook = userAccountContactInformation.getFacebook();
-			jabber = userAccountContactInformation.getJabber();
-			skype = userAccountContactInformation.getSkype();
-			twitter = userAccountContactInformation.getTwitter();
-		}
-
-		user = _userLocalService.updateUser(
-			user.getUserId(), null, null, null, false,
-			user.getReminderQueryQuestion(), user.getReminderQueryAnswer(),
-			user.getScreenName(), user.getEmailAddress(),
-			_hasPortrait(null, userAccount),
-			_getPortraitBytes(false, user, userAccount), user.getLanguageId(),
-			user.getTimeZoneId(), user.getGreeting(), user.getComments(),
-			user.getFirstName(), user.getMiddleName(), user.getLastName(),
-			contact.getPrefixListTypeId(), contact.getSuffixListTypeId(),
-			user.isMale(), _getBirthdayMonth(Calendar.JANUARY, userAccount),
-			_getBirthdayDay(1, userAccount),
-			_getBirthdayYear(1977, userAccount), sms, facebook, jabber, skype,
-			twitter, user.getJobTitle(), user.getGroupIds(),
-			user.getOrganizationIds(), user.getRoleIds(), null,
-			user.getUserGroupIds(), _createServiceContext(userAccount));
-
-		UsersAdminUtil.updateAddresses(
-			Contact.class.getName(), user.getContactId(),
-			_getAddresses(null, userAccount),
-			ListTypeConstants.CONTACT_ADDRESS);
-		UsersAdminUtil.updateEmailAddresses(
-			Contact.class.getName(), user.getContactId(),
-			_getServiceBuilderEmailAddresses(null, userAccount));
-		UsersAdminUtil.updatePhones(
-			Contact.class.getName(), user.getContactId(),
-			_getServiceBuilderPhones(null, userAccount));
-		UsersAdminUtil.updateWebsites(
-			Contact.class.getName(), user.getContactId(),
-			_getWebsites(null, userAccount));
-
-		return _toUserAccount(user);
-	}
-
-	@Override
 	public UserAccount postAccountUserAccountByEmailAddress(
 			Long accountId, String emailAddress)
 		throws Exception {
@@ -992,7 +769,245 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 	}
 
 	@Override
-	public UserAccount postUserAccount(
+	public Response postUserAccountImage(
+			Long userAccountId, MultipartBody multipartBody)
+		throws Exception {
+
+		_userService.updatePortrait(
+			userAccountId, multipartBody.getBinaryFileAsBytes("image"));
+
+		Response.ResponseBuilder responseBuilder = Response.noContent();
+
+		return responseBuilder.build();
+	}
+
+	@NestedField(parentClass = Account.class, value = "accountUserAccounts")
+	@Override
+	protected Page<UserAccount> doGetAccountUserAccountsPage(
+			@NestedFieldId(value = "id") Long accountId, String search,
+			Filter filter, Pagination pagination, Sort[] sorts)
+		throws Exception {
+
+		Map<String, Map<String, String>> actions = _getModelActions(
+			Collections.singletonMap(
+				ActionKeys.MANAGE_USERS,
+				new String[] {
+					"deleteAccountUserAccountByEmailAddress",
+					"deleteAccountUserAccountByExternalReferenceCodeBy" +
+						"EmailAddress",
+					"deleteAccountUserAccountsByEmailAddress",
+					"deleteAccountUserAccountsByExternalReferenceCodeBy" +
+						"EmailAddress",
+					"getAccountUserAccountsByExternalReferenceCodePage",
+					"getAccountUserAccountsPage", "postAccountUserAccount",
+					"postAccountUserAccountBatch",
+					"postAccountUserAccountByEmailAddress",
+					"postAccountUserAccountByExternalReferenceCode",
+					"postAccountUserAccountByExternalReferenceCodeBy" +
+						"EmailAddress",
+					"postAccountUserAccountsByEmailAddress",
+					"postAccountUserAccountsByExternalReferenceCodeBy" +
+						"EmailAddress"
+				}),
+			accountId, _accountEntryModelResourcePermission);
+
+		return SearchUtil.search(
+			actions,
+			booleanQuery -> {
+				BooleanFilter booleanFilter =
+					booleanQuery.getPreBooleanFilter();
+
+				booleanFilter.add(
+					new TermFilter(
+						"accountEntryIds", String.valueOf(accountId)),
+					BooleanClauseOccur.MUST);
+			},
+			filter, User.class.getName(), search, pagination,
+			queryConfig -> queryConfig.setSelectedFieldNames(
+				Field.ENTRY_CLASS_PK),
+			searchContext -> searchContext.setCompanyId(
+				contextCompany.getCompanyId()),
+			sorts,
+			document -> _toUserAccount(
+				actions,
+				GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK))));
+	}
+
+	@NestedField(
+		parentClass = com.liferay.headless.admin.user.dto.v1_0.Organization.class,
+		value = "userAccounts"
+	)
+	@Override
+	protected Page<UserAccount> doGetOrganizationUserAccountsPage(
+			@NestedFieldId(value = "id") String organizationId, String search,
+			Filter filter, Pagination pagination, Sort[] sorts)
+		throws Exception {
+
+		return _getUserAccountsPage(
+			_getModelActions(
+				Collections.singletonMap(
+					ActionKeys.MANAGE_USERS,
+					new String[] {"getOrganizationUserAccountsPage"}),
+				DTOConverterUtil.getModelPrimaryKey(
+					_organizationOrganizationDTOConverter, organizationId),
+				_organizationModelResourcePermission),
+			booleanQuery -> {
+				BooleanFilter booleanFilter =
+					booleanQuery.getPreBooleanFilter();
+
+				booleanFilter.add(
+					new TermFilter(
+						"organizationIds",
+						String.valueOf(
+							DTOConverterUtil.getModelPrimaryKey(
+								_organizationOrganizationDTOConverter,
+								organizationId))),
+					BooleanClauseOccur.MUST);
+			},
+			filter, search, pagination, sorts, null);
+	}
+
+	@Override
+	protected Page<UserAccount> doGetSiteUserAccountsPage(
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
+		throws Exception {
+
+		return _getUserAccountsPage(
+			Collections.singletonMap(
+				_formatActionMapKey("getSiteUserAccountsPage"),
+				addAction(
+					_formatActionMapKey("getSiteUserAccountsPage"),
+					"getSiteUserAccountsPage", User.class.getName(), siteId)),
+			booleanQuery -> {
+				BooleanFilter booleanFilter =
+					booleanQuery.getPreBooleanFilter();
+
+				booleanFilter.add(
+					new TermFilter("groupId", String.valueOf(siteId)),
+					BooleanClauseOccur.MUST);
+			},
+			filter, search, pagination, sorts, null);
+	}
+
+	@Override
+	protected UserAccount doGetUserAccount(Long userAccountId)
+		throws Exception {
+
+		return _toUserAccount(_userService.getUserById(userAccountId));
+	}
+
+	@Override
+	protected UserAccount doGetUserAccountByExternalReferenceCode(
+			String externalReferenceCode)
+		throws Exception {
+
+		return _toUserAccount(
+			_userService.getUserByExternalReferenceCode(
+				externalReferenceCode, contextCompany.getCompanyId()));
+	}
+
+	@Override
+	protected Page<UserAccount> doGetUserAccountsPage(
+			String search, Filter filter, Pagination pagination, Sort[] sorts)
+		throws Exception {
+
+		return _getUserAccountsPage(
+			HashMapBuilder.<String, Map<String, String>>putAll(
+				_getCompanyScopeActions(
+					ActionKeys.VIEW, new String[] {"getUserAccountsPage"},
+					User.class.getName())
+			).putAll(
+				_getCompanyScopeActions(
+					ActionKeys.ADD_USER,
+					new String[] {
+						"postUserAccount",
+						"putUserAccountByExternalReferenceCode"
+					},
+					PortletKeys.PORTAL)
+			).build(),
+			booleanQuery -> {
+				BooleanFilter booleanFilter =
+					booleanQuery.getPreBooleanFilter();
+
+				booleanFilter.add(
+					new TermFilter("userName", StringPool.BLANK),
+					BooleanClauseOccur.MUST_NOT);
+			},
+			filter, search, pagination, sorts, null);
+	}
+
+	@Override
+	protected UserAccount doPostAccountUserAccount(
+			Long accountId, UserAccount userAccount)
+		throws Exception {
+
+		AccountEntryUserRel accountEntryUserRel =
+			_accountEntryUserRelService.addAccountEntryUserRel(
+				accountId, contextUser.getUserId(),
+				userAccount.getAlternateName(), userAccount.getEmailAddress(),
+				_getLocale(userAccount), userAccount.getGivenName(),
+				userAccount.getAdditionalName(), userAccount.getFamilyName(),
+				_getPrefixId(null, userAccount),
+				_getSuffixId(null, userAccount), userAccount.getJobTitle(),
+				ServiceContextFactory.getInstance(contextHttpServletRequest));
+
+		User user = accountEntryUserRel.getUser();
+
+		Contact contact = user.getContact();
+
+		String sms = null;
+		String facebook = null;
+		String jabber = null;
+		String skype = null;
+		String twitter = null;
+
+		UserAccountContactInformation userAccountContactInformation =
+			userAccount.getUserAccountContactInformation();
+
+		if (userAccountContactInformation != null) {
+			sms = userAccountContactInformation.getSms();
+			facebook = userAccountContactInformation.getFacebook();
+			jabber = userAccountContactInformation.getJabber();
+			skype = userAccountContactInformation.getSkype();
+			twitter = userAccountContactInformation.getTwitter();
+		}
+
+		user = _userLocalService.updateUser(
+			user.getUserId(), null, null, null, false,
+			user.getReminderQueryQuestion(), user.getReminderQueryAnswer(),
+			user.getScreenName(), user.getEmailAddress(),
+			_hasPortrait(null, userAccount),
+			_getPortraitBytes(false, user, userAccount), user.getLanguageId(),
+			user.getTimeZoneId(), user.getGreeting(), user.getComments(),
+			user.getFirstName(), user.getMiddleName(), user.getLastName(),
+			contact.getPrefixListTypeId(), contact.getSuffixListTypeId(),
+			user.isMale(), _getBirthdayMonth(Calendar.JANUARY, userAccount),
+			_getBirthdayDay(1, userAccount),
+			_getBirthdayYear(1977, userAccount), sms, facebook, jabber, skype,
+			twitter, user.getJobTitle(), user.getGroupIds(),
+			user.getOrganizationIds(), user.getRoleIds(), null,
+			user.getUserGroupIds(), _createServiceContext(userAccount));
+
+		UsersAdminUtil.updateAddresses(
+			Contact.class.getName(), user.getContactId(),
+			_getAddresses(null, userAccount),
+			ListTypeConstants.CONTACT_ADDRESS);
+		UsersAdminUtil.updateEmailAddresses(
+			Contact.class.getName(), user.getContactId(),
+			_getServiceBuilderEmailAddresses(null, userAccount));
+		UsersAdminUtil.updatePhones(
+			Contact.class.getName(), user.getContactId(),
+			_getServiceBuilderPhones(null, userAccount));
+		UsersAdminUtil.updateWebsites(
+			Contact.class.getName(), user.getContactId(),
+			_getWebsites(null, userAccount));
+
+		return _toUserAccount(user);
+	}
+
+	@Override
+	protected UserAccount doPostUserAccount(
 			String captchaAnswer, String captchaToken, UserAccount userAccount)
 		throws Exception {
 
@@ -1120,20 +1135,7 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 	}
 
 	@Override
-	public Response postUserAccountImage(
-			Long userAccountId, MultipartBody multipartBody)
-		throws Exception {
-
-		_userService.updatePortrait(
-			userAccountId, multipartBody.getBinaryFileAsBytes("image"));
-
-		Response.ResponseBuilder responseBuilder = Response.noContent();
-
-		return responseBuilder.build();
-	}
-
-	@Override
-	public UserAccount putUserAccount(
+	protected UserAccount doPutUserAccount(
 			Long userAccountId, UserAccount userAccount)
 		throws Exception {
 
@@ -1226,7 +1228,7 @@ public class UserAccountResourceImpl extends BaseUserAccountResourceImpl {
 	}
 
 	@Override
-	public UserAccount putUserAccountByExternalReferenceCode(
+	protected UserAccount doPutUserAccountByExternalReferenceCode(
 			String externalReferenceCode, UserAccount userAccount)
 		throws Exception {
 
