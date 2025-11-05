@@ -13,10 +13,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
+import com.liferay.headless.admin.user.client.dto.v1_0.Role;
 import com.liferay.headless.admin.user.client.dto.v1_0.UserAccount;
 import com.liferay.headless.admin.user.client.http.HttpInvoker;
 import com.liferay.headless.admin.user.client.pagination.Page;
 import com.liferay.headless.admin.user.client.pagination.Pagination;
+import com.liferay.headless.admin.user.client.permission.Permission;
 import com.liferay.headless.admin.user.client.resource.v1_0.UserAccountResource;
 import com.liferay.headless.admin.user.client.serdes.v1_0.UserAccountSerDes;
 import com.liferay.headless.batch.engine.client.dto.v1_0.ImportTask;
@@ -33,6 +35,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
@@ -42,6 +45,7 @@ import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.RoleTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateUtil;
@@ -4546,6 +4550,56 @@ public abstract class BaseUserAccountResourceTestCase {
 	}
 
 	@Test
+	public void testGetUserAccountPermissionsPage() throws Exception {
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		UserAccount postUserAccount =
+			testGetUserAccountPermissionsPage_addUserAccount();
+
+		Page<Permission> page =
+			userAccountResource.getUserAccountPermissionsPage(
+				postUserAccount.getId(), RoleConstants.GUEST);
+
+		Assert.assertNotNull(page);
+	}
+
+	protected UserAccount testGetUserAccountPermissionsPage_addUserAccount()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetUserAccountPermissionsPage() throws Exception {
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		UserAccount postUserAccount =
+			testGraphQLGetUserAccountPermissionsPage_addUserAccount();
+
+		GraphQLField graphQLField = new GraphQLField(
+			"userAccountPermissions",
+			new HashMap<String, Object>() {
+				{
+					put("userAccountId", postUserAccount.getId());
+				}
+			},
+			new GraphQLField("page"), new GraphQLField("totalCount"));
+
+		JSONObject userAccountPermissionsJSONObject =
+			JSONUtil.getValueAsJSONObject(
+				invokeGraphQLQuery(graphQLField), "JSONObject/data",
+				"JSONObject/userAccountPermissions");
+
+		Assert.assertNotNull(userAccountPermissionsJSONObject);
+	}
+
+	protected UserAccount
+			testGraphQLGetUserAccountPermissionsPage_addUserAccount()
+		throws Exception {
+
+		return testGraphQLUserAccount_addUserAccount();
+	}
+
+	@Test
 	public void testGetUserAccountsByStatusPage() throws Exception {
 		String status = testGetUserAccountsByStatusPage_getStatus();
 		String irrelevantStatus =
@@ -6783,6 +6837,50 @@ public abstract class BaseUserAccountResourceTestCase {
 		throws Exception {
 
 		return randomUserAccount();
+	}
+
+	@Test
+	public void testPutUserAccountPermissionsPage() throws Exception {
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		UserAccount userAccount =
+			testPutUserAccountPermissionsPage_addUserAccount();
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		com.liferay.portal.kernel.model.Role role = RoleTestUtil.addRole(
+			RoleConstants.TYPE_REGULAR);
+
+		assertHttpResponseStatusCode(
+			200,
+			userAccountResource.putUserAccountPermissionsPageHttpResponse(
+				userAccount.getId(),
+				new Permission[] {
+					new Permission() {
+						{
+							setActionIds(new String[] {"VIEW"});
+							setRoleName(role.getName());
+						}
+					}
+				}));
+
+		assertHttpResponseStatusCode(
+			404,
+			userAccountResource.putUserAccountPermissionsPageHttpResponse(
+				0L,
+				new Permission[] {
+					new Permission() {
+						{
+							setActionIds(new String[] {"-"});
+							setRoleName("-");
+						}
+					}
+				}));
+	}
+
+	protected UserAccount testPutUserAccountPermissionsPage_addUserAccount()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Test
