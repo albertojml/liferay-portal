@@ -87,6 +87,8 @@ public class BatchEngineImportTaskExecutorImpl
 				batchEngineImportTask.getClassName(),
 				batchEngineImportTask.getTaskItemDelegateName());
 
+		// -Devcon16- Execution
+
 		execute(batchEngineImportTask, batchEngineTaskItemDelegate, true);
 	}
 
@@ -154,6 +156,8 @@ public class BatchEngineImportTaskExecutorImpl
 
 			User user = _userLocalService.getUser(
 				batchEngineImportTask.getUserId());
+
+			// -Devcon17- We import the items file
 
 			BatchEngineTaskExecutorUtil.execute(
 				checkPermissions,
@@ -263,9 +267,15 @@ public class BatchEngineImportTaskExecutorImpl
 				batchEngineImportTask.getOperation());
 
 		if (batchEngineTaskOperation == BatchEngineTaskOperation.CREATE) {
+
+			// -Devcon19- We import the items
+
 			batchEngineTaskItemDelegate.create(items, parameters);
 		}
 		else if (batchEngineTaskOperation == BatchEngineTaskOperation.DELETE) {
+
+			// -DevconXX- We delete the items
+
 			batchEngineTaskItemDelegate.delete(items, parameters);
 		}
 		else {
@@ -469,6 +479,9 @@ public class BatchEngineImportTaskExecutorImpl
 				}
 
 				if (items.size() == batchEngineImportTask.getBatchSize()) {
+
+					// -Devcon18- Once we've processed the items, we commit them
+
 					_commitItems(
 						batchEngineImportTask, batchEngineTaskItemDelegate,
 						items, parameters, processedItemsCount);

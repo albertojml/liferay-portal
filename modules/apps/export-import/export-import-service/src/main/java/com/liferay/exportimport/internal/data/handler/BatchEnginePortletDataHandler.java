@@ -344,6 +344,8 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 			PortletPreferences portletPreferences, String data)
 		throws Exception {
 
+		// -Devcon14- Importing data through the BatchEnginePortletDataHandler
+
 		List<Registration> activeRegistrations = _getActiveRegistrations(
 			portletDataContext);
 
@@ -391,6 +393,8 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 					PortletDataContextThreadLocal.
 						setPortletDataContextWithSafeCloseable(
 							portletDataContext)) {
+
+				// -Devcon15- It ends up creating a Batch Engine import task
 
 				_batchEngineImportTaskExecutor.execute(batchEngineImportTask);
 			}

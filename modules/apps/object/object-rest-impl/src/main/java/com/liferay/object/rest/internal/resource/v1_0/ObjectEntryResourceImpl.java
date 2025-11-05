@@ -105,6 +105,8 @@ public class ObjectEntryResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
+		// -Devcon20- This ends up in the create of the API (objects in this case)
+
 		ObjectScopeProvider objectScopeProvider =
 			_objectScopeProviderRegistry.getObjectScopeProvider(
 				_objectDefinition.getScope());
@@ -122,6 +124,9 @@ public class ObjectEntryResourceImpl
 			}
 
 			if (StringUtil.equalsIgnoreCase(createStrategy, "UPSERT")) {
+
+				// -Devcon21- In the end is just a PUT API request
+
 				objectEntryUnsafeFunction =
 					objectEntry -> putScopeScopeKeyByExternalReferenceCode(
 						_getScopeKey(parameters),
@@ -1127,6 +1132,8 @@ public class ObjectEntryResourceImpl
 			String scopeKey, String externalReferenceCode,
 			ObjectEntry objectEntry)
 		throws Exception {
+
+		// -Devcon22- The put logic
 
 		ObjectEntryManager objectEntryManager =
 			_objectEntryManagerRegistry.getObjectEntryManager(
