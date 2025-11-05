@@ -158,6 +158,18 @@ public abstract class BaseUserAccountResourceTestCase {
 		).locale(
 			LocaleUtil.getDefault()
 		).build();
+
+		permissionsUserAccountResource = UserAccountResource.builder(
+		).authentication(
+			_testCompanyAdminUser.getEmailAddress(),
+			PropsValues.DEFAULT_ADMIN_PASSWORD
+		).endpoint(
+			testCompany.getVirtualHostname(), 8080, "http"
+		).locale(
+			LocaleUtil.getDefault()
+		).parameter(
+			"nestedFields", "permissions"
+		).build();
 	}
 
 	@After
@@ -2187,6 +2199,17 @@ public abstract class BaseUserAccountResourceTestCase {
 		assertValid(
 			page, testGetAccountUserAccountsPage_getExpectedActions(accountId));
 
+		for (UserAccount userAccount : page.getItems()) {
+			Assert.assertNull(userAccount.getPermissions());
+		}
+
+		page = permissionsUserAccountResource.getAccountUserAccountsPage(
+			accountId, null, null, Pagination.of(1, 10), null);
+
+		for (UserAccount userAccount : page.getItems()) {
+			Assert.assertNotNull(userAccount.getPermissions());
+		}
+
 		userAccountResource.deleteUserAccount(userAccount1.getId());
 
 		userAccountResource.deleteUserAccount(userAccount2.getId());
@@ -3191,6 +3214,17 @@ public abstract class BaseUserAccountResourceTestCase {
 			testGetOrganizationUserAccountsPage_getExpectedActions(
 				organizationId));
 
+		for (UserAccount userAccount : page.getItems()) {
+			Assert.assertNull(userAccount.getPermissions());
+		}
+
+		page = permissionsUserAccountResource.getOrganizationUserAccountsPage(
+			organizationId, null, null, Pagination.of(1, 10), null);
+
+		for (UserAccount userAccount : page.getItems()) {
+			Assert.assertNotNull(userAccount.getPermissions());
+		}
+
 		userAccountResource.deleteUserAccount(userAccount1.getId());
 
 		userAccountResource.deleteUserAccount(userAccount2.getId());
@@ -3633,6 +3667,17 @@ public abstract class BaseUserAccountResourceTestCase {
 		assertValid(
 			page, testGetSiteUserAccountsPage_getExpectedActions(siteId));
 
+		for (UserAccount userAccount : page.getItems()) {
+			Assert.assertNull(userAccount.getPermissions());
+		}
+
+		page = permissionsUserAccountResource.getSiteUserAccountsPage(
+			siteId, null, null, Pagination.of(1, 10), null);
+
+		for (UserAccount userAccount : page.getItems()) {
+			Assert.assertNotNull(userAccount.getPermissions());
+		}
+
 		userAccountResource.deleteUserAccount(userAccount1.getId());
 
 		userAccountResource.deleteUserAccount(userAccount2.getId());
@@ -3997,6 +4042,13 @@ public abstract class BaseUserAccountResourceTestCase {
 
 		assertEquals(postUserAccount, getUserAccount);
 		assertValid(getUserAccount);
+
+		Assert.assertNull(getUserAccount.getPermissions());
+
+		getUserAccount = permissionsUserAccountResource.getUserAccount(
+			postUserAccount.getId());
+
+		Assert.assertNotNull(getUserAccount.getPermissions());
 	}
 
 	@Test
@@ -4426,6 +4478,15 @@ public abstract class BaseUserAccountResourceTestCase {
 
 		assertEquals(postUserAccount, getUserAccount);
 		assertValid(getUserAccount);
+
+		Assert.assertNull(getUserAccount.getPermissions());
+
+		getUserAccount =
+			permissionsUserAccountResource.
+				getUserAccountByExternalReferenceCode(
+					postUserAccount.getExternalReferenceCode());
+
+		Assert.assertNotNull(getUserAccount.getPermissions());
 	}
 
 	protected UserAccount
@@ -5131,6 +5192,17 @@ public abstract class BaseUserAccountResourceTestCase {
 		assertContains(userAccount1, (List<UserAccount>)page.getItems());
 		assertContains(userAccount2, (List<UserAccount>)page.getItems());
 		assertValid(page, testGetUserAccountsPage_getExpectedActions());
+
+		for (UserAccount userAccount : page.getItems()) {
+			Assert.assertNull(userAccount.getPermissions());
+		}
+
+		page = permissionsUserAccountResource.getUserAccountsPage(
+			null, null, Pagination.of(1, 10), null);
+
+		for (UserAccount userAccount : page.getItems()) {
+			Assert.assertNotNull(userAccount.getPermissions());
+		}
 
 		userAccountResource.deleteUserAccount(userAccount1.getId());
 
@@ -6572,6 +6644,24 @@ public abstract class BaseUserAccountResourceTestCase {
 
 		assertEquals(randomUserAccount, postUserAccount);
 		assertValid(postUserAccount);
+
+		UserAccount randomPermissionsUserAccount1 =
+			randomPermissionsUserAccount();
+
+		UserAccount postPermissionsUserAccount1 =
+			testPostAccountUserAccount_addUserAccount(
+				randomPermissionsUserAccount1);
+
+		Assert.assertNull(postPermissionsUserAccount1.getPermissions());
+
+		UserAccount randomPermissionsUserAccount2 =
+			randomPermissionsUserAccount();
+
+		UserAccount postPermissionsUserAccount2 =
+			testPostAccountUserAccount_addPermissionsUserAccount(
+				randomPermissionsUserAccount2);
+
+		Assert.assertNotNull(postPermissionsUserAccount2.getPermissions());
 	}
 
 	protected UserAccount testPostAccountUserAccount_addUserAccount(
@@ -6579,6 +6669,14 @@ public abstract class BaseUserAccountResourceTestCase {
 		throws Exception {
 
 		return userAccountResource.postAccountUserAccount(
+			testGetAccountUserAccountsPage_getAccountId(), userAccount);
+	}
+
+	protected UserAccount testPostAccountUserAccount_addPermissionsUserAccount(
+			UserAccount userAccount)
+		throws Exception {
+
+		return permissionsUserAccountResource.postAccountUserAccount(
 			testGetAccountUserAccountsPage_getAccountId(), userAccount);
 	}
 
@@ -6733,9 +6831,34 @@ public abstract class BaseUserAccountResourceTestCase {
 
 		assertEquals(randomUserAccount, postUserAccount);
 		assertValid(postUserAccount);
+
+		UserAccount randomPermissionsUserAccount1 =
+			randomPermissionsUserAccount();
+
+		UserAccount postPermissionsUserAccount1 =
+			testPostUserAccount_addUserAccount(randomPermissionsUserAccount1);
+
+		Assert.assertNull(postPermissionsUserAccount1.getPermissions());
+
+		UserAccount randomPermissionsUserAccount2 =
+			randomPermissionsUserAccount();
+
+		UserAccount postPermissionsUserAccount2 =
+			testPostUserAccount_addPermissionsUserAccount(
+				randomPermissionsUserAccount2);
+
+		Assert.assertNotNull(postPermissionsUserAccount2.getPermissions());
 	}
 
 	protected UserAccount testPostUserAccount_addUserAccount(
+			UserAccount userAccount)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	protected UserAccount testPostUserAccount_addPermissionsUserAccount(
 			UserAccount userAccount)
 		throws Exception {
 
@@ -6770,11 +6893,29 @@ public abstract class BaseUserAccountResourceTestCase {
 		assertEquals(randomUserAccount, putUserAccount);
 		assertValid(putUserAccount);
 
+		Assert.assertNull(putUserAccount.getPermissions());
+
 		UserAccount getUserAccount = userAccountResource.getUserAccount(
 			putUserAccount.getId());
 
 		assertEquals(randomUserAccount, getUserAccount);
 		assertValid(getUserAccount);
+
+		UserAccount randomPermissionsUserAccount =
+			randomPermissionsUserAccount();
+
+		putUserAccount = userAccountResource.putUserAccount(
+			postUserAccount.getId(), randomPermissionsUserAccount);
+
+		assertEquals(randomPermissionsUserAccount, putUserAccount);
+		assertValid(putUserAccount);
+
+		Assert.assertNull(putUserAccount.getPermissions());
+
+		putUserAccount = permissionsUserAccountResource.putUserAccount(
+			postUserAccount.getId(), randomPermissionsUserAccount);
+
+		Assert.assertNotNull(putUserAccount.getPermissions());
 	}
 
 	protected UserAccount testPutUserAccount_addUserAccount() throws Exception {
@@ -6796,12 +6937,35 @@ public abstract class BaseUserAccountResourceTestCase {
 		assertEquals(randomUserAccount, putUserAccount);
 		assertValid(putUserAccount);
 
+		Assert.assertNull(putUserAccount.getPermissions());
+
 		UserAccount getUserAccount =
 			userAccountResource.getUserAccountByExternalReferenceCode(
 				putUserAccount.getExternalReferenceCode());
 
 		assertEquals(randomUserAccount, getUserAccount);
 		assertValid(getUserAccount);
+
+		UserAccount randomPermissionsUserAccount =
+			randomPermissionsUserAccount();
+
+		putUserAccount =
+			userAccountResource.putUserAccountByExternalReferenceCode(
+				postUserAccount.getExternalReferenceCode(),
+				randomPermissionsUserAccount);
+
+		assertEquals(randomPermissionsUserAccount, putUserAccount);
+		assertValid(putUserAccount);
+
+		Assert.assertNull(putUserAccount.getPermissions());
+
+		putUserAccount =
+			permissionsUserAccountResource.
+				putUserAccountByExternalReferenceCode(
+					postUserAccount.getExternalReferenceCode(),
+					randomPermissionsUserAccount);
+
+		Assert.assertNotNull(putUserAccount.getPermissions());
 
 		UserAccount newUserAccount =
 			testPutUserAccountByExternalReferenceCode_createUserAccount();
@@ -9356,6 +9520,25 @@ public abstract class BaseUserAccountResourceTestCase {
 		return randomUserAccount();
 	}
 
+	protected UserAccount randomPermissionsUserAccount() throws Exception {
+		UserAccount userAccount = randomUserAccount();
+
+		com.liferay.portal.kernel.model.Role role = RoleTestUtil.addRole(
+			RoleConstants.TYPE_REGULAR);
+
+		userAccount.setPermissions(
+			new Permission[] {
+				new Permission() {
+					{
+						setActionIds(new String[] {"VIEW"});
+						setRoleName(role.getName());
+					}
+				}
+			});
+
+		return userAccount;
+	}
+
 	protected final JSONObject waitForFinish(
 			String expectedExecuteStatus, JSONObject jsonObject)
 		throws Exception {
@@ -9381,6 +9564,7 @@ public abstract class BaseUserAccountResourceTestCase {
 	protected UserAccountResource userAccountResource;
 	protected ImportTaskResource importTaskResource;
 	protected com.liferay.portal.kernel.model.Group irrelevantGroup;
+	protected UserAccountResource permissionsUserAccountResource;
 	protected com.liferay.portal.kernel.model.Company testCompany;
 	protected com.liferay.portal.kernel.model.Group testGroup;
 
