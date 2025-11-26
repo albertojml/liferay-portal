@@ -1093,7 +1093,8 @@ public class ObjectEntryResourceTest {
 
 	@FeatureFlag("LPD-69419")
 	@Test
-	public void testDeleteByExternalReferenceCodeComment() throws Exception {
+	public void testDeleteByExternalReferenceCodeObjectEntryExternalReferenceCodeCommentByExternalReferenceCode()
+		throws Exception {
 
 		// Company scope
 
@@ -9057,20 +9058,6 @@ public class ObjectEntryResourceTest {
 
 	@FeatureFlag("LPD-69419")
 	@Test
-	public void testPostByExternalReferenceCodeChildComment() throws Exception {
-
-		// Company scope
-
-		_testPostChildComment(_ERC_VALUE_1, 0L, _objectDefinition1);
-
-		// Site scope
-
-		_testPostChildComment(
-			_ERC_VALUE_2, _testGroupId, _siteScopedObjectDefinition1);
-	}
-
-	@FeatureFlag("LPD-69419")
-	@Test
 	public void testPostByExternalReferenceCodeComment() throws Exception {
 
 		// Company scope
@@ -9142,6 +9129,21 @@ public class ObjectEntryResourceTest {
 		Assert.assertEquals(
 			_ERC_VALUE_2, jsonObject.get("externalReferenceCode"));
 		Assert.assertEquals("<p>" + comment + "</p>", jsonObject.get("text"));
+	}
+
+	@FeatureFlag("LPD-69419")
+	@Test
+	public void testPostByExternalReferenceCodeObjectEntryExternalReferenceCodeCommentByExternalReferenceCodeParentCommentExternalReferenceCodeComment()
+		throws Exception {
+
+		// Company scope
+
+		_testPostChildComment(_ERC_VALUE_1, 0L, _objectDefinition1);
+
+		// Site scope
+
+		_testPostChildComment(
+			_ERC_VALUE_2, _testGroupId, _siteScopedObjectDefinition1);
 	}
 
 	@Test
@@ -15711,7 +15713,7 @@ public class ObjectEntryResourceTest {
 		return jsonArray;
 	}
 
-	private ObjectDefinition _enableComments(
+	private ObjectDefinition _enableObjectEntryComments(
 			boolean enable, ObjectDefinition objectDefinition)
 		throws Exception {
 
@@ -16434,7 +16436,7 @@ public class ObjectEntryResourceTest {
 		ObjectEntry objectEntry = ObjectEntryTestUtil.addObjectEntry(
 			objectDefinition, _OBJECT_FIELD_NAME_1, _OBJECT_FIELD_VALUE_1);
 
-		objectDefinition = _enableComments(true, objectDefinition);
+		objectDefinition = _enableObjectEntryComments(true, objectDefinition);
 
 		JSONObject jsonObject = HTTPTestUtil.invokeToJSONObject(
 			JSONUtil.put(
@@ -16455,13 +16457,13 @@ public class ObjectEntryResourceTest {
 			"/by-external-reference-code/",
 			jsonObject.getString("externalReferenceCode"));
 
-		objectDefinition = _enableComments(false, objectDefinition);
+		objectDefinition = _enableObjectEntryComments(false, objectDefinition);
 
 		Assert.assertEquals(
 			400,
 			HTTPTestUtil.invokeToHttpCode(null, endpoint, Http.Method.DELETE));
 
-		_enableComments(true, objectDefinition);
+		_enableObjectEntryComments(true, objectDefinition);
 
 		Assert.assertEquals(
 			204,
@@ -18052,7 +18054,7 @@ public class ObjectEntryResourceTest {
 	}
 
 	private void _testPostChildComment(
-			String childCommentERC, long groupId,
+			String externalReferenceCode, long groupId,
 			ObjectDefinition objectDefinition)
 		throws Exception {
 
@@ -18082,7 +18084,7 @@ public class ObjectEntryResourceTest {
 
 		jsonObject = HTTPTestUtil.invokeToJSONObject(
 			JSONUtil.put(
-				"externalReferenceCode", childCommentERC
+				"externalReferenceCode", externalReferenceCode
 			).put(
 				"text", comment
 			).toString(),
@@ -18095,7 +18097,7 @@ public class ObjectEntryResourceTest {
 			Http.Method.POST);
 
 		Assert.assertEquals(
-			childCommentERC, jsonObject.get("externalReferenceCode"));
+			externalReferenceCode, jsonObject.get("externalReferenceCode"));
 		Assert.assertEquals("<p>" + comment + "</p>", jsonObject.get("text"));
 		Assert.assertEquals(
 			parentCommentId, jsonObject.getLong("parentCommentId"));
