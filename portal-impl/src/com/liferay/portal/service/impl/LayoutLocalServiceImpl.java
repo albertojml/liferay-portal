@@ -3109,7 +3109,7 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 			String faviconFileEntryERC, String faviconFileEntryScopeERC,
 			String masterLayoutPageTemplateEntryERC,
 			ServiceContext serviceContext)
-		throws PortalException {
+		throws Exception {
 
 		// Layout
 
@@ -3239,9 +3239,11 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 
 		layout.setExpandoBridgeAttributes(serviceContext);
 
-		if (layout.getStatus() == WorkflowConstants.STATUS_EMPTY) {
-			layout.setStatus(WorkflowConstants.STATUS_APPROVED);
-		}
+		layout.setStatus(
+			EmptyModelManagerUtil.solveEmptyModel(
+				layout.getStatus(), groupId, layout.getCompanyId(),
+				layout.getExternalReferenceCode(), layout.getClassName(),
+				() -> WorkflowConstants.STATUS_APPROVED));
 
 		layout = layoutLocalService.updateLayout(layout);
 
