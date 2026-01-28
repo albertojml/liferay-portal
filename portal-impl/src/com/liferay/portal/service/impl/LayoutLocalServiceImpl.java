@@ -3109,7 +3109,7 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 			String faviconFileEntryERC, String faviconFileEntryScopeERC,
 			String masterLayoutPageTemplateEntryERC,
 			ServiceContext serviceContext)
-		throws Exception {
+		throws PortalException {
 
 		// Layout
 
