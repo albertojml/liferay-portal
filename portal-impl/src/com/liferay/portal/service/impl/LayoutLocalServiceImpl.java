@@ -3161,8 +3161,8 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 
 		layout.setStatus(
 			EmptyModelManagerUtil.solveEmptyModel(
-				layout.getStatus(), groupId, layout.getCompanyId(),
 				layout.getExternalReferenceCode(), layout.getClassName(),
+				layout.getCompanyId(), groupId, layout.getStatus(),
 				() -> {
 					if (Objects.equals(type, LayoutConstants.TYPE_CONTENT)) {
 						return WorkflowConstants.STATUS_DRAFT;
