@@ -78,6 +78,28 @@ public class LayoutSetPrototypeActionDropdownItemsProvider {
 					}
 
 					if (_layoutSetPrototype.isActive() && !group.isGuest()) {
+						add(
+							dropdownItem -> {
+								dropdownItem.putData(
+									"action", "executeLayoutSetPrototypeSync");
+								dropdownItem.putData(
+									"executeLayoutSetPrototypeSyncURL",
+									PortletURLBuilder.createActionURL(
+										_renderResponse
+									).setActionName(
+										"executeLayoutSetPrototypeSync"
+									).setRedirect(
+										_themeDisplay.getURLCurrent()
+									).setParameter(
+										"layoutSetPrototypeId",
+										_layoutSetPrototype.
+											getLayoutSetPrototypeId()
+									).buildString());
+								dropdownItem.setLabel(
+									LanguageUtil.get(
+										_httpServletRequest,
+										"execute-site-template-sync"));
+							});
 						add(_getDeactivateActionUnsafeConsumer());
 					}
 					else if (!_layoutSetPrototype.isActive()) {
