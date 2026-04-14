@@ -435,33 +435,11 @@ public class SitesImpl implements Sites {
 			return false;
 		}
 
-		UnicodeProperties settingsUnicodeProperties =
-			layoutSet.getSettingsProperties();
-
-		long lastMergeTime = GetterUtil.getLong(
-			settingsUnicodeProperties.getProperty(LAST_MERGE_TIME));
-		long lastMergeVersion = GetterUtil.getLong(
-			settingsUnicodeProperties.getProperty(LAST_MERGE_VERSION));
-
 		LayoutSetPrototype layoutSetPrototype =
 			_layoutSetPrototypeLocalService.
 				getLayoutSetPrototypeByUuidAndCompanyId(
 					layoutSet.getLayoutSetPrototypeUuid(),
 					layoutSet.getCompanyId());
-
-		Date modifiedDate = layoutSetPrototype.getModifiedDate();
-
-		if ((lastMergeTime >= modifiedDate.getTime()) &&
-			((lastMergeVersion == 0) ||
-			 (lastMergeVersion == layoutSetPrototype.getMvccVersion())) &&
-			!isAnyFailedLayoutModifiedSinceLastMerge(layoutSet)) {
-
-			return false;
-		}
-
-		if (lastMergeTime != 0) {
-			return false;
-		}
 
 		LayoutSet layoutSetPrototypeLayoutSet =
 			layoutSetPrototype.getLayoutSet();
