@@ -6,6 +6,8 @@
 package com.liferay.portal.model.impl;
 
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
+import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
+import com.liferay.exportimport.kernel.staging.MergeLayoutPrototypesThreadLocal;
 import com.liferay.layout.page.template.kernel.provider.util.LayoutPageTemplateEntryLayoutProviderUtil;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.CharPool;
@@ -1247,6 +1249,12 @@ public class LayoutImpl extends LayoutBaseImpl {
 	@Override
 	public boolean isLayoutDeleteable() {
 		try {
+
+			if (ExportImportThreadLocal.isImportInProcess() &&
+			    MergeLayoutPrototypesThreadLocal.isInProgress()) {
+				return true;
+			}
+
 			if (Validator.isNull(getLayoutSetPrototypeLayoutERC())) {
 				return true;
 			}
