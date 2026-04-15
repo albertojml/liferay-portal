@@ -855,6 +855,12 @@ public class SitesImpl implements Sites {
 		).put(
 			PortletDataHandlerKeys.USER_ID_STRATEGY,
 			new String[] {UserIdStrategy.CURRENT_USER_ID}
+		).put(
+			PortletDataHandlerKeys.PORTLET_DATA,
+			new String[] {Boolean.TRUE.toString()}
+		).put(
+			PortletDataHandlerKeys.PORTLET_DATA_ALL,
+			new String[] {Boolean.TRUE.toString()}
 		).build();
 
 		if (importData) {
@@ -866,12 +872,6 @@ public class SitesImpl implements Sites {
 				new String[] {Boolean.TRUE.toString()});
 			parameterMap.put(
 				PortletDataHandlerKeys.LOGO,
-				new String[] {Boolean.TRUE.toString()});
-			parameterMap.put(
-				PortletDataHandlerKeys.PORTLET_DATA,
-				new String[] {Boolean.TRUE.toString()});
-			parameterMap.put(
-				PortletDataHandlerKeys.PORTLET_DATA_ALL,
 				new String[] {Boolean.TRUE.toString()});
 		}
 		else {
@@ -895,13 +895,6 @@ public class SitesImpl implements Sites {
 					PortletDataHandlerKeys.LOGO,
 					new String[] {Boolean.FALSE.toString()});
 			}
-
-			parameterMap.put(
-				PortletDataHandlerKeys.PORTLET_DATA,
-				new String[] {Boolean.FALSE.toString()});
-			parameterMap.put(
-				PortletDataHandlerKeys.PORTLET_DATA_ALL,
-				new String[] {Boolean.FALSE.toString()});
 		}
 
 		return parameterMap;
