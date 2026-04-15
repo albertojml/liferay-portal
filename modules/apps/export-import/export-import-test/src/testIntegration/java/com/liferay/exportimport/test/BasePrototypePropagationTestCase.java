@@ -255,8 +255,6 @@ public abstract class BasePrototypePropagationTestCase {
 		MergeLayoutPrototypesThreadLocal.clearMergeComplete();
 		MergeLayoutPrototypesThreadLocal.setSkipMerge(false);
 
-		_sites.mergeLayoutPrototypeLayout(group, layout);
-
 		return LayoutLocalServiceUtil.getLayout(layout.getPlid());
 	}
 
