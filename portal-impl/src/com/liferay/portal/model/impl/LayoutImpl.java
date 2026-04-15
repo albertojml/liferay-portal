@@ -1249,13 +1249,10 @@ public class LayoutImpl extends LayoutBaseImpl {
 	@Override
 	public boolean isLayoutDeleteable() {
 		try {
+			if ((ExportImportThreadLocal.isImportInProcess() &&
+				 MergeLayoutPrototypesThreadLocal.isInProgress()) ||
+				Validator.isNull(getLayoutSetPrototypeLayoutERC())) {
 
-			if (ExportImportThreadLocal.isImportInProcess() &&
-			    MergeLayoutPrototypesThreadLocal.isInProgress()) {
-				return true;
-			}
-
-			if (Validator.isNull(getLayoutSetPrototypeLayoutERC())) {
 				return true;
 			}
 

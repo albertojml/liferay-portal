@@ -21,10 +21,7 @@ import com.liferay.petra.sql.dsl.query.GroupByStep;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.defaultpermissions.util.PortalDefaultPermissionsUtil;
-import com.liferay.portal.events.StartupHelperUtil;
 import com.liferay.portal.kernel.bean.BeanReference;
-import com.liferay.portal.kernel.change.tracking.CTCollectionThreadLocal;
-import com.liferay.portal.kernel.change.tracking.CTTransactionException;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.Property;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
@@ -126,7 +123,6 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.comparator.LayoutComparator;
 import com.liferay.portal.kernel.util.comparator.LayoutPriorityComparator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.kernel.workflow.WorkflowThreadLocal;
 import com.liferay.portal.service.base.LayoutLocalServiceBaseImpl;
 import com.liferay.portal.util.LayoutTypeControllerTracker;
 import com.liferay.ratings.kernel.service.RatingsStatsLocalService;
@@ -1589,8 +1585,7 @@ public class LayoutLocalServiceImpl extends LayoutLocalServiceBaseImpl {
 	public Layout getLayout(long groupId, boolean privateLayout, long layoutId)
 		throws PortalException {
 
-		return layoutPersistence.findByG_P_L(
-			groupId, privateLayout, layoutId);
+		return layoutPersistence.findByG_P_L(groupId, privateLayout, layoutId);
 	}
 
 	@Override

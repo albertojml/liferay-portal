@@ -26,12 +26,8 @@ import com.liferay.portal.background.task.util.comparator.BackgroundTaskCreateDa
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManager;
 import com.liferay.portal.kernel.backgroundtask.constants.BackgroundTaskConstants;
-import com.liferay.portal.kernel.change.tracking.CTTransactionException;
-import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.lock.Lock;
-import com.liferay.portal.kernel.lock.LockManagerUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -54,7 +50,6 @@ import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ImageLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
-import com.liferay.portal.kernel.service.LayoutPrototypeLocalService;
 import com.liferay.portal.kernel.service.LayoutSetLocalService;
 import com.liferay.portal.kernel.service.LayoutSetPrototypeLocalService;
 import com.liferay.portal.kernel.service.LayoutSetService;
@@ -80,7 +75,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portlet.PortletPreferencesImpl;
 import com.liferay.sites.kernel.util.Sites;
@@ -472,42 +466,6 @@ public class SitesImpl implements Sites {
 	}
 
 	@Override
-	public void mergeLayoutPrototypeLayout(Group group, Layout layout)
-		throws Exception {
-
-		String layoutSetPrototypeLayoutERC =
-			layout.getLayoutSetPrototypeLayoutERC();
-
-		if (Validator.isNull(layoutSetPrototypeLayoutERC)) {
-			doMergeLayoutPrototypeLayout(group, layout);
-
-			return;
-		}
-
-		LayoutSet layoutSet = layout.getLayoutSet();
-
-		long layoutSetPrototypeId = layoutSet.getLayoutSetPrototypeId();
-
-		if (layoutSetPrototypeId > 0) {
-			Group layoutSetPrototypeGroup =
-				_groupLocalService.getLayoutSetPrototypeGroup(
-					layout.getCompanyId(), layoutSetPrototypeId);
-
-			Layout sourcePrototypeLayout =
-				_layoutLocalService.fetchLayoutByExternalReferenceCode(
-					layoutSetPrototypeLayoutERC,
-					layoutSetPrototypeGroup.getGroupId());
-
-			if (sourcePrototypeLayout != null) {
-				doMergeLayoutPrototypeLayout(
-					layoutSetPrototypeGroup, sourcePrototypeLayout);
-			}
-		}
-
-		doMergeLayoutPrototypeLayout(group, layout);
-	}
-
-	@Override
 	public void mergeLayoutSetPrototypeLayouts(Group group, LayoutSet layoutSet)
 		throws Exception {
 
@@ -583,126 +541,6 @@ public class SitesImpl implements Sites {
 			targetLayout.getCompanyId(),
 			unreferencedPortletIds.toArray(new String[0]),
 			targetLayout.getPlid());
-	}
-
-	protected void doMergeLayoutPrototypeLayout(Group group, Layout layout)
-		throws Exception {
-
-		if (!layout.isPortletLayoutPageTemplateEntryLinkActive() ||
-			group.isLayoutPrototype() || group.hasStagingGroup()) {
-
-			return;
-		}
-
-		long lastMergeTime = GetterUtil.getLong(
-			layout.getTypeSettingsProperty(LAST_MERGE_TIME));
-
-		if (lastMergeTime == 0) {
-			try {
-				MergeLayoutPrototypesThreadLocal.setInProgress(true);
-
-				Layout targetLayout = _layoutLocalService.getLayout(
-					layout.getPlid());
-
-				if (targetLayout != null) {
-					lastMergeTime = GetterUtil.getLong(
-						targetLayout.getTypeSettingsProperty(LAST_MERGE_TIME));
-				}
-			}
-			finally {
-				MergeLayoutPrototypesThreadLocal.setInProgress(false);
-			}
-		}
-
-		if (Validator.isNull(layout.getLayoutPrototypeUuid())) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					"Merge not performed because layout prototype does not " +
-						"exist for layout PLID " + layout.getPlid());
-			}
-
-			return;
-		}
-
-		LayoutPrototype layoutPrototype =
-			_layoutPrototypeLocalService.getLayoutPrototypeByUuidAndCompanyId(
-				layout.getLayoutPrototypeUuid(), layout.getCompanyId());
-
-		Layout layoutPrototypeLayout = layoutPrototype.getLayout();
-
-		Date modifiedDate = layoutPrototypeLayout.getModifiedDate();
-
-		if (lastMergeTime >= modifiedDate.getTime()) {
-			return;
-		}
-
-		UnicodeProperties prototypeTypeSettingsUnicodeProperties =
-			layoutPrototypeLayout.getTypeSettingsProperties();
-
-		int mergeFailCount = GetterUtil.getInteger(
-			prototypeTypeSettingsUnicodeProperties.getProperty(
-				MERGE_FAIL_COUNT));
-
-		if (mergeFailCount >
-				PropsValues.LAYOUT_PROTOTYPE_MERGE_FAIL_THRESHOLD) {
-
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					StringBundler.concat(
-						"Merge not performed because the fail threshold was ",
-						"reached for layoutPrototypeId ",
-						layoutPrototype.getLayoutPrototypeId(),
-						" and layoutId ", layoutPrototypeLayout.getLayoutId(),
-						". Update the count in the database to try again."));
-			}
-
-			return;
-		}
-
-		String owner = _acquireLock(
-			Layout.class.getName(), layout.getPlid(),
-			PropsValues.LAYOUT_PROTOTYPE_MERGE_LOCK_MAX_TIME);
-
-		if (owner == null) {
-			return;
-		}
-
-		EntityCacheUtil.clearLocalCache();
-
-		layout = _layoutLocalService.fetchLayout(layout.getPlid());
-
-		try {
-			MergeLayoutPrototypesThreadLocal.setInProgress(true);
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					StringBundler.concat(
-						"Applying layout prototype ", layoutPrototype.getUuid(),
-						" (mvccVersion ", layoutPrototype.getMvccVersion(),
-						") to layout ", layout.getPlid(), " (mvccVersion ",
-						layout.getMvccVersion(), ")"));
-			}
-
-			applyLayoutPrototype(layoutPrototype, layout, true);
-		}
-		catch (CTTransactionException ctTransactionException) {
-			throw ctTransactionException;
-		}
-		catch (Exception exception) {
-			_log.error(exception);
-
-			prototypeTypeSettingsUnicodeProperties.setProperty(
-				MERGE_FAIL_COUNT, String.valueOf(++mergeFailCount));
-
-			// Invoke updateImpl so that we do not trigger the listeners
-
-			_layoutLocalService.updateLayout(layoutPrototypeLayout);
-		}
-		finally {
-			MergeLayoutPrototypesThreadLocal.setInProgress(false);
-
-			_releaseLock(Layout.class.getName(), layout.getPlid(), owner);
-		}
 	}
 
 	protected File exportLayoutSetPrototype(
@@ -1266,71 +1104,6 @@ public class SitesImpl implements Sites {
 		_layoutLocalService.updatePriorities(groupId, privateLayout);
 	}
 
-	private String _acquireLock(
-		String className, long classPK, long mergeLockMaxTime) {
-
-		String owner = PortalUUIDUtil.generate();
-
-		try {
-			Lock lock = LockManagerUtil.lock(
-				SitesImpl.class.getName(), String.valueOf(classPK), owner);
-
-			// Double deep check
-
-			if (!owner.equals(lock.getOwner())) {
-				Date createDate = lock.getCreateDate();
-
-				if ((System.currentTimeMillis() - createDate.getTime()) >=
-						mergeLockMaxTime) {
-
-					// Acquire lock if the lock is older than the lock max time
-
-					lock = LockManagerUtil.lock(
-						SitesImpl.class.getName(), String.valueOf(classPK),
-						lock.getOwner(), owner);
-
-					// Check if acquiring the lock succeeded or if another
-					// process has the lock
-
-					if (!owner.equals(lock.getOwner())) {
-						return null;
-					}
-				}
-				else {
-					return null;
-				}
-			}
-		}
-		catch (Exception exception) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(exception);
-			}
-
-			return null;
-		}
-
-		if (_log.isDebugEnabled()) {
-			_log.debug(
-				StringBundler.concat(
-					"Acquired lock for ", SitesImpl.class.getName(),
-					" to update ", className, StringPool.POUND, classPK));
-		}
-
-		return owner;
-	}
-
-	private void _releaseLock(String className, long classPK, String owner) {
-		LockManagerUtil.unlock(
-			SitesImpl.class.getName(), String.valueOf(classPK), owner);
-
-		if (_log.isDebugEnabled()) {
-			_log.debug(
-				StringBundler.concat(
-					"Released lock for ", SitesImpl.class.getName(),
-					" to update ", className, StringPool.POUND, classPK));
-		}
-	}
-
 	private void _updateLayoutScopes(
 			long userId, Layout sourceLayout, Layout targetLayout,
 			PortletPreferences sourcePortletPreferences,
@@ -1416,9 +1189,6 @@ public class SitesImpl implements Sites {
 	@Reference
 	private LayoutPageTemplateEntryLocalService
 		_layoutPageTemplateEntryLocalService;
-
-	@Reference
-	private LayoutPrototypeLocalService _layoutPrototypeLocalService;
 
 	@Reference
 	private LayoutSetLocalService _layoutSetLocalService;

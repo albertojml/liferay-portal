@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.util.PropertiesParamUtil;
 import com.liferay.portal.kernel.util.ScopeUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.sites.kernel.util.Sites;
 
 import jakarta.portlet.ActionRequest;
 import jakarta.portlet.ActionResponse;
@@ -106,10 +105,6 @@ public class AddContentLayoutMVCActionCommand
 					new HashMap<>(), LayoutConstants.TYPE_PORTLET,
 					typeSettingsUnicodeProperties.toString(), false,
 					new HashMap<>(), serviceContext);
-
-				// Force propagation from page template to page. See LPS-48430.
-
-				_sites.mergeLayoutPrototypeLayout(layout.getGroup(), layout);
 			}
 			else {
 				if (layoutPageTemplateEntryId > 0) {
@@ -202,8 +197,5 @@ public class AddContentLayoutMVCActionCommand
 
 	@Reference
 	private Portal _portal;
-
-	@Reference
-	private Sites _sites;
 
 }
