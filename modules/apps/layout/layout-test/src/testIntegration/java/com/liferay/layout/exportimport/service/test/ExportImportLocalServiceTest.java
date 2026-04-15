@@ -263,8 +263,6 @@ public class ExportImportLocalServiceTest {
 			LayoutConstants.TYPE_PORTLET, StringPool.BLANK, false,
 			Collections.emptyMap(), serviceContext);
 
-		_sites.mergeLayoutPrototypeLayout(layout.getGroup(), layout);
-
 		String newFriendlyURL = FriendlyURLNormalizerUtil.normalize(
 			RandomTestUtil.randomString());
 
