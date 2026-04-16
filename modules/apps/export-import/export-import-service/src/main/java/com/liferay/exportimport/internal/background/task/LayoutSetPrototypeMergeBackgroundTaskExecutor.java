@@ -29,10 +29,8 @@ import com.liferay.portal.kernel.service.LayoutSetPrototypeLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.transaction.TransactionInvokerUtil;
-import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
-import com.liferay.portal.kernel.util.SystemProperties;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.sites.kernel.util.Sites;
@@ -87,46 +85,6 @@ public class LayoutSetPrototypeMergeBackgroundTaskExecutor
 				_layoutSetPrototypeLocalService.getLayoutSetPrototype(
 					layoutSetPrototypeId);
 
-			boolean importData = MapUtil.getBoolean(parameterMap, "importData");
-
-			String cacheFileName = StringBundler.concat(
-				_TEMP_DIR, layoutSetPrototype.getUuid(), importData, ".v",
-				layoutSetPrototype.getMvccVersion(), ".lar");
-
-			File cacheFile = new File(cacheFileName);
-
-			if (cacheFile.exists()) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						"Using cached layout set prototype LAR file " +
-							cacheFile.getAbsolutePath());
-				}
-			}
-			else {
-				File larFile = _exportImportLocalService.exportLayoutsAsFile(
-					exportImportConfiguration);
-
-				try {
-					FileUtil.copyFile(larFile, cacheFile);
-
-					if (_log.isDebugEnabled()) {
-						_log.debug(
-							StringBundler.concat(
-								"Copied ", larFile.getAbsolutePath(), " to ",
-								cacheFile.getAbsolutePath()));
-					}
-				}
-				catch (Exception exception) {
-					_log.error(
-						StringBundler.concat(
-							"Unable to copy file ", larFile.getAbsolutePath(),
-							" to ", cacheFile.getAbsolutePath()),
-						exception);
-
-					cacheFile = larFile;
-				}
-			}
-
 			User user = _userLocalService.getDefaultUser(
 				layoutSet.getCompanyId());
 
@@ -155,7 +113,9 @@ public class LayoutSetPrototypeMergeBackgroundTaskExecutor
 							importLayoutSettingsMap,
 							WorkflowConstants.STATUS_DRAFT,
 							new ServiceContext()),
-					cacheFile, layoutSet));
+					_exportImportLocalService.exportLayoutsAsFile(
+						exportImportConfiguration),
+					layoutSet));
 
 			return BackgroundTaskResult.SUCCESS;
 		}
@@ -199,10 +159,6 @@ public class LayoutSetPrototypeMergeBackgroundTaskExecutor
 
 		setIsolationLevel(BackgroundTaskConstants.ISOLATION_LEVEL_COMPANY);
 	}
-
-	private static final String _TEMP_DIR =
-		SystemProperties.get(SystemProperties.TMP_DIR) +
-			"/liferay/layout_set_prototype/";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		LayoutSetPrototypeMergeBackgroundTaskExecutor.class);
