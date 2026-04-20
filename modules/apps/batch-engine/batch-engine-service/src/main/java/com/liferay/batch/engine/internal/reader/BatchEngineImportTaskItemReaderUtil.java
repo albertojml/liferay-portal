@@ -7,6 +7,7 @@ package com.liferay.batch.engine.internal.reader;
 
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -16,6 +17,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
 import com.liferay.batch.engine.BatchEngineTaskContentType;
+import com.liferay.batch.engine.BatchEngineTaskOperation;
 import com.liferay.batch.engine.action.ItemReaderPostAction;
 import com.liferay.batch.engine.exception.BatchEngineImportTaskExecutorException;
 import com.liferay.batch.engine.model.BatchEngineImportTask;
@@ -61,8 +63,10 @@ public class BatchEngineImportTaskItemReaderUtil {
 		T item = null;
 
 		try {
-			Class<? extends T> resolvedClass = _resolveClass(
-				fieldNameValueMap, itemClass);
+			Class<? extends T> resolvedClass =
+				_isPolymorphicDeletion(batchEngineImportTask, itemClass) ?
+					_getDeletionSubtypeClass(itemClass) :
+						_resolveClass(fieldNameValueMap, itemClass);
 
 			Constructor<? extends T> constructor =
 				resolvedClass.getDeclaredConstructor();
@@ -226,6 +230,21 @@ public class BatchEngineImportTaskItemReaderUtil {
 		return fields;
 	}
 
+	private static <T> Class<? extends T> _getDeletionSubtypeClass(
+		Class<T> itemClass) {
+
+		JsonSubTypes jsonSubTypes = itemClass.getAnnotation(JsonSubTypes.class);
+
+		if ((jsonSubTypes == null) || (jsonSubTypes.value().length == 0)) {
+			throw new IllegalStateException(
+				StringBundler.concat(
+					"Polymorphic class ", itemClass.getName(),
+					" has no @JsonSubTypes;"));
+		}
+
+		return (Class<? extends T>)jsonSubTypes.value()[0].value();
+	}
+
 	private static ObjectMapper _getObjectMapper(
 			BatchEngineImportTask batchEngineImportTask, Field field,
 			Object value)
@@ -293,6 +312,24 @@ public class BatchEngineImportTaskItemReaderUtil {
 		}
 
 		return true;
+	}
+
+	private static boolean _isPolymorphicDeletion(
+		BatchEngineImportTask batchEngineImportTask, Class<?> itemClass) {
+
+		if (itemClass.getAnnotation(JsonTypeInfo.class) == null) {
+			return false;
+		}
+
+		BatchEngineTaskOperation batchEngineTaskOperation =
+			BatchEngineTaskOperation.valueOf(
+				batchEngineImportTask.getOperation());
+
+		if (batchEngineTaskOperation == BatchEngineTaskOperation.DELETE) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private static void _processFieldNameValueMap(
