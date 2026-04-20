@@ -135,7 +135,7 @@ public class JournalFeedExportImportContentProcessor
 
 		portletDataContext.addReferenceElement(
 			feed, feedElement, targetLayout,
-			PortletDataContext.REFERENCE_TYPE_DEPENDENCY, true);
+			PortletDataContext.REFERENCE_TYPE_LAZY, true);
 
 		return content;
 	}
