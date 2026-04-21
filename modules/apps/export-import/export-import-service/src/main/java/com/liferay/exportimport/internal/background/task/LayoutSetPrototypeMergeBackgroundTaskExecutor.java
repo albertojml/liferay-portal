@@ -81,18 +81,8 @@ public class LayoutSetPrototypeMergeBackgroundTaskExecutor
 			LayoutSet layoutSet = _layoutSetLocalService.getLayoutSet(
 				layoutSetId);
 
-			LayoutSetPrototype layoutSetPrototype =
-				_layoutSetPrototypeLocalService.getLayoutSetPrototype(
-					layoutSetPrototypeId);
-
 			User user = _userLocalService.getDefaultUser(
 				layoutSet.getCompanyId());
-
-			parameterMap.put(
-				"lastMergeVersion",
-				new String[] {
-					String.valueOf(layoutSetPrototype.getMvccVersion())
-				});
 
 			Map<String, Serializable> importLayoutSettingsMap =
 				ExportImportConfigurationSettingsMapFactoryUtil.
