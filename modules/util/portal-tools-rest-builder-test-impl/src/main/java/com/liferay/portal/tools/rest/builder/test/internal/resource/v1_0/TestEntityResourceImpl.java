@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -119,7 +120,7 @@ public class TestEntityResourceImpl extends BaseTestEntityResourceImpl {
 	public TestEntity postTestEntity(TestEntity testEntity) {
 		testEntity.setDateCreated(new Date());
 		testEntity.setDateModified(new Date());
-		testEntity.setId((long)_testEntities.size());
+		testEntity.setId(_nextId.getAndIncrement());
 
 		_testEntities.add(testEntity);
 
@@ -149,16 +150,24 @@ public class TestEntityResourceImpl extends BaseTestEntityResourceImpl {
 	public TestEntity putTestEntity(
 		Long testEntityId, Long optionalParameter, TestEntity testEntity) {
 
-		TestEntity oldTestEntity = _testEntities.set(
-			Math.toIntExact(testEntityId), testEntity);
+		for (int i = 0; i < _testEntities.size(); i++) {
+			TestEntity oldTestEntity = _testEntities.get(i);
 
-		testEntity.setDateCreated(oldTestEntity.getDateCreated());
-		testEntity.setDateModified(oldTestEntity.getDateModified());
-		testEntity.setId(oldTestEntity.getId());
+			if (Objects.equals(oldTestEntity.getId(), testEntityId)) {
+				testEntity.setDateCreated(oldTestEntity.getDateCreated());
+				testEntity.setDateModified(oldTestEntity.getDateModified());
+				testEntity.setId(oldTestEntity.getId());
 
-		return testEntity;
+				_testEntities.set(i, testEntity);
+
+				return testEntity;
+			}
+		}
+
+		throw new IndexOutOfBoundsException();
 	}
 
+	private static final AtomicLong _nextId = new AtomicLong(1);
 	private static final List<TestEntity> _testEntities = new ArrayList<>();
 
 	@Reference
