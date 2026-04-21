@@ -582,6 +582,11 @@ public class ServletDataImpl implements ServletData {
 							TestEntityResourceImpl.class,
 							"deleteTestEntityBatch"));
 					put(
+						"mutation#deleteTestEntityByExternalReferenceCode",
+						new ObjectValuePair<>(
+							TestEntityResourceImpl.class,
+							"deleteTestEntityByExternalReferenceCode"));
+					put(
 						"mutation#patchTestEntity",
 						new ObjectValuePair<>(
 							TestEntityResourceImpl.class, "patchTestEntity"));
@@ -940,4 +945,4 @@ public class ServletDataImpl implements ServletData {
 		_testEntityAddressResourceComponentServiceObjects;
 
 }
-// LIFERAY-REST-BUILDER-HASH:593829650
+// LIFERAY-REST-BUILDER-HASH:-1712790753

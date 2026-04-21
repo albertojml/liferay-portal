@@ -123,6 +123,20 @@ public class ChildTestEntity2SerDes {
 			sb.append(childTestEntity2.getDocumentId());
 		}
 
+		if (childTestEntity2.getExternalReferenceCode() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"externalReferenceCode\": ");
+
+			sb.append("\"");
+
+			sb.append(_escape(childTestEntity2.getExternalReferenceCode()));
+
+			sb.append("\"");
+		}
+
 		if (childTestEntity2.getId() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -306,6 +320,15 @@ public class ChildTestEntity2SerDes {
 				"documentId", String.valueOf(childTestEntity2.getDocumentId()));
 		}
 
+		if (childTestEntity2.getExternalReferenceCode() == null) {
+			map.put("externalReferenceCode", null);
+		}
+		else {
+			map.put(
+				"externalReferenceCode",
+				String.valueOf(childTestEntity2.getExternalReferenceCode()));
+		}
+
 		if (childTestEntity2.getId() == null) {
 			map.put("id", null);
 		}
@@ -412,6 +435,11 @@ public class ChildTestEntity2SerDes {
 			else if (Objects.equals(jsonParserFieldName, "documentId")) {
 				return false;
 			}
+			else if (Objects.equals(
+						jsonParserFieldName, "externalReferenceCode")) {
+
+				return false;
+			}
 			else if (Objects.equals(jsonParserFieldName, "id")) {
 				return false;
 			}
@@ -477,6 +505,14 @@ public class ChildTestEntity2SerDes {
 				if (jsonParserFieldValue != null) {
 					childTestEntity2.setDocumentId(
 						Long.valueOf((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(
+						jsonParserFieldName, "externalReferenceCode")) {
+
+				if (jsonParserFieldValue != null) {
+					childTestEntity2.setExternalReferenceCode(
+						(String)jsonParserFieldValue);
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "id")) {
@@ -616,4 +652,4 @@ public class ChildTestEntity2SerDes {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:-928705764
+// LIFERAY-REST-BUILDER-HASH:-299393257

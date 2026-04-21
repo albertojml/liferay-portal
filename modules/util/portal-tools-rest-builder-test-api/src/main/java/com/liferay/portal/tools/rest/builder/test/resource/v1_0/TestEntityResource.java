@@ -57,6 +57,10 @@ public interface TestEntityResource {
 			Boolean permanent, String callbackURL, Object object)
 		throws Exception;
 
+	public void deleteTestEntityByExternalReferenceCode(
+			String externalReferenceCode)
+		throws Exception;
+
 	public Page<TestEntity> getTestEntitiesPage(
 			com.liferay.portal.kernel.search.filter.Filter filter)
 		throws Exception;
@@ -195,4 +199,4 @@ public interface TestEntityResource {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:953012982
+// LIFERAY-REST-BUILDER-HASH:1436564411

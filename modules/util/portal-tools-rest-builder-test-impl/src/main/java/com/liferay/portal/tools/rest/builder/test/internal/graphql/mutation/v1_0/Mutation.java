@@ -1592,6 +1592,21 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public boolean deleteTestEntityByExternalReferenceCode(
+			@GraphQLName("externalReferenceCode") String externalReferenceCode)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_testEntityResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			testEntityResource ->
+				testEntityResource.deleteTestEntityByExternalReferenceCode(
+					externalReferenceCode));
+
+		return true;
+	}
+
+	@GraphQLField
 	public TestEntity patchTestEntity(
 			@GraphQLName("testEntityId") Long testEntityId,
 			@GraphQLName("optionalParameter") Long optionalParameter,
@@ -2126,4 +2141,4 @@ public class Mutation {
 		_vulcanBatchEngineImportTaskResource;
 
 }
-// LIFERAY-REST-BUILDER-HASH:-531622753
+// LIFERAY-REST-BUILDER-HASH:-364271703

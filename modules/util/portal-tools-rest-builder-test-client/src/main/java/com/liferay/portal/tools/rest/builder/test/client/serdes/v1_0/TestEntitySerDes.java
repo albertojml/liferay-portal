@@ -122,6 +122,15 @@ public class TestEntitySerDes {
 			map.put("documentId", String.valueOf(testEntity.getDocumentId()));
 		}
 
+		if (testEntity.getExternalReferenceCode() == null) {
+			map.put("externalReferenceCode", null);
+		}
+		else {
+			map.put(
+				"externalReferenceCode",
+				String.valueOf(testEntity.getExternalReferenceCode()));
+		}
+
 		if (testEntity.getId() == null) {
 			map.put("id", null);
 		}
@@ -223,6 +232,11 @@ public class TestEntitySerDes {
 			else if (Objects.equals(jsonParserFieldName, "documentId")) {
 				return false;
 			}
+			else if (Objects.equals(
+						jsonParserFieldName, "externalReferenceCode")) {
+
+				return false;
+			}
 			else if (Objects.equals(jsonParserFieldName, "id")) {
 				return false;
 			}
@@ -311,6 +325,14 @@ public class TestEntitySerDes {
 				if (jsonParserFieldValue != null) {
 					testEntity.setDocumentId(
 						Long.valueOf((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(
+						jsonParserFieldName, "externalReferenceCode")) {
+
+				if (jsonParserFieldValue != null) {
+					testEntity.setExternalReferenceCode(
+						(String)jsonParserFieldValue);
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "id")) {
@@ -448,4 +470,4 @@ public class TestEntitySerDes {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:612167682
+// LIFERAY-REST-BUILDER-HASH:1962982168

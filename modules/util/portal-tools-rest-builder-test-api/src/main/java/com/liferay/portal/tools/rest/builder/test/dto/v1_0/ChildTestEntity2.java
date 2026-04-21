@@ -198,6 +198,22 @@ public class ChildTestEntity2 extends TestEntity implements Serializable {
 			sb.append(documentId);
 		}
 
+		String externalReferenceCode = getExternalReferenceCode();
+
+		if (externalReferenceCode != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"externalReferenceCode\": ");
+
+			sb.append("\"");
+
+			sb.append(_escape(externalReferenceCode));
+
+			sb.append("\"");
+		}
+
 		Long id = getId();
 
 		if (id != null) {
@@ -431,4 +447,4 @@ public class ChildTestEntity2 extends TestEntity implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:34301248
+// LIFERAY-REST-BUILDER-HASH:353612751

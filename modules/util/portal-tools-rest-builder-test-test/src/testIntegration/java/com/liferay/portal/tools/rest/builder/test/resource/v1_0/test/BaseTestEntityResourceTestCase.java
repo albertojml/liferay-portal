@@ -214,6 +214,7 @@ public abstract class BaseTestEntityResourceTestCase {
 		TestEntity testEntity = randomTestEntity();
 
 		testEntity.setDescription(regex);
+		testEntity.setExternalReferenceCode(regex);
 		testEntity.setJsonProperty(regex);
 		testEntity.setName(regex);
 		testEntity.setSelf(regex);
@@ -225,6 +226,7 @@ public abstract class BaseTestEntityResourceTestCase {
 		testEntity = TestEntitySerDes.toDTO(json);
 
 		Assert.assertEquals(regex, testEntity.getDescription());
+		Assert.assertEquals(regex, testEntity.getExternalReferenceCode());
 		Assert.assertEquals(regex, testEntity.getJsonProperty());
 		Assert.assertEquals(regex, testEntity.getName());
 		Assert.assertEquals(regex, testEntity.getSelf());
@@ -332,11 +334,40 @@ public abstract class BaseTestEntityResourceTestCase {
 		TestEntity testEntity1 = testDeleteTestEntityBatch_addTestEntity();
 
 		testDeleteTestEntityBatch_deleteTestEntity(
+			202, testEntity1.getExternalReferenceCode(), null);
+
+		assertHttpResponseStatusCode(
+			404,
+			testEntityResource.getTestEntityHttpResponse(testEntity1.getId()));
+
+		testEntity1 = testDeleteTestEntityBatch_addTestEntity();
+
+		testDeleteTestEntityBatch_deleteTestEntity(
 			202, null, testEntity1.getId());
 
 		assertHttpResponseStatusCode(
 			404,
 			testEntityResource.getTestEntityHttpResponse(testEntity1.getId()));
+
+		testEntity1 = testDeleteTestEntityBatch_addTestEntity();
+		TestEntity testEntity2 = testDeleteTestEntityBatch_addTestEntity();
+
+		testDeleteTestEntityBatch_deleteTestEntity(
+			202, testEntity2.getExternalReferenceCode(), testEntity1.getId());
+
+		assertHttpResponseStatusCode(
+			404,
+			testEntityResource.getTestEntityHttpResponse(testEntity1.getId()));
+		assertHttpResponseStatusCode(
+			200,
+			testEntityResource.getTestEntityHttpResponse(testEntity2.getId()));
+
+		testDeleteTestEntityBatch_deleteTestEntity(
+			202, testEntity2.getExternalReferenceCode(), testEntity1.getId());
+
+		assertHttpResponseStatusCode(
+			404,
+			testEntityResource.getTestEntityHttpResponse(testEntity2.getId()));
 	}
 
 	protected TestEntity testDeleteTestEntityBatch_addTestEntity()
@@ -364,6 +395,86 @@ public abstract class BaseTestEntityResourceTestCase {
 		waitForFinish(
 			"COMPLETED",
 			JSONFactoryUtil.createJSONObject(httpResponse.getContent()));
+	}
+
+	@Test
+	public void testDeleteTestEntityByExternalReferenceCode() throws Exception {
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		TestEntity testEntity =
+			testDeleteTestEntityByExternalReferenceCode_addTestEntity();
+
+		assertHttpResponseStatusCode(
+			204,
+			testEntityResource.
+				deleteTestEntityByExternalReferenceCodeHttpResponse(
+					testEntity.getExternalReferenceCode()));
+	}
+
+	protected TestEntity
+			testDeleteTestEntityByExternalReferenceCode_addTestEntity()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLDeleteTestEntityByExternalReferenceCode()
+		throws Exception {
+
+		// No namespace
+
+		TestEntity testEntity1 =
+			testGraphQLDeleteTestEntityByExternalReferenceCode_addTestEntity();
+
+		Assert.assertTrue(
+			JSONUtil.getValueAsBoolean(
+				invokeGraphQLMutation(
+					new GraphQLField(
+						"deleteTestEntityByExternalReferenceCode",
+						new HashMap<String, Object>() {
+							{
+								put(
+									"externalReferenceCode",
+									"\"" +
+										testEntity1.getExternalReferenceCode() +
+											"\"");
+							}
+						})),
+				"JSONObject/data",
+				"Object/deleteTestEntityByExternalReferenceCode"));
+
+		// Using the namespace test_v1_0
+
+		TestEntity testEntity2 =
+			testGraphQLDeleteTestEntityByExternalReferenceCode_addTestEntity();
+
+		Assert.assertTrue(
+			JSONUtil.getValueAsBoolean(
+				invokeGraphQLMutation(
+					new GraphQLField(
+						"test_v1_0",
+						new GraphQLField(
+							"deleteTestEntityByExternalReferenceCode",
+							new HashMap<String, Object>() {
+								{
+									put(
+										"externalReferenceCode",
+										"\"" +
+											testEntity2.
+												getExternalReferenceCode() +
+													"\"");
+								}
+							}))),
+				"JSONObject/data", "JSONObject/test_v1_0",
+				"Object/deleteTestEntityByExternalReferenceCode"));
+	}
+
+	protected TestEntity
+			testGraphQLDeleteTestEntityByExternalReferenceCode_addTestEntity()
+		throws Exception {
+
+		return testGraphQLTestEntity_addTestEntity();
 	}
 
 	@Test
@@ -911,6 +1022,8 @@ public abstract class BaseTestEntityResourceTestCase {
 				description = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
 				documentId = RandomTestUtil.randomLong();
+				externalReferenceCode = StringUtil.toLowerCase(
+					RandomTestUtil.randomString());
 				id = RandomTestUtil.randomLong();
 				jsonProperty = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
@@ -934,6 +1047,8 @@ public abstract class BaseTestEntityResourceTestCase {
 				description = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
 				documentId = RandomTestUtil.randomLong();
+				externalReferenceCode = StringUtil.toLowerCase(
+					RandomTestUtil.randomString());
 				id = RandomTestUtil.randomLong();
 				jsonProperty = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
@@ -957,6 +1072,8 @@ public abstract class BaseTestEntityResourceTestCase {
 				description = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
 				documentId = RandomTestUtil.randomLong();
+				externalReferenceCode = StringUtil.toLowerCase(
+					RandomTestUtil.randomString());
 				id = RandomTestUtil.randomLong();
 				jsonProperty = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
@@ -1068,11 +1185,41 @@ public abstract class BaseTestEntityResourceTestCase {
 			testBatchEngineDeleteImportTask_addTestEntity();
 
 		testBatchEngineDeleteImportTask_deleteTestEntity(
+			200, testEntity1.getExternalReferenceCode(), null);
+
+		assertHttpResponseStatusCode(
+			404,
+			testEntityResource.getTestEntityHttpResponse(testEntity1.getId()));
+
+		testEntity1 = testBatchEngineDeleteImportTask_addTestEntity();
+
+		testBatchEngineDeleteImportTask_deleteTestEntity(
 			200, null, testEntity1.getId());
 
 		assertHttpResponseStatusCode(
 			404,
 			testEntityResource.getTestEntityHttpResponse(testEntity1.getId()));
+
+		testEntity1 = testBatchEngineDeleteImportTask_addTestEntity();
+		TestEntity testEntity2 =
+			testBatchEngineDeleteImportTask_addTestEntity();
+
+		testBatchEngineDeleteImportTask_deleteTestEntity(
+			200, testEntity2.getExternalReferenceCode(), testEntity1.getId());
+
+		assertHttpResponseStatusCode(
+			404,
+			testEntityResource.getTestEntityHttpResponse(testEntity1.getId()));
+		assertHttpResponseStatusCode(
+			200,
+			testEntityResource.getTestEntityHttpResponse(testEntity2.getId()));
+
+		testBatchEngineDeleteImportTask_deleteTestEntity(
+			200, testEntity2.getExternalReferenceCode(), testEntity1.getId());
+
+		assertHttpResponseStatusCode(
+			404,
+			testEntityResource.getTestEntityHttpResponse(testEntity2.getId()));
 	}
 
 	protected TestEntity testBatchEngineDeleteImportTask_addTestEntity()
@@ -1335,6 +1482,16 @@ public abstract class BaseTestEntityResourceTestCase {
 				continue;
 			}
 
+			if (Objects.equals(
+					"externalReferenceCode", additionalAssertFieldName)) {
+
+				if (testEntity.getExternalReferenceCode() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
 			if (Objects.equals("jsonProperty", additionalAssertFieldName)) {
 				if (testEntity.getJsonProperty() == null) {
 					valid = false;
@@ -1483,6 +1640,8 @@ public abstract class BaseTestEntityResourceTestCase {
 	protected List<GraphQLField> getGraphQLFields() throws Exception {
 		List<GraphQLField> graphQLFields = new ArrayList<>();
 
+		graphQLFields.add(new GraphQLField("externalReferenceCode"));
+
 		graphQLFields.add(new GraphQLField("id"));
 
 		for (java.lang.reflect.Field field :
@@ -1581,6 +1740,19 @@ public abstract class BaseTestEntityResourceTestCase {
 				if (!Objects.deepEquals(
 						testEntity1.getDocumentId(),
 						testEntity2.getDocumentId())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
+					"externalReferenceCode", additionalAssertFieldName)) {
+
+				if (!Objects.deepEquals(
+						testEntity1.getExternalReferenceCode(),
+						testEntity2.getExternalReferenceCode())) {
 
 					return false;
 				}
@@ -1935,6 +2107,52 @@ public abstract class BaseTestEntityResourceTestCase {
 				"Invalid entity field " + entityFieldName);
 		}
 
+		if (entityFieldName.equals("externalReferenceCode")) {
+			Object object = testEntity.getExternalReferenceCode();
+
+			String value = String.valueOf(object);
+
+			if (operator.equals("contains")) {
+				sb = new StringBundler();
+
+				sb.append("contains(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 2)) {
+					sb.append(value.substring(1, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else if (operator.equals("startswith")) {
+				sb = new StringBundler();
+
+				sb.append("startswith(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 1)) {
+					sb.append(value.substring(0, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else {
+				sb.append("'");
+				sb.append(value);
+				sb.append("'");
+			}
+
+			return sb.toString();
+		}
+
 		if (entityFieldName.equals("id")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
@@ -2155,6 +2373,8 @@ public abstract class BaseTestEntityResourceTestCase {
 				testEntity.setDescription(
 					StringUtil.toLowerCase(RandomTestUtil.randomString()));
 				testEntity.setDocumentId(RandomTestUtil.randomLong());
+				testEntity.setExternalReferenceCode(
+					StringUtil.toLowerCase(RandomTestUtil.randomString()));
 				testEntity.setId(RandomTestUtil.randomLong());
 				testEntity.setJsonProperty(
 					StringUtil.toLowerCase(RandomTestUtil.randomString()));
@@ -2178,6 +2398,8 @@ public abstract class BaseTestEntityResourceTestCase {
 				testEntity.setDescription(
 					StringUtil.toLowerCase(RandomTestUtil.randomString()));
 				testEntity.setDocumentId(RandomTestUtil.randomLong());
+				testEntity.setExternalReferenceCode(
+					StringUtil.toLowerCase(RandomTestUtil.randomString()));
 				testEntity.setId(RandomTestUtil.randomLong());
 				testEntity.setJsonProperty(
 					StringUtil.toLowerCase(RandomTestUtil.randomString()));
@@ -2201,6 +2423,8 @@ public abstract class BaseTestEntityResourceTestCase {
 				testEntity.setDescription(
 					StringUtil.toLowerCase(RandomTestUtil.randomString()));
 				testEntity.setDocumentId(RandomTestUtil.randomLong());
+				testEntity.setExternalReferenceCode(
+					StringUtil.toLowerCase(RandomTestUtil.randomString()));
 				testEntity.setId(RandomTestUtil.randomLong());
 				testEntity.setJsonProperty(
 					StringUtil.toLowerCase(RandomTestUtil.randomString()));
@@ -2486,4 +2710,4 @@ public abstract class BaseTestEntityResourceTestCase {
 		_vulcanCRUDItemDelegateBuilderRegistry;
 
 }
-// LIFERAY-REST-BUILDER-HASH:-31913864
+// LIFERAY-REST-BUILDER-HASH:1033368029
