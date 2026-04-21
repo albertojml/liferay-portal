@@ -42,13 +42,6 @@ public class TestEntityResourceTest extends BaseTestEntityResourceTestCase {
 	@Ignore
 	@Override
 	@Test
-	public void testBatchEngineDeleteImportTask() throws Exception {
-		super.testBatchEngineDeleteImportTask();
-	}
-
-	@Ignore
-	@Override
-	@Test
 	public void testDeleteTestEntityBatch() throws Exception {
 		super.testDeleteTestEntityBatch();
 	}
@@ -286,6 +279,14 @@ public class TestEntityResourceTest extends BaseTestEntityResourceTestCase {
 
 	@Override
 	protected TestEntity testDeleteTestEntity_addTestEntity() throws Exception {
+		return testGetTestEntitiesPage_addTestEntity(randomTestEntity());
+	}
+
+	@Override
+	protected TestEntity
+			testDeleteTestEntityByExternalReferenceCode_addTestEntity()
+		throws Exception {
+
 		return testGetTestEntitiesPage_addTestEntity(randomTestEntity());
 	}
 

@@ -60,6 +60,29 @@ public class TestEntityResourceImpl extends BaseTestEntityResourceImpl {
 	}
 
 	@Override
+	public void deleteTestEntityByExternalReferenceCode(
+			String externalReferenceCode)
+		throws Exception {
+
+		Iterator<TestEntity> testEntityIterator = _testEntities.iterator();
+
+		while (testEntityIterator.hasNext()) {
+			TestEntity testEntity = testEntityIterator.next();
+
+			if (Objects.equals(
+					testEntity.getExternalReferenceCode(),
+					externalReferenceCode)) {
+
+				testEntityIterator.remove();
+
+				return;
+			}
+		}
+
+		throw new NoSuchModelException();
+	}
+
+	@Override
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap) {
 		return new TestEntityEntityModel();
 	}
