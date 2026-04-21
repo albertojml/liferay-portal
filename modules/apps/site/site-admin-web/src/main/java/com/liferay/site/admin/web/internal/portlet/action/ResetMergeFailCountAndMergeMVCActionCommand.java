@@ -69,8 +69,6 @@ public class ResetMergeFailCountAndMergeMVCActionCommand
 		LayoutSet layoutSet = _layoutSetLocalService.getLayoutSet(
 			groupId, privateLayoutSet);
 
-		_layoutSetPrototypeHelper.resetPrototype(layoutSet);
-
 		MergeLayoutPrototypesThreadLocal.setSkipMerge(false);
 
 		_sites.mergeLayoutSetPrototypeLayouts(
