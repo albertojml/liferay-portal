@@ -1138,10 +1138,6 @@ public class PropsValues {
 			PropsUtil.get(PropsKeys.LAYOUT_SET_PROTOTYPE_MERGE_LOCK_MAX_TIME)) *
 				Time.SECOND;
 
-	public static final boolean LAYOUT_SET_PROTOTYPE_PROPAGATE_LOGO =
-		GetterUtil.getBoolean(
-			PropsUtil.get(PropsKeys.LAYOUT_SET_PROTOTYPE_PROPAGATE_LOGO));
-
 	public static final boolean LAYOUT_SHOW_HTTP_STATUS = GetterUtil.getBoolean(
 		PropsUtil.get(PropsKeys.LAYOUT_SHOW_HTTP_STATUS));
 

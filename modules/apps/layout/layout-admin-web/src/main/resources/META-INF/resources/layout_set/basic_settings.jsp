@@ -21,7 +21,6 @@
 <c:if test="<%= company.isSiteLogo() %>">
 
 	<%
-	Group liveGroup = layoutsAdminDisplayContext.getLiveGroup();
 	LayoutSet selLayoutSet = layoutsAdminDisplayContext.getSelLayoutSet();
 	%>
 
@@ -38,13 +37,6 @@
 
 			<liferay-ui:message arguments="<%= LanguageUtil.formatStorageSize(fileSizeException.getMaxSize(), locale) %>" key="please-enter-a-file-with-a-valid-file-size-no-larger-than-x" translateArguments="<%= false %>" />
 		</liferay-ui:error>
-
-		<c:if test="<%= liveGroup.isLayoutSetPrototype() && !PropsValues.LAYOUT_SET_PROTOTYPE_PROPAGATE_LOGO %>">
-			<clay:alert
-				displayType="warning"
-				message="modifying-the-site-template-logo-only-affects-sites-that-are-not-yet-created"
-			/>
-		</c:if>
 
 		<%
 		Group group = layoutsAdminDisplayContext.getGroup();
