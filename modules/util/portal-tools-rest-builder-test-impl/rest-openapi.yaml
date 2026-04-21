@@ -338,6 +338,8 @@ components:
                 documentId:
                     format: int64
                     type: integer
+                externalReferenceCode:
+                    type: string
                 id:
                     format: int64
                     readOnly: true
@@ -2636,6 +2638,23 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/TestEntity"
+            tags: ["TestEntity"]
+    "/test-entities/by-external-reference-code/{externalReferenceCode}":
+        delete:
+            operationId: deleteTestEntityByExternalReferenceCode
+            parameters:
+                -   in: path
+                    name: externalReferenceCode
+                    required: true
+                    schema:
+                        type: string
+            responses:
+                200:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+                    description:
+                        "OK"
             tags: ["TestEntity"]
     "/test-entities/count":
         get:
