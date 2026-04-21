@@ -216,31 +216,13 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 			layoutExternalReferenceCode, groupId, privateLayout, friendlyURL);
 	}
 
-	/**
-	 * Checks the permissions necessary for resetting the layout. If sufficient,
-	 * the layout is reset by calling {@link #_resetPrototype(Layout)}.
-	 *
-	 * @param layout the page being checked for sufficient permissions
-	 */
 	@Override
 	public void resetPrototype(Layout layout) throws PortalException {
 		_checkResetPrototypePermissions(layout.getGroup(), layout);
 
-		_resetPrototype(layout);
-	}
+		layout.setModifiedDate(null);
 
-	/**
-	 * Checks the permissions necessary for resetting the layout set. If
-	 * sufficient, the layout set is reset by calling {@link
-	 * #_resetPrototype(LayoutSet)}.
-	 *
-	 * @param layoutSet the site being checked for sufficient permissions
-	 */
-	@Override
-	public void resetPrototype(LayoutSet layoutSet) throws PortalException {
-		_checkResetPrototypePermissions(layoutSet.getGroup(), null);
-
-		_resetPrototype(layoutSet);
+		_layoutLocalService.updateLayout(layout);
 	}
 
 	/**
@@ -560,30 +542,6 @@ public class LayoutSetPrototypeHelperImpl implements LayoutSetPrototypeHelper {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Resets the modified timestamp on the layout, and then calls {@link
-	 * #_resetPrototype(LayoutSet)} to reset the modified timestamp on the
-	 * layout's site.
-	 *
-	 * <p>
-	 * After the timestamps are reset, the modified page template and site
-	 * template are merged into their linked layout and site when they are first
-	 * accessed.
-	 * </p>
-	 *
-	 * @param layout the page having its timestamp reset
-	 */
-	private void _resetPrototype(Layout layout) throws PortalException {
-		layout.setModifiedDate(null);
-
-		layout = _layoutLocalService.updateLayout(layout);
-
-		_resetPrototype(layout.getLayoutSet());
-	}
-
-	private void _resetPrototype(LayoutSet layoutSet) throws PortalException {
 	}
 
 	@Reference
