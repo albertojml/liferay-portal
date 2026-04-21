@@ -221,14 +221,6 @@ public class SiteNavigationMenuPropagationTest {
 
 		LayoutSet layoutSet = _group.getPublicLayoutSet();
 
-		UnicodeProperties settingsUnicodeProperties =
-			layoutSet.getSettingsProperties();
-
-		settingsUnicodeProperties.remove(Sites.LAST_MERGE_TIME);
-		settingsUnicodeProperties.remove(Sites.LAST_MERGE_VERSION);
-
-		layoutSet = _layoutSetLocalService.updateLayoutSet(layoutSet);
-
 		_sites.mergeLayoutSetPrototypeLayouts(_group, layoutSet);
 	}
 
