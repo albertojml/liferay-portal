@@ -77,6 +77,10 @@ public interface Sites {
 	public void copyPortletSetups(Layout sourceLayout, Layout targetLayout)
 		throws Exception;
 
+	public void executeLayoutSetPrototypeSync(
+			long layoutSetPrototypeId, long userId)
+		throws PortalException;
+
 	public boolean isLayoutSetMergeable(Group group, LayoutSet layoutSet)
 		throws PortalException;
 
