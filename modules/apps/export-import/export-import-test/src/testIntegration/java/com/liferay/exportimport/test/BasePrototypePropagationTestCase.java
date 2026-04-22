@@ -92,7 +92,7 @@ public abstract class BasePrototypePropagationTestCase {
 	@Test
 	public void testLayoutTypePropagationWithLinkEnabled() throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		doTestLayoutTypePropagation(true);
 	}
@@ -109,7 +109,7 @@ public abstract class BasePrototypePropagationTestCase {
 	public void testPortletPreferencesPropagationWithLinkEnabled()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		doTestPortletPreferencesPropagation(true);
 	}

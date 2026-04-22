@@ -215,7 +215,7 @@ public class LayoutSetPrototypePropagationTest
 	@Test
 	public void testLayoutDeleteAndReadWithSameFriendlyURL() throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		setLinkEnabled(true);
 
@@ -266,7 +266,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testLayoutPermissionPropagationWithLinkEnabled()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		setLinkEnabled(true);
 
@@ -298,7 +298,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testLayoutPropagationWhenLoadingLayoutsTreeWithLinkEnabled()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		setLinkEnabled(true);
 
@@ -324,7 +324,7 @@ public class LayoutSetPrototypePropagationTest
 	@TestInfo("LPD-50062")
 	public void testLayoutPropagationWithFragmentEntries() throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		setLinkEnabled(true);
 
@@ -384,7 +384,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testLayoutPropagationWithFriendlyURLConflict()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		LayoutSet layoutSet = group.getPublicLayoutSet();
 
@@ -416,7 +416,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testLayoutPropagationWithFriendlyURLConflictResolvedByDelete()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		LayoutSet layoutSet = group.getPublicLayoutSet();
 
@@ -455,7 +455,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testLayoutPropagationWithFriendlyUrlConflictWithParentLayout()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		Layout prototypeLayout1 = LayoutTestUtil.addTypePortletLayout(
 			_layoutSetPrototypeGroup.getGroupId(), true);
@@ -537,7 +537,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testLayoutPropagationWithLayoutPrototypeLinkDisabled()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		doTestLayoutPropagationWithLayoutPrototype(false);
 	}
@@ -547,7 +547,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testLayoutPropagationWithLayoutPrototypeLinkEnabled()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		doTestLayoutPropagationWithLayoutPrototype(true);
 	}
@@ -561,7 +561,7 @@ public class LayoutSetPrototypePropagationTest
 	@Test
 	public void testLayoutPropagationWithLinkEnabled() throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		doTestLayoutPropagation(true);
 	}
@@ -571,7 +571,7 @@ public class LayoutSetPrototypePropagationTest
 	@TestInfo("LPS-161955")
 	public void testLayoutPropagationWithMasterLayout() throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		LayoutPageTemplateEntry masterLayoutPageTemplateEntry =
 			LayoutPageTemplateTestUtil.addLayoutPageTemplateEntry(
@@ -615,7 +615,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testLayoutPropagationWithPortletPreferencesAfterRepublishingLayout()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		String portletName = "com_liferay_test_portlet_TestPortlet";
 
@@ -684,7 +684,7 @@ public class LayoutSetPrototypePropagationTest
 	@TestInfo("LPD-81019")
 	public void testLayoutSetPrototypeLayoutERCPropagation() throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		long prototypeGroupId = _layoutSetPrototypeGroup.getGroupId();
 
@@ -716,7 +716,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testMasterPageTemplateThemeSettingsAfterLayoutPropagation()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		LayoutSet prototypePrivateLayoutSet =
 			_layoutSetPrototypeGroup.getPrivateLayoutSet();
@@ -810,7 +810,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testPortletPreferencesPropagationWithGlobalScopeLinkEnabled()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		doTestPortletPreferencesPropagation(true, true);
 	}
@@ -820,7 +820,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testPortletPreferencesPropagationWithPreferencesUniquePerLayoutEnabled()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		Portlet portlet = PortletLocalServiceUtil.getPortletById(
 			TestPropsValues.getCompanyId(),
@@ -894,7 +894,7 @@ public class LayoutSetPrototypePropagationTest
 	@Test
 	public void testResetLayoutTemplate() throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		_layoutSetPrototypeHelper.resetPrototype(layout);
 		_layoutSetPrototypeHelper.resetPrototype(_layout);
@@ -933,7 +933,7 @@ public class LayoutSetPrototypePropagationTest
 	@Test
 	public void testResetPortletPreferences() throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		LayoutTestUtil.updateLayoutPortletPreference(
 			prototypeLayout, portletId, "showAvailableLocales",
@@ -1052,7 +1052,7 @@ public class LayoutSetPrototypePropagationTest
 	@Test
 	public void testThemeSettingsAfterLayoutPropagation() throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		LayoutSet prototypePrivateLayoutSet =
 			_layoutSetPrototypeGroup.getPrivateLayoutSet();
@@ -1100,7 +1100,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testThemeSettingsAfterLayoutPropagationWithPrivateLinkEnabled()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		LayoutSetPrototype layoutSetPrototype =
 			LayoutTestUtil.addLayoutSetPrototype(RandomTestUtil.randomString());
@@ -1173,7 +1173,7 @@ public class LayoutSetPrototypePropagationTest
 	public void testThemeSettingsAfterLayoutPropagationWithPublicLinkEnabled()
 		throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		LayoutSetPrototype layoutSetPrototype =
 			LayoutTestUtil.addLayoutSetPrototype(RandomTestUtil.randomString());
@@ -1244,7 +1244,7 @@ public class LayoutSetPrototypePropagationTest
 	@Test
 	public void testThemeSettingsWithLinkEnabled() throws Exception {
 
-		// Ignored due to LPD-81592
+		// TODO: Review during implementation of LPD-82108
 
 		LayoutSet prototypeLayoutSet =
 			_layoutSetPrototypeGroup.getPrivateLayoutSet();
