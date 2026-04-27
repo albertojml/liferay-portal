@@ -14,7 +14,9 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.sites.kernel.util.Sites;
 
 import java.util.Locale;
 
@@ -28,8 +30,7 @@ import org.junit.runner.RunWith;
  * @author Eduardo García
  */
 @RunWith(Arquillian.class)
-public class LayoutPrototypePropagationTest
-	extends BasePrototypePropagationTestCase {
+public class LayoutPrototypeSyncTest extends BasePrototypeSyncTestCase {
 
 	@ClassRule
 	@Rule
@@ -66,7 +67,7 @@ public class LayoutPrototypePropagationTest
 		layout = LayoutTestUtil.addTypePortletLayout(
 			group, true, layoutPrototype, true);
 
-		layout = propagateChanges(layout);
+		layout = LayoutLocalServiceUtil.getLayout(layout.getPlid());
 	}
 
 	@Override
@@ -75,5 +76,13 @@ public class LayoutPrototypePropagationTest
 
 		layout = LayoutLocalServiceUtil.updateLayout(layout);
 	}
+
+	@Override
+	protected void syncChanges() throws Exception {
+		_sites.applyLayoutPrototype(layoutPrototype, layout, true);
+	}
+
+	@Inject
+	private Sites _sites;
 
 }
