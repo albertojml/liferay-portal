@@ -245,6 +245,11 @@ public class ExportImportPerformanceTest {
 		}
 	}
 
+	// TODO: Adapt tests with the following observations:
+	// 	1. Use the new sync name pattern
+	// 	2. It should test the whole _sites.executeLayoutSetPrototypeSync( since
+	// 	it will be more performant-heavy
+
 	@Test
 	public void testSiteTemplatePropagation() throws Exception {
 		MergeLayoutPrototypesThreadLocal.clearMergeComplete();

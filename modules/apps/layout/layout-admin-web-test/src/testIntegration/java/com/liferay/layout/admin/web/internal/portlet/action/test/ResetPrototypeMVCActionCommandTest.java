@@ -72,6 +72,9 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class ResetPrototypeMVCActionCommandTest {
 
+	// TODO: Ignore this test and remove it completely after the reset
+	// functionality gets removed (future story)
+
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =

@@ -400,6 +400,9 @@ public class LayoutFriendlyURLTest {
 		}
 	}
 
+	// TODO: Adapt tests with the following observations:
+	// 	1. Use the new sync name pattern
+
 	@Test
 	public void testPropagateLayoutSetPrototype() throws Exception {
 		LayoutSetPrototype layoutSetPrototype =

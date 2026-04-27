@@ -49,6 +49,11 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public class SiteNavigationMenuPropagationTest {
 
+	// TODO: Adapt tests with the following changes
+	//	1. The merge is handled by "_sites.executeLayoutSetPrototypeSync("
+	//	2. Change "propagation" references to "sync"
+	//	3. Make sure the sync happens without it being associated to a layout
+
 	@ClassRule
 	@Rule
 	public static final AggregateTestRule aggregateTestRule =
