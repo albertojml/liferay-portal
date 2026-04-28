@@ -77,6 +77,8 @@ definition {
 		task ("Then: User is unable to add new elements as there is no 'Add' button on the new site") {
 			Navigator.openSiteURL(siteName = "Site Template Site Name");
 
+			// This fails. Review commit message
+
 			Page.viewPageLockCheck();
 
 			AssertElementNotPresent(locator1 = "ControlMenu#ADD");
