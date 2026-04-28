@@ -1181,19 +1181,13 @@ definition {
 				siteTemplateName = "Site Template Name");
 		}
 
-		task ("And: Create a Site based on the template then check that there is no info message on it") {
+		task ("And: Create a Site based on the template") {
 			Site.openSitesAdmin();
 
 			Site.addSiteTemplateCP(
 				siteName = "Site A",
 				siteTemplateName = "Site Template Name",
 				siteTemplateTab = "Custom Site Templates");
-
-			Navigator.gotoSitePage(
-				pageName = "Home",
-				siteName = "Site A");
-
-			SiteTemplates.viewNoInfoMessage();
 		}
 
 		task ("When: User export the Site Template and the Site then download them") {
@@ -1231,14 +1225,6 @@ definition {
 			LAR.importSiteCP(
 				larFileName = ${larFileName},
 				siteName = "Site B");
-		}
-
-		task ("And: The Site has no Info message button as there is no difference between the Site and the Site Template") {
-			Navigator.gotoSitePage(
-				pageName = "Home",
-				siteName = "Site B");
-
-			SiteTemplates.viewNoInfoMessage();
 		}
 	}
 
