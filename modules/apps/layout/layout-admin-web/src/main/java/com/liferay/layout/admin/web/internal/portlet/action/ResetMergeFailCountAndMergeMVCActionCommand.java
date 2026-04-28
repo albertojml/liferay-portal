@@ -16,6 +16,7 @@ import com.liferay.portal.kernel.service.LayoutPrototypeLocalService;
 import com.liferay.portal.kernel.service.LayoutPrototypeService;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.sites.kernel.util.Sites;
 
 import jakarta.portlet.ActionRequest;
 import jakarta.portlet.ActionResponse;
@@ -65,6 +66,8 @@ public class ResetMergeFailCountAndMergeMVCActionCommand
 
 		_layoutSetPrototypeHelper.resetPrototype(selLayout);
 
+		_sites.mergeLayoutPrototypeLayout(selLayout.getGroup(), selLayout);
+
 		LayoutPrototype layoutPrototype =
 			_layoutPrototypeService.getLayoutPrototype(layoutPrototypeId);
 
@@ -84,5 +87,8 @@ public class ResetMergeFailCountAndMergeMVCActionCommand
 
 	@Reference
 	private LayoutSetPrototypeHelper _layoutSetPrototypeHelper;
+
+	@Reference
+	private Sites _sites;
 
 }
