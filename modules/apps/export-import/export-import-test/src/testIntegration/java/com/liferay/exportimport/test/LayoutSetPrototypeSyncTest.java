@@ -349,7 +349,6 @@ public class LayoutSetPrototypeSyncTest extends BasePrototypeSyncTestCase {
 
 	}
 
-	@Ignore
 	@Test
 	public void testLayoutSyncWithLayoutPrototypeLinkDisabled()
 		throws Exception {
@@ -1031,11 +1030,6 @@ public class LayoutSetPrototypeSyncTest extends BasePrototypeSyncTestCase {
 	protected void doTestLayoutSyncWithLayoutPrototype(
 			boolean layoutSetLayoutLinkEnabled)
 		throws Exception {
-
-		// This for some reason different from Export Import / Site templates
-		// is failing. When the _layoutSetPrototypeLayout is using the
-		// layoutPrototype is not adopting the proper Layout Template ID
-		// Ignoring the tests until this is clarified.
 
 		_layoutSetPrototypeLayout = LayoutTestUtil.addTypePortletLayout(
 			_layoutSetPrototypeGroup, true, layoutPrototype,
