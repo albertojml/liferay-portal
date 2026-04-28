@@ -88,6 +88,7 @@ import java.io.File;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -585,26 +586,6 @@ public class SitesImpl implements Sites {
 			return;
 		}
 
-		long lastMergeTime = GetterUtil.getLong(
-			layout.getTypeSettingsProperty(LAST_MERGE_TIME));
-
-		if (lastMergeTime == 0) {
-			try {
-				MergeLayoutPrototypesThreadLocal.setInProgress(true);
-
-				Layout targetLayout = _layoutLocalService.getLayout(
-					layout.getPlid());
-
-				if (targetLayout != null) {
-					lastMergeTime = GetterUtil.getLong(
-						targetLayout.getTypeSettingsProperty(LAST_MERGE_TIME));
-				}
-			}
-			finally {
-				MergeLayoutPrototypesThreadLocal.setInProgress(false);
-			}
-		}
-
 		if (Validator.isNull(layout.getLayoutPrototypeUuid())) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
@@ -620,12 +601,6 @@ public class SitesImpl implements Sites {
 				layout.getLayoutPrototypeUuid(), layout.getCompanyId());
 
 		Layout layoutPrototypeLayout = layoutPrototype.getLayout();
-
-		Date modifiedDate = layoutPrototypeLayout.getModifiedDate();
-
-		if (lastMergeTime >= modifiedDate.getTime()) {
-			return;
-		}
 
 		UnicodeProperties prototypeTypeSettingsUnicodeProperties =
 			layoutPrototypeLayout.getTypeSettingsProperties();
