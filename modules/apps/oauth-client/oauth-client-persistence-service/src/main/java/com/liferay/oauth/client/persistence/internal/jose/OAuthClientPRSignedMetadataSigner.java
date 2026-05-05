@@ -9,6 +9,7 @@ import com.liferay.oauth.client.persistence.exception.OAuthClientPRLocalMetadata
 import com.liferay.oauth.client.persistence.internal.configuration.OAuthClientPRSignedMetadataConfiguration;
 import com.liferay.portal.configuration.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -33,7 +34,11 @@ import java.security.Key;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -79,7 +84,7 @@ public class OAuthClientPRSignedMetadataSigner {
 			while (iterator.hasNext()) {
 				String key = iterator.next();
 
-				builder.claim(key, jsonObject.get(key));
+				builder.claim(key, _toJWTClaim(jsonObject.get(key)));
 			}
 
 			SignedJWT signedJWT = new SignedJWT(
@@ -159,6 +164,38 @@ public class OAuthClientPRSignedMetadataSigner {
 		}
 
 		return value.toCharArray();
+	}
+
+	private Object _toJWTClaim(Object value) {
+		if (value instanceof JSONArray) {
+			JSONArray jsonArray = (JSONArray)value;
+
+			List<Object> list = new ArrayList<>(jsonArray.length());
+
+			for (int i = 0; i < jsonArray.length(); i++) {
+				list.add(_toJWTClaim(jsonArray.get(i)));
+			}
+
+			return list;
+		}
+
+		if (value instanceof JSONObject) {
+			JSONObject jsonObject = (JSONObject)value;
+
+			Map<String, Object> map = new LinkedHashMap<>();
+
+			Iterator<String> iterator = jsonObject.keys();
+
+			while (iterator.hasNext()) {
+				String key = iterator.next();
+
+				map.put(key, _toJWTClaim(jsonObject.get(key)));
+			}
+
+			return map;
+		}
+
+		return value;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
