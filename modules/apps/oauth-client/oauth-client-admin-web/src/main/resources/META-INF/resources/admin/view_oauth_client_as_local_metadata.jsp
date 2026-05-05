@@ -77,7 +77,7 @@ OAuthClientASLocalMetadataManagementToolbarDisplayContext oAuthClientASLocalMeta
 								navigationItem.setLabel(LanguageUtil.get(httpServletRequest, "oauth-client-as-local-oauth-authorization-server"));
 							});
 
-						if (FeatureFlagManagerUtil.isEnabled("LPD-XXXXX")) {
+						if (FeatureFlagManagerUtil.isEnabled("LPD-99999")) {
 							add(
 								navigationItem -> {
 									navigationItem.setActive(navigation.equals("oauth-client-pr-local-metadata-oauth-protected-resource"));

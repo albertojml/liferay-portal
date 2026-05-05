@@ -34,7 +34,7 @@ import org.junit.runner.RunWith;
 /**
  * @author Alberto Moreno
  */
-@FeatureFlag("LPD-XXXXX")
+@FeatureFlag("LPD-99999")
 @RunWith(Arquillian.class)
 public class OAuth2WellKnownProtectedResourceServletTest {
 

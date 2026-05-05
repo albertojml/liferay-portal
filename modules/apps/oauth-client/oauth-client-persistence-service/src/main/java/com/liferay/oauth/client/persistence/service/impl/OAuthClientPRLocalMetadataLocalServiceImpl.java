@@ -394,7 +394,7 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 			String localWellKnownURI)
 		throws PortalException {
 
-		if (FeatureFlagManagerUtil.isEnabled(companyId, "LPD-XXXXX")) {
+		if (FeatureFlagManagerUtil.isEnabled(companyId, "LPD-99999")) {
 			if (Validator.isNull(resource)) {
 				throw new OAuthClientPRLocalMetadataResourceException();
 			}
