@@ -37,6 +37,18 @@ OAuthClientASLocalMetadataManagementToolbarDisplayContext oAuthClientASLocalMeta
 
 		<%
 		String navigation = ParamUtil.getString(request, "navigation", "oauth-client-as-local-metadata-openid-configuration");
+
+		boolean protectedResourceFlagEnabled;
+
+		try {
+			protectedResourceFlagEnabled = FeatureFlagManagerUtil.isEnabled(
+				"LPD-99999");
+		}
+		catch (IllegalStateException illegalStateException) {
+			protectedResourceFlagEnabled = false;
+		}
+
+		final boolean protectedResourceEnabled = protectedResourceFlagEnabled;
 		%>
 
 		<clay:navigation-bar
@@ -77,7 +89,7 @@ OAuthClientASLocalMetadataManagementToolbarDisplayContext oAuthClientASLocalMeta
 								navigationItem.setLabel(LanguageUtil.get(httpServletRequest, "oauth-client-as-local-oauth-authorization-server"));
 							});
 
-						if (FeatureFlagManagerUtil.isEnabled("LPD-99999")) {
+						if (protectedResourceEnabled) {
 							add(
 								navigationItem -> {
 									navigationItem.setActive(navigation.equals("oauth-client-pr-local-metadata-oauth-protected-resource"));
