@@ -9,6 +9,7 @@ import com.liferay.oauth.client.persistence.exception.DuplicateOAuthClientPRLoca
 import com.liferay.oauth.client.persistence.exception.OAuthClientPRLocalMetadataLocalWellKnownURIException;
 import com.liferay.oauth.client.persistence.exception.OAuthClientPRLocalMetadataMetadataJSONException;
 import com.liferay.oauth.client.persistence.exception.OAuthClientPRLocalMetadataResourceException;
+import com.liferay.oauth.client.persistence.internal.jose.OAuthClientPRSignedMetadataSigner;
 import com.liferay.oauth.client.persistence.model.OAuthClientPRLocalMetadata;
 import com.liferay.oauth.client.persistence.service.base.OAuthClientPRLocalMetadataLocalServiceBaseImpl;
 import com.liferay.petra.string.StringBundler;
@@ -86,7 +87,7 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 			_generateProtectedResourceMetadataJSON(
 				resource, authorizationServers, bearerMethodsSupported,
 				jwksURI, resourceDocumentation, scopesSupported,
-				signedMetadataEnabled));
+				signedMetadataEnabled, signedMetadataKeyAlias));
 		oAuthClientPRLocalMetadata.setResource(resource);
 		oAuthClientPRLocalMetadata.setResourceDocumentation(
 			resourceDocumentation);
@@ -256,7 +257,7 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 			_generateProtectedResourceMetadataJSON(
 				resource, authorizationServers, bearerMethodsSupported,
 				jwksURI, resourceDocumentation, scopesSupported,
-				signedMetadataEnabled));
+				signedMetadataEnabled, signedMetadataKeyAlias));
 		oAuthClientPRLocalMetadata.setResource(resource);
 		oAuthClientPRLocalMetadata.setResourceDocumentation(
 			resourceDocumentation);
@@ -291,7 +292,7 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 			String resource, String[] authorizationServers,
 			String[] bearerMethodsSupported, String jwksURI,
 			String resourceDocumentation, String[] scopesSupported,
-			boolean signedMetadataEnabled)
+			boolean signedMetadataEnabled, String signedMetadataKeyAlias)
 		throws PortalException {
 
 		try {
@@ -339,10 +340,17 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 				jsonObject.put("scopes_supported", jsonArray);
 			}
 
-			// signed_metadata is generated lazily when requested via the
-			// well-known servlet, see Story 2 in the LPD-XXXXX plan.
+			if (signedMetadataEnabled) {
+				jsonObject.put(
+					"signed_metadata",
+					_oAuthClientPRSignedMetadataSigner.sign(
+						jsonObject, signedMetadataKeyAlias));
+			}
 
 			return jsonObject.toString();
+		}
+		catch (PortalException portalException) {
+			throw portalException;
 		}
 		catch (Exception exception) {
 			throw new OAuthClientPRLocalMetadataMetadataJSONException(
@@ -438,6 +446,10 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 
 	@Reference
 	private JSONFactory _jsonFactory;
+
+	@Reference
+	private OAuthClientPRSignedMetadataSigner
+		_oAuthClientPRSignedMetadataSigner;
 
 	@Reference
 	private ResourceLocalService _resourceLocalService;
