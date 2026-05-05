@@ -26,9 +26,12 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+import java.net.URI;
 import java.net.URLDecoder;
 
 import java.nio.charset.StandardCharsets;
+
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -36,6 +39,13 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * Serves OAuth 2.0 Protected Resource Metadata (RFC 9728) from
  * {@code /.well-known/oauth-protected-resource[/{resource path}]}.
+ *
+ * <p>Lookup is keyed on the path component of the persisted {@code resource}
+ * URL rather than the full URL, so the response is independent of the
+ * request's scheme, host or port. Spec compliance with RFC 9728 §3.3 is
+ * guaranteed by the persisted {@code resource} field that the metadata
+ * document echoes back: clients validate the response by comparing the
+ * returned {@code resource} value against the URL they expected.
  *
  * @author Alberto Moreno
  */
@@ -71,7 +81,7 @@ public class OAuth2WellKnownProtectedResourceServlet extends HttpServlet {
 
 		String resourceSuffix = _getResourceSuffix(httpServletRequest);
 
-		OAuthClientPRLocalMetadata oAuthClientPRLocalMetadata = null;
+		OAuthClientPRLocalMetadata oAuthClientPRLocalMetadata;
 
 		if (resourceSuffix == null) {
 			oAuthClientPRLocalMetadata =
@@ -79,35 +89,12 @@ public class OAuth2WellKnownProtectedResourceServlet extends HttpServlet {
 					fetchOAuthClientPRLocalMetadata(companyId, true, null);
 		}
 		else {
-			String localWellKnownURI = _buildLocalWellKnownURI(
-				httpServletRequest, resourceSuffix);
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Looking up protected resource metadata for " +
-						localWellKnownURI);
-			}
-
-			oAuthClientPRLocalMetadata =
-				_oAuthClientPRLocalMetadataLocalService.
-					fetchOAuthClientPRLocalMetadataByLocalWellKnownURI(
-						companyId, localWellKnownURI);
+			oAuthClientPRLocalMetadata = _findByResourcePath(
+				companyId, resourceSuffix);
 		}
 
 		if ((oAuthClientPRLocalMetadata == null) ||
 			!oAuthClientPRLocalMetadata.isLocalWellKnownEnabled()) {
-
-			return;
-		}
-
-		// RFC 9728 §3.3: the returned `resource` must exactly match the URL
-		// the client used to retrieve the metadata. If the persisted record's
-		// localWellKnownURI does not match the request's URL, the spec
-		// requires us to reject the request rather than return a mismatched
-		// document.
-
-		if (!_isWellKnownURIMatch(
-				httpServletRequest, oAuthClientPRLocalMetadata)) {
 
 			return;
 		}
@@ -118,23 +105,43 @@ public class OAuth2WellKnownProtectedResourceServlet extends HttpServlet {
 			httpServletResponse, oAuthClientPRLocalMetadata.getMetadataJSON());
 	}
 
-	private String _buildLocalWellKnownURI(
-		HttpServletRequest httpServletRequest, String resourceSuffix) {
+	private OAuthClientPRLocalMetadata _findByResourcePath(
+		long companyId, String resourceSuffix) {
 
-		StringBuilder sb = new StringBuilder();
+		String requestedPath = _normalizePath(resourceSuffix);
 
-		sb.append(httpServletRequest.getScheme());
-		sb.append("://");
-		sb.append(httpServletRequest.getServerName());
-		sb.append("/o/.well-known/oauth-protected-resource");
+		List<OAuthClientPRLocalMetadata> oAuthClientPRLocalMetadatas =
+			_oAuthClientPRLocalMetadataLocalService.
+				getCompanyOAuthClientPRLocalMetadata(companyId);
 
-		if (!resourceSuffix.isEmpty() && !resourceSuffix.startsWith("/")) {
-			sb.append('/');
+		for (OAuthClientPRLocalMetadata oAuthClientPRLocalMetadata :
+				oAuthClientPRLocalMetadatas) {
+
+			String resource = oAuthClientPRLocalMetadata.getResource();
+
+			if (Validator.isNull(resource)) {
+				continue;
+			}
+
+			try {
+				URI resourceURI = URI.create(resource);
+
+				String resourcePath = _normalizePath(resourceURI.getPath());
+
+				if (requestedPath.equals(resourcePath)) {
+					return oAuthClientPRLocalMetadata;
+				}
+			}
+			catch (IllegalArgumentException illegalArgumentException) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						"Skipping unparseable resource: " + resource,
+						illegalArgumentException);
+				}
+			}
 		}
 
-		sb.append(resourceSuffix);
-
-		return sb.toString();
+		return null;
 	}
 
 	private String _getResourceSuffix(HttpServletRequest httpServletRequest) {
@@ -158,29 +165,23 @@ public class OAuth2WellKnownProtectedResourceServlet extends HttpServlet {
 		return URLDecoder.decode(suffix, StandardCharsets.UTF_8);
 	}
 
-	private boolean _isWellKnownURIMatch(
-		HttpServletRequest httpServletRequest,
-		OAuthClientPRLocalMetadata oAuthClientPRLocalMetadata) {
+	private String _normalizePath(String path) {
+		if (path == null) {
+			return StringPool.SLASH;
+		}
 
-		StringBuilder sb = new StringBuilder();
+		String trimmed = StringUtil.trimTrailing(
+			path, StringPool.SLASH.charAt(0));
 
-		sb.append(httpServletRequest.getScheme());
-		sb.append("://");
-		sb.append(httpServletRequest.getServerName());
-		sb.append(
-			StringUtil.trimTrailing(
-				httpServletRequest.getRequestURI(),
-				StringPool.SLASH.charAt(0)));
+		if (trimmed.isEmpty()) {
+			return StringPool.SLASH;
+		}
 
-		String requestedURL = sb.toString();
-		String persistedURL = oAuthClientPRLocalMetadata.getLocalWellKnownURI();
+		if (!trimmed.startsWith(StringPool.SLASH)) {
+			return StringPool.SLASH + trimmed;
+		}
 
-		// Tolerate the case where the entry has no resource path suffix and
-		// the request hit the bare /.well-known/oauth-protected-resource.
-
-		return requestedURL.equals(persistedURL) ||
-			   requestedURL.equals(
-				   persistedURL + StringPool.SLASH);
+		return trimmed;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
