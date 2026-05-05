@@ -248,7 +248,9 @@ public class OAuthClientPRLocalMetadataCacheModel
 	}
 
 	@Override
-	public void readExternal(ObjectInput objectInput) throws IOException {
+	public void readExternal(ObjectInput objectInput)
+		throws ClassNotFoundException, IOException {
+
 		mvccVersion = objectInput.readLong();
 		uuid = objectInput.readUTF();
 		externalReferenceCode = objectInput.readUTF();
@@ -261,16 +263,16 @@ public class OAuthClientPRLocalMetadataCacheModel
 		userName = objectInput.readUTF();
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
-		authorizationServers = objectInput.readUTF();
+		authorizationServers = (String)objectInput.readObject();
 		bearerMethodsSupported = objectInput.readUTF();
 		jwksURI = objectInput.readUTF();
 
 		localWellKnownEnabled = objectInput.readBoolean();
 		localWellKnownURI = objectInput.readUTF();
-		metadataJSON = objectInput.readUTF();
+		metadataJSON = (String)objectInput.readObject();
 		resource = objectInput.readUTF();
 		resourceDocumentation = objectInput.readUTF();
-		scopesSupported = objectInput.readUTF();
+		scopesSupported = (String)objectInput.readObject();
 
 		signedMetadataEnabled = objectInput.readBoolean();
 		signedMetadataKeyAlias = objectInput.readUTF();
@@ -311,10 +313,10 @@ public class OAuthClientPRLocalMetadataCacheModel
 		objectOutput.writeLong(modifiedDate);
 
 		if (authorizationServers == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(authorizationServers);
+			objectOutput.writeObject(authorizationServers);
 		}
 
 		if (bearerMethodsSupported == null) {
@@ -341,10 +343,10 @@ public class OAuthClientPRLocalMetadataCacheModel
 		}
 
 		if (metadataJSON == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(metadataJSON);
+			objectOutput.writeObject(metadataJSON);
 		}
 
 		if (resource == null) {
@@ -362,10 +364,10 @@ public class OAuthClientPRLocalMetadataCacheModel
 		}
 
 		if (scopesSupported == null) {
-			objectOutput.writeUTF("");
+			objectOutput.writeObject("");
 		}
 		else {
-			objectOutput.writeUTF(scopesSupported);
+			objectOutput.writeObject(scopesSupported);
 		}
 
 		objectOutput.writeBoolean(signedMetadataEnabled);
@@ -400,4 +402,4 @@ public class OAuthClientPRLocalMetadataCacheModel
 	public String signedMetadataKeyAlias;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1459316590
+// LIFERAY-SERVICE-BUILDER-HASH:1357165113

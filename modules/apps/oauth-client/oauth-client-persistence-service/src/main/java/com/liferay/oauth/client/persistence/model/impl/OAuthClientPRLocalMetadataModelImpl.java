@@ -70,13 +70,12 @@ public class OAuthClientPRLocalMetadataModelImpl
 		{"oAuthClientPRLocalMetadataId", Types.BIGINT},
 		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
 		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
-		{"modifiedDate", Types.TIMESTAMP},
-		{"authorizationServers", Types.VARCHAR},
+		{"modifiedDate", Types.TIMESTAMP}, {"authorizationServers", Types.CLOB},
 		{"bearerMethodsSupported", Types.VARCHAR}, {"jwksURI", Types.VARCHAR},
 		{"localWellKnownEnabled", Types.BOOLEAN},
-		{"localWellKnownURI", Types.VARCHAR}, {"metadataJSON", Types.VARCHAR},
+		{"localWellKnownURI", Types.VARCHAR}, {"metadataJSON", Types.CLOB},
 		{"resource", Types.VARCHAR}, {"resourceDocumentation", Types.VARCHAR},
-		{"scopesSupported", Types.VARCHAR},
+		{"scopesSupported", Types.CLOB},
 		{"signedMetadataEnabled", Types.BOOLEAN},
 		{"signedMetadataKeyAlias", Types.VARCHAR}
 	};
@@ -94,21 +93,21 @@ public class OAuthClientPRLocalMetadataModelImpl
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("createDate", Types.TIMESTAMP);
 		TABLE_COLUMNS_MAP.put("modifiedDate", Types.TIMESTAMP);
-		TABLE_COLUMNS_MAP.put("authorizationServers", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("authorizationServers", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("bearerMethodsSupported", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("jwksURI", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("localWellKnownEnabled", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("localWellKnownURI", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("metadataJSON", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("metadataJSON", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("resource", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("resourceDocumentation", Types.VARCHAR);
-		TABLE_COLUMNS_MAP.put("scopesSupported", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("scopesSupported", Types.CLOB);
 		TABLE_COLUMNS_MAP.put("signedMetadataEnabled", Types.BOOLEAN);
 		TABLE_COLUMNS_MAP.put("signedMetadataKeyAlias", Types.VARCHAR);
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table OAuthClientPRLocalMetadata (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,externalReferenceCode VARCHAR(75) null,oAuthClientPRLocalMetadataId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,authorizationServers VARCHAR(75) null,bearerMethodsSupported VARCHAR(75) null,jwksURI VARCHAR(75) null,localWellKnownEnabled BOOLEAN,localWellKnownURI VARCHAR(75) null,metadataJSON VARCHAR(75) null,resource VARCHAR(75) null,resourceDocumentation VARCHAR(75) null,scopesSupported VARCHAR(75) null,signedMetadataEnabled BOOLEAN,signedMetadataKeyAlias VARCHAR(75) null)";
+		"create table OAuthClientPRLocalMetadata (mvccVersion LONG default 0 not null,uuid_ VARCHAR(75) null,externalReferenceCode VARCHAR(75) null,oAuthClientPRLocalMetadataId LONG not null primary key,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,authorizationServers TEXT null,bearerMethodsSupported VARCHAR(256) null,jwksURI VARCHAR(256) null,localWellKnownEnabled BOOLEAN,localWellKnownURI VARCHAR(256) null,metadataJSON TEXT null,resource VARCHAR(256) null,resourceDocumentation VARCHAR(256) null,scopesSupported TEXT null,signedMetadataEnabled BOOLEAN,signedMetadataKeyAlias VARCHAR(256) null)";
 
 	public static final String TABLE_SQL_DROP =
 		"drop table OAuthClientPRLocalMetadata";
@@ -120,6 +119,9 @@ public class OAuthClientPRLocalMetadataModelImpl
 
 	public static final String ORDER_BY_SQL =
 		" ORDER BY OAuthClientPRLocalMetadata.oAuthClientPRLocalMetadataId ASC";
+
+	public static final String ORDER_BY_SQL_INLINE_DISTINCT =
+		" ORDER BY oAuthClientPRLocalMetadata.oAuthClientPRLocalMetadataId ASC";
 
 	public static final String DATA_SOURCE = "liferayDataSource";
 
@@ -1503,4 +1505,4 @@ public class OAuthClientPRLocalMetadataModelImpl
 	private OAuthClientPRLocalMetadata _escapedModel;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:914681061
+// LIFERAY-SERVICE-BUILDER-HASH:2050553999

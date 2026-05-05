@@ -8,6 +8,7 @@ package com.liferay.oauth.client.persistence.model;
 import com.liferay.petra.sql.dsl.Column;
 import com.liferay.petra.sql.dsl.base.BaseTable;
 
+import java.sql.Clob;
 import java.sql.Types;
 
 import java.util.Date;
@@ -52,9 +53,9 @@ public class OAuthClientPRLocalMetadataTable
 	public final Column<OAuthClientPRLocalMetadataTable, Date> modifiedDate =
 		createColumn(
 			"modifiedDate", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
-	public final Column<OAuthClientPRLocalMetadataTable, String>
+	public final Column<OAuthClientPRLocalMetadataTable, Clob>
 		authorizationServers = createColumn(
-			"authorizationServers", String.class, Types.VARCHAR,
+			"authorizationServers", Clob.class, Types.CLOB,
 			Column.FLAG_DEFAULT);
 	public final Column<OAuthClientPRLocalMetadataTable, String>
 		bearerMethodsSupported = createColumn(
@@ -71,9 +72,9 @@ public class OAuthClientPRLocalMetadataTable
 		localWellKnownURI = createColumn(
 			"localWellKnownURI", String.class, Types.VARCHAR,
 			Column.FLAG_DEFAULT);
-	public final Column<OAuthClientPRLocalMetadataTable, String> metadataJSON =
+	public final Column<OAuthClientPRLocalMetadataTable, Clob> metadataJSON =
 		createColumn(
-			"metadataJSON", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+			"metadataJSON", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
 	public final Column<OAuthClientPRLocalMetadataTable, String> resource =
 		createColumn(
 			"resource", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
@@ -81,10 +82,9 @@ public class OAuthClientPRLocalMetadataTable
 		resourceDocumentation = createColumn(
 			"resourceDocumentation", String.class, Types.VARCHAR,
 			Column.FLAG_DEFAULT);
-	public final Column<OAuthClientPRLocalMetadataTable, String>
-		scopesSupported = createColumn(
-			"scopesSupported", String.class, Types.VARCHAR,
-			Column.FLAG_DEFAULT);
+	public final Column<OAuthClientPRLocalMetadataTable, Clob> scopesSupported =
+		createColumn(
+			"scopesSupported", Clob.class, Types.CLOB, Column.FLAG_DEFAULT);
 	public final Column<OAuthClientPRLocalMetadataTable, Boolean>
 		signedMetadataEnabled = createColumn(
 			"signedMetadataEnabled", Boolean.class, Types.BOOLEAN,
@@ -100,4 +100,4 @@ public class OAuthClientPRLocalMetadataTable
 	}
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1381305978
+// LIFERAY-SERVICE-BUILDER-HASH:-581146639

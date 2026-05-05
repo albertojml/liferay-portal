@@ -70,16 +70,34 @@
 		<field name="userName" type="String" />
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
-		<field name="authorizationServers" type="String" />
-		<field name="bearerMethodsSupported" type="String" />
-		<field name="jwksURI" type="String" />
+		<field name="authorizationServers" type="String">
+			<hint-collection name="CLOB" />
+		</field>
+		<field name="bearerMethodsSupported" type="String">
+			<hint name="max-length">256</hint>
+		</field>
+		<field name="jwksURI" type="String">
+			<hint name="max-length">256</hint>
+		</field>
 		<field name="localWellKnownEnabled" type="boolean" />
-		<field name="localWellKnownURI" type="String" />
-		<field name="metadataJSON" type="String" />
-		<field name="resource" type="String" />
-		<field name="resourceDocumentation" type="String" />
-		<field name="scopesSupported" type="String" />
+		<field name="localWellKnownURI" type="String">
+			<hint name="max-length">256</hint>
+		</field>
+		<field name="metadataJSON" type="String">
+			<hint-collection name="CLOB" />
+		</field>
+		<field name="resource" type="String">
+			<hint name="max-length">256</hint>
+		</field>
+		<field name="resourceDocumentation" type="String">
+			<hint name="max-length">256</hint>
+		</field>
+		<field name="scopesSupported" type="String">
+			<hint-collection name="CLOB" />
+		</field>
 		<field name="signedMetadataEnabled" type="boolean" />
-		<field name="signedMetadataKeyAlias" type="String" />
+		<field name="signedMetadataKeyAlias" type="String">
+			<hint name="max-length">256</hint>
+		</field>
 	</model>
 </model-hints>

@@ -373,12 +373,10 @@ public class OAuthClientPRLocalMetadataPersistenceTest {
 			"OAuthClientPRLocalMetadata", "mvccVersion", true, "uuid", true,
 			"externalReferenceCode", true, "oAuthClientPRLocalMetadataId", true,
 			"companyId", true, "userId", true, "userName", true, "createDate",
-			true, "modifiedDate", true, "authorizationServers", true,
-			"bearerMethodsSupported", true, "jwksURI", true,
-			"localWellKnownEnabled", true, "localWellKnownURI", true,
-			"metadataJSON", true, "resource", true, "resourceDocumentation",
-			true, "scopesSupported", true, "signedMetadataEnabled", true,
-			"signedMetadataKeyAlias", true);
+			true, "modifiedDate", true, "bearerMethodsSupported", true,
+			"jwksURI", true, "localWellKnownEnabled", true, "localWellKnownURI",
+			true, "resource", true, "resourceDocumentation", true,
+			"signedMetadataEnabled", true, "signedMetadataKeyAlias", true);
 	}
 
 	@Test
@@ -786,4 +784,4 @@ public class OAuthClientPRLocalMetadataPersistenceTest {
 	private ClassLoader _dynamicQueryClassLoader;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1779401475
+// LIFERAY-SERVICE-BUILDER-HASH:-1524115027
