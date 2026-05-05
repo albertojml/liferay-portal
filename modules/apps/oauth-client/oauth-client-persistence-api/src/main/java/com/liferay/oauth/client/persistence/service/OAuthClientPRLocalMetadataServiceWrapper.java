@@ -28,6 +28,69 @@ public class OAuthClientPRLocalMetadataServiceWrapper
 		_oAuthClientPRLocalMetadataService = oAuthClientPRLocalMetadataService;
 	}
 
+	@Override
+	public com.liferay.oauth.client.persistence.model.OAuthClientPRLocalMetadata
+			addOAuthClientPRLocalMetadata(
+				String externalReferenceCode, String resource,
+				String[] authorizationServers, String[] bearerMethodsSupported,
+				String jwksURI, boolean localWellKnownEnabled,
+				String resourceDocumentation, String[] scopesSupported,
+				boolean signedMetadataEnabled, String signedMetadataKeyAlias)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _oAuthClientPRLocalMetadataService.addOAuthClientPRLocalMetadata(
+			externalReferenceCode, resource, authorizationServers,
+			bearerMethodsSupported, jwksURI, localWellKnownEnabled,
+			resourceDocumentation, scopesSupported, signedMetadataEnabled,
+			signedMetadataKeyAlias);
+	}
+
+	@Override
+	public com.liferay.oauth.client.persistence.model.OAuthClientPRLocalMetadata
+			deleteOAuthClientPRLocalMetadata(long oAuthClientPRLocalMetadataId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _oAuthClientPRLocalMetadataService.
+			deleteOAuthClientPRLocalMetadata(oAuthClientPRLocalMetadataId);
+	}
+
+	@Override
+	public com.liferay.oauth.client.persistence.model.OAuthClientPRLocalMetadata
+			fetchOAuthClientPRLocalMetadata(long oAuthClientPRLocalMetadataId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _oAuthClientPRLocalMetadataService.
+			fetchOAuthClientPRLocalMetadata(oAuthClientPRLocalMetadataId);
+	}
+
+	@Override
+	public com.liferay.oauth.client.persistence.model.OAuthClientPRLocalMetadata
+			fetchOAuthClientPRLocalMetadata(long companyId, String resource)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _oAuthClientPRLocalMetadataService.
+			fetchOAuthClientPRLocalMetadata(companyId, resource);
+	}
+
+	@Override
+	public java.util.List
+		<com.liferay.oauth.client.persistence.model.OAuthClientPRLocalMetadata>
+			getCompanyOAuthClientPRLocalMetadata(long companyId) {
+
+		return _oAuthClientPRLocalMetadataService.
+			getCompanyOAuthClientPRLocalMetadata(companyId);
+	}
+
+	@Override
+	public java.util.List
+		<com.liferay.oauth.client.persistence.model.OAuthClientPRLocalMetadata>
+			getCompanyOAuthClientPRLocalMetadata(
+				long companyId, int start, int end) {
+
+		return _oAuthClientPRLocalMetadataService.
+			getCompanyOAuthClientPRLocalMetadata(companyId, start, end);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -36,6 +99,24 @@ public class OAuthClientPRLocalMetadataServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _oAuthClientPRLocalMetadataService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.liferay.oauth.client.persistence.model.OAuthClientPRLocalMetadata
+			updateOAuthClientPRLocalMetadata(
+				long oAuthClientPRLocalMetadataId, String resource,
+				String[] authorizationServers, String[] bearerMethodsSupported,
+				String jwksURI, boolean localWellKnownEnabled,
+				String resourceDocumentation, String[] scopesSupported,
+				boolean signedMetadataEnabled, String signedMetadataKeyAlias)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _oAuthClientPRLocalMetadataService.
+			updateOAuthClientPRLocalMetadata(
+				oAuthClientPRLocalMetadataId, resource, authorizationServers,
+				bearerMethodsSupported, jwksURI, localWellKnownEnabled,
+				resourceDocumentation, scopesSupported, signedMetadataEnabled,
+				signedMetadataKeyAlias);
 	}
 
 	@Override
@@ -54,4 +135,4 @@ public class OAuthClientPRLocalMetadataServiceWrapper
 		_oAuthClientPRLocalMetadataService;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-997487258
+// LIFERAY-SERVICE-BUILDER-HASH:-264076420

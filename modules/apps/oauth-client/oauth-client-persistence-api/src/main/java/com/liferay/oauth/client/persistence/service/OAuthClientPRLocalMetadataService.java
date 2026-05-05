@@ -5,13 +5,17 @@
 
 package com.liferay.oauth.client.persistence.service;
 
+import com.liferay.oauth.client.persistence.model.OAuthClientPRLocalMetadata;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -38,6 +42,36 @@ public interface OAuthClientPRLocalMetadataService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.oauth.client.persistence.service.impl.OAuthClientPRLocalMetadataServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the o auth client pr local metadata remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link OAuthClientPRLocalMetadataServiceUtil} if injection and service tracking are not available.
 	 */
+	public OAuthClientPRLocalMetadata addOAuthClientPRLocalMetadata(
+			String externalReferenceCode, String resource,
+			String[] authorizationServers, String[] bearerMethodsSupported,
+			String jwksURI, boolean localWellKnownEnabled,
+			String resourceDocumentation, String[] scopesSupported,
+			boolean signedMetadataEnabled, String signedMetadataKeyAlias)
+		throws PortalException;
+
+	public OAuthClientPRLocalMetadata deleteOAuthClientPRLocalMetadata(
+			long oAuthClientPRLocalMetadataId)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public OAuthClientPRLocalMetadata fetchOAuthClientPRLocalMetadata(
+			long oAuthClientPRLocalMetadataId)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public OAuthClientPRLocalMetadata fetchOAuthClientPRLocalMetadata(
+			long companyId, String resource)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<OAuthClientPRLocalMetadata>
+		getCompanyOAuthClientPRLocalMetadata(long companyId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<OAuthClientPRLocalMetadata>
+		getCompanyOAuthClientPRLocalMetadata(
+			long companyId, int start, int end);
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -46,5 +80,13 @@ public interface OAuthClientPRLocalMetadataService extends BaseService {
 	 */
 	public String getOSGiServiceIdentifier();
 
+	public OAuthClientPRLocalMetadata updateOAuthClientPRLocalMetadata(
+			long oAuthClientPRLocalMetadataId, String resource,
+			String[] authorizationServers, String[] bearerMethodsSupported,
+			String jwksURI, boolean localWellKnownEnabled,
+			String resourceDocumentation, String[] scopesSupported,
+			boolean signedMetadataEnabled, String signedMetadataKeyAlias)
+		throws PortalException;
+
 }
-// LIFERAY-SERVICE-BUILDER-HASH:450342211
+// LIFERAY-SERVICE-BUILDER-HASH:-2074205131
