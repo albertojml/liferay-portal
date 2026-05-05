@@ -36,3 +36,26 @@ create table OAuthClientEntry (
 	oidcUserInfoMapperJSON VARCHAR(3999) null,
 	tokenRequestParametersJSON VARCHAR(3999) null
 );
+
+create table OAuthClientPRLocalMetadata (
+	mvccVersion LONG default 0 not null,
+	uuid_ VARCHAR(75) null,
+	externalReferenceCode VARCHAR(75) null,
+	oAuthClientPRLocalMetadataId LONG not null primary key,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	modifiedDate DATE null,
+	authorizationServers VARCHAR(75) null,
+	bearerMethodsSupported VARCHAR(75) null,
+	jwksURI VARCHAR(75) null,
+	localWellKnownEnabled BOOLEAN,
+	localWellKnownURI VARCHAR(75) null,
+	metadataJSON VARCHAR(75) null,
+	resource VARCHAR(75) null,
+	resourceDocumentation VARCHAR(75) null,
+	scopesSupported VARCHAR(75) null,
+	signedMetadataEnabled BOOLEAN,
+	signedMetadataKeyAlias VARCHAR(75) null
+);
