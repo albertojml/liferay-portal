@@ -11,6 +11,15 @@
 int oAuthClientASLocalMetadatasCount = OAuthClientASLocalMetadataLocalServiceUtil.getOAuthClientASLocalMetadatasCount();
 
 OAuthClientASLocalMetadataManagementToolbarDisplayContext oAuthClientASLocalMetadataManagementToolbarDisplayContext = new OAuthClientASLocalMetadataManagementToolbarDisplayContext(currentURLObj, liferayPortletRequest, liferayPortletResponse);
+
+boolean lpd63415Enabled = false;
+
+try {
+	lpd63415Enabled = FeatureFlagManagerUtil.isEnabled("LPD-63415");
+}
+catch (IllegalStateException illegalStateException) {
+	lpd63415Enabled = false;
+}
 %>
 
 <clay:management-toolbar
@@ -30,7 +39,7 @@ OAuthClientASLocalMetadataManagementToolbarDisplayContext oAuthClientASLocalMeta
 />
 
 <c:choose>
-	<c:when test='<%= !FeatureFlagManagerUtil.isEnabled("LPD-63415") %>'>
+	<c:when test="<%= !lpd63415Enabled %>">
 		<liferay-util:include page="/admin/view_oauth_client_as_local_metadata_openid_configuration.jsp" servletContext="<%= application %>" />
 	</c:when>
 	<c:otherwise>
