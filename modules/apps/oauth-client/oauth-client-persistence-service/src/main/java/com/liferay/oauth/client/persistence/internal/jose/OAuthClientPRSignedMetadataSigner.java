@@ -40,9 +40,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
-
 /**
  * Produces RFC 9728 §2.1 {@code signed_metadata} compact-serialized JWTs from
  * the unsigned metadata payload. The signing key is looked up by alias in a
@@ -51,8 +48,13 @@ import org.osgi.service.component.annotations.Reference;
  *
  * @author Alberto Moreno
  */
-@Component(service = OAuthClientPRSignedMetadataSigner.class)
 public class OAuthClientPRSignedMetadataSigner {
+
+	public OAuthClientPRSignedMetadataSigner(
+		ConfigurationProvider configurationProvider) {
+
+		_configurationProvider = configurationProvider;
+	}
 
 	public String sign(JSONObject jsonObject, String keyAlias)
 		throws PortalException {
@@ -201,7 +203,6 @@ public class OAuthClientPRSignedMetadataSigner {
 	private static final Log _log = LogFactoryUtil.getLog(
 		OAuthClientPRSignedMetadataSigner.class);
 
-	@Reference
-	private ConfigurationProvider _configurationProvider;
+	private final ConfigurationProvider _configurationProvider;
 
 }

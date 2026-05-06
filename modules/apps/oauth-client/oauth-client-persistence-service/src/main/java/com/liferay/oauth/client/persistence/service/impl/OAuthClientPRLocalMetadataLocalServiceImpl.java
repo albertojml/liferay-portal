@@ -14,6 +14,7 @@ import com.liferay.oauth.client.persistence.model.OAuthClientPRLocalMetadata;
 import com.liferay.oauth.client.persistence.service.base.OAuthClientPRLocalMetadataLocalServiceBaseImpl;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.aop.AopService;
+import com.liferay.portal.configuration.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -341,9 +342,14 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 			}
 
 			if (signedMetadataEnabled) {
+				OAuthClientPRSignedMetadataSigner
+					oAuthClientPRSignedMetadataSigner =
+						new OAuthClientPRSignedMetadataSigner(
+							_configurationProvider);
+
 				jsonObject.put(
 					"signed_metadata",
-					_oAuthClientPRSignedMetadataSigner.sign(
+					oAuthClientPRSignedMetadataSigner.sign(
 						jsonObject, signedMetadataKeyAlias));
 			}
 
@@ -445,11 +451,10 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 	}
 
 	@Reference
-	private JSONFactory _jsonFactory;
+	private ConfigurationProvider _configurationProvider;
 
 	@Reference
-	private OAuthClientPRSignedMetadataSigner
-		_oAuthClientPRSignedMetadataSigner;
+	private JSONFactory _jsonFactory;
 
 	@Reference
 	private ResourceLocalService _resourceLocalService;
