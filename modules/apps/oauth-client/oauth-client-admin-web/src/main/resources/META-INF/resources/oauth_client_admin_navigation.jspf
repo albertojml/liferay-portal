@@ -1,0 +1,90 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2026 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+boolean prAdminPortlet = OAuthClientAdminPortletKeys.OAUTH_CLIENT_PR_ADMIN.equals(portletDisplay.getRootPortletId());
+
+String currentNavigation = ParamUtil.getString(request, "navigation", "oauth-clients");
+
+boolean clientsTabActive = !prAdminPortlet && currentNavigation.equals("oauth-clients");
+boolean asTabActive = !prAdminPortlet && currentNavigation.contains("oauth-client-as-local-metadata");
+
+boolean prTopNavFlagEnabled = false;
+
+try {
+	prTopNavFlagEnabled = FeatureFlagManagerUtil.isEnabled("LPD-99999");
+}
+catch (IllegalStateException illegalStateException) {
+	prTopNavFlagEnabled = false;
+}
+
+final boolean prNavTabVisible = prTopNavFlagEnabled;
+%>
+
+<clay:navigation-bar
+	navigationItems='<%=
+		new JSPNavigationItemList(pageContext) {
+			{
+				add(
+					navigationItem -> {
+						navigationItem.setActive(clientsTabActive);
+
+						PortletURL portletURL = PortletURLBuilder.create(
+							PortalUtil.getControlPanelPortletURL(
+								httpServletRequest,
+								OAuthClientAdminPortletKeys.OAUTH_CLIENT_ADMIN,
+								PortletRequest.RENDER_PHASE)
+						).setMVCRenderCommandName(
+							"/oauth_client_admin/view_oauth_client_entries"
+						).setNavigation(
+							"oauth-clients"
+						).buildPortletURL();
+
+						navigationItem.setHref(portletURL.toString());
+
+						navigationItem.setLabel(LanguageUtil.get(httpServletRequest, "oauth-clients"));
+					});
+
+				add(
+					navigationItem -> {
+						navigationItem.setActive(asTabActive);
+
+						PortletURL portletURL = PortletURLBuilder.create(
+							PortalUtil.getControlPanelPortletURL(
+								httpServletRequest,
+								OAuthClientAdminPortletKeys.OAUTH_CLIENT_ADMIN,
+								PortletRequest.RENDER_PHASE)
+						).setMVCRenderCommandName(
+							"/oauth_client_admin/view_oauth_client_as_local_metadata"
+						).setNavigation(
+							"oauth-client-as-local-metadata"
+						).buildPortletURL();
+
+						navigationItem.setHref(portletURL.toString());
+
+						navigationItem.setLabel(LanguageUtil.get(httpServletRequest, "oauth-client-as-local-metadata"));
+					});
+
+				if (prNavTabVisible) {
+					add(
+						navigationItem -> {
+							navigationItem.setActive(prAdminPortlet);
+
+							PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
+								httpServletRequest,
+								OAuthClientAdminPortletKeys.OAUTH_CLIENT_PR_ADMIN,
+								PortletRequest.RENDER_PHASE);
+
+							navigationItem.setHref(portletURL.toString());
+
+							navigationItem.setLabel(LanguageUtil.get(httpServletRequest, "oauth-client-pr-local-metadata"));
+						});
+				}
+			}
+		}
+	%>'
+/>

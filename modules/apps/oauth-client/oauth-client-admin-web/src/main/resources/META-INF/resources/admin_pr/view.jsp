@@ -7,6 +7,8 @@
 
 <%@ include file="/init.jsp" %>
 
+<%@ include file="/oauth_client_admin_navigation.jspf" %>
+
 <%
 int oAuthClientPRLocalMetadatasCount = OAuthClientPRLocalMetadataLocalServiceUtil.getOAuthClientPRLocalMetadatasCount(themeDisplay.getCompanyId());
 

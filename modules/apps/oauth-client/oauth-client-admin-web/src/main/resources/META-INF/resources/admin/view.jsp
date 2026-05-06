@@ -11,47 +11,7 @@
 String navigation = ParamUtil.getString(request, "navigation", "oauth-clients");
 %>
 
-<clay:navigation-bar
-	navigationItems='<%=
-		new JSPNavigationItemList(pageContext) {
-			{
-				add(
-					navigationItem -> {
-						navigationItem.setActive(navigation.equals("oauth-clients"));
-
-						PortletURL portletURL = PortletURLBuilder.createRenderURL(
-							renderResponse
-						).setMVCRenderCommandName(
-							"/oauth_client_admin/view_oauth_client_entries"
-						).setNavigation(
-							"oauth-clients"
-						).buildPortletURL();
-
-						navigationItem.setHref(portletURL.toString());
-
-						navigationItem.setLabel(LanguageUtil.get(httpServletRequest, "oauth-clients"));
-					});
-
-				add(
-					navigationItem -> {
-						navigationItem.setActive(navigation.contains("oauth-client-as-local-metadata"));
-
-						PortletURL portletURL = PortletURLBuilder.createRenderURL(
-							renderResponse
-						).setMVCRenderCommandName(
-							"/oauth_client_admin/view_oauth_client_as_local_metadata"
-						).setNavigation(
-							"oauth-client-as-local-metadata"
-						).buildPortletURL();
-
-						navigationItem.setHref(portletURL.toString());
-
-						navigationItem.setLabel(LanguageUtil.get(httpServletRequest, "oauth-client-as-local-metadata"));
-					});
-			}
-		}
-	%>'
-/>
+<%@ include file="/oauth_client_admin_navigation.jspf" %>
 
 <c:choose>
 	<c:when test='<%= navigation.equals("oauth-clients") %>'>
