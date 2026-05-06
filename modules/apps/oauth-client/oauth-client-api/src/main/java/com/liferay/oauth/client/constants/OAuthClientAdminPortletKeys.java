@@ -14,4 +14,8 @@ public class OAuthClientAdminPortletKeys {
 		"com_liferay_oauth_client_admin_web_internal_portlet_OAuthClientAdmin" +
 			"Portlet";
 
+	public static final String OAUTH_CLIENT_PR_ADMIN =
+		"com_liferay_oauth_client_admin_web_internal_portlet_OAuthClientPRAd" +
+			"minPortlet";
+
 }

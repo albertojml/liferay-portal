@@ -18,8 +18,8 @@ portletDisplay.setURLBack(redirect);
 renderResponse.setTitle((oAuthClientPRLocalMetadata == null) ? LanguageUtil.get(request, "new-oauth-client-pr-local-metadata") : LanguageUtil.get(request, "edit-oauth-client-pr-local-metadata"));
 %>
 
-<portlet:actionURL name="/oauth_client_admin/update_oauth_client_pr_local_metadata" var="updateOAuthClientPRLocalMetadataURL">
-	<portlet:param name="mvcRenderCommandName" value="/oauth_client_admin/update_oauth_client_pr_local_metadata" />
+<portlet:actionURL name="/oauth_client_pr_admin/update_oauth_client_pr_local_metadata" var="updateOAuthClientPRLocalMetadataURL">
+	<portlet:param name="mvcRenderCommandName" value="/oauth_client_pr_admin/update_oauth_client_pr_local_metadata" />
 </portlet:actionURL>
 
 <aui:form action="<%= updateOAuthClientPRLocalMetadataURL %>" id="oauth-client-pr-fm" method="post" name="oauth-client-pr-fm">
@@ -72,7 +72,7 @@ renderResponse.setTitle((oAuthClientPRLocalMetadata == null) ? LanguageUtil.get(
 				</aui:fieldset>
 
 				<aui:fieldset label="oauth-client-pr-local-metadata-json-preview-section">
-					<aui:input helpMessage="oauth-client-pr-local-metadata-json-help" label="oauth-client-pr-local-metadata-json" name="metadataJSON" readonly="true" style="min-height: 400px;" type="textarea" value="<%= (oAuthClientPRLocalMetadata != null) ? oAuthClientPRLocalMetadata.getMetadataJSON() : \"{}\" %>" />
+					<aui:input helpMessage="oauth-client-pr-local-metadata-json-help" label="oauth-client-pr-local-metadata-json" name="metadataJSON" readonly="true" style="min-height: 400px;" type="textarea" value='<%= (oAuthClientPRLocalMetadata != null) ? oAuthClientPRLocalMetadata.getMetadataJSON() : "{}" %>' />
 				</aui:fieldset>
 
 				<aui:button-row>

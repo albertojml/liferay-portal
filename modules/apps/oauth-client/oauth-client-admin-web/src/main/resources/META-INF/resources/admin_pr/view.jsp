@@ -7,6 +7,28 @@
 
 <%@ include file="/init.jsp" %>
 
+<%
+int oAuthClientPRLocalMetadatasCount = OAuthClientPRLocalMetadataLocalServiceUtil.getOAuthClientPRLocalMetadatasCount(themeDisplay.getCompanyId());
+
+OAuthClientPRLocalMetadataManagementToolbarDisplayContext oAuthClientPRLocalMetadataManagementToolbarDisplayContext = new OAuthClientPRLocalMetadataManagementToolbarDisplayContext(currentURLObj, liferayPortletRequest, liferayPortletResponse);
+%>
+
+<clay:management-toolbar
+	actionDropdownItems="<%= oAuthClientPRLocalMetadataManagementToolbarDisplayContext.getActionDropdownItems() %>"
+	additionalProps="<%= oAuthClientPRLocalMetadataManagementToolbarDisplayContext.getAdditionalProps() %>"
+	creationMenu="<%= oAuthClientPRLocalMetadataManagementToolbarDisplayContext.getCreationMenu() %>"
+	disabled="<%= oAuthClientPRLocalMetadatasCount == 0 %>"
+	itemsTotal="<%= oAuthClientPRLocalMetadatasCount %>"
+	orderDropdownItems="<%= oAuthClientPRLocalMetadataManagementToolbarDisplayContext.getOrderByDropdownItems() %>"
+	searchContainerId="oAuthClientPRLocalMetadataSearchContainer"
+	selectable="<%= true %>"
+	showCreationMenu="<%= true %>"
+	showSearch="<%= false %>"
+	sortingOrder="<%= oAuthClientPRLocalMetadataManagementToolbarDisplayContext.getOrderByType() %>"
+	sortingURL="<%= String.valueOf(oAuthClientPRLocalMetadataManagementToolbarDisplayContext.getSortingURL()) %>"
+	viewTypeItems="<%= oAuthClientPRLocalMetadataManagementToolbarDisplayContext.getViewTypes() %>"
+/>
+
 <clay:container-fluid
 	cssClass="closed"
 >
@@ -15,7 +37,7 @@
 		id="oAuthClientPRLocalMetadataSearchContainer"
 		iteratorURL="<%= currentURLObj %>"
 		rowChecker="<%= new EmptyOnClickRowChecker(renderResponse) %>"
-		total="<%= OAuthClientPRLocalMetadataLocalServiceUtil.getOAuthClientPRLocalMetadatasCount(themeDisplay.getCompanyId()) %>"
+		total="<%= oAuthClientPRLocalMetadatasCount %>"
 	>
 		<liferay-ui:search-container-results
 			results="<%= OAuthClientPRLocalMetadataServiceUtil.getCompanyOAuthClientPRLocalMetadata(themeDisplay.getCompanyId(), searchContainer.getStart(), searchContainer.getEnd()) %>"
@@ -28,7 +50,7 @@
 			modelVar="oAuthClientPRLocalMetadata"
 		>
 			<portlet:renderURL var="editURL">
-				<portlet:param name="mvcRenderCommandName" value="/oauth_client_admin/update_oauth_client_pr_local_metadata" />
+				<portlet:param name="mvcRenderCommandName" value="/oauth_client_pr_admin/update_oauth_client_pr_local_metadata" />
 				<portlet:param name="redirect" value="<%= currentURL %>" />
 				<portlet:param name="oAuthClientPRLocalMetadataId" value="<%= String.valueOf(oAuthClientPRLocalMetadata.getOAuthClientPRLocalMetadataId()) %>" />
 			</portlet:renderURL>
@@ -42,7 +64,7 @@
 
 			<liferay-ui:search-container-column-jsp
 				align="right"
-				path="/admin/oauth_client_pr_local_metadata_actions.jsp"
+				path="/admin_pr/oauth_client_pr_local_metadata_actions.jsp"
 			/>
 		</liferay-ui:search-container-row>
 

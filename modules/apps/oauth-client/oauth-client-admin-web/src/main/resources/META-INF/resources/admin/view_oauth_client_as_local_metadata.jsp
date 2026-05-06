@@ -46,18 +46,6 @@ catch (IllegalStateException illegalStateException) {
 
 		<%
 		String navigation = ParamUtil.getString(request, "navigation", "oauth-client-as-local-metadata-openid-configuration");
-
-		boolean protectedResourceFlagEnabled;
-
-		try {
-			protectedResourceFlagEnabled = FeatureFlagManagerUtil.isEnabled(
-				"LPD-99999");
-		}
-		catch (IllegalStateException illegalStateException) {
-			protectedResourceFlagEnabled = false;
-		}
-
-		final boolean protectedResourceEnabled = protectedResourceFlagEnabled;
 		%>
 
 		<clay:navigation-bar
@@ -97,25 +85,6 @@ catch (IllegalStateException illegalStateException) {
 
 								navigationItem.setLabel(LanguageUtil.get(httpServletRequest, "oauth-client-as-local-oauth-authorization-server"));
 							});
-
-						if (protectedResourceEnabled) {
-							add(
-								navigationItem -> {
-									navigationItem.setActive(navigation.equals("oauth-client-as-local-metadata-oauth-protected-resource"));
-
-									PortletURL portletURL = PortletURLBuilder.createRenderURL(
-										renderResponse
-									).setMVCRenderCommandName(
-										"/oauth_client_admin/view_oauth_client_as_local_metadata"
-									).setNavigation(
-										"oauth-client-as-local-metadata-oauth-protected-resource"
-									).buildPortletURL();
-
-									navigationItem.setHref(portletURL.toString());
-
-									navigationItem.setLabel(LanguageUtil.get(httpServletRequest, "oauth-client-pr-local-oauth-protected-resource"));
-								});
-						}
 					}
 				}
 			%>'
@@ -127,9 +96,6 @@ catch (IllegalStateException illegalStateException) {
 			</c:when>
 			<c:when test='<%= navigation.equals("oauth-client-as-local-metadata-oauth-authorization-server") %>'>
 				<liferay-util:include page="/admin/view_oauth_client_as_local_metadata_oauth_authorization_server.jsp" servletContext="<%= application %>" />
-			</c:when>
-			<c:when test='<%= navigation.equals("oauth-client-as-local-metadata-oauth-protected-resource") %>'>
-				<liferay-util:include page="/admin/view_oauth_client_pr_local_metadata.jsp" servletContext="<%= application %>" />
 			</c:when>
 		</c:choose>
 	</c:otherwise>
