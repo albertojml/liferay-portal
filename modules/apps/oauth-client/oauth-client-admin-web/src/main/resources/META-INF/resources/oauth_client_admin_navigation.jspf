@@ -16,7 +16,7 @@ boolean asTabActive = !prAdminPortlet && currentNavigation.contains("oauth-clien
 boolean prTopNavFlagEnabled = false;
 
 try {
-	prTopNavFlagEnabled = FeatureFlagManagerUtil.isEnabled("LPD-99999");
+	prTopNavFlagEnabled = FeatureFlagManagerUtil.isEnabled("LPD-88766");
 }
 catch (IllegalStateException illegalStateException) {
 	prTopNavFlagEnabled = false;
@@ -34,10 +34,7 @@ final boolean prNavTabVisible = prTopNavFlagEnabled;
 						navigationItem.setActive(clientsTabActive);
 
 						PortletURL portletURL = PortletURLBuilder.create(
-							PortalUtil.getControlPanelPortletURL(
-								httpServletRequest,
-								OAuthClientAdminPortletKeys.OAUTH_CLIENT_ADMIN,
-								PortletRequest.RENDER_PHASE)
+							PortalUtil.getControlPanelPortletURL(httpServletRequest, OAuthClientAdminPortletKeys.OAUTH_CLIENT_ADMIN, PortletRequest.RENDER_PHASE)
 						).setMVCRenderCommandName(
 							"/oauth_client_admin/view_oauth_client_entries"
 						).setNavigation(
@@ -54,10 +51,7 @@ final boolean prNavTabVisible = prTopNavFlagEnabled;
 						navigationItem.setActive(asTabActive);
 
 						PortletURL portletURL = PortletURLBuilder.create(
-							PortalUtil.getControlPanelPortletURL(
-								httpServletRequest,
-								OAuthClientAdminPortletKeys.OAUTH_CLIENT_ADMIN,
-								PortletRequest.RENDER_PHASE)
+							PortalUtil.getControlPanelPortletURL(httpServletRequest, OAuthClientAdminPortletKeys.OAUTH_CLIENT_ADMIN, PortletRequest.RENDER_PHASE)
 						).setMVCRenderCommandName(
 							"/oauth_client_admin/view_oauth_client_as_local_metadata"
 						).setNavigation(
@@ -74,10 +68,7 @@ final boolean prNavTabVisible = prTopNavFlagEnabled;
 						navigationItem -> {
 							navigationItem.setActive(prAdminPortlet);
 
-							PortletURL portletURL = PortalUtil.getControlPanelPortletURL(
-								httpServletRequest,
-								OAuthClientAdminPortletKeys.OAUTH_CLIENT_PR_ADMIN,
-								PortletRequest.RENDER_PHASE);
+							PortletURL portletURL = PortalUtil.getControlPanelPortletURL(httpServletRequest, OAuthClientAdminPortletKeys.OAUTH_CLIENT_PR_ADMIN, PortletRequest.RENDER_PHASE);
 
 							navigationItem.setHref(portletURL.toString());
 

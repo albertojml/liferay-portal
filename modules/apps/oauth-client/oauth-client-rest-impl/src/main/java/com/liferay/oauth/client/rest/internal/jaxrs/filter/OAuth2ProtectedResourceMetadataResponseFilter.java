@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Reference;
  * 9728 Protected Resource Metadata document via the {@code resource_metadata}
  * parameter.
  *
- * Per the LPD-99999 plan, the mapping from a CXF request to a specific
+ * Per the LPD-88766 plan, the mapping from a CXF request to a specific
  * Protected Resource record is intentionally minimal in this first cut: the
  * filter advertises the first enabled record for the current company. A
  * scope-aware or application-aware mapping is a follow-up refinement.
@@ -64,7 +64,7 @@ public class OAuth2ProtectedResourceMetadataResponseFilter
 
 		long companyId = CompanyThreadLocal.getCompanyId();
 
-		if (!FeatureFlagManagerUtil.isEnabled(companyId, "LPD-99999")) {
+		if (!FeatureFlagManagerUtil.isEnabled(companyId, "LPD-88766")) {
 			return;
 		}
 

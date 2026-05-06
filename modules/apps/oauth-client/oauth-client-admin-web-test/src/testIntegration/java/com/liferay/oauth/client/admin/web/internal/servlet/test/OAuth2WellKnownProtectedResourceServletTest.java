@@ -34,7 +34,7 @@ import org.junit.runner.RunWith;
 /**
  * @author Alberto Moreno
  */
-@FeatureFlag("LPD-99999")
+@FeatureFlag("LPD-88766")
 @RunWith(Arquillian.class)
 public class OAuth2WellKnownProtectedResourceServletTest {
 
@@ -88,8 +88,8 @@ public class OAuth2WellKnownProtectedResourceServletTest {
 
 		String resource1 =
 			Http.HTTPS_WITH_SLASH + RandomTestUtil.randomString() + ".com";
-		String authorizationServer1 = Http.HTTPS_WITH_SLASH +
-			RandomTestUtil.randomString() + ".com";
+		String authorizationServer1 =
+			Http.HTTPS_WITH_SLASH + RandomTestUtil.randomString() + ".com";
 		String scope1 = RandomTestUtil.randomString();
 
 		OAuthClientPRLocalMetadata oAuthClientPRLocalMetadata1 =

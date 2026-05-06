@@ -67,7 +67,7 @@ public class OAuth2WellKnownProtectedResourceServlet extends HttpServlet {
 		throws IOException {
 
 		if (!FeatureFlagManagerUtil.isEnabled(
-				CompanyThreadLocal.getCompanyId(), "LPD-99999")) {
+				CompanyThreadLocal.getCompanyId(), "LPD-88766")) {
 
 			return;
 		}

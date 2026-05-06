@@ -48,13 +48,12 @@ public class OAuthClientPRAdminPanelApp extends BasePanelApp {
 	}
 
 	@Override
-	public boolean isShow(
-			PermissionChecker permissionChecker, Group group)
+	public boolean isShow(PermissionChecker permissionChecker, Group group)
 		throws PortalException {
 
 		try {
 			if (!FeatureFlagManagerUtil.isEnabled(
-					permissionChecker.getCompanyId(), "LPD-99999")) {
+					permissionChecker.getCompanyId(), "LPD-88766")) {
 
 				return false;
 			}

@@ -85,9 +85,9 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 		oAuthClientPRLocalMetadata.setLocalWellKnownURI(localWellKnownURI);
 		oAuthClientPRLocalMetadata.setMetadataJSON(
 			_generateProtectedResourceMetadataJSON(
-				resource, authorizationServers, bearerMethodsSupported,
-				jwksURI, resourceDocumentation, scopesSupported,
-				signedMetadataEnabled, signedMetadataKeyAlias));
+				resource, authorizationServers, bearerMethodsSupported, jwksURI,
+				resourceDocumentation, scopesSupported, signedMetadataEnabled,
+				signedMetadataKeyAlias));
 		oAuthClientPRLocalMetadata.setResource(resource);
 		oAuthClientPRLocalMetadata.setResourceDocumentation(
 			resourceDocumentation);
@@ -255,9 +255,9 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 		oAuthClientPRLocalMetadata.setLocalWellKnownURI(localWellKnownURI);
 		oAuthClientPRLocalMetadata.setMetadataJSON(
 			_generateProtectedResourceMetadataJSON(
-				resource, authorizationServers, bearerMethodsSupported,
-				jwksURI, resourceDocumentation, scopesSupported,
-				signedMetadataEnabled, signedMetadataKeyAlias));
+				resource, authorizationServers, bearerMethodsSupported, jwksURI,
+				resourceDocumentation, scopesSupported, signedMetadataEnabled,
+				signedMetadataKeyAlias));
 		oAuthClientPRLocalMetadata.setResource(resource);
 		oAuthClientPRLocalMetadata.setResourceDocumentation(
 			resourceDocumentation);
@@ -394,7 +394,7 @@ public class OAuthClientPRLocalMetadataLocalServiceImpl
 			String localWellKnownURI)
 		throws PortalException {
 
-		if (FeatureFlagManagerUtil.isEnabled(companyId, "LPD-99999")) {
+		if (FeatureFlagManagerUtil.isEnabled(companyId, "LPD-88766")) {
 			if (Validator.isNull(resource)) {
 				throw new OAuthClientPRLocalMetadataResourceException();
 			}
