@@ -101,14 +101,14 @@ catch (IllegalStateException illegalStateException) {
 						if (protectedResourceEnabled) {
 							add(
 								navigationItem -> {
-									navigationItem.setActive(navigation.equals("oauth-client-pr-local-metadata-oauth-protected-resource"));
+									navigationItem.setActive(navigation.equals("oauth-client-as-local-metadata-oauth-protected-resource"));
 
 									PortletURL portletURL = PortletURLBuilder.createRenderURL(
 										renderResponse
 									).setMVCRenderCommandName(
 										"/oauth_client_admin/view_oauth_client_as_local_metadata"
 									).setNavigation(
-										"oauth-client-pr-local-metadata-oauth-protected-resource"
+										"oauth-client-as-local-metadata-oauth-protected-resource"
 									).buildPortletURL();
 
 									navigationItem.setHref(portletURL.toString());
@@ -128,7 +128,7 @@ catch (IllegalStateException illegalStateException) {
 			<c:when test='<%= navigation.equals("oauth-client-as-local-metadata-oauth-authorization-server") %>'>
 				<liferay-util:include page="/admin/view_oauth_client_as_local_metadata_oauth_authorization_server.jsp" servletContext="<%= application %>" />
 			</c:when>
-			<c:when test='<%= navigation.equals("oauth-client-pr-local-metadata-oauth-protected-resource") %>'>
+			<c:when test='<%= navigation.equals("oauth-client-as-local-metadata-oauth-protected-resource") %>'>
 				<liferay-util:include page="/admin/view_oauth_client_pr_local_metadata.jsp" servletContext="<%= application %>" />
 			</c:when>
 		</c:choose>
