@@ -286,6 +286,11 @@ public class MCPServerServlet extends HttpServlet {
 			int responseCode = response.getResponseCode();
 
 			if (responseCode < 300) {
+				if (content == null) {
+					content = StringBundler.concat(
+						"{\"status\":", responseCode, "}");
+				}
+
 				return McpSchema.CallToolResult.builder(
 				).addTextContent(
 					content
