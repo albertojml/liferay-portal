@@ -286,6 +286,40 @@ public class ImportProcessResourceTest
 					importProcessRequest));
 	}
 
+	@Test
+	public void testPostSiteImportProcessFromExportProcess() throws Exception {
+		long exportBackgroundTaskId = _exportLayoutsInBackground(
+			testGroup.getGroupId());
+
+		ExportImportTestUtil.retryAssert(
+			1, TimeUnit.SECONDS, 30, TimeUnit.SECONDS,
+			() -> Assert.assertEquals(
+				BackgroundTaskConstants.STATUS_SUCCESSFUL,
+				_backgroundTaskLocalService.getBackgroundTask(
+					exportBackgroundTaskId
+				).getStatus()));
+
+		ImportProcessRequest importProcessRequest = new ImportProcessRequest() {
+			{
+				exportProcessId = exportBackgroundTaskId;
+			}
+		};
+
+		ImportProcess importProcess =
+			importProcessResource.postSiteImportProcess(
+				testGroup.getExternalReferenceCode(), importProcessRequest);
+
+		assertValid(importProcess);
+
+		ExportImportTestUtil.retryAssert(
+			1, TimeUnit.SECONDS, 30, TimeUnit.SECONDS,
+			() -> Assert.assertEquals(
+				BackgroundTaskConstants.STATUS_SUCCESSFUL,
+				_backgroundTaskLocalService.getBackgroundTask(
+					importProcess.getId()
+				).getStatus()));
+	}
+
 	@Override
 	protected ImportProcess
 			testGetAssetLibraryImportProcessesPage_addImportProcess(
@@ -387,6 +421,32 @@ public class ImportProcessResourceTest
 
 		return ExportImportLocalServiceUtil.exportLayoutsAsFile(
 			exportImportConfiguration);
+	}
+
+	private long _exportLayoutsInBackground(long groupId) throws Exception {
+		Map<String, Serializable> parameterMap =
+			ExportImportConfigurationSettingsMapFactoryUtil.
+				buildExportLayoutSettingsMap(
+					TestPropsValues.getUser(), groupId, false, null,
+					HashMapBuilder.put(
+						PortletDataHandlerKeys.PORTLET_DATA,
+						new String[] {Boolean.TRUE.toString()}
+					).put(
+						PortletDataHandlerKeys.PORTLET_DATA_ALL,
+						new String[] {Boolean.TRUE.toString()}
+					).build());
+
+		ExportImportConfiguration exportImportConfiguration =
+			ExportImportConfigurationLocalServiceUtil.
+				addExportImportConfiguration(
+					TestPropsValues.getUserId(), groupId,
+					RandomTestUtil.randomString(),
+					RandomTestUtil.randomString(),
+					ExportImportConfigurationConstants.TYPE_EXPORT_LAYOUT,
+					parameterMap, new ServiceContext());
+
+		return ExportImportLocalServiceUtil.exportLayoutsAsFileInBackground(
+			TestPropsValues.getUserId(), exportImportConfiguration);
 	}
 
 	private long _getCompanyGroupId() throws Exception {
