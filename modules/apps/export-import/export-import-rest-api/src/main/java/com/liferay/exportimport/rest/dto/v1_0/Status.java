@@ -46,7 +46,9 @@ public class Status implements Serializable {
 		return ObjectMapperUtil.unsafeReadValue(Status.class, json);
 	}
 
-	@io.swagger.v3.oas.annotations.media.Schema
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "The process's status code. 0 is New, 1 is In Progress, 2 is Failed, 3 is Successful, 4 is Queued, 5 is Cancelled, and 6 is Completed With Errors. Codes 2, 3, 5, and 6 are terminal. Code 6 means the process finished but left unresolved references, which can be reviewed through the import process's report entries."
+	)
 	public Integer getCode() {
 		if (_codeSupplier != null) {
 			code = _codeSupplier.get();
@@ -78,14 +80,18 @@ public class Status implements Serializable {
 		};
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The process's status code. 0 is New, 1 is In Progress, 2 is Failed, 3 is Successful, 4 is Queued, 5 is Cancelled, and 6 is Completed With Errors. Codes 2, 3, 5, and 6 are terminal. Code 6 means the process finished but left unresolved references, which can be reviewed through the import process's report entries."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Integer code;
 
 	@JsonIgnore
 	private Supplier<Integer> _codeSupplier;
 
-	@io.swagger.v3.oas.annotations.media.Schema
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "The localized, human-readable label for the status code."
+	)
 	public String getLabel() {
 		if (_labelSupplier != null) {
 			label = _labelSupplier.get();
@@ -119,7 +125,9 @@ public class Status implements Serializable {
 		};
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The localized, human-readable label for the status code."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String label;
 
@@ -282,4 +290,4 @@ public class Status implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:-1031654233
+// LIFERAY-REST-BUILDER-HASH:214924155

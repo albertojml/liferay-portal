@@ -272,7 +272,9 @@ public class ImportProcessRequest implements Serializable {
 	@JsonIgnore
 	private Supplier<Boolean> _permissionsSupplier;
 
-	@io.swagger.v3.oas.annotations.media.Schema
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "The portlet data handlers to import, each identifying an entity type to include. A handler's \"name\" must match a value returned by an export-preview or import-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a handler not available for the scope is rejected with an HTTP 400 response."
+	)
 	@Valid
 	public RequestPortletDataHandler[] getRequestPortletDataHandlers() {
 		if (_requestPortletDataHandlersSupplier != null) {
@@ -311,7 +313,9 @@ public class ImportProcessRequest implements Serializable {
 		};
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The portlet data handlers to import, each identifying an entity type to include. A handler's \"name\" must match a value returned by an export-preview or import-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a handler not available for the scope is rejected with an HTTP 400 response."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected RequestPortletDataHandler[] requestPortletDataHandlers;
 
@@ -684,4 +688,4 @@ public class ImportProcessRequest implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:2017725180
+// LIFERAY-REST-BUILDER-HASH:462269476

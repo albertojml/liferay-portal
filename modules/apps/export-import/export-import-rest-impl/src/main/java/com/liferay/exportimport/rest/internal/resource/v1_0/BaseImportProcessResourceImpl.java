@@ -356,6 +356,9 @@ public abstract class BaseImportProcessResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/import-processes' -d $'{"dataStrategy": ___, "deletions": ___, "exportProcessId": ___, "name": ___, "permissions": ___, "requestPortletDataHandlers": ___, "userIdStrategy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Creates and starts an import that runs asynchronously. The response returns immediately with an import process whose status is New. Poll the import process by its id until the status reaches a terminal code (see the Status schema), then read its report entries to review any unresolved references."
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -549,6 +552,9 @@ public abstract class BaseImportProcessResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/import-processes' -d $'{"dataStrategy": ___, "deletions": ___, "exportProcessId": ___, "name": ___, "permissions": ___, "requestPortletDataHandlers": ___, "userIdStrategy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Creates and starts an import that runs asynchronously. The response returns immediately with an import process whose status is New. Poll the import process by its id until the status reaches a terminal code (see the Status schema), then read its report entries to review any unresolved references."
+	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "ImportProcess")
@@ -708,6 +714,9 @@ public abstract class BaseImportProcessResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/sites/{siteExternalReferenceCode}/import-processes' -d $'{"dataStrategy": ___, "deletions": ___, "exportProcessId": ___, "name": ___, "permissions": ___, "requestPortletDataHandlers": ___, "userIdStrategy": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Creates and starts an import that runs asynchronously. The response returns immediately with an import process whose status is New. Poll the import process by its id until the status reaches a terminal code (see the Status schema), then read its report entries to review any unresolved references."
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1638,4 +1647,4 @@ public abstract class BaseImportProcessResourceImpl
 		LogFactoryUtil.getLog(BaseImportProcessResourceImpl.class);
 
 }
-// LIFERAY-REST-BUILDER-HASH:-411824798
+// LIFERAY-REST-BUILDER-HASH:2030385273

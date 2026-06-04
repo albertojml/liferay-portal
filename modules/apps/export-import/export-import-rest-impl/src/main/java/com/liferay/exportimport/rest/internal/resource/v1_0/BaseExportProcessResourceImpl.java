@@ -356,6 +356,9 @@ public abstract class BaseExportProcessResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/export-processes' -d $'{"deletions": ___, "endDate": ___, "last": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Creates and starts an export that runs asynchronously. The response returns immediately with an export process whose status is New. Poll the export process by its id until the status reaches a terminal code (see the Status schema). The generated LAR can then be imported by passing the process's id as the exportProcessId of an import request."
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -549,6 +552,9 @@ public abstract class BaseExportProcessResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/export-processes' -d $'{"deletions": ___, "endDate": ___, "last": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Creates and starts an export that runs asynchronously. The response returns immediately with an export process whose status is New. Poll the export process by its id until the status reaches a terminal code (see the Status schema). The generated LAR can then be imported by passing the process's id as the exportProcessId of an import request."
+	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {
 			@io.swagger.v3.oas.annotations.tags.Tag(name = "ExportProcess")
@@ -708,6 +714,9 @@ public abstract class BaseExportProcessResourceImpl
 	 *
 	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/sites/{siteExternalReferenceCode}/export-processes' -d $'{"deletions": ___, "endDate": ___, "last": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Creates and starts an export that runs asynchronously. The response returns immediately with an export process whose status is New. Poll the export process by its id until the status reaches a terminal code (see the Status schema). The generated LAR can then be imported by passing the process's id as the exportProcessId of an import request."
+	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -1638,4 +1647,4 @@ public abstract class BaseExportProcessResourceImpl
 		LogFactoryUtil.getLog(BaseExportProcessResourceImpl.class);
 
 }
-// LIFERAY-REST-BUILDER-HASH:532962316
+// LIFERAY-REST-BUILDER-HASH:2049325516

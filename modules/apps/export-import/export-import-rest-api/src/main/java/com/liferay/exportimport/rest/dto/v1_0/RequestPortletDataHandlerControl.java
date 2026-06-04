@@ -50,7 +50,9 @@ public class RequestPortletDataHandlerControl implements Serializable {
 			RequestPortletDataHandlerControl.class, json);
 	}
 
-	@io.swagger.v3.oas.annotations.media.Schema
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "The control's namespaced name, as returned by the export-preview endpoint in the matching previewPortletDataHandlers[].previewPortletDataHandlerControls[].name."
+	)
 	public String getName() {
 		if (_nameSupplier != null) {
 			name = _nameSupplier.get();
@@ -82,7 +84,9 @@ public class RequestPortletDataHandlerControl implements Serializable {
 		};
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The control's namespaced name, as returned by the export-preview endpoint in the matching previewPortletDataHandlers[].previewPortletDataHandlerControls[].name."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
@@ -140,7 +144,9 @@ public class RequestPortletDataHandlerControl implements Serializable {
 	private Supplier<RequestPortletDataHandlerControl[]>
 		_requestPortletDataHandlerControlsSupplier;
 
-	@io.swagger.v3.oas.annotations.media.Schema
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "The control's selected values. For a Boolean control the value is \"true\" or \"false\"; for a Choice control the value is a single choice name. Defaults to \"true\" when omitted."
+	)
 	public String[] getValues() {
 		if (_valuesSupplier != null) {
 			values = _valuesSupplier.get();
@@ -174,7 +180,9 @@ public class RequestPortletDataHandlerControl implements Serializable {
 		};
 	}
 
-	@GraphQLField
+	@GraphQLField(
+		description = "The control's selected values. For a Boolean control the value is \"true\" or \"false\"; for a Choice control the value is a single choice name. Defaults to \"true\" when omitted."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String[] values;
 
@@ -376,4 +384,4 @@ public class RequestPortletDataHandlerControl implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:-791704979
+// LIFERAY-REST-BUILDER-HASH:88282287

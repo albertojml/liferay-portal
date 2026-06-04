@@ -51,7 +51,7 @@ public class RequestPortletDataHandler implements Serializable {
 	}
 
 	@io.swagger.v3.oas.annotations.media.Schema(
-		description = "The handler's portlet ID."
+		description = "The portlet data handler's identifier, in the form \"PORTLET_DATA_<portletId>\". Use a value returned by the export-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name."
 	)
 	public String getName() {
 		if (_nameSupplier != null) {
@@ -84,7 +84,9 @@ public class RequestPortletDataHandler implements Serializable {
 		};
 	}
 
-	@GraphQLField(description = "The handler's portlet ID.")
+	@GraphQLField(
+		description = "The portlet data handler's identifier, in the form \"PORTLET_DATA_<portletId>\". Use a value returned by the export-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name."
+	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 
@@ -310,4 +312,4 @@ public class RequestPortletDataHandler implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:-1560077236
+// LIFERAY-REST-BUILDER-HASH:-624731782
