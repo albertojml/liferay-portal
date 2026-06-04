@@ -243,6 +243,34 @@ public class ImportProcessResourceImpl extends BaseImportProcessResourceImpl {
 		return dynamicQuery;
 	}
 
+	private FileEntry _getExportProcessFileEntry(long exportProcessId)
+		throws Exception {
+
+		BackgroundTask backgroundTask =
+			_backgroundTaskLocalService.fetchBackgroundTask(exportProcessId);
+
+		if ((backgroundTask == null) ||
+			!StringUtil.equals(
+				backgroundTask.getTaskExecutorClassName(),
+				BackgroundTaskExecutorNames.
+					LAYOUT_EXPORT_BACKGROUND_TASK_EXECUTOR)) {
+
+			throw new NoSuchBackgroundTaskException();
+		}
+
+		PermissionUtil.checkExportPermission(
+			contextCompany.getCompanyId(), backgroundTask.getGroupId());
+
+		List<FileEntry> attachmentsFileEntries =
+			backgroundTask.getAttachmentsFileEntries();
+
+		if (attachmentsFileEntries.isEmpty()) {
+			throw new NotFoundException();
+		}
+
+		return attachmentsFileEntries.get(0);
+	}
+
 	private ImportProcess _postImportProcess(
 			Group group, ImportProcessRequest importProcessRequest)
 		throws Exception {
@@ -252,9 +280,24 @@ public class ImportProcessResourceImpl extends BaseImportProcessResourceImpl {
 		PermissionUtil.checkImportPermission(
 			contextCompany.getCompanyId(), groupId);
 
-		FileEntry fileEntry = _exportImportHelper.getTempFileEntry(
-			groupId, contextUser.getUserId(),
-			ImportPreviewResource.class.getName());
+		Long exportProcessId = importProcessRequest.getExportProcessId();
+
+		boolean tempFileEntry = false;
+
+		if ((exportProcessId == null) || (exportProcessId <= 0)) {
+			tempFileEntry = true;
+		}
+
+		FileEntry fileEntry = null;
+
+		if (tempFileEntry) {
+			fileEntry = _exportImportHelper.getTempFileEntry(
+				groupId, contextUser.getUserId(),
+				ImportPreviewResource.class.getName());
+		}
+		else {
+			fileEntry = _getExportProcessFileEntry(exportProcessId);
+		}
 
 		if (fileEntry == null) {
 			throw new NotFoundException();
@@ -290,7 +333,10 @@ public class ImportProcessResourceImpl extends BaseImportProcessResourceImpl {
 					contextUser.getUserId(), exportImportConfiguration,
 					inputStream);
 
-			TempFileEntryUtil.deleteTempFileEntry(fileEntry.getFileEntryId());
+			if (tempFileEntry) {
+				TempFileEntryUtil.deleteTempFileEntry(
+					fileEntry.getFileEntryId());
+			}
 
 			return _toImportProcess(
 				_backgroundTaskLocalService.getBackgroundTask(
