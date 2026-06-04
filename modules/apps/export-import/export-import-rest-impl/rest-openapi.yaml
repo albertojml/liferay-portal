@@ -61,6 +61,11 @@ components:
                     enum: [all, dateRange, last]
                     type: string
                 requestPortletDataHandlers:
+                    description:
+                        The portlet data handlers to export, each identifying an entity type to include. A handler's
+                        "name" must match a value returned by the export-preview endpoint in
+                        previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a
+                        handler not available for the scope is rejected with an HTTP 400 response.
                     items:
                         $ref: "#/components/schemas/RequestPortletDataHandler"
                     type: array
@@ -156,6 +161,11 @@ components:
                     default: false
                     type: boolean
                 requestPortletDataHandlers:
+                    description:
+                        The portlet data handlers to import, each identifying an entity type to include. A handler's
+                        "name" must match a value returned by an export-preview or import-preview endpoint in
+                        previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a
+                        handler not available for the scope is rejected with an HTTP 400 response.
                     items:
                         $ref: "#/components/schemas/RequestPortletDataHandler"
                     type: array
@@ -389,7 +399,9 @@ components:
             properties:
                 name:
                     description:
-                        The handler's portlet ID.
+                        The portlet data handler's identifier, in the form "PORTLET_DATA_<portletId>". Use a value
+                        returned by the export-preview endpoint in
+                        previewPortletDataHandlerSections[].previewPortletDataHandlers[].name.
                     type: string
                 requestPortletDataHandlerControls:
                     items:
@@ -399,12 +411,18 @@ components:
         RequestPortletDataHandlerControl:
             properties:
                 name:
+                    description:
+                        The control's namespaced name, as returned by the export-preview endpoint in the matching
+                        previewPortletDataHandlers[].previewPortletDataHandlerControls[].name.
                     type: string
                 requestPortletDataHandlerControls:
                     items:
                         $ref: "#/components/schemas/RequestPortletDataHandlerControl"
                     type: array
                 values:
+                    description:
+                        The control's selected values. For a Boolean control the value is "true" or "false"; for a
+                        Choice control the value is a single choice name. Defaults to "true" when omitted.
                     items:
                         type: string
                     type: array
@@ -412,9 +430,16 @@ components:
         Status:
             properties:
                 code:
+                    description:
+                        The process's status code. 0 is New, 1 is In Progress, 2 is Failed, 3 is Successful, 4 is
+                        Queued, 5 is Cancelled, and 6 is Completed With Errors. Codes 2, 3, 5, and 6 are terminal. Code
+                        6 means the process finished but left unresolved references, which can be reviewed through the
+                        import process's report entries.
                     format: int32
                     type: integer
                 label:
+                    description:
+                        The localized, human-readable label for the status code.
                     type: string
         Type:
             properties:
@@ -478,6 +503,11 @@ paths:
             tags: ["ExportPreview"]
     "/asset-libraries/{assetLibraryExternalReferenceCode}/export-processes":
         post:
+            description:
+                Creates and starts an export that runs asynchronously. The response returns immediately with an export
+                process whose status is New. Poll the export process by its id until the status reaches a terminal code
+                (see the Status schema). The generated LAR can then be imported by passing the process's id as the
+                exportProcessId of an import request.
             operationId: postAssetLibraryExportProcess
             parameters:
                 -   in: path
@@ -533,6 +563,10 @@ paths:
             tags: ["ImportPreview"]
     "/asset-libraries/{assetLibraryExternalReferenceCode}/import-processes":
         post:
+            description:
+                Creates and starts an import that runs asynchronously. The response returns immediately with an import
+                process whose status is New. Poll the import process by its id until the status reaches a terminal code
+                (see the Status schema), then read its report entries to review any unresolved references.
             operationId: postAssetLibraryImportProcess
             parameters:
                 -   in: path
@@ -777,6 +811,11 @@ paths:
                                 type: array
             tags: ["ExportProcess"]
         post:
+            description:
+                Creates and starts an export that runs asynchronously. The response returns immediately with an export
+                process whose status is New. Poll the export process by its id until the status reaches a terminal code
+                (see the Status schema). The generated LAR can then be imported by passing the process's id as the
+                exportProcessId of an import request.
             operationId: postExportProcess
             requestBody:
                 content:
@@ -910,6 +949,10 @@ paths:
                                 type: array
             tags: ["ImportProcess"]
         post:
+            description:
+                Creates and starts an import that runs asynchronously. The response returns immediately with an import
+                process whose status is New. Poll the import process by its id until the status reaches a terminal code
+                (see the Status schema), then read its report entries to review any unresolved references.
             operationId: postImportProcess
             requestBody:
                 content:
@@ -1097,6 +1140,11 @@ paths:
             tags: ["ExportPreview"]
     "/sites/{siteExternalReferenceCode}/export-processes":
         post:
+            description:
+                Creates and starts an export that runs asynchronously. The response returns immediately with an export
+                process whose status is New. Poll the export process by its id until the status reaches a terminal code
+                (see the Status schema). The generated LAR can then be imported by passing the process's id as the
+                exportProcessId of an import request.
             operationId: postSiteExportProcess
             parameters:
                 -   in: path
@@ -1152,6 +1200,10 @@ paths:
             tags: ["ImportPreview"]
     "/sites/{siteExternalReferenceCode}/import-processes":
         post:
+            description:
+                Creates and starts an import that runs asynchronously. The response returns immediately with an import
+                process whose status is New. Poll the import process by its id until the status reaches a terminal code
+                (see the Status schema), then read its report entries to review any unresolved references.
             operationId: postSiteImportProcess
             parameters:
                 -   in: path
