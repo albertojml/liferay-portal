@@ -17,6 +17,8 @@ import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineExportTaskResource;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.pagination.Page;
+import com.liferay.portal.vulcan.pagination.Pagination;
 
 import jakarta.annotation.Generated;
 
@@ -45,6 +47,27 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface ExportProcessResource {
 
+	public Page<ExportProcess> getAssetLibraryExportProcessesPage(
+			Long assetLibraryId, Long creatorId, String search, Integer status,
+			Pagination pagination,
+			com.liferay.portal.kernel.search.Sort[] sorts)
+		throws Exception;
+
+	public ExportProcess getExportProcess(Long exportProcessId)
+		throws Exception;
+
+	public Page<ExportProcess> getExportProcessesPage(
+			Long creatorId, String search, Integer status,
+			Pagination pagination,
+			com.liferay.portal.kernel.search.Sort[] sorts)
+		throws Exception;
+
+	public Page<ExportProcess> getSiteExportProcessesPage(
+			Long siteId, Long creatorId, String search, Integer status,
+			Pagination pagination,
+			com.liferay.portal.kernel.search.Sort[] sorts)
+		throws Exception;
+
 	public ExportProcess postAssetLibraryExportProcess(
 			String assetLibraryExternalReferenceCode,
 			ExportProcessRequest exportProcessRequest)
@@ -56,6 +79,12 @@ public interface ExportProcessResource {
 			Object object)
 		throws Exception;
 
+	public Response postAssetLibraryExportProcessesPageExportBatch(
+			Long assetLibraryId, Long creatorId, String search, Integer status,
+			com.liferay.portal.kernel.search.Sort[] sorts, String callbackURL,
+			String contentType, String fieldNames)
+		throws Exception;
+
 	public ExportProcess postExportProcess(
 			ExportProcessRequest exportProcessRequest)
 		throws Exception;
@@ -63,6 +92,12 @@ public interface ExportProcessResource {
 	public Response postExportProcessBatch(
 			ExportProcessRequest exportProcessRequest, String callbackURL,
 			Object object)
+		throws Exception;
+
+	public Response postExportProcessesPageExportBatch(
+			Long creatorId, String search, Integer status,
+			com.liferay.portal.kernel.search.Sort[] sorts, String callbackURL,
+			String contentType, String fieldNames)
 		throws Exception;
 
 	public ExportProcess postSiteExportProcess(
@@ -74,6 +109,12 @@ public interface ExportProcessResource {
 			String siteExternalReferenceCode,
 			ExportProcessRequest exportProcessRequest, String callbackURL,
 			Object object)
+		throws Exception;
+
+	public Response postSiteExportProcessesPageExportBatch(
+			Long siteId, Long creatorId, String search, Integer status,
+			com.liferay.portal.kernel.search.Sort[] sorts, String callbackURL,
+			String contentType, String fieldNames)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(
@@ -172,4 +213,4 @@ public interface ExportProcessResource {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:-273621494
+// LIFERAY-REST-BUILDER-HASH:1474584272

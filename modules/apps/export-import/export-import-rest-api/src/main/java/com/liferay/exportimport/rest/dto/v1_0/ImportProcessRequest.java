@@ -147,6 +147,51 @@ public class ImportProcessRequest implements Serializable {
 	@JsonIgnore
 	private Supplier<Boolean> _deletionsSupplier;
 
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "The ID of a completed export process whose generated LAR file is imported directly. When set, the import reads the exported LAR from that export process instead of requiring a file uploaded through the import preview."
+	)
+	public Long getExportProcessId() {
+		if (_exportProcessIdSupplier != null) {
+			exportProcessId = _exportProcessIdSupplier.get();
+
+			_exportProcessIdSupplier = null;
+		}
+
+		return exportProcessId;
+	}
+
+	public void setExportProcessId(Long exportProcessId) {
+		this.exportProcessId = exportProcessId;
+
+		_exportProcessIdSupplier = null;
+	}
+
+	@JsonIgnore
+	public void setExportProcessId(
+		UnsafeSupplier<Long, Exception> exportProcessIdUnsafeSupplier) {
+
+		_exportProcessIdSupplier = () -> {
+			try {
+				return exportProcessIdUnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField(
+		description = "The ID of a completed export process whose generated LAR file is imported directly. When set, the import reads the exported LAR from that export process instead of requiring a file uploaded through the import preview."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Long exportProcessId;
+
+	@JsonIgnore
+	private Supplier<Long> _exportProcessIdSupplier;
+
 	@io.swagger.v3.oas.annotations.media.Schema
 	public String getName() {
 		if (_nameSupplier != null) {
@@ -381,6 +426,18 @@ public class ImportProcessRequest implements Serializable {
 			sb.append("\"deletions\": ");
 
 			sb.append(deletions);
+		}
+
+		Long exportProcessId = getExportProcessId();
+
+		if (exportProcessId != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"exportProcessId\": ");
+
+			sb.append(exportProcessId);
 		}
 
 		String name = getName();
@@ -627,4 +684,4 @@ public class ImportProcessRequest implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:322807122
+// LIFERAY-REST-BUILDER-HASH:2017725180

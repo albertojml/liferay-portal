@@ -20,8 +20,11 @@ import com.liferay.exportimport.rest.client.dto.v1_0.ExportProcess;
 import com.liferay.exportimport.rest.client.dto.v1_0.Type;
 import com.liferay.exportimport.rest.client.http.HttpInvoker;
 import com.liferay.exportimport.rest.client.pagination.Page;
+import com.liferay.exportimport.rest.client.pagination.Pagination;
 import com.liferay.exportimport.rest.client.resource.v1_0.ExportProcessResource;
 import com.liferay.exportimport.rest.client.serdes.v1_0.ExportProcessSerDes;
+import com.liferay.oauth2.provider.scope.ScopeChecker;
+import com.liferay.petra.function.UnsafeTriConsumer;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
@@ -30,13 +33,20 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.CompanyLocalServiceUtil;
+import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.ResourceActionLocalService;
+import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
+import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PropsValues;
@@ -46,13 +56,25 @@ import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
+import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.crud.VulcanCRUDItemDelegate;
+import com.liferay.portal.vulcan.crud.VulcanCRUDItemDelegateBuilderRegistry;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 
 import jakarta.annotation.Generated;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import jakarta.ws.rs.core.MultivaluedHashMap;
+import jakarta.ws.rs.core.MultivaluedMap;
+import jakarta.ws.rs.core.PathSegment;
+import jakarta.ws.rs.core.UriBuilder;
+import jakarta.ws.rs.core.UriInfo;
 
 import java.lang.reflect.Method;
+
+import java.net.URI;
 
 import java.text.Format;
 
@@ -63,6 +85,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -75,6 +98,9 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+
 /**
  * @author Petteri Karttunen
  * @generated
@@ -84,8 +110,10 @@ public abstract class BaseExportProcessResourceTestCase {
 
 	@ClassRule
 	@Rule
-	public static final LiferayIntegrationTestRule liferayIntegrationTestRule =
-		new LiferayIntegrationTestRule();
+	public static final AggregateTestRule aggregateTestRule =
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			PermissionCheckerMethodTestRule.INSTANCE);
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
@@ -209,6 +237,1179 @@ public abstract class BaseExportProcessResourceTestCase {
 		exportProcess = ExportProcessSerDes.toDTO(json);
 
 		Assert.assertEquals(regex, exportProcess.getName());
+	}
+
+	@Test
+	public void testGetAssetLibraryExportProcessesPage() throws Exception {
+		Long assetLibraryId =
+			testGetAssetLibraryExportProcessesPage_getAssetLibraryId();
+		Long irrelevantAssetLibraryId =
+			testGetAssetLibraryExportProcessesPage_getIrrelevantAssetLibraryId();
+
+		Page<ExportProcess> page =
+			exportProcessResource.getAssetLibraryExportProcessesPage(
+				assetLibraryId, null, null, null, Pagination.of(1, 10), null);
+
+		long totalCount = page.getTotalCount();
+
+		if (irrelevantAssetLibraryId != null) {
+			ExportProcess irrelevantExportProcess =
+				testGetAssetLibraryExportProcessesPage_addExportProcess(
+					irrelevantAssetLibraryId, randomIrrelevantExportProcess());
+
+			page = exportProcessResource.getAssetLibraryExportProcessesPage(
+				irrelevantAssetLibraryId, null, null, null,
+				Pagination.of(1, (int)totalCount + 1), null);
+
+			Assert.assertEquals(totalCount + 1, page.getTotalCount());
+
+			assertContains(
+				irrelevantExportProcess, (List<ExportProcess>)page.getItems());
+			assertValid(
+				page,
+				testGetAssetLibraryExportProcessesPage_getExpectedActions(
+					irrelevantAssetLibraryId));
+		}
+
+		ExportProcess exportProcess1 =
+			testGetAssetLibraryExportProcessesPage_addExportProcess(
+				assetLibraryId, randomExportProcess());
+
+		ExportProcess exportProcess2 =
+			testGetAssetLibraryExportProcessesPage_addExportProcess(
+				assetLibraryId, randomExportProcess());
+
+		page = exportProcessResource.getAssetLibraryExportProcessesPage(
+			assetLibraryId, null, null, null, Pagination.of(1, 10), null);
+
+		Assert.assertEquals(totalCount + 2, page.getTotalCount());
+
+		assertContains(exportProcess1, (List<ExportProcess>)page.getItems());
+		assertContains(exportProcess2, (List<ExportProcess>)page.getItems());
+		assertValid(
+			page,
+			testGetAssetLibraryExportProcessesPage_getExpectedActions(
+				assetLibraryId));
+	}
+
+	protected Map<String, Map<String, String>>
+			testGetAssetLibraryExportProcessesPage_getExpectedActions(
+				Long assetLibraryId)
+		throws Exception {
+
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
+
+		return expectedActions;
+	}
+
+	@Test
+	public void testGetAssetLibraryExportProcessesPageWithPagination()
+		throws Exception {
+
+		Long assetLibraryId =
+			testGetAssetLibraryExportProcessesPage_getAssetLibraryId();
+
+		Page<ExportProcess> exportProcessesPage =
+			exportProcessResource.getAssetLibraryExportProcessesPage(
+				assetLibraryId, null, null, null, null, null);
+
+		int totalCount = GetterUtil.getInteger(
+			exportProcessesPage.getTotalCount());
+
+		ExportProcess exportProcess1 =
+			testGetAssetLibraryExportProcessesPage_addExportProcess(
+				assetLibraryId, randomExportProcess());
+
+		ExportProcess exportProcess2 =
+			testGetAssetLibraryExportProcessesPage_addExportProcess(
+				assetLibraryId, randomExportProcess());
+
+		ExportProcess exportProcess3 =
+			testGetAssetLibraryExportProcessesPage_addExportProcess(
+				assetLibraryId, randomExportProcess());
+
+		// See com.liferay.portal.vulcan.internal.configuration.HeadlessAPICompanyConfiguration#pageSizeLimit
+
+		int pageSizeLimit = 500;
+
+		if (totalCount >= (pageSizeLimit - 2)) {
+			Page<ExportProcess> page1 =
+				exportProcessResource.getAssetLibraryExportProcessesPage(
+					assetLibraryId, null, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 1.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
+
+			Assert.assertEquals(totalCount + 3, page1.getTotalCount());
+
+			assertContains(
+				exportProcess1, (List<ExportProcess>)page1.getItems());
+
+			Page<ExportProcess> page2 =
+				exportProcessResource.getAssetLibraryExportProcessesPage(
+					assetLibraryId, null, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 2.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
+
+			assertContains(
+				exportProcess2, (List<ExportProcess>)page2.getItems());
+
+			Page<ExportProcess> page3 =
+				exportProcessResource.getAssetLibraryExportProcessesPage(
+					assetLibraryId, null, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 3.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
+
+			assertContains(
+				exportProcess3, (List<ExportProcess>)page3.getItems());
+		}
+		else {
+			Page<ExportProcess> page1 =
+				exportProcessResource.getAssetLibraryExportProcessesPage(
+					assetLibraryId, null, null, null,
+					Pagination.of(1, totalCount + 2), null);
+
+			List<ExportProcess> exportProcesses1 =
+				(List<ExportProcess>)page1.getItems();
+
+			Assert.assertEquals(
+				exportProcesses1.toString(), totalCount + 2,
+				exportProcesses1.size());
+
+			Page<ExportProcess> page2 =
+				exportProcessResource.getAssetLibraryExportProcessesPage(
+					assetLibraryId, null, null, null,
+					Pagination.of(2, totalCount + 2), null);
+
+			Assert.assertEquals(totalCount + 3, page2.getTotalCount());
+
+			List<ExportProcess> exportProcesses2 =
+				(List<ExportProcess>)page2.getItems();
+
+			Assert.assertEquals(
+				exportProcesses2.toString(), 1, exportProcesses2.size());
+
+			Page<ExportProcess> page3 =
+				exportProcessResource.getAssetLibraryExportProcessesPage(
+					assetLibraryId, null, null, null,
+					Pagination.of(1, (int)totalCount + 3), null);
+
+			assertContains(
+				exportProcess1, (List<ExportProcess>)page3.getItems());
+			assertContains(
+				exportProcess2, (List<ExportProcess>)page3.getItems());
+			assertContains(
+				exportProcess3, (List<ExportProcess>)page3.getItems());
+		}
+	}
+
+	@Test
+	public void testGetAssetLibraryExportProcessesPageWithSortDateTime()
+		throws Exception {
+
+		testGetAssetLibraryExportProcessesPageWithSort(
+			EntityField.Type.DATE_TIME,
+			(entityField, exportProcess1, exportProcess2) -> {
+				BeanTestUtil.setProperty(
+					exportProcess1, entityField.getName(),
+					new Date(System.currentTimeMillis() - (2 * Time.MINUTE)));
+			});
+	}
+
+	@Test
+	public void testGetAssetLibraryExportProcessesPageWithSortDouble()
+		throws Exception {
+
+		testGetAssetLibraryExportProcessesPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, exportProcess1, exportProcess2) -> {
+				BeanTestUtil.setProperty(
+					exportProcess1, entityField.getName(), 0.1);
+				BeanTestUtil.setProperty(
+					exportProcess2, entityField.getName(), 0.5);
+			});
+	}
+
+	@Test
+	public void testGetAssetLibraryExportProcessesPageWithSortInteger()
+		throws Exception {
+
+		testGetAssetLibraryExportProcessesPageWithSort(
+			EntityField.Type.INTEGER,
+			(entityField, exportProcess1, exportProcess2) -> {
+				BeanTestUtil.setProperty(
+					exportProcess1, entityField.getName(), 0);
+				BeanTestUtil.setProperty(
+					exportProcess2, entityField.getName(), 1);
+			});
+	}
+
+	@Test
+	public void testGetAssetLibraryExportProcessesPageWithSortString()
+		throws Exception {
+
+		testGetAssetLibraryExportProcessesPageWithSort(
+			EntityField.Type.STRING,
+			(entityField, exportProcess1, exportProcess2) -> {
+				Class<?> clazz = exportProcess1.getClass();
+
+				String entityFieldName = entityField.getName();
+
+				Method method = clazz.getMethod(
+					"get" + StringUtil.upperCaseFirstLetter(entityFieldName));
+
+				Class<?> returnType = method.getReturnType();
+
+				if (returnType.isAssignableFrom(Map.class)) {
+					BeanTestUtil.setProperty(
+						exportProcess1, entityFieldName,
+						Collections.singletonMap("Aaa", "Aaa"));
+					BeanTestUtil.setProperty(
+						exportProcess2, entityFieldName,
+						Collections.singletonMap("Bbb", "Bbb"));
+				}
+				else if (entityFieldName.contains("email")) {
+					BeanTestUtil.setProperty(
+						exportProcess1, entityFieldName,
+						"aaa" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()) +
+									"@liferay.com");
+					BeanTestUtil.setProperty(
+						exportProcess2, entityFieldName,
+						"bbb" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()) +
+									"@liferay.com");
+				}
+				else {
+					BeanTestUtil.setProperty(
+						exportProcess1, entityFieldName,
+						"aaa" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()));
+					BeanTestUtil.setProperty(
+						exportProcess2, entityFieldName,
+						"bbb" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()));
+				}
+			});
+	}
+
+	protected void testGetAssetLibraryExportProcessesPageWithSort(
+			EntityField.Type type,
+			UnsafeTriConsumer
+				<EntityField, ExportProcess, ExportProcess, Exception>
+					unsafeTriConsumer)
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(type);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long assetLibraryId =
+			testGetAssetLibraryExportProcessesPage_getAssetLibraryId();
+
+		ExportProcess exportProcess1 = randomExportProcess();
+		ExportProcess exportProcess2 = randomExportProcess();
+
+		for (EntityField entityField : entityFields) {
+			unsafeTriConsumer.accept(
+				entityField, exportProcess1, exportProcess2);
+		}
+
+		exportProcess1 =
+			testGetAssetLibraryExportProcessesPage_addExportProcess(
+				assetLibraryId, exportProcess1);
+
+		exportProcess2 =
+			testGetAssetLibraryExportProcessesPage_addExportProcess(
+				assetLibraryId, exportProcess2);
+
+		Page<ExportProcess> page =
+			exportProcessResource.getAssetLibraryExportProcessesPage(
+				assetLibraryId, null, null, null, null, null);
+
+		for (EntityField entityField : entityFields) {
+			Page<ExportProcess> ascPage =
+				exportProcessResource.getAssetLibraryExportProcessesPage(
+					assetLibraryId, null, null, null,
+					Pagination.of(1, (int)page.getTotalCount() + 1),
+					entityField.getName() + ":asc");
+
+			assertContains(
+				exportProcess1, (List<ExportProcess>)ascPage.getItems());
+			assertContains(
+				exportProcess2, (List<ExportProcess>)ascPage.getItems());
+
+			Page<ExportProcess> descPage =
+				exportProcessResource.getAssetLibraryExportProcessesPage(
+					assetLibraryId, null, null, null,
+					Pagination.of(1, (int)page.getTotalCount() + 1),
+					entityField.getName() + ":desc");
+
+			assertContains(
+				exportProcess2, (List<ExportProcess>)descPage.getItems());
+			assertContains(
+				exportProcess1, (List<ExportProcess>)descPage.getItems());
+		}
+	}
+
+	protected ExportProcess
+			testGetAssetLibraryExportProcessesPage_addExportProcess(
+				Long assetLibraryId, ExportProcess exportProcess)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	protected Long testGetAssetLibraryExportProcessesPage_getAssetLibraryId()
+		throws Exception {
+
+		return testDepotEntry.getDepotEntryId();
+	}
+
+	protected Long
+			testGetAssetLibraryExportProcessesPage_getIrrelevantAssetLibraryId()
+		throws Exception {
+
+		return irrelevantDepotEntry.getDepotEntryId();
+	}
+
+	@Test
+	public void testGetExportProcess() throws Exception {
+		ExportProcess postExportProcess =
+			testGetExportProcess_addExportProcess();
+
+		ExportProcess getExportProcess = exportProcessResource.getExportProcess(
+			postExportProcess.getId());
+
+		assertEquals(postExportProcess, getExportProcess);
+		assertValid(getExportProcess);
+	}
+
+	@Test
+	public void testVulcanCRUDItemDelegateGetItem() throws Exception {
+		ExportProcess postExportProcess =
+			testGetExportProcess_addExportProcess();
+
+		ExportProcess getExportProcess = exportProcessResource.getExportProcess(
+			postExportProcess.getId());
+
+		VulcanCRUDItemDelegate vulcanCRUDItemDelegate =
+			_vulcanCRUDItemDelegateBuilderRegistry.builder(
+				testCompany,
+				"com.liferay.exportimport.rest.dto.v1_0.ExportProcess"
+			).acceptLanguage(
+				new AcceptLanguage() {
+
+					@Override
+					public List<Locale> getLocales() {
+						return Arrays.asList(LocaleUtil.getDefault());
+					}
+
+					@Override
+					public String getPreferredLanguageId() {
+						return LocaleUtil.toLanguageId(LocaleUtil.getDefault());
+					}
+
+					@Override
+					public Locale getPreferredLocale() {
+						return LocaleUtil.getDefault();
+					}
+
+				}
+			).groupLocalService(
+				_groupLocalService
+			).httpServletRequest(
+				testVulcanCRUDItemDelegate_getHttpServletRequest()
+			).httpServletResponse(
+				new MockHttpServletResponse()
+			).resourceActionLocalService(
+				_resourceActionLocalService
+			).resourcePermissionLocalService(
+				_resourcePermissionLocalService
+			).roleLocalService(
+				_roleLocalService
+			).scopeChecker(
+				_scopeChecker
+			).uriInfo(
+				testVulcanCRUDItemDelegate_getUriInfo()
+			).user(
+				testVulcanCRUDItemDelegate_getUser()
+			).build();
+
+		Object item = vulcanCRUDItemDelegate.getItem(postExportProcess.getId());
+
+		assertEquals(
+			getExportProcess, ExportProcessSerDes.toDTO(item.toString()));
+	}
+
+	protected HttpServletRequest
+		testVulcanCRUDItemDelegate_getHttpServletRequest() {
+
+		return new MockHttpServletRequest() {
+
+			@Override
+			public StringBuffer getRequestURL() {
+				return new StringBuffer(
+					StringBundler.concat(
+						"http://localhost:",
+						String.valueOf(PortalUtil.getPortalServerPort(false)),
+						"/o/v1.0/", RandomTestUtil.randomString(), "/",
+						RandomTestUtil.randomString()));
+			}
+
+		};
+	}
+
+	protected UriInfo testVulcanCRUDItemDelegate_getUriInfo() {
+		String applicationPath = RandomTestUtil.randomString() + "/";
+		String resourcePath = RandomTestUtil.randomString();
+
+		return new UriInfo() {
+
+			@Override
+			public String getPath() {
+				return resourcePath;
+			}
+
+			@Override
+			public String getPath(boolean decode) {
+				return getPath();
+			}
+
+			@Override
+			public List<PathSegment> getPathSegments() {
+				return Collections.emptyList();
+			}
+
+			@Override
+			public List<PathSegment> getPathSegments(boolean decode) {
+				return getPathSegments();
+			}
+
+			@Override
+			public URI getRequestUri() {
+				return URI.create(
+					StringBundler.concat(
+						"http://localhost:",
+						PortalUtil.getPortalServerPort(false), "/o/",
+						applicationPath, resourcePath));
+			}
+
+			@Override
+			public UriBuilder getRequestUriBuilder() {
+				return UriBuilder.fromUri(getRequestUri());
+			}
+
+			@Override
+			public URI getAbsolutePath() {
+				return getRequestUri();
+			}
+
+			@Override
+			public UriBuilder getAbsolutePathBuilder() {
+				return getRequestUriBuilder();
+			}
+
+			@Override
+			public URI getBaseUri() {
+				return URI.create(
+					StringBundler.concat(
+						"http://localhost:",
+						PortalUtil.getPortalServerPort(false), "/o/",
+						applicationPath));
+			}
+
+			@Override
+			public UriBuilder getBaseUriBuilder() {
+				return UriBuilder.fromUri(getBaseUri());
+			}
+
+			@Override
+			public MultivaluedMap<String, String> getPathParameters() {
+				return new MultivaluedHashMap<>();
+			}
+
+			@Override
+			public MultivaluedMap<String, String> getPathParameters(
+				boolean decode) {
+
+				return getPathParameters();
+			}
+
+			@Override
+			public MultivaluedMap<String, String> getQueryParameters() {
+				return new MultivaluedHashMap<>();
+			}
+
+			@Override
+			public MultivaluedMap<String, String> getQueryParameters(
+				boolean decode) {
+
+				return getQueryParameters();
+			}
+
+			@Override
+			public List<String> getMatchedURIs() {
+				return Collections.emptyList();
+			}
+
+			@Override
+			public List<String> getMatchedURIs(boolean decode) {
+				return getMatchedURIs();
+			}
+
+			@Override
+			public List<Object> getMatchedResources() {
+				return Collections.emptyList();
+			}
+
+			@Override
+			public URI resolve(URI requestUri) {
+				return getBaseUri().resolve(requestUri);
+			}
+
+			@Override
+			public URI relativize(URI uri) {
+				return getBaseUri().relativize(uri);
+			}
+
+		};
+	}
+
+	protected com.liferay.portal.kernel.model.User
+		testVulcanCRUDItemDelegate_getUser() {
+
+		return _testCompanyAdminUser;
+	}
+
+	protected ExportProcess testGetExportProcess_addExportProcess()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGetExportProcessesPage() throws Exception {
+		Page<ExportProcess> page = exportProcessResource.getExportProcessesPage(
+			null, null, null, Pagination.of(1, 10), null);
+
+		long totalCount = page.getTotalCount();
+
+		ExportProcess exportProcess1 =
+			testGetExportProcessesPage_addExportProcess(randomExportProcess());
+
+		ExportProcess exportProcess2 =
+			testGetExportProcessesPage_addExportProcess(randomExportProcess());
+
+		page = exportProcessResource.getExportProcessesPage(
+			null, null, null, Pagination.of(1, 10), null);
+
+		Assert.assertEquals(totalCount + 2, page.getTotalCount());
+
+		assertContains(exportProcess1, (List<ExportProcess>)page.getItems());
+		assertContains(exportProcess2, (List<ExportProcess>)page.getItems());
+		assertValid(page, testGetExportProcessesPage_getExpectedActions());
+	}
+
+	protected Map<String, Map<String, String>>
+			testGetExportProcessesPage_getExpectedActions()
+		throws Exception {
+
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
+
+		return expectedActions;
+	}
+
+	@Test
+	public void testGetExportProcessesPageWithPagination() throws Exception {
+		Page<ExportProcess> exportProcessesPage =
+			exportProcessResource.getExportProcessesPage(
+				null, null, null, null, null);
+
+		int totalCount = GetterUtil.getInteger(
+			exportProcessesPage.getTotalCount());
+
+		ExportProcess exportProcess1 =
+			testGetExportProcessesPage_addExportProcess(randomExportProcess());
+
+		ExportProcess exportProcess2 =
+			testGetExportProcessesPage_addExportProcess(randomExportProcess());
+
+		ExportProcess exportProcess3 =
+			testGetExportProcessesPage_addExportProcess(randomExportProcess());
+
+		// See com.liferay.portal.vulcan.internal.configuration.HeadlessAPICompanyConfiguration#pageSizeLimit
+
+		int pageSizeLimit = 500;
+
+		if (totalCount >= (pageSizeLimit - 2)) {
+			Page<ExportProcess> page1 =
+				exportProcessResource.getExportProcessesPage(
+					null, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 1.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
+
+			Assert.assertEquals(totalCount + 3, page1.getTotalCount());
+
+			assertContains(
+				exportProcess1, (List<ExportProcess>)page1.getItems());
+
+			Page<ExportProcess> page2 =
+				exportProcessResource.getExportProcessesPage(
+					null, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 2.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
+
+			assertContains(
+				exportProcess2, (List<ExportProcess>)page2.getItems());
+
+			Page<ExportProcess> page3 =
+				exportProcessResource.getExportProcessesPage(
+					null, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 3.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
+
+			assertContains(
+				exportProcess3, (List<ExportProcess>)page3.getItems());
+		}
+		else {
+			Page<ExportProcess> page1 =
+				exportProcessResource.getExportProcessesPage(
+					null, null, null, Pagination.of(1, totalCount + 2), null);
+
+			List<ExportProcess> exportProcesses1 =
+				(List<ExportProcess>)page1.getItems();
+
+			Assert.assertEquals(
+				exportProcesses1.toString(), totalCount + 2,
+				exportProcesses1.size());
+
+			Page<ExportProcess> page2 =
+				exportProcessResource.getExportProcessesPage(
+					null, null, null, Pagination.of(2, totalCount + 2), null);
+
+			Assert.assertEquals(totalCount + 3, page2.getTotalCount());
+
+			List<ExportProcess> exportProcesses2 =
+				(List<ExportProcess>)page2.getItems();
+
+			Assert.assertEquals(
+				exportProcesses2.toString(), 1, exportProcesses2.size());
+
+			Page<ExportProcess> page3 =
+				exportProcessResource.getExportProcessesPage(
+					null, null, null, Pagination.of(1, (int)totalCount + 3),
+					null);
+
+			assertContains(
+				exportProcess1, (List<ExportProcess>)page3.getItems());
+			assertContains(
+				exportProcess2, (List<ExportProcess>)page3.getItems());
+			assertContains(
+				exportProcess3, (List<ExportProcess>)page3.getItems());
+		}
+	}
+
+	@Test
+	public void testGetExportProcessesPageWithSortDateTime() throws Exception {
+		testGetExportProcessesPageWithSort(
+			EntityField.Type.DATE_TIME,
+			(entityField, exportProcess1, exportProcess2) -> {
+				BeanTestUtil.setProperty(
+					exportProcess1, entityField.getName(),
+					new Date(System.currentTimeMillis() - (2 * Time.MINUTE)));
+			});
+	}
+
+	@Test
+	public void testGetExportProcessesPageWithSortDouble() throws Exception {
+		testGetExportProcessesPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, exportProcess1, exportProcess2) -> {
+				BeanTestUtil.setProperty(
+					exportProcess1, entityField.getName(), 0.1);
+				BeanTestUtil.setProperty(
+					exportProcess2, entityField.getName(), 0.5);
+			});
+	}
+
+	@Test
+	public void testGetExportProcessesPageWithSortInteger() throws Exception {
+		testGetExportProcessesPageWithSort(
+			EntityField.Type.INTEGER,
+			(entityField, exportProcess1, exportProcess2) -> {
+				BeanTestUtil.setProperty(
+					exportProcess1, entityField.getName(), 0);
+				BeanTestUtil.setProperty(
+					exportProcess2, entityField.getName(), 1);
+			});
+	}
+
+	@Test
+	public void testGetExportProcessesPageWithSortString() throws Exception {
+		testGetExportProcessesPageWithSort(
+			EntityField.Type.STRING,
+			(entityField, exportProcess1, exportProcess2) -> {
+				Class<?> clazz = exportProcess1.getClass();
+
+				String entityFieldName = entityField.getName();
+
+				Method method = clazz.getMethod(
+					"get" + StringUtil.upperCaseFirstLetter(entityFieldName));
+
+				Class<?> returnType = method.getReturnType();
+
+				if (returnType.isAssignableFrom(Map.class)) {
+					BeanTestUtil.setProperty(
+						exportProcess1, entityFieldName,
+						Collections.singletonMap("Aaa", "Aaa"));
+					BeanTestUtil.setProperty(
+						exportProcess2, entityFieldName,
+						Collections.singletonMap("Bbb", "Bbb"));
+				}
+				else if (entityFieldName.contains("email")) {
+					BeanTestUtil.setProperty(
+						exportProcess1, entityFieldName,
+						"aaa" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()) +
+									"@liferay.com");
+					BeanTestUtil.setProperty(
+						exportProcess2, entityFieldName,
+						"bbb" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()) +
+									"@liferay.com");
+				}
+				else {
+					BeanTestUtil.setProperty(
+						exportProcess1, entityFieldName,
+						"aaa" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()));
+					BeanTestUtil.setProperty(
+						exportProcess2, entityFieldName,
+						"bbb" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()));
+				}
+			});
+	}
+
+	protected void testGetExportProcessesPageWithSort(
+			EntityField.Type type,
+			UnsafeTriConsumer
+				<EntityField, ExportProcess, ExportProcess, Exception>
+					unsafeTriConsumer)
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(type);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		ExportProcess exportProcess1 = randomExportProcess();
+		ExportProcess exportProcess2 = randomExportProcess();
+
+		for (EntityField entityField : entityFields) {
+			unsafeTriConsumer.accept(
+				entityField, exportProcess1, exportProcess2);
+		}
+
+		exportProcess1 = testGetExportProcessesPage_addExportProcess(
+			exportProcess1);
+
+		exportProcess2 = testGetExportProcessesPage_addExportProcess(
+			exportProcess2);
+
+		Page<ExportProcess> page = exportProcessResource.getExportProcessesPage(
+			null, null, null, null, null);
+
+		for (EntityField entityField : entityFields) {
+			Page<ExportProcess> ascPage =
+				exportProcessResource.getExportProcessesPage(
+					null, null, null,
+					Pagination.of(1, (int)page.getTotalCount() + 1),
+					entityField.getName() + ":asc");
+
+			assertContains(
+				exportProcess1, (List<ExportProcess>)ascPage.getItems());
+			assertContains(
+				exportProcess2, (List<ExportProcess>)ascPage.getItems());
+
+			Page<ExportProcess> descPage =
+				exportProcessResource.getExportProcessesPage(
+					null, null, null,
+					Pagination.of(1, (int)page.getTotalCount() + 1),
+					entityField.getName() + ":desc");
+
+			assertContains(
+				exportProcess2, (List<ExportProcess>)descPage.getItems());
+			assertContains(
+				exportProcess1, (List<ExportProcess>)descPage.getItems());
+		}
+	}
+
+	protected ExportProcess testGetExportProcessesPage_addExportProcess(
+			ExportProcess exportProcess)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGetSiteExportProcessesPage() throws Exception {
+		Long siteId = testGetSiteExportProcessesPage_getSiteId();
+		Long irrelevantSiteId =
+			testGetSiteExportProcessesPage_getIrrelevantSiteId();
+
+		Page<ExportProcess> page =
+			exportProcessResource.getSiteExportProcessesPage(
+				siteId, null, null, null, Pagination.of(1, 10), null);
+
+		long totalCount = page.getTotalCount();
+
+		if (irrelevantSiteId != null) {
+			ExportProcess irrelevantExportProcess =
+				testGetSiteExportProcessesPage_addExportProcess(
+					irrelevantSiteId, randomIrrelevantExportProcess());
+
+			page = exportProcessResource.getSiteExportProcessesPage(
+				irrelevantSiteId, null, null, null,
+				Pagination.of(1, (int)totalCount + 1), null);
+
+			Assert.assertEquals(totalCount + 1, page.getTotalCount());
+
+			assertContains(
+				irrelevantExportProcess, (List<ExportProcess>)page.getItems());
+			assertValid(
+				page,
+				testGetSiteExportProcessesPage_getExpectedActions(
+					irrelevantSiteId));
+		}
+
+		ExportProcess exportProcess1 =
+			testGetSiteExportProcessesPage_addExportProcess(
+				siteId, randomExportProcess());
+
+		ExportProcess exportProcess2 =
+			testGetSiteExportProcessesPage_addExportProcess(
+				siteId, randomExportProcess());
+
+		page = exportProcessResource.getSiteExportProcessesPage(
+			siteId, null, null, null, Pagination.of(1, 10), null);
+
+		Assert.assertEquals(totalCount + 2, page.getTotalCount());
+
+		assertContains(exportProcess1, (List<ExportProcess>)page.getItems());
+		assertContains(exportProcess2, (List<ExportProcess>)page.getItems());
+		assertValid(
+			page, testGetSiteExportProcessesPage_getExpectedActions(siteId));
+	}
+
+	protected Map<String, Map<String, String>>
+			testGetSiteExportProcessesPage_getExpectedActions(Long siteId)
+		throws Exception {
+
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
+
+		return expectedActions;
+	}
+
+	@Test
+	public void testGetSiteExportProcessesPageWithPagination()
+		throws Exception {
+
+		Long siteId = testGetSiteExportProcessesPage_getSiteId();
+
+		Page<ExportProcess> exportProcessesPage =
+			exportProcessResource.getSiteExportProcessesPage(
+				siteId, null, null, null, null, null);
+
+		int totalCount = GetterUtil.getInteger(
+			exportProcessesPage.getTotalCount());
+
+		ExportProcess exportProcess1 =
+			testGetSiteExportProcessesPage_addExportProcess(
+				siteId, randomExportProcess());
+
+		ExportProcess exportProcess2 =
+			testGetSiteExportProcessesPage_addExportProcess(
+				siteId, randomExportProcess());
+
+		ExportProcess exportProcess3 =
+			testGetSiteExportProcessesPage_addExportProcess(
+				siteId, randomExportProcess());
+
+		// See com.liferay.portal.vulcan.internal.configuration.HeadlessAPICompanyConfiguration#pageSizeLimit
+
+		int pageSizeLimit = 500;
+
+		if (totalCount >= (pageSizeLimit - 2)) {
+			Page<ExportProcess> page1 =
+				exportProcessResource.getSiteExportProcessesPage(
+					siteId, null, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 1.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
+
+			Assert.assertEquals(totalCount + 3, page1.getTotalCount());
+
+			assertContains(
+				exportProcess1, (List<ExportProcess>)page1.getItems());
+
+			Page<ExportProcess> page2 =
+				exportProcessResource.getSiteExportProcessesPage(
+					siteId, null, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 2.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
+
+			assertContains(
+				exportProcess2, (List<ExportProcess>)page2.getItems());
+
+			Page<ExportProcess> page3 =
+				exportProcessResource.getSiteExportProcessesPage(
+					siteId, null, null, null,
+					Pagination.of(
+						(int)Math.ceil((totalCount + 3.0) / pageSizeLimit),
+						pageSizeLimit),
+					null);
+
+			assertContains(
+				exportProcess3, (List<ExportProcess>)page3.getItems());
+		}
+		else {
+			Page<ExportProcess> page1 =
+				exportProcessResource.getSiteExportProcessesPage(
+					siteId, null, null, null, Pagination.of(1, totalCount + 2),
+					null);
+
+			List<ExportProcess> exportProcesses1 =
+				(List<ExportProcess>)page1.getItems();
+
+			Assert.assertEquals(
+				exportProcesses1.toString(), totalCount + 2,
+				exportProcesses1.size());
+
+			Page<ExportProcess> page2 =
+				exportProcessResource.getSiteExportProcessesPage(
+					siteId, null, null, null, Pagination.of(2, totalCount + 2),
+					null);
+
+			Assert.assertEquals(totalCount + 3, page2.getTotalCount());
+
+			List<ExportProcess> exportProcesses2 =
+				(List<ExportProcess>)page2.getItems();
+
+			Assert.assertEquals(
+				exportProcesses2.toString(), 1, exportProcesses2.size());
+
+			Page<ExportProcess> page3 =
+				exportProcessResource.getSiteExportProcessesPage(
+					siteId, null, null, null,
+					Pagination.of(1, (int)totalCount + 3), null);
+
+			assertContains(
+				exportProcess1, (List<ExportProcess>)page3.getItems());
+			assertContains(
+				exportProcess2, (List<ExportProcess>)page3.getItems());
+			assertContains(
+				exportProcess3, (List<ExportProcess>)page3.getItems());
+		}
+	}
+
+	@Test
+	public void testGetSiteExportProcessesPageWithSortDateTime()
+		throws Exception {
+
+		testGetSiteExportProcessesPageWithSort(
+			EntityField.Type.DATE_TIME,
+			(entityField, exportProcess1, exportProcess2) -> {
+				BeanTestUtil.setProperty(
+					exportProcess1, entityField.getName(),
+					new Date(System.currentTimeMillis() - (2 * Time.MINUTE)));
+			});
+	}
+
+	@Test
+	public void testGetSiteExportProcessesPageWithSortDouble()
+		throws Exception {
+
+		testGetSiteExportProcessesPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, exportProcess1, exportProcess2) -> {
+				BeanTestUtil.setProperty(
+					exportProcess1, entityField.getName(), 0.1);
+				BeanTestUtil.setProperty(
+					exportProcess2, entityField.getName(), 0.5);
+			});
+	}
+
+	@Test
+	public void testGetSiteExportProcessesPageWithSortInteger()
+		throws Exception {
+
+		testGetSiteExportProcessesPageWithSort(
+			EntityField.Type.INTEGER,
+			(entityField, exportProcess1, exportProcess2) -> {
+				BeanTestUtil.setProperty(
+					exportProcess1, entityField.getName(), 0);
+				BeanTestUtil.setProperty(
+					exportProcess2, entityField.getName(), 1);
+			});
+	}
+
+	@Test
+	public void testGetSiteExportProcessesPageWithSortString()
+		throws Exception {
+
+		testGetSiteExportProcessesPageWithSort(
+			EntityField.Type.STRING,
+			(entityField, exportProcess1, exportProcess2) -> {
+				Class<?> clazz = exportProcess1.getClass();
+
+				String entityFieldName = entityField.getName();
+
+				Method method = clazz.getMethod(
+					"get" + StringUtil.upperCaseFirstLetter(entityFieldName));
+
+				Class<?> returnType = method.getReturnType();
+
+				if (returnType.isAssignableFrom(Map.class)) {
+					BeanTestUtil.setProperty(
+						exportProcess1, entityFieldName,
+						Collections.singletonMap("Aaa", "Aaa"));
+					BeanTestUtil.setProperty(
+						exportProcess2, entityFieldName,
+						Collections.singletonMap("Bbb", "Bbb"));
+				}
+				else if (entityFieldName.contains("email")) {
+					BeanTestUtil.setProperty(
+						exportProcess1, entityFieldName,
+						"aaa" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()) +
+									"@liferay.com");
+					BeanTestUtil.setProperty(
+						exportProcess2, entityFieldName,
+						"bbb" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()) +
+									"@liferay.com");
+				}
+				else {
+					BeanTestUtil.setProperty(
+						exportProcess1, entityFieldName,
+						"aaa" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()));
+					BeanTestUtil.setProperty(
+						exportProcess2, entityFieldName,
+						"bbb" +
+							StringUtil.toLowerCase(
+								RandomTestUtil.randomString()));
+				}
+			});
+	}
+
+	protected void testGetSiteExportProcessesPageWithSort(
+			EntityField.Type type,
+			UnsafeTriConsumer
+				<EntityField, ExportProcess, ExportProcess, Exception>
+					unsafeTriConsumer)
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(type);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long siteId = testGetSiteExportProcessesPage_getSiteId();
+
+		ExportProcess exportProcess1 = randomExportProcess();
+		ExportProcess exportProcess2 = randomExportProcess();
+
+		for (EntityField entityField : entityFields) {
+			unsafeTriConsumer.accept(
+				entityField, exportProcess1, exportProcess2);
+		}
+
+		exportProcess1 = testGetSiteExportProcessesPage_addExportProcess(
+			siteId, exportProcess1);
+
+		exportProcess2 = testGetSiteExportProcessesPage_addExportProcess(
+			siteId, exportProcess2);
+
+		Page<ExportProcess> page =
+			exportProcessResource.getSiteExportProcessesPage(
+				siteId, null, null, null, null, null);
+
+		for (EntityField entityField : entityFields) {
+			Page<ExportProcess> ascPage =
+				exportProcessResource.getSiteExportProcessesPage(
+					siteId, null, null, null,
+					Pagination.of(1, (int)page.getTotalCount() + 1),
+					entityField.getName() + ":asc");
+
+			assertContains(
+				exportProcess1, (List<ExportProcess>)ascPage.getItems());
+			assertContains(
+				exportProcess2, (List<ExportProcess>)ascPage.getItems());
+
+			Page<ExportProcess> descPage =
+				exportProcessResource.getSiteExportProcessesPage(
+					siteId, null, null, null,
+					Pagination.of(1, (int)page.getTotalCount() + 1),
+					entityField.getName() + ":desc");
+
+			assertContains(
+				exportProcess2, (List<ExportProcess>)descPage.getItems());
+			assertContains(
+				exportProcess1, (List<ExportProcess>)descPage.getItems());
+		}
+	}
+
+	protected ExportProcess testGetSiteExportProcessesPage_addExportProcess(
+			Long siteId, ExportProcess exportProcess)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	protected Long testGetSiteExportProcessesPage_getSiteId() throws Exception {
+		return testGroup.getGroupId();
+	}
+
+	protected Long testGetSiteExportProcessesPage_getIrrelevantSiteId()
+		throws Exception {
+
+		return irrelevantGroup.getGroupId();
 	}
 
 	@Test
@@ -1075,5 +2276,27 @@ public abstract class BaseExportProcessResourceTestCase {
 	private com.liferay.exportimport.rest.resource.v1_0.ExportProcessResource
 		_exportProcessResource;
 
+	@Inject
+	private GroupLocalService _groupLocalService;
+
+	@Inject
+	private ResourceActionLocalService _resourceActionLocalService;
+
+	@Inject
+	private ResourcePermissionLocalService _resourcePermissionLocalService;
+
+	@Inject
+	private RoleLocalService _roleLocalService;
+
+	@Inject
+	private ScopeChecker _scopeChecker;
+
+	@Inject
+	private UserLocalService _userLocalService;
+
+	@Inject
+	private VulcanCRUDItemDelegateBuilderRegistry
+		_vulcanCRUDItemDelegateBuilderRegistry;
+
 }
-// LIFERAY-REST-BUILDER-HASH:585369580
+// LIFERAY-REST-BUILDER-HASH:-291945056

@@ -75,6 +75,27 @@ public class ImportProcessRequest implements Cloneable, Serializable {
 
 	protected Boolean deletions;
 
+	public Long getExportProcessId() {
+		return exportProcessId;
+	}
+
+	public void setExportProcessId(Long exportProcessId) {
+		this.exportProcessId = exportProcessId;
+	}
+
+	public void setExportProcessId(
+		UnsafeSupplier<Long, Exception> exportProcessIdUnsafeSupplier) {
+
+		try {
+			exportProcessId = exportProcessIdUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Long exportProcessId;
+
 	public String getName() {
 		return name;
 	}
@@ -271,4 +292,4 @@ public class ImportProcessRequest implements Cloneable, Serializable {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:1910214743
+// LIFERAY-REST-BUILDER-HASH:520189554
