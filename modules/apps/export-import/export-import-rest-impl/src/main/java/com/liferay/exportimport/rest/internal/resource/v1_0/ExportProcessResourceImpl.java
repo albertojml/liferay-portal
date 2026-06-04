@@ -12,12 +12,14 @@ import com.liferay.exportimport.kernel.lar.ExportImportHelper;
 import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.exportimport.kernel.service.ExportImportConfigurationLocalService;
 import com.liferay.exportimport.kernel.service.ExportImportLocalService;
+import com.liferay.exportimport.portlet.data.handler.provider.PortletDataHandlerProvider;
 import com.liferay.exportimport.rest.dto.v1_0.ExportProcess;
 import com.liferay.exportimport.rest.dto.v1_0.ExportProcessRequest;
 import com.liferay.exportimport.rest.dto.v1_0.Status;
 import com.liferay.exportimport.rest.internal.util.DateRangeUtil;
 import com.liferay.exportimport.rest.internal.util.ParameterMapUtil;
 import com.liferay.exportimport.rest.internal.util.PermissionUtil;
+import com.liferay.exportimport.rest.internal.util.RequestPortletDataHandlerValidatorUtil;
 import com.liferay.exportimport.rest.resource.v1_0.ExportProcessResource;
 import com.liferay.headless.delivery.dto.v1_0.util.CreatorUtil;
 import com.liferay.layout.admin.constants.LayoutAdminPortletKeys;
@@ -251,6 +253,11 @@ public class ExportProcessResourceImpl extends BaseExportProcessResourceImpl {
 		PermissionUtil.checkExportPermission(
 			contextCompany.getCompanyId(), groupId);
 
+		RequestPortletDataHandlerValidatorUtil.validate(
+			_exportImportHelper, _portletDataHandlerProvider,
+			contextCompany.getCompanyId(), groupId,
+			exportProcessRequest.getRequestPortletDataHandlers());
+
 		Map<String, String[]> parameterMap = ParameterMapUtil.toParameterMap(
 			exportProcessRequest);
 
@@ -394,6 +401,9 @@ public class ExportProcessResourceImpl extends BaseExportProcessResourceImpl {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletDataHandlerProvider _portletDataHandlerProvider;
 
 	@Reference
 	private StagingGroupHelper _stagingGroupHelper;

@@ -12,11 +12,13 @@ import com.liferay.exportimport.kernel.lar.ExportImportHelper;
 import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.exportimport.kernel.service.ExportImportConfigurationLocalService;
 import com.liferay.exportimport.kernel.service.ExportImportLocalService;
+import com.liferay.exportimport.portlet.data.handler.provider.PortletDataHandlerProvider;
 import com.liferay.exportimport.rest.dto.v1_0.ImportProcess;
 import com.liferay.exportimport.rest.dto.v1_0.ImportProcessRequest;
 import com.liferay.exportimport.rest.dto.v1_0.Status;
 import com.liferay.exportimport.rest.internal.util.ParameterMapUtil;
 import com.liferay.exportimport.rest.internal.util.PermissionUtil;
+import com.liferay.exportimport.rest.internal.util.RequestPortletDataHandlerValidatorUtil;
 import com.liferay.exportimport.rest.resource.v1_0.ImportPreviewResource;
 import com.liferay.exportimport.rest.resource.v1_0.ImportProcessResource;
 import com.liferay.headless.delivery.dto.v1_0.util.CreatorUtil;
@@ -280,6 +282,11 @@ public class ImportProcessResourceImpl extends BaseImportProcessResourceImpl {
 		PermissionUtil.checkImportPermission(
 			contextCompany.getCompanyId(), groupId);
 
+		RequestPortletDataHandlerValidatorUtil.validate(
+			_exportImportHelper, _portletDataHandlerProvider,
+			contextCompany.getCompanyId(), groupId,
+			importProcessRequest.getRequestPortletDataHandlers());
+
 		Long exportProcessId = importProcessRequest.getExportProcessId();
 
 		boolean tempFileEntry = false;
@@ -431,6 +438,9 @@ public class ImportProcessResourceImpl extends BaseImportProcessResourceImpl {
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortletDataHandlerProvider _portletDataHandlerProvider;
 
 	@Reference
 	private StagingGroupHelper _stagingGroupHelper;
