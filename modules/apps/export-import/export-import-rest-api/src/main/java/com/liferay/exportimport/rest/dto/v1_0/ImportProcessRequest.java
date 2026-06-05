@@ -406,7 +406,7 @@ public class ImportProcessRequest implements Serializable {
 	private Supplier<Boolean> _permissionsSupplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema(
-		description = "The portlet data handlers to import, each identifying an entity type to include. A handler's \"name\" must match a value returned by an export-preview or import-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a handler not available for the scope is rejected with an HTTP 400 response."
+		description = "The portlet data handlers to import, each identifying an entity type to include. A handler's \"name\" must match a value returned by an export-preview or import-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a handler not available for the scope is rejected with an HTTP 400 response. Handlers are scoped. The site endpoints expose site-scoped handlers, while portal-scoped handlers (such as Site Templates) are imported only through the company-scoped endpoints (POST /import-processes, without a site)."
 	)
 	@Valid
 	public RequestPortletDataHandler[] getRequestPortletDataHandlers() {
@@ -447,7 +447,7 @@ public class ImportProcessRequest implements Serializable {
 	}
 
 	@GraphQLField(
-		description = "The portlet data handlers to import, each identifying an entity type to include. A handler's \"name\" must match a value returned by an export-preview or import-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a handler not available for the scope is rejected with an HTTP 400 response."
+		description = "The portlet data handlers to import, each identifying an entity type to include. A handler's \"name\" must match a value returned by an export-preview or import-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a handler not available for the scope is rejected with an HTTP 400 response. Handlers are scoped. The site endpoints expose site-scoped handlers, while portal-scoped handlers (such as Site Templates) are imported only through the company-scoped endpoints (POST /import-processes, without a site)."
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected RequestPortletDataHandler[] requestPortletDataHandlers;
@@ -914,4 +914,4 @@ public class ImportProcessRequest implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:-364751892
+// LIFERAY-REST-BUILDER-HASH:-1948450592

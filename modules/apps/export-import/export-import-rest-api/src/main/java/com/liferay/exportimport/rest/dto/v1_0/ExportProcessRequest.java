@@ -446,7 +446,7 @@ public class ExportProcessRequest implements Serializable {
 	private Supplier<Range> _rangeSupplier;
 
 	@io.swagger.v3.oas.annotations.media.Schema(
-		description = "The portlet data handlers to export, each identifying an entity type to include. A handler's \"name\" must match a value returned by the export-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a handler not available for the scope is rejected with an HTTP 400 response."
+		description = "The portlet data handlers to export, each identifying an entity type to include. A handler's \"name\" must match a value returned by the export-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a handler not available for the scope is rejected with an HTTP 400 response. Handlers are scoped. The site endpoints expose site-scoped handlers, while portal-scoped handlers (such as Site Templates) are exported only through the company-scoped endpoints (POST /export-processes and /export-preview, without a site)."
 	)
 	@Valid
 	public RequestPortletDataHandler[] getRequestPortletDataHandlers() {
@@ -487,7 +487,7 @@ public class ExportProcessRequest implements Serializable {
 	}
 
 	@GraphQLField(
-		description = "The portlet data handlers to export, each identifying an entity type to include. A handler's \"name\" must match a value returned by the export-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a handler not available for the scope is rejected with an HTTP 400 response."
+		description = "The portlet data handlers to export, each identifying an entity type to include. A handler's \"name\" must match a value returned by the export-preview endpoint in previewPortletDataHandlerSections[].previewPortletDataHandlers[].name. A request that names a handler not available for the scope is rejected with an HTTP 400 response. Handlers are scoped. The site endpoints expose site-scoped handlers, while portal-scoped handlers (such as Site Templates) are exported only through the company-scoped endpoints (POST /export-processes and /export-preview, without a site)."
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected RequestPortletDataHandler[] requestPortletDataHandlers;
@@ -921,4 +921,4 @@ public class ExportProcessRequest implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:-369646720
+// LIFERAY-REST-BUILDER-HASH:-449682912
