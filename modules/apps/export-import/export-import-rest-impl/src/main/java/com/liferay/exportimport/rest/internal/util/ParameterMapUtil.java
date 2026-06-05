@@ -38,12 +38,43 @@ public class ParameterMapUtil {
 				new String[] {deletions.toString()});
 		}
 
+		Boolean favicon = exportProcessRequest.getFavicon();
+
+		if (favicon != null) {
+			parameterMap.put(
+				PortletDataHandlerKeys.FAVICON,
+				new String[] {favicon.toString()});
+		}
+
+		Boolean layoutSetSettings = exportProcessRequest.getLayoutSetSettings();
+
+		if (layoutSetSettings != null) {
+			parameterMap.put(
+				PortletDataHandlerKeys.LAYOUT_SET_SETTINGS,
+				new String[] {layoutSetSettings.toString()});
+		}
+
+		Boolean logo = exportProcessRequest.getLogo();
+
+		if (logo != null) {
+			parameterMap.put(
+				PortletDataHandlerKeys.LOGO, new String[] {logo.toString()});
+		}
+
 		Boolean permissions = exportProcessRequest.getPermissions();
 
 		if (permissions != null) {
 			parameterMap.put(
 				PortletDataHandlerKeys.PERMISSIONS,
 				new String[] {permissions.toString()});
+		}
+
+		Boolean themeReference = exportProcessRequest.getThemeReference();
+
+		if (themeReference != null) {
+			parameterMap.put(
+				PortletDataHandlerKeys.THEME_REFERENCE,
+				new String[] {themeReference.toString()});
 		}
 
 		return parameterMap;
@@ -74,12 +105,43 @@ public class ParameterMapUtil {
 				new String[] {deletions.toString()});
 		}
 
+		Boolean favicon = importProcessRequest.getFavicon();
+
+		if (favicon != null) {
+			parameterMap.put(
+				PortletDataHandlerKeys.FAVICON,
+				new String[] {favicon.toString()});
+		}
+
+		Boolean layoutSetSettings = importProcessRequest.getLayoutSetSettings();
+
+		if (layoutSetSettings != null) {
+			parameterMap.put(
+				PortletDataHandlerKeys.LAYOUT_SET_SETTINGS,
+				new String[] {layoutSetSettings.toString()});
+		}
+
+		Boolean logo = importProcessRequest.getLogo();
+
+		if (logo != null) {
+			parameterMap.put(
+				PortletDataHandlerKeys.LOGO, new String[] {logo.toString()});
+		}
+
 		Boolean permissions = importProcessRequest.getPermissions();
 
 		if (permissions != null) {
 			parameterMap.put(
 				PortletDataHandlerKeys.PERMISSIONS,
 				new String[] {permissions.toString()});
+		}
+
+		Boolean themeReference = importProcessRequest.getThemeReference();
+
+		if (themeReference != null) {
+			parameterMap.put(
+				PortletDataHandlerKeys.THEME_REFERENCE,
+				new String[] {themeReference.toString()});
 		}
 
 		ImportProcessRequest.UserIdStrategy userIdStrategy =
