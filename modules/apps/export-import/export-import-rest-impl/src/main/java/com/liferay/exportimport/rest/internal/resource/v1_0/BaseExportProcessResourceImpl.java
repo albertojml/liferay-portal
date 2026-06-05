@@ -354,7 +354,7 @@ public abstract class BaseExportProcessResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/export-processes' -d $'{"deletions": ___, "endDate": ___, "last": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/export-processes' -d $'{"deletions": ___, "endDate": ___, "favicon": ___, "last": ___, "layoutSetSettings": ___, "logo": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___, "themeReference": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates and starts an export that runs asynchronously. The response returns immediately with an export process whose status is New. Poll the export process by its id until the status reaches a terminal code (see the Status schema). The generated LAR can then be imported by passing the process's id as the exportProcessId of an import request."
@@ -393,7 +393,7 @@ public abstract class BaseExportProcessResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/export-processes/batch' -d $'{"deletions": ___, "endDate": ___, "last": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/asset-libraries/{assetLibraryExternalReferenceCode}/export-processes/batch' -d $'{"deletions": ___, "endDate": ___, "favicon": ___, "last": ___, "layoutSetSettings": ___, "logo": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___, "themeReference": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -550,7 +550,7 @@ public abstract class BaseExportProcessResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/export-processes' -d $'{"deletions": ___, "endDate": ___, "last": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/export-processes' -d $'{"deletions": ___, "endDate": ___, "favicon": ___, "last": ___, "layoutSetSettings": ___, "logo": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___, "themeReference": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates and starts an export that runs asynchronously. The response returns immediately with an export process whose status is New. Poll the export process by its id until the status reaches a terminal code (see the Status schema). The generated LAR can then be imported by passing the process's id as the exportProcessId of an import request."
@@ -575,7 +575,7 @@ public abstract class BaseExportProcessResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/export-processes/batch' -d $'{"deletions": ___, "endDate": ___, "last": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/export-processes/batch' -d $'{"deletions": ___, "endDate": ___, "favicon": ___, "last": ___, "layoutSetSettings": ___, "logo": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___, "themeReference": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -712,7 +712,7 @@ public abstract class BaseExportProcessResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/sites/{siteExternalReferenceCode}/export-processes' -d $'{"deletions": ___, "endDate": ___, "last": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/sites/{siteExternalReferenceCode}/export-processes' -d $'{"deletions": ___, "endDate": ___, "favicon": ___, "last": ___, "layoutSetSettings": ___, "logo": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___, "themeReference": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Creates and starts an export that runs asynchronously. The response returns immediately with an export process whose status is New. Poll the export process by its id until the status reaches a terminal code (see the Status schema). The generated LAR can then be imported by passing the process's id as the exportProcessId of an import request."
@@ -749,7 +749,7 @@ public abstract class BaseExportProcessResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/sites/{siteExternalReferenceCode}/export-processes/batch' -d $'{"deletions": ___, "endDate": ___, "last": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/export-import/v1.0/sites/{siteExternalReferenceCode}/export-processes/batch' -d $'{"deletions": ___, "endDate": ___, "favicon": ___, "last": ___, "layoutSetSettings": ___, "logo": ___, "name": ___, "permissions": ___, "range": ___, "requestPortletDataHandlers": ___, "startDate": ___, "themeReference": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -1647,4 +1647,4 @@ public abstract class BaseExportProcessResourceImpl
 		LogFactoryUtil.getLog(BaseExportProcessResourceImpl.class);
 
 }
-// LIFERAY-REST-BUILDER-HASH:2049325516
+// LIFERAY-REST-BUILDER-HASH:-1750183972

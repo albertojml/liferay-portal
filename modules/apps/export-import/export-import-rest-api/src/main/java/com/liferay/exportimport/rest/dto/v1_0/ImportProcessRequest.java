@@ -192,6 +192,139 @@ public class ImportProcessRequest implements Serializable {
 	@JsonIgnore
 	private Supplier<Long> _exportProcessIdSupplier;
 
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "Whether to import the site's favicon, part of the site's look-and-feel carried on the layout set."
+	)
+	public Boolean getFavicon() {
+		if (_faviconSupplier != null) {
+			favicon = _faviconSupplier.get();
+
+			_faviconSupplier = null;
+		}
+
+		return favicon;
+	}
+
+	public void setFavicon(Boolean favicon) {
+		this.favicon = favicon;
+
+		_faviconSupplier = null;
+	}
+
+	@JsonIgnore
+	public void setFavicon(
+		UnsafeSupplier<Boolean, Exception> faviconUnsafeSupplier) {
+
+		_faviconSupplier = () -> {
+			try {
+				return faviconUnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField(
+		description = "Whether to import the site's favicon, part of the site's look-and-feel carried on the layout set."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Boolean favicon;
+
+	@JsonIgnore
+	private Supplier<Boolean> _faviconSupplier;
+
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "Whether to import the site's layout set settings, the look-and-feel configuration of the site."
+	)
+	public Boolean getLayoutSetSettings() {
+		if (_layoutSetSettingsSupplier != null) {
+			layoutSetSettings = _layoutSetSettingsSupplier.get();
+
+			_layoutSetSettingsSupplier = null;
+		}
+
+		return layoutSetSettings;
+	}
+
+	public void setLayoutSetSettings(Boolean layoutSetSettings) {
+		this.layoutSetSettings = layoutSetSettings;
+
+		_layoutSetSettingsSupplier = null;
+	}
+
+	@JsonIgnore
+	public void setLayoutSetSettings(
+		UnsafeSupplier<Boolean, Exception> layoutSetSettingsUnsafeSupplier) {
+
+		_layoutSetSettingsSupplier = () -> {
+			try {
+				return layoutSetSettingsUnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField(
+		description = "Whether to import the site's layout set settings, the look-and-feel configuration of the site."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Boolean layoutSetSettings;
+
+	@JsonIgnore
+	private Supplier<Boolean> _layoutSetSettingsSupplier;
+
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "Whether to import the site's logo image, part of the site's look-and-feel."
+	)
+	public Boolean getLogo() {
+		if (_logoSupplier != null) {
+			logo = _logoSupplier.get();
+
+			_logoSupplier = null;
+		}
+
+		return logo;
+	}
+
+	public void setLogo(Boolean logo) {
+		this.logo = logo;
+
+		_logoSupplier = null;
+	}
+
+	@JsonIgnore
+	public void setLogo(UnsafeSupplier<Boolean, Exception> logoUnsafeSupplier) {
+		_logoSupplier = () -> {
+			try {
+				return logoUnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField(
+		description = "Whether to import the site's logo image, part of the site's look-and-feel."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Boolean logo;
+
+	@JsonIgnore
+	private Supplier<Boolean> _logoSupplier;
+
 	@io.swagger.v3.oas.annotations.media.Schema
 	public String getName() {
 		if (_nameSupplier != null) {
@@ -323,6 +456,51 @@ public class ImportProcessRequest implements Serializable {
 	private Supplier<RequestPortletDataHandler[]>
 		_requestPortletDataHandlersSupplier;
 
+	@io.swagger.v3.oas.annotations.media.Schema(
+		description = "Whether to import the site's theme and color scheme (look-and-feel). The theme rides on the site's layout set rather than being a standalone entity."
+	)
+	public Boolean getThemeReference() {
+		if (_themeReferenceSupplier != null) {
+			themeReference = _themeReferenceSupplier.get();
+
+			_themeReferenceSupplier = null;
+		}
+
+		return themeReference;
+	}
+
+	public void setThemeReference(Boolean themeReference) {
+		this.themeReference = themeReference;
+
+		_themeReferenceSupplier = null;
+	}
+
+	@JsonIgnore
+	public void setThemeReference(
+		UnsafeSupplier<Boolean, Exception> themeReferenceUnsafeSupplier) {
+
+		_themeReferenceSupplier = () -> {
+			try {
+				return themeReferenceUnsafeSupplier.get();
+			}
+			catch (RuntimeException runtimeException) {
+				throw runtimeException;
+			}
+			catch (Exception exception) {
+				throw new RuntimeException(exception);
+			}
+		};
+	}
+
+	@GraphQLField(
+		description = "Whether to import the site's theme and color scheme (look-and-feel). The theme rides on the site's layout set rather than being a standalone entity."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Boolean themeReference;
+
+	@JsonIgnore
+	private Supplier<Boolean> _themeReferenceSupplier;
+
 	@io.swagger.v3.oas.annotations.media.Schema
 	@JsonGetter("userIdStrategy")
 	@Valid
@@ -444,6 +622,42 @@ public class ImportProcessRequest implements Serializable {
 			sb.append(exportProcessId);
 		}
 
+		Boolean favicon = getFavicon();
+
+		if (favicon != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"favicon\": ");
+
+			sb.append(favicon);
+		}
+
+		Boolean layoutSetSettings = getLayoutSetSettings();
+
+		if (layoutSetSettings != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"layoutSetSettings\": ");
+
+			sb.append(layoutSetSettings);
+		}
+
+		Boolean logo = getLogo();
+
+		if (logo != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"logo\": ");
+
+			sb.append(logo);
+		}
+
 		String name = getName();
 
 		if (name != null) {
@@ -493,6 +707,18 @@ public class ImportProcessRequest implements Serializable {
 			}
 
 			sb.append("]");
+		}
+
+		Boolean themeReference = getThemeReference();
+
+		if (themeReference != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"themeReference\": ");
+
+			sb.append(themeReference);
 		}
 
 		UserIdStrategy userIdStrategy = getUserIdStrategy();
@@ -688,4 +914,4 @@ public class ImportProcessRequest implements Serializable {
 	private Map<String, Serializable> _extendedProperties;
 
 }
-// LIFERAY-REST-BUILDER-HASH:462269476
+// LIFERAY-REST-BUILDER-HASH:-364751892

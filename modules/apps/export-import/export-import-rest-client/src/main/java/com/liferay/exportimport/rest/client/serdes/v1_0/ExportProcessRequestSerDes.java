@@ -79,6 +79,16 @@ public class ExportProcessRequestSerDes {
 			sb.append("\"");
 		}
 
+		if (exportProcessRequest.getFavicon() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"favicon\": ");
+
+			sb.append(exportProcessRequest.getFavicon());
+		}
+
 		if (exportProcessRequest.getLast() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -87,6 +97,26 @@ public class ExportProcessRequestSerDes {
 			sb.append("\"last\": ");
 
 			sb.append(exportProcessRequest.getLast());
+		}
+
+		if (exportProcessRequest.getLayoutSetSettings() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"layoutSetSettings\": ");
+
+			sb.append(exportProcessRequest.getLayoutSetSettings());
+		}
+
+		if (exportProcessRequest.getLogo() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"logo\": ");
+
+			sb.append(exportProcessRequest.getLogo());
 		}
 
 		if (exportProcessRequest.getName() != null) {
@@ -171,6 +201,16 @@ public class ExportProcessRequestSerDes {
 			sb.append("\"");
 		}
 
+		if (exportProcessRequest.getThemeReference() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"themeReference\": ");
+
+			sb.append(exportProcessRequest.getThemeReference());
+		}
+
 		sb.append("}");
 
 		return sb.toString();
@@ -214,11 +254,35 @@ public class ExportProcessRequestSerDes {
 					exportProcessRequest.getEndDate()));
 		}
 
+		if (exportProcessRequest.getFavicon() == null) {
+			map.put("favicon", null);
+		}
+		else {
+			map.put(
+				"favicon", String.valueOf(exportProcessRequest.getFavicon()));
+		}
+
 		if (exportProcessRequest.getLast() == null) {
 			map.put("last", null);
 		}
 		else {
 			map.put("last", String.valueOf(exportProcessRequest.getLast()));
+		}
+
+		if (exportProcessRequest.getLayoutSetSettings() == null) {
+			map.put("layoutSetSettings", null);
+		}
+		else {
+			map.put(
+				"layoutSetSettings",
+				String.valueOf(exportProcessRequest.getLayoutSetSettings()));
+		}
+
+		if (exportProcessRequest.getLogo() == null) {
+			map.put("logo", null);
+		}
+		else {
+			map.put("logo", String.valueOf(exportProcessRequest.getLogo()));
 		}
 
 		if (exportProcessRequest.getName() == null) {
@@ -264,6 +328,15 @@ public class ExportProcessRequestSerDes {
 					exportProcessRequest.getStartDate()));
 		}
 
+		if (exportProcessRequest.getThemeReference() == null) {
+			map.put("themeReference", null);
+		}
+		else {
+			map.put(
+				"themeReference",
+				String.valueOf(exportProcessRequest.getThemeReference()));
+		}
+
 		return map;
 	}
 
@@ -288,7 +361,16 @@ public class ExportProcessRequestSerDes {
 			else if (Objects.equals(jsonParserFieldName, "endDate")) {
 				return false;
 			}
+			else if (Objects.equals(jsonParserFieldName, "favicon")) {
+				return false;
+			}
 			else if (Objects.equals(jsonParserFieldName, "last")) {
+				return false;
+			}
+			else if (Objects.equals(jsonParserFieldName, "layoutSetSettings")) {
+				return false;
+			}
+			else if (Objects.equals(jsonParserFieldName, "logo")) {
 				return false;
 			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {
@@ -306,6 +388,9 @@ public class ExportProcessRequestSerDes {
 				return false;
 			}
 			else if (Objects.equals(jsonParserFieldName, "startDate")) {
+				return false;
+			}
+			else if (Objects.equals(jsonParserFieldName, "themeReference")) {
 				return false;
 			}
 
@@ -329,10 +414,27 @@ public class ExportProcessRequestSerDes {
 						toDate((String)jsonParserFieldValue));
 				}
 			}
+			else if (Objects.equals(jsonParserFieldName, "favicon")) {
+				if (jsonParserFieldValue != null) {
+					exportProcessRequest.setFavicon(
+						(Boolean)jsonParserFieldValue);
+				}
+			}
 			else if (Objects.equals(jsonParserFieldName, "last")) {
 				if (jsonParserFieldValue != null) {
 					exportProcessRequest.setLast(
 						Integer.valueOf((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "layoutSetSettings")) {
+				if (jsonParserFieldValue != null) {
+					exportProcessRequest.setLayoutSetSettings(
+						(Boolean)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "logo")) {
+				if (jsonParserFieldValue != null) {
+					exportProcessRequest.setLogo((Boolean)jsonParserFieldValue);
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {
@@ -381,6 +483,12 @@ public class ExportProcessRequestSerDes {
 				if (jsonParserFieldValue != null) {
 					exportProcessRequest.setStartDate(
 						toDate((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "themeReference")) {
+				if (jsonParserFieldValue != null) {
+					exportProcessRequest.setThemeReference(
+						(Boolean)jsonParserFieldValue);
 				}
 			}
 		}
@@ -464,4 +572,4 @@ public class ExportProcessRequestSerDes {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:1211673737
+// LIFERAY-REST-BUILDER-HASH:-944762563

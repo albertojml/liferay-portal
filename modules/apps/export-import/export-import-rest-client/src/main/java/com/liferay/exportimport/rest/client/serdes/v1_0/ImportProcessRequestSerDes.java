@@ -79,6 +79,36 @@ public class ImportProcessRequestSerDes {
 			sb.append(importProcessRequest.getExportProcessId());
 		}
 
+		if (importProcessRequest.getFavicon() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"favicon\": ");
+
+			sb.append(importProcessRequest.getFavicon());
+		}
+
+		if (importProcessRequest.getLayoutSetSettings() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"layoutSetSettings\": ");
+
+			sb.append(importProcessRequest.getLayoutSetSettings());
+		}
+
+		if (importProcessRequest.getLogo() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"logo\": ");
+
+			sb.append(importProcessRequest.getLogo());
+		}
+
 		if (importProcessRequest.getName() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -131,6 +161,16 @@ public class ImportProcessRequestSerDes {
 			}
 
 			sb.append("]");
+		}
+
+		if (importProcessRequest.getThemeReference() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"themeReference\": ");
+
+			sb.append(importProcessRequest.getThemeReference());
 		}
 
 		if (importProcessRequest.getUserIdStrategy() != null) {
@@ -193,6 +233,30 @@ public class ImportProcessRequestSerDes {
 				String.valueOf(importProcessRequest.getExportProcessId()));
 		}
 
+		if (importProcessRequest.getFavicon() == null) {
+			map.put("favicon", null);
+		}
+		else {
+			map.put(
+				"favicon", String.valueOf(importProcessRequest.getFavicon()));
+		}
+
+		if (importProcessRequest.getLayoutSetSettings() == null) {
+			map.put("layoutSetSettings", null);
+		}
+		else {
+			map.put(
+				"layoutSetSettings",
+				String.valueOf(importProcessRequest.getLayoutSetSettings()));
+		}
+
+		if (importProcessRequest.getLogo() == null) {
+			map.put("logo", null);
+		}
+		else {
+			map.put("logo", String.valueOf(importProcessRequest.getLogo()));
+		}
+
 		if (importProcessRequest.getName() == null) {
 			map.put("name", null);
 		}
@@ -217,6 +281,15 @@ public class ImportProcessRequestSerDes {
 				"requestPortletDataHandlers",
 				String.valueOf(
 					importProcessRequest.getRequestPortletDataHandlers()));
+		}
+
+		if (importProcessRequest.getThemeReference() == null) {
+			map.put("themeReference", null);
+		}
+		else {
+			map.put(
+				"themeReference",
+				String.valueOf(importProcessRequest.getThemeReference()));
 		}
 
 		if (importProcessRequest.getUserIdStrategy() == null) {
@@ -255,6 +328,15 @@ public class ImportProcessRequestSerDes {
 			else if (Objects.equals(jsonParserFieldName, "exportProcessId")) {
 				return false;
 			}
+			else if (Objects.equals(jsonParserFieldName, "favicon")) {
+				return false;
+			}
+			else if (Objects.equals(jsonParserFieldName, "layoutSetSettings")) {
+				return false;
+			}
+			else if (Objects.equals(jsonParserFieldName, "logo")) {
+				return false;
+			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {
 				return false;
 			}
@@ -264,6 +346,9 @@ public class ImportProcessRequestSerDes {
 			else if (Objects.equals(
 						jsonParserFieldName, "requestPortletDataHandlers")) {
 
+				return false;
+			}
+			else if (Objects.equals(jsonParserFieldName, "themeReference")) {
 				return false;
 			}
 			else if (Objects.equals(jsonParserFieldName, "userIdStrategy")) {
@@ -295,6 +380,23 @@ public class ImportProcessRequestSerDes {
 				if (jsonParserFieldValue != null) {
 					importProcessRequest.setExportProcessId(
 						Long.valueOf((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "favicon")) {
+				if (jsonParserFieldValue != null) {
+					importProcessRequest.setFavicon(
+						(Boolean)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "layoutSetSettings")) {
+				if (jsonParserFieldValue != null) {
+					importProcessRequest.setLayoutSetSettings(
+						(Boolean)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "logo")) {
+				if (jsonParserFieldValue != null) {
+					importProcessRequest.setLogo((Boolean)jsonParserFieldValue);
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {
@@ -330,6 +432,12 @@ public class ImportProcessRequestSerDes {
 
 					importProcessRequest.setRequestPortletDataHandlers(
 						requestPortletDataHandlersArray);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "themeReference")) {
+				if (jsonParserFieldValue != null) {
+					importProcessRequest.setThemeReference(
+						(Boolean)jsonParserFieldValue);
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "userIdStrategy")) {
@@ -420,4 +528,4 @@ public class ImportProcessRequestSerDes {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:875736321
+// LIFERAY-REST-BUILDER-HASH:1494037001

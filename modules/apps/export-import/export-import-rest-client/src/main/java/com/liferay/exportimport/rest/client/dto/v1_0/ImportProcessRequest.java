@@ -96,6 +96,67 @@ public class ImportProcessRequest implements Cloneable, Serializable {
 
 	protected Long exportProcessId;
 
+	public Boolean getFavicon() {
+		return favicon;
+	}
+
+	public void setFavicon(Boolean favicon) {
+		this.favicon = favicon;
+	}
+
+	public void setFavicon(
+		UnsafeSupplier<Boolean, Exception> faviconUnsafeSupplier) {
+
+		try {
+			favicon = faviconUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean favicon;
+
+	public Boolean getLayoutSetSettings() {
+		return layoutSetSettings;
+	}
+
+	public void setLayoutSetSettings(Boolean layoutSetSettings) {
+		this.layoutSetSettings = layoutSetSettings;
+	}
+
+	public void setLayoutSetSettings(
+		UnsafeSupplier<Boolean, Exception> layoutSetSettingsUnsafeSupplier) {
+
+		try {
+			layoutSetSettings = layoutSetSettingsUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean layoutSetSettings;
+
+	public Boolean getLogo() {
+		return logo;
+	}
+
+	public void setLogo(Boolean logo) {
+		this.logo = logo;
+	}
+
+	public void setLogo(UnsafeSupplier<Boolean, Exception> logoUnsafeSupplier) {
+		try {
+			logo = logoUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean logo;
+
 	public String getName() {
 		return name;
 	}
@@ -160,6 +221,27 @@ public class ImportProcessRequest implements Cloneable, Serializable {
 	}
 
 	protected RequestPortletDataHandler[] requestPortletDataHandlers;
+
+	public Boolean getThemeReference() {
+		return themeReference;
+	}
+
+	public void setThemeReference(Boolean themeReference) {
+		this.themeReference = themeReference;
+	}
+
+	public void setThemeReference(
+		UnsafeSupplier<Boolean, Exception> themeReferenceUnsafeSupplier) {
+
+		try {
+			themeReference = themeReferenceUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean themeReference;
 
 	public UserIdStrategy getUserIdStrategy() {
 		return userIdStrategy;
@@ -292,4 +374,4 @@ public class ImportProcessRequest implements Cloneable, Serializable {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:520189554
+// LIFERAY-REST-BUILDER-HASH:1019817076

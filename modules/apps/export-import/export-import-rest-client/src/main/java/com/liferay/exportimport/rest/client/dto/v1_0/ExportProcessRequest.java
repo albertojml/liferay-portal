@@ -68,6 +68,27 @@ public class ExportProcessRequest implements Cloneable, Serializable {
 
 	protected Date endDate;
 
+	public Boolean getFavicon() {
+		return favicon;
+	}
+
+	public void setFavicon(Boolean favicon) {
+		this.favicon = favicon;
+	}
+
+	public void setFavicon(
+		UnsafeSupplier<Boolean, Exception> faviconUnsafeSupplier) {
+
+		try {
+			favicon = faviconUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean favicon;
+
 	public Integer getLast() {
 		return last;
 	}
@@ -86,6 +107,46 @@ public class ExportProcessRequest implements Cloneable, Serializable {
 	}
 
 	protected Integer last;
+
+	public Boolean getLayoutSetSettings() {
+		return layoutSetSettings;
+	}
+
+	public void setLayoutSetSettings(Boolean layoutSetSettings) {
+		this.layoutSetSettings = layoutSetSettings;
+	}
+
+	public void setLayoutSetSettings(
+		UnsafeSupplier<Boolean, Exception> layoutSetSettingsUnsafeSupplier) {
+
+		try {
+			layoutSetSettings = layoutSetSettingsUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean layoutSetSettings;
+
+	public Boolean getLogo() {
+		return logo;
+	}
+
+	public void setLogo(Boolean logo) {
+		this.logo = logo;
+	}
+
+	public void setLogo(UnsafeSupplier<Boolean, Exception> logoUnsafeSupplier) {
+		try {
+			logo = logoUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean logo;
 
 	public String getName() {
 		return name;
@@ -200,6 +261,27 @@ public class ExportProcessRequest implements Cloneable, Serializable {
 
 	protected Date startDate;
 
+	public Boolean getThemeReference() {
+		return themeReference;
+	}
+
+	public void setThemeReference(Boolean themeReference) {
+		this.themeReference = themeReference;
+	}
+
+	public void setThemeReference(
+		UnsafeSupplier<Boolean, Exception> themeReferenceUnsafeSupplier) {
+
+		try {
+			themeReference = themeReferenceUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean themeReference;
+
 	@Override
 	public ExportProcessRequest clone() throws CloneNotSupportedException {
 		return (ExportProcessRequest)super.clone();
@@ -266,4 +348,4 @@ public class ExportProcessRequest implements Cloneable, Serializable {
 	}
 
 }
-// LIFERAY-REST-BUILDER-HASH:922683815
+// LIFERAY-REST-BUILDER-HASH:-1193504893
