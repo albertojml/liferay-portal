@@ -48,9 +48,25 @@ components:
                 endDate:
                     format: date-time
                     type: string
+                favicon:
+                    default: false
+                    description:
+                        Whether to export the site's favicon, part of the site's look-and-feel carried on the layout
+                        set.
+                    type: boolean
                 last:
                     format: int32
                     type: integer
+                layoutSetSettings:
+                    default: false
+                    description:
+                        Whether to export the site's layout set settings, the look-and-feel configuration of the site.
+                    type: boolean
+                logo:
+                    default: false
+                    description:
+                        Whether to export the site's logo image, part of the site's look-and-feel.
+                    type: boolean
                 name:
                     type: string
                 permissions:
@@ -72,6 +88,12 @@ components:
                 startDate:
                     format: date-time
                     type: string
+                themeReference:
+                    default: false
+                    description:
+                        Whether to export the site's theme and color scheme (look-and-feel). The theme rides on the
+                        site's layout set rather than being a standalone entity.
+                    type: boolean
             required:
                 -   name
             type: object
@@ -155,6 +177,22 @@ components:
                         through the import preview.
                     format: int64
                     type: integer
+                favicon:
+                    default: false
+                    description:
+                        Whether to import the site's favicon, part of the site's look-and-feel carried on the layout
+                        set.
+                    type: boolean
+                layoutSetSettings:
+                    default: false
+                    description:
+                        Whether to import the site's layout set settings, the look-and-feel configuration of the site.
+                    type: boolean
+                logo:
+                    default: false
+                    description:
+                        Whether to import the site's logo image, part of the site's look-and-feel.
+                    type: boolean
                 name:
                     type: string
                 permissions:
@@ -169,6 +207,12 @@ components:
                     items:
                         $ref: "#/components/schemas/RequestPortletDataHandler"
                     type: array
+                themeReference:
+                    default: false
+                    description:
+                        Whether to import the site's theme and color scheme (look-and-feel). The theme rides on the
+                        site's layout set rather than being a standalone entity.
+                    type: boolean
                 userIdStrategy:
                     default: CURRENT_USER_ID
                     enum: [CURRENT_USER_ID, ALWAYS_CURRENT_USER_ID]
