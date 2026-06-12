@@ -146,8 +146,22 @@ const testWithClaritySiteInitializerFF = mergeTests(
 
 			await exportImportPage.import({
 				filePath: exportFilePath,
+				taskStatus: 'completedWithErrors',
 				timeout: 60000,
 			});
+		});
+
+		await test.step('Assert the import errors are only missing references', async () => {
+			await exportImportPage.goToImportDetails(
+				path.basename(exportFilePath)
+			);
+
+			const reportEntryTypes =
+				await exportImportPage.getReportColumnValues('Type');
+
+			expect(reportEntryTypes).toContain('Missing Reference');
+
+			expect(reportEntryTypes).not.toContain('Error');
 		});
 
 		await test.step('Assert the exportable items from site 1 and site 2 are equal', async () => {
