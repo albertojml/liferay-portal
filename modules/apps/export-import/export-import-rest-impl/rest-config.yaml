@@ -8,6 +8,7 @@ author: Petteri Karttunen
 clientDir: ../export-import-rest-client/src/main/java
 compatibilityVersion: 15
 forcePredictableOperationId: true
+generateClientJS: true
 generateGraphQL: false
 javaEEPackage: jakarta
 testDir: ../export-import-rest-test/src/testIntegration/java
