@@ -4,6 +4,10 @@
  */
 
 import {
+	ImportProcessAPI,
+	ReportEntryAPI,
+} from '@liferay/export-import-rest-client-js';
+import {
 	ObjectDefinition,
 	ObjectRelationship,
 	ObjectRelationshipAPI,
@@ -152,16 +156,34 @@ const testWithClaritySiteInitializerFF = mergeTests(
 		});
 
 		await test.step('Assert the import errors are only missing references', async () => {
-			await exportImportPage.goToImportDetails(
-				path.basename(exportFilePath)
+			const importProcessAPI =
+				await apiHelpers.buildRestClient(ImportProcessAPI);
+
+			const {body: importProcessesPage} =
+				await importProcessAPI.getSiteImportProcessesPage(
+					Number(site2.id)
+				);
+
+			const importProcess = importProcessesPage.items?.find(
+				(item) => item.name === path.basename(exportFilePath)
 			);
 
-			const reportEntryTypes =
-				await exportImportPage.getReportColumnValues('Type');
+			const reportEntryAPI =
+				await apiHelpers.buildRestClient(ReportEntryAPI);
+
+			const {body: reportEntriesPage} =
+				await reportEntryAPI.getImportProcessReportEntriesPage(
+					importProcess!.id!
+				);
+
+			const reportEntryTypes = reportEntriesPage.items?.map(
+				(reportEntry) => reportEntry.type?.label
+			);
+
+			expect(reportEntryTypes).not.toContain('Empty');
+			expect(reportEntryTypes).not.toContain('Error');
 
 			expect(reportEntryTypes).toContain('Missing Reference');
-
-			expect(reportEntryTypes).not.toContain('Error');
 		});
 
 		await test.step('Assert the exportable items from site 1 and site 2 are equal', async () => {
