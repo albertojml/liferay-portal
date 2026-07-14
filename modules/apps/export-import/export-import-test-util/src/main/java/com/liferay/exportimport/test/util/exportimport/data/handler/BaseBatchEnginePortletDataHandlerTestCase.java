@@ -48,8 +48,10 @@ import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
+import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.SystemEventLocalService;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.CompanyTestUtil;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
@@ -95,7 +97,9 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		if (scope == Scope.COMPANY) {
 			_targetCompany = CompanyTestUtil.addCompany();
 
-			_targetUser = UserTestUtil.addUser(_targetCompany);
+			_targetUser = UserTestUtil.addCompanyAdminUser(_targetCompany);
+
+			setUpTargetCompany(_targetCompany, _targetUser);
 		}
 		else if (scope == Scope.DEPOT) {
 			_depotEntry = _addDepotEntry();
@@ -192,11 +196,20 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 
 		deleteEntry(groupId, externalReferenceCode);
 
+		long classNameId = _classNameLocalService.getClassNameId(
+			exportImportDescriptor.getModelClassName());
+
 		SystemEvent systemEvent = _systemEventLocalService.fetchSystemEvent(
-			groupId,
-			_classNameLocalService.getClassNameId(
-				exportImportDescriptor.getModelClassName()),
-			primaryKey, SystemEventConstants.TYPE_DELETE);
+			groupId, classNameId, primaryKey, SystemEventConstants.TYPE_DELETE);
+
+		if (systemEvent == null) {
+
+			// Entities without a group, such as company scoped entities,
+			// record their deletion system events under group 0
+
+			systemEvent = _systemEventLocalService.fetchSystemEvent(
+				0, classNameId, primaryKey, SystemEventConstants.TYPE_DELETE);
+		}
 
 		Assert.assertNotNull(systemEvent);
 		Assert.assertEquals(
@@ -319,10 +332,10 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 
 		long groupId = _getGroupId(scope);
 
-		_user = UserTestUtil.addUser();
+		User creatorUser = _addCreatorUser(scope);
 
 		String externalReferenceCode = addEntry(
-			groupId, _user.getUserId(), new Date());
+			groupId, creatorUser.getUserId(), new Date());
 
 		_exportImport(
 			scope,
@@ -333,7 +346,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 			null, null);
 
 		Assert.assertEquals(
-			_user.getUserId(),
+			_getTargetCreatorUserId(scope),
 			getCreatorUserId(_getTargetGroupId(scope), externalReferenceCode));
 	}
 
@@ -346,7 +359,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		String externalReferenceCode = addEntry(
 			groupId, TestPropsValues.getUserId(), new Date());
 
-		_role = RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
+		Role role = _addRole(scope);
 
 		ExportImportDescriptor<?> exportImportDescriptor =
 			_getExportImportDescriptor();
@@ -357,7 +370,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 			TestPropsValues.getCompanyId(), modelClassName,
 			ResourceConstants.SCOPE_INDIVIDUAL,
 			String.valueOf(getPrimaryKey(groupId, externalReferenceCode)),
-			_role.getRoleId(), new String[] {getResourceActionId()});
+			role.getRoleId(), new String[] {getResourceActionId()});
 
 		_exportImport(
 			scope,
@@ -374,7 +387,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 				String.valueOf(
 					getPrimaryKey(
 						_getTargetGroupId(scope), externalReferenceCode)),
-				_role.getRoleId(), getResourceActionId()));
+				_getTargetRoleId(scope), getResourceActionId()));
 	}
 
 	@Test
@@ -541,6 +554,10 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		return ActionKeys.VIEW;
 	}
 
+	protected void setUpTargetCompany(Company company, User user)
+		throws Exception {
+	}
+
 	protected abstract boolean supportsComments();
 
 	private void _addComment(
@@ -564,6 +581,27 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 			});
 	}
 
+	private User _addCreatorUser(Scope scope) throws Exception {
+		_creatorUser = UserTestUtil.addUser();
+
+		if (scope != Scope.COMPANY) {
+			return _creatorUser;
+		}
+
+		_creatorUser.setExternalReferenceCode(RandomTestUtil.randomString());
+
+		_creatorUser = _userLocalService.updateUser(_creatorUser);
+
+		User targetCreatorUser = UserTestUtil.addUser(_targetCompany);
+
+		targetCreatorUser.setExternalReferenceCode(
+			_creatorUser.getExternalReferenceCode());
+
+		_targetCreatorUser = _userLocalService.updateUser(targetCreatorUser);
+
+		return _creatorUser;
+	}
+
 	private DepotEntry _addDepotEntry() throws Exception {
 		return _depotEntryLocalService.addDepotEntry(
 			Collections.singletonMap(
@@ -572,6 +610,18 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 				LocaleUtil.getDefault(), RandomTestUtil.randomString()),
 			DepotConstants.TYPE_ASSET_LIBRARY,
 			ServiceContextTestUtil.getServiceContext());
+	}
+
+	private Role _addRole(Scope scope) throws Exception {
+		_role = RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
+
+		if (scope == Scope.COMPANY) {
+			_targetRole = _roleLocalService.addRole(
+				null, _targetUser.getUserId(), null, 0, _role.getName(), null,
+				null, RoleConstants.TYPE_REGULAR, null, null);
+		}
+
+		return _role;
 	}
 
 	private void _exportImport(
@@ -731,6 +781,14 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		return _targetGroup.getCompanyId();
 	}
 
+	private long _getTargetCreatorUserId(Scope scope) {
+		if (scope == Scope.COMPANY) {
+			return _targetCreatorUser.getUserId();
+		}
+
+		return _creatorUser.getUserId();
+	}
+
 	private long _getTargetGroupId(Scope scope) {
 		if (scope == Scope.COMPANY) {
 			return _targetCompany.getGroupId();
@@ -741,6 +799,14 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		}
 
 		return _targetGroup.getGroupId();
+	}
+
+	private long _getTargetRoleId(Scope scope) {
+		if (scope == Scope.COMPANY) {
+			return _targetRole.getRoleId();
+		}
+
+		return _role.getRoleId();
 	}
 
 	private User _getTargetUser(Scope scope) throws Exception {
@@ -764,6 +830,9 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	private CommentManager _commentManager;
 
 	@DeleteAfterTestRun
+	private User _creatorUser;
+
+	@DeleteAfterTestRun
 	private DepotEntry _depotEntry;
 
 	@Inject
@@ -784,10 +853,15 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	private Role _role;
 
 	@Inject
+	private RoleLocalService _roleLocalService;
+
+	@Inject
 	private SystemEventLocalService _systemEventLocalService;
 
 	@DeleteAfterTestRun
 	private Company _targetCompany;
+
+	private User _targetCreatorUser;
 
 	@DeleteAfterTestRun
 	private DepotEntry _targetDepotEntry;
@@ -796,11 +870,10 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	private Group _targetGroup;
 
 	private Layout _targetLayout;
-
-	@DeleteAfterTestRun
+	private Role _targetRole;
 	private User _targetUser;
 
-	@DeleteAfterTestRun
-	private User _user;
+	@Inject
+	private UserLocalService _userLocalService;
 
 }

@@ -26,6 +26,10 @@ import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
@@ -46,6 +50,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -126,6 +131,19 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 		super.setUp();
 	}
 
+	@After
+	@Override
+	public void tearDown() throws Exception {
+		super.tearDown();
+
+		if (_targetObjectDefinition != null) {
+			_objectDefinitionLocalService.deleteObjectDefinition(
+				_targetObjectDefinition);
+
+			_targetObjectDefinition = null;
+		}
+	}
+
 	@Rule(order = Integer.MIN_VALUE)
 	public final TestRule objectDefinitionScopesTestRule =
 		(statement, description) -> new Statement() {
@@ -134,6 +152,7 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 			public void evaluate() throws Throwable {
 				for (String objectDefinitionScope :
 						new String[] {
+							ObjectDefinitionConstants.SCOPE_COMPANY,
 							ObjectDefinitionConstants.SCOPE_DEPOT,
 							ObjectDefinitionConstants.SCOPE_SITE
 						}) {
@@ -159,12 +178,18 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 	protected String addEntry(long groupId, long userId, Date dateModified)
 		throws Exception {
 
+		ObjectDefinition objectDefinition = _getObjectDefinition(groupId);
+
+		long objectEntryGroupId = _getObjectEntryGroupId(groupId);
+
 		ObjectEntry objectEntry = _objectEntryLocalService.addObjectEntry(
-			groupId, userId, _objectDefinition.getObjectDefinitionId(),
+			objectEntryGroupId, userId,
+			objectDefinition.getObjectDefinitionId(),
 			ObjectEntryFolderConstants.PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
 			null,
 			Collections.singletonMap("able", RandomTestUtil.randomString()),
-			ServiceContextTestUtil.getServiceContext(groupId, userId));
+			ServiceContextTestUtil.getServiceContext(
+				objectEntryGroupId, userId));
 
 		objectEntry.setModifiedDate(dateModified);
 
@@ -232,9 +257,12 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 	protected List<String> getExternalReferenceCodes(long groupId)
 		throws Exception {
 
+		ObjectDefinition objectDefinition = _getObjectDefinition(groupId);
+
 		return TransformUtil.transform(
 			_objectEntryLocalService.getObjectEntries(
-				groupId, _objectDefinition.getObjectDefinitionId(),
+				_getObjectEntryGroupId(groupId),
+				objectDefinition.getObjectDefinitionId(),
 				WorkflowConstants.STATUS_APPROVED, QueryUtil.ALL_POS,
 				QueryUtil.ALL_POS),
 			ObjectEntry::getExternalReferenceCode);
@@ -256,17 +284,91 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
+	protected void setUpTargetCompany(Company company, User user)
+		throws Exception {
+
+		_targetObjectDefinition =
+			_objectDefinitionLocalService.addCustomObjectDefinition(
+				_objectDefinition.getExternalReferenceCode(), user.getUserId(),
+				0, null, true, true, false, false, true, false, false, false,
+				false, null,
+				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
+				_objectDefinition.getName(), null, null,
+				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
+				true, ObjectDefinitionConstants.SCOPE_COMPANY,
+				ObjectDefinitionConstants.STORAGE_TYPE_DEFAULT,
+				Collections.emptyList(), Collections.emptyList(),
+				Collections.emptyList(), new ServiceContext());
+
+		ObjectField objectField = ObjectFieldUtil.addCustomObjectField(
+			new TextObjectFieldBuilder(
+			).userId(
+				user.getUserId()
+			).labelMap(
+				LocalizedMapUtil.getLocalizedMap("able")
+			).name(
+				"able"
+			).objectDefinitionId(
+				_targetObjectDefinition.getObjectDefinitionId()
+			).required(
+				false
+			).build());
+
+		_objectDefinitionLocalService.updateTitleObjectFieldId(
+			_targetObjectDefinition.getObjectDefinitionId(),
+			objectField.getObjectFieldId());
+
+		_targetObjectDefinition =
+			_objectDefinitionLocalService.publishCustomObjectDefinition(
+				user.getUserId(),
+				_targetObjectDefinition.getObjectDefinitionId());
+	}
+
+	@Override
 	protected boolean supportsComments() {
 		return true;
 	}
 
+	private ObjectDefinition _getObjectDefinition(long groupId)
+		throws Exception {
+
+		if (_targetObjectDefinition == null) {
+			return _objectDefinition;
+		}
+
+		Group group = _groupLocalService.getGroup(groupId);
+
+		if (group.getCompanyId() == _targetObjectDefinition.getCompanyId()) {
+			return _targetObjectDefinition;
+		}
+
+		return _objectDefinition;
+	}
+
 	private ObjectEntry _getObjectEntry(
-		long groupId, String externalReferenceCode) {
+			long groupId, String externalReferenceCode)
+		throws Exception {
+
+		ObjectDefinition objectDefinition = _getObjectDefinition(groupId);
 
 		return _objectEntryLocalService.fetchObjectEntry(
-			externalReferenceCode, groupId,
-			_objectDefinition.getObjectDefinitionId());
+			externalReferenceCode, _getObjectEntryGroupId(groupId),
+			objectDefinition.getObjectDefinitionId());
 	}
+
+	private long _getObjectEntryGroupId(long groupId) {
+		if (StringUtil.equals(
+				_objectDefinitionScope,
+				ObjectDefinitionConstants.SCOPE_COMPANY)) {
+
+			return 0;
+		}
+
+		return groupId;
+	}
+
+	@Inject
+	private GroupLocalService _groupLocalService;
 
 	@DeleteAfterTestRun
 	private ObjectDefinition _objectDefinition;
@@ -278,5 +380,7 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 
 	@Inject
 	private ObjectEntryLocalService _objectEntryLocalService;
+
+	private ObjectDefinition _targetObjectDefinition;
 
 }
