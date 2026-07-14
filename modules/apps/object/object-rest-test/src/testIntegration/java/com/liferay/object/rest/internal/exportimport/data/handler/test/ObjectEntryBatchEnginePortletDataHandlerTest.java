@@ -5,6 +5,7 @@
 
 package com.liferay.object.rest.internal.exportimport.data.handler.test;
 
+import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.exportimport.test.util.exportimport.data.handler.BaseBatchEnginePortletDataHandlerTestCase;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.object.constants.ObjectDefinitionConstants;
@@ -26,13 +27,17 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.test.rule.FeatureFlag;
+import com.liferay.portal.test.rule.FeatureFlags;
 import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.vulcan.util.LocalizedMapUtil;
 
 import java.util.Collection;
@@ -42,6 +47,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.rules.TestRule;
+import org.junit.runner.RunWith;
+import org.junit.runners.model.Statement;
 
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -51,8 +61,15 @@ import org.osgi.framework.ServiceReference;
 /**
  * @author Alberto Javier Moreno Lage
  */
-public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
+@FeatureFlags(featureFlags = @FeatureFlag("LPD-43996"))
+@RunWith(Arquillian.class)
+public class ObjectEntryBatchEnginePortletDataHandlerTest
 	extends BaseBatchEnginePortletDataHandlerTestCase {
+
+	@ClassRule
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new LiferayIntegrationTestRule();
 
 	@Before
 	@Override
@@ -60,7 +77,7 @@ public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
 		List<ObjectDefinitionSetting> objectDefinitionSettings =
 			Collections.emptyList();
 
-		String scope = getObjectDefinitionScope();
+		String scope = _objectDefinitionScope;
 
 		if (StringUtil.equals(scope, ObjectDefinitionConstants.SCOPE_DEPOT)) {
 			objectDefinitionSettings = Collections.singletonList(
@@ -108,6 +125,35 @@ public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
 
 		super.setUp();
 	}
+
+	@Rule(order = Integer.MIN_VALUE)
+	public final TestRule objectDefinitionScopesTestRule =
+		(statement, description) -> new Statement() {
+
+			@Override
+			public void evaluate() throws Throwable {
+				for (String objectDefinitionScope :
+						new String[] {
+							ObjectDefinitionConstants.SCOPE_DEPOT,
+							ObjectDefinitionConstants.SCOPE_SITE
+						}) {
+
+					_objectDefinitionScope = objectDefinitionScope;
+
+					try {
+						statement.evaluate();
+					}
+					catch (Throwable throwable) {
+						throw new AssertionError(
+							StringBundler.concat(
+								"Scope \"", objectDefinitionScope, "\": ",
+								throwable.getMessage()),
+							throwable);
+					}
+				}
+			}
+
+		};
 
 	@Override
 	protected String addEntry(long groupId, long userId, Date dateModified)
@@ -194,8 +240,6 @@ public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
 			ObjectEntry::getExternalReferenceCode);
 	}
 
-	protected abstract String getObjectDefinitionScope();
-
 	@Override
 	protected String getPortletId() {
 		return _objectDefinition.getPortletId();
@@ -229,6 +273,8 @@ public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
 
 	@Inject
 	private ObjectDefinitionLocalService _objectDefinitionLocalService;
+
+	private String _objectDefinitionScope;
 
 	@Inject
 	private ObjectEntryLocalService _objectEntryLocalService;
