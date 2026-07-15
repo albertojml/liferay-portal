@@ -5,7 +5,6 @@
 
 package com.liferay.exportimport.test.util.exportimport.data.handler;
 
-import com.liferay.batch.engine.unit.BatchEngineUnitThreadLocal;
 import com.liferay.changeset.model.ChangesetCollection;
 import com.liferay.changeset.service.ChangesetCollectionLocalService;
 import com.liferay.changeset.service.ChangesetEntryLocalService;
@@ -141,19 +140,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		_groupLocalService.deleteGroup(_group);
 		_groupLocalService.deleteGroup(_targetGroup);
 
-		// The company outlives its asynchronous provisioning, which seeds
-		// system data masks that only the data mask batch engine unit may
-		// delete
-
-		BatchEngineUnitThreadLocal.setFileName(
-			"com.liferay.headless.data.mask.impl_0.0.0");
-
-		try {
-			_companyLocalService.deleteCompany(_targetCompany);
-		}
-		finally {
-			BatchEngineUnitThreadLocal.setFileName(StringPool.BLANK);
-		}
+		_companyLocalService.deleteCompany(_targetCompany);
 	}
 
 	@Before
