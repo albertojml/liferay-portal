@@ -132,10 +132,7 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@After
-	@Override
 	public void tearDown() throws Exception {
-		super.tearDown();
-
 		if (_targetObjectDefinition != null) {
 			_objectDefinitionLocalService.deleteObjectDefinition(
 				_targetObjectDefinition);
@@ -189,7 +186,7 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 			null,
 			Collections.singletonMap("able", RandomTestUtil.randomString()),
 			ServiceContextTestUtil.getServiceContext(
-				objectEntryGroupId, userId));
+				objectDefinition.getCompanyId(), objectEntryGroupId, userId));
 
 		objectEntry.setModifiedDate(dateModified);
 
@@ -284,6 +281,24 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
+	protected String getTargetModelClassName() {
+		if (_targetObjectDefinition == null) {
+			return super.getTargetModelClassName();
+		}
+
+		return _targetObjectDefinition.getClassName();
+	}
+
+	@Override
+	protected String getTargetPortletId() {
+		if (_targetObjectDefinition == null) {
+			return super.getTargetPortletId();
+		}
+
+		return _targetObjectDefinition.getPortletId();
+	}
+
+	@Override
 	protected void setUpTargetCompany(Company company, User user)
 		throws Exception {
 
@@ -291,9 +306,9 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 			_objectDefinitionLocalService.addCustomObjectDefinition(
 				_objectDefinition.getExternalReferenceCode(), user.getUserId(),
 				0, null, true, true, false, false, true, false, false, false,
-				false, null,
+				false, StringUtil.toLowerCase(RandomTestUtil.randomString()),
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
-				_objectDefinition.getName(), null, null,
+				_objectDefinition.getShortName(), null, null,
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
 				true, ObjectDefinitionConstants.SCOPE_COMPANY,
 				ObjectDefinitionConstants.STORAGE_TYPE_DEFAULT,

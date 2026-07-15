@@ -5,6 +5,7 @@
 
 package com.liferay.exportimport.test.util.exportimport.data.handler;
 
+import com.liferay.batch.engine.unit.BatchEngineUnitThreadLocal;
 import com.liferay.changeset.model.ChangesetCollection;
 import com.liferay.changeset.service.ChangesetCollectionLocalService;
 import com.liferay.changeset.service.ChangesetEntryLocalService;
@@ -45,6 +46,7 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
@@ -76,9 +78,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -87,41 +90,73 @@ import org.junit.Test;
 public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	extends BasePortletDataHandlerTestCase {
 
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+		_targetCompany = CompanyTestUtil.addCompany();
+
+		_targetUser = UserTestUtil.addCompanyAdminUser(_targetCompany);
+
+		Group companyGroup = _groupLocalService.getCompanyGroup(
+			TestPropsValues.getCompanyId());
+
+		_companyLayout = LayoutTestUtil.addTypePortletLayout(
+			companyGroup.getGroupId());
+
+		_companyTargetLayout = LayoutTestUtil.addTypePortletLayout(
+			_targetCompany.getGroupId());
+
+		_depotEntry = _addDepotEntry();
+		_targetDepotEntry = _addDepotEntry();
+
+		_depotLayout = LayoutTestUtil.addTypePortletLayout(
+			_depotEntry.getGroupId());
+		_depotTargetLayout = LayoutTestUtil.addTypePortletLayout(
+			_targetDepotEntry.getGroupId());
+
+		_group = GroupTestUtil.addGroup();
+		_targetGroup = GroupTestUtil.addGroup();
+
+		_siteLayout = LayoutTestUtil.addTypePortletLayout(_group.getGroupId());
+		_siteTargetLayout = LayoutTestUtil.addTypePortletLayout(
+			_targetGroup.getGroupId());
+	}
+
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+
+		// Every other layout cascades with its group, but the company group
+		// outlives the class
+
+		_layoutLocalService.deleteLayout(_companyLayout);
+
+		_depotEntryLocalService.deleteDepotEntry(_depotEntry);
+		_depotEntryLocalService.deleteDepotEntry(_targetDepotEntry);
+
+		_groupLocalService.deleteGroup(_group);
+		_groupLocalService.deleteGroup(_targetGroup);
+
+		// The company outlives its asynchronous provisioning, which seeds
+		// system data masks that only the data mask batch engine unit may
+		// delete
+
+		BatchEngineUnitThreadLocal.setFileName(
+			"com.liferay.headless.data.mask.impl_0.0.0");
+
+		try {
+			_companyLocalService.deleteCompany(_targetCompany);
+		}
+		finally {
+			BatchEngineUnitThreadLocal.setFileName(StringPool.BLANK);
+		}
+	}
+
 	@Before
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
 
-		Scope scope = _getScope();
-
-		if (scope == Scope.COMPANY) {
-			_targetCompany = CompanyTestUtil.addCompany();
-
-			_targetUser = UserTestUtil.addCompanyAdminUser(_targetCompany);
-
+		if (_getScope() == Scope.COMPANY) {
 			setUpTargetCompany(_targetCompany, _targetUser);
-		}
-		else if (scope == Scope.DEPOT) {
-			_depotEntry = _addDepotEntry();
-			_targetDepotEntry = _addDepotEntry();
-		}
-		else {
-			_targetGroup = GroupTestUtil.addGroup();
-		}
-
-		_layout = LayoutTestUtil.addTypePortletLayout(_getGroupId(scope));
-		_targetLayout = LayoutTestUtil.addTypePortletLayout(
-			_getTargetGroupId(scope));
-	}
-
-	@After
-	public void tearDown() throws Exception {
-		if (_layout != null) {
-			_layoutLocalService.deleteLayout(_layout);
-		}
-
-		if (_targetLayout != null) {
-			_layoutLocalService.deleteLayout(_targetLayout);
 		}
 	}
 
@@ -364,10 +399,9 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		ExportImportDescriptor<?> exportImportDescriptor =
 			_getExportImportDescriptor();
 
-		String modelClassName = exportImportDescriptor.getModelClassName();
-
 		_resourcePermissionLocalService.setResourcePermissions(
-			TestPropsValues.getCompanyId(), modelClassName,
+			TestPropsValues.getCompanyId(),
+			exportImportDescriptor.getModelClassName(),
 			ResourceConstants.SCOPE_INDIVIDUAL,
 			String.valueOf(getPrimaryKey(groupId, externalReferenceCode)),
 			role.getRoleId(), new String[] {getResourceActionId()});
@@ -382,7 +416,7 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 
 		Assert.assertTrue(
 			_resourcePermissionLocalService.hasResourcePermission(
-				_getTargetCompanyId(scope), modelClassName,
+				_getTargetCompanyId(scope), getTargetModelClassName(),
 				ResourceConstants.SCOPE_INDIVIDUAL,
 				String.valueOf(
 					getPrimaryKey(
@@ -495,12 +529,9 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 			long groupId, String externalReferenceCode)
 		throws Exception {
 
-		ExportImportDescriptor<?> exportImportDescriptor =
-			_getExportImportDescriptor();
-
 		return TransformUtil.transform(
 			_commentManager.getComments(
-				exportImportDescriptor.getModelClassName(),
+				getTargetModelClassName(),
 				getPrimaryKey(groupId, externalReferenceCode),
 				WorkflowConstants.STATUS_APPROVED, QueryUtil.ALL_POS,
 				QueryUtil.ALL_POS),
@@ -554,11 +585,32 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		return ActionKeys.VIEW;
 	}
 
+	protected String getTargetModelClassName() {
+		ExportImportDescriptor<?> exportImportDescriptor =
+			_getExportImportDescriptor();
+
+		return exportImportDescriptor.getModelClassName();
+	}
+
+	protected String getTargetPortletId() {
+		return portletId;
+	}
+
 	protected void setUpTargetCompany(Company company, User user)
 		throws Exception {
 	}
 
 	protected abstract boolean supportsComments();
+
+	private static DepotEntry _addDepotEntry() throws Exception {
+		return _depotEntryLocalService.addDepotEntry(
+			Collections.singletonMap(
+				LocaleUtil.getDefault(), RandomTestUtil.randomString()),
+			Collections.singletonMap(
+				LocaleUtil.getDefault(), RandomTestUtil.randomString()),
+			DepotConstants.TYPE_ASSET_LIBRARY,
+			ServiceContextTestUtil.getServiceContext());
+	}
 
 	private void _addComment(
 			long groupId, String externalReferenceCode, String body)
@@ -600,16 +652,6 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		_targetCreatorUser = _userLocalService.updateUser(targetCreatorUser);
 
 		return _creatorUser;
-	}
-
-	private DepotEntry _addDepotEntry() throws Exception {
-		return _depotEntryLocalService.addDepotEntry(
-			Collections.singletonMap(
-				LocaleUtil.getDefault(), RandomTestUtil.randomString()),
-			Collections.singletonMap(
-				LocaleUtil.getDefault(), RandomTestUtil.randomString()),
-			DepotConstants.TYPE_ASSET_LIBRARY,
-			ServiceContextTestUtil.getServiceContext());
 	}
 
 	private Role _addRole(Scope scope) throws Exception {
@@ -668,11 +710,13 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 			PermissionThreadLocal.setPermissionChecker(
 				PermissionCheckerFactoryUtil.create(user));
 
+			Layout layout = _getLayout(scope);
+
 			Map<String, Serializable> settingsMap =
 				ExportImportConfigurationSettingsMapFactoryUtil.
 					buildExportPortletSettingsMap(
-						user, _layout.getPlid(), _layout.getGroupId(),
-						portletId, parameterMap, StringPool.BLANK);
+						user, layout.getPlid(), layout.getGroupId(), portletId,
+						parameterMap, StringPool.BLANK);
 
 			if ((endDate != null) && (startDate != null)) {
 				settingsMap.put("endDate", endDate);
@@ -696,6 +740,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 				PermissionThreadLocal.setPermissionChecker(
 					PermissionCheckerFactoryUtil.create(targetUser));
 
+				Layout targetLayout = _getTargetLayout(scope);
+
 				exportImportConfiguration =
 					ExportImportConfigurationLocalServiceUtil.
 						updateExportImportConfiguration(
@@ -705,13 +751,12 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 							StringPool.BLANK, StringPool.BLANK,
 							ExportImportConfigurationSettingsMapFactoryUtil.
 								buildImportPortletSettingsMap(
-									targetUser, _targetLayout.getPlid(),
-									_targetLayout.getGroupId(), portletId,
-									parameterMap),
+									targetUser, targetLayout.getPlid(),
+									targetLayout.getGroupId(),
+									getTargetPortletId(), parameterMap),
 							new ServiceContext());
 
-				exportImportConfiguration.setGroupId(
-					_targetLayout.getGroupId());
+				exportImportConfiguration.setGroupId(targetLayout.getGroupId());
 
 				exportImportConfiguration =
 					ExportImportConfigurationLocalServiceUtil.
@@ -747,19 +792,22 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		return exportImportDescriptor;
 	}
 
-	private long _getGroupId(Scope scope) throws Exception {
-		if (scope == Scope.COMPANY) {
-			Group group = _groupLocalService.getCompanyGroup(
-				stagingGroup.getCompanyId());
+	private long _getGroupId(Scope scope) {
+		Layout layout = _getLayout(scope);
 
-			return group.getGroupId();
+		return layout.getGroupId();
+	}
+
+	private Layout _getLayout(Scope scope) {
+		if (scope == Scope.COMPANY) {
+			return _companyLayout;
 		}
 
 		if (scope == Scope.DEPOT) {
-			return _depotEntry.getGroupId();
+			return _depotLayout;
 		}
 
-		return stagingGroup.getGroupId();
+		return _siteLayout;
 	}
 
 	private Scope _getScope() {
@@ -770,15 +818,9 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	}
 
 	private long _getTargetCompanyId(Scope scope) {
-		if (scope == Scope.COMPANY) {
-			return _targetCompany.getCompanyId();
-		}
+		Layout targetLayout = _getTargetLayout(scope);
 
-		if (scope == Scope.DEPOT) {
-			return _targetDepotEntry.getCompanyId();
-		}
-
-		return _targetGroup.getCompanyId();
+		return targetLayout.getCompanyId();
 	}
 
 	private long _getTargetCreatorUserId(Scope scope) {
@@ -790,15 +832,21 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	}
 
 	private long _getTargetGroupId(Scope scope) {
+		Layout targetLayout = _getTargetLayout(scope);
+
+		return targetLayout.getGroupId();
+	}
+
+	private Layout _getTargetLayout(Scope scope) {
 		if (scope == Scope.COMPANY) {
-			return _targetCompany.getGroupId();
+			return _companyTargetLayout;
 		}
 
 		if (scope == Scope.DEPOT) {
-			return _targetDepotEntry.getGroupId();
+			return _depotTargetLayout;
 		}
 
-		return _targetGroup.getGroupId();
+		return _siteTargetLayout;
 	}
 
 	private long _getTargetRoleId(Scope scope) {
@@ -817,6 +865,34 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		return TestPropsValues.getUser();
 	}
 
+	private static Layout _companyLayout;
+
+	@Inject
+	private static CompanyLocalService _companyLocalService;
+
+	private static Layout _companyTargetLayout;
+	private static DepotEntry _depotEntry;
+
+	@Inject
+	private static DepotEntryLocalService _depotEntryLocalService;
+
+	private static Layout _depotLayout;
+	private static Layout _depotTargetLayout;
+	private static Group _group;
+
+	@Inject
+	private static GroupLocalService _groupLocalService;
+
+	@Inject
+	private static LayoutLocalService _layoutLocalService;
+
+	private static Layout _siteLayout;
+	private static Layout _siteTargetLayout;
+	private static Company _targetCompany;
+	private static DepotEntry _targetDepotEntry;
+	private static Group _targetGroup;
+	private static User _targetUser;
+
 	@Inject
 	private ChangesetCollectionLocalService _changesetCollectionLocalService;
 
@@ -832,20 +908,6 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	@DeleteAfterTestRun
 	private User _creatorUser;
 
-	@DeleteAfterTestRun
-	private DepotEntry _depotEntry;
-
-	@Inject
-	private DepotEntryLocalService _depotEntryLocalService;
-
-	@Inject
-	private GroupLocalService _groupLocalService;
-
-	private Layout _layout;
-
-	@Inject
-	private LayoutLocalService _layoutLocalService;
-
 	@Inject
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
 
@@ -858,20 +920,8 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	@Inject
 	private SystemEventLocalService _systemEventLocalService;
 
-	@DeleteAfterTestRun
-	private Company _targetCompany;
-
 	private User _targetCreatorUser;
-
-	@DeleteAfterTestRun
-	private DepotEntry _targetDepotEntry;
-
-	@DeleteAfterTestRun
-	private Group _targetGroup;
-
-	private Layout _targetLayout;
 	private Role _targetRole;
-	private User _targetUser;
 
 	@Inject
 	private UserLocalService _userLocalService;
