@@ -16,12 +16,16 @@ import com.liferay.exportimport.kernel.configuration.ExportImportConfigurationSe
 import com.liferay.exportimport.kernel.configuration.constants.ExportImportConfigurationConstants;
 import com.liferay.exportimport.kernel.lar.DataLevel;
 import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
+import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerControl;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
 import com.liferay.exportimport.kernel.lar.UserIdStrategy;
 import com.liferay.exportimport.kernel.model.ExportImportConfiguration;
 import com.liferay.exportimport.kernel.service.ExportImportConfigurationLocalServiceUtil;
 import com.liferay.exportimport.kernel.service.ExportImportLocalServiceUtil;
+import com.liferay.exportimport.report.constants.ExportImportReportEntryConstants;
+import com.liferay.exportimport.report.model.ExportImportReportEntry;
+import com.liferay.exportimport.report.service.ExportImportReportEntryLocalService;
 import com.liferay.exportimport.test.util.LazyReferencingTestUtil;
 import com.liferay.exportimport.test.util.lar.BasePortletDataHandlerTestCase;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
@@ -29,6 +33,7 @@ import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngin
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate.Scope;
 import com.liferay.layout.test.util.LayoutTestUtil;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.comment.CommentManager;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
@@ -77,6 +82,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -511,6 +517,60 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		}
 	}
 
+	@Test
+	public void testUpdateResolvesEmptyEntry() throws Exception {
+		long groupId = _getGroupId(_getScope());
+
+		String externalReferenceCode = null;
+
+		try (SafeCloseable safeCloseable =
+				LazyReferencingTestUtil.setLazyReferencingWithSafeCloseable(
+					true)) {
+
+			ExportImportThreadLocal.setPortletImportInProcess(true);
+
+			try {
+				externalReferenceCode = addEmptyEntry(
+					groupId, TestPropsValues.getUserId());
+			}
+			finally {
+				ExportImportThreadLocal.setPortletImportInProcess(false);
+			}
+		}
+
+		if (externalReferenceCode == null) {
+			return;
+		}
+
+		Assert.assertEquals(
+			WorkflowConstants.STATUS_EMPTY,
+			getStatus(groupId, externalReferenceCode));
+
+		ExportImportReportEntry exportImportReportEntry =
+			_getEmptyExportImportReportEntry(externalReferenceCode);
+
+		Assert.assertEquals(
+			ExportImportReportEntryConstants.STATUS_UNRESOLVED,
+			exportImportReportEntry.getStatus());
+
+		updateEntry(groupId, externalReferenceCode);
+
+		Assert.assertEquals(
+			WorkflowConstants.STATUS_APPROVED,
+			getStatus(groupId, externalReferenceCode));
+
+		exportImportReportEntry = _getEmptyExportImportReportEntry(
+			externalReferenceCode);
+
+		Assert.assertEquals(
+			ExportImportReportEntryConstants.STATUS_RESOLVED,
+			exportImportReportEntry.getStatus());
+	}
+
+	protected String addEmptyEntry(long groupId, long userId) throws Exception {
+		return null;
+	}
+
 	protected abstract String addEntry(
 			long groupId, long userId, Date dateModified)
 		throws Exception;
@@ -585,6 +645,12 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		return ActionKeys.VIEW;
 	}
 
+	protected int getStatus(long groupId, String externalReferenceCode)
+		throws Exception {
+
+		throw new UnsupportedOperationException();
+	}
+
 	protected String getTargetModelClassName() {
 		ExportImportDescriptor<?> exportImportDescriptor =
 			_getExportImportDescriptor();
@@ -601,6 +667,12 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 	}
 
 	protected abstract boolean supportsComments();
+
+	protected void updateEntry(long groupId, String externalReferenceCode)
+		throws Exception {
+
+		throw new UnsupportedOperationException();
+	}
 
 	private static DepotEntry _addDepotEntry() throws Exception {
 		return _depotEntryLocalService.addDepotEntry(
@@ -778,6 +850,28 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		}
 	}
 
+	private ExportImportReportEntry _getEmptyExportImportReportEntry(
+			String classExternalReferenceCode)
+		throws Exception {
+
+		for (ExportImportReportEntry exportImportReportEntry :
+				_exportImportReportEntryLocalService.
+					getExportImportReportEntries(
+						TestPropsValues.getCompanyId(), 0)) {
+
+			if (Objects.equals(
+					classExternalReferenceCode,
+					exportImportReportEntry.getClassExternalReferenceCode()) &&
+				(exportImportReportEntry.getType() ==
+					ExportImportReportEntryConstants.TYPE_EMPTY)) {
+
+				return exportImportReportEntry;
+			}
+		}
+
+		return null;
+	}
+
 	private ExportImportDescriptor<?> _getExportImportDescriptor() {
 		ExportImportVulcanBatchEngineTaskItemDelegate<?>
 			exportImportVulcanBatchEngineTaskItemDelegate =
@@ -907,6 +1001,10 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 
 	@DeleteAfterTestRun
 	private User _creatorUser;
+
+	@Inject
+	private ExportImportReportEntryLocalService
+		_exportImportReportEntryLocalService;
 
 	@Inject
 	private ResourcePermissionLocalService _resourcePermissionLocalService;

@@ -172,6 +172,18 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 		};
 
 	@Override
+	protected String addEmptyEntry(long groupId, long userId) throws Exception {
+		ObjectDefinition objectDefinition = _getObjectDefinition(groupId);
+
+		ObjectEntry objectEntry =
+			_objectEntryLocalService.getOrAddEmptyObjectEntry(
+				RandomTestUtil.randomString(), _getObjectEntryGroupId(groupId),
+				userId, objectDefinition.getObjectDefinitionId());
+
+		return objectEntry.getExternalReferenceCode();
+	}
+
+	@Override
 	protected String addEntry(long groupId, long userId, Date dateModified)
 		throws Exception {
 
@@ -281,6 +293,16 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
+	protected int getStatus(long groupId, String externalReferenceCode)
+		throws Exception {
+
+		ObjectEntry objectEntry = _getObjectEntry(
+			groupId, externalReferenceCode);
+
+		return objectEntry.getStatus();
+	}
+
+	@Override
 	protected String getTargetModelClassName() {
 		if (_targetObjectDefinition == null) {
 			return super.getTargetModelClassName();
@@ -342,6 +364,22 @@ public class ObjectEntryBatchEnginePortletDataHandlerTest
 	@Override
 	protected boolean supportsComments() {
 		return true;
+	}
+
+	@Override
+	protected void updateEntry(long groupId, String externalReferenceCode)
+		throws Exception {
+
+		ObjectEntry objectEntry = _getObjectEntry(
+			groupId, externalReferenceCode);
+
+		_objectEntryLocalService.updateObjectEntry(
+			objectEntry.getUserId(), objectEntry.getObjectEntryId(),
+			ObjectEntryFolderConstants.PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
+			Collections.singletonMap("able", RandomTestUtil.randomString()),
+			ServiceContextTestUtil.getServiceContext(
+				objectEntry.getCompanyId(), objectEntry.getGroupId(),
+				objectEntry.getUserId()));
 	}
 
 	private ObjectDefinition _getObjectDefinition(long groupId)
