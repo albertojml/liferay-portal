@@ -179,6 +179,7 @@ public class MCPServerServletTest {
 				_testServiceWithModifiedProfile(authorization);
 				_testServiceWithNoContentResponse(authorization);
 				_testServiceWithProfile(authorization);
+				_testServiceWithRestrictFields(authorization);
 				_testServiceWithoutAuthTokenCheck(authorization);
 				_testServiceWithoutProfile(authorization);
 				_testServiceWithoutSession(authorization);
@@ -1103,6 +1104,65 @@ public class MCPServerServletTest {
 			).contains(
 				entryName
 			));
+
+		mcpSyncClient.closeGracefully();
+	}
+
+	private void _testServiceWithRestrictFields(String authorization)
+		throws Exception {
+
+		String description = RandomTestUtil.randomString();
+		String profileName = RandomTestUtil.randomString();
+
+		ObjectEntry mcpServerProfileObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileObjectEntry(
+				description, profileName);
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		ObjectEntry mcpServerProfileRestrictFieldObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+				"description", mcpServerProfileToolObjectEntry);
+
+		McpSyncClient mcpSyncClient = _getMcpSyncClient(
+			authorization, profileName);
+
+		mcpSyncClient.initialize();
+
+		McpSchema.CallToolResult callToolResult = mcpSyncClient.callTool(
+			new McpSchema.CallToolRequest(
+				"getMCPServerProfilesPage", Collections.emptyMap()));
+
+		List<McpSchema.Content> contents = callToolResult.content();
+
+		McpSchema.TextContent textContent = (McpSchema.TextContent)contents.get(
+			0);
+
+		Assert.assertThat(
+			textContent.text(),
+			CoreMatchers.allOf(
+				CoreMatchers.containsString(profileName),
+				CoreMatchers.not(CoreMatchers.containsString(description))));
+
+		MCPServerTestUtil.deleteMCPServerProfileRestrictFieldObjectEntry(
+			"Removed by test.", mcpServerProfileRestrictFieldObjectEntry);
+
+		callToolResult = mcpSyncClient.callTool(
+			new McpSchema.CallToolRequest(
+				"getMCPServerProfilesPage", Collections.emptyMap()));
+
+		contents = callToolResult.content();
+
+		textContent = (McpSchema.TextContent)contents.get(0);
+
+		Assert.assertThat(
+			textContent.text(),
+			CoreMatchers.allOf(
+				CoreMatchers.containsString(description),
+				CoreMatchers.containsString(profileName)));
 
 		mcpSyncClient.closeGracefully();
 	}
