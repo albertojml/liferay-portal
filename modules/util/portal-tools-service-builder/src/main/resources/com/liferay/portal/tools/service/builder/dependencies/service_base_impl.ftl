@@ -111,6 +111,13 @@ import org.osgi.service.component.annotations.Reference;
 	<#assign versionEntity = entity.versionEntity />
 
 	import ${apiPackagePath}.model.${versionEntity.name};
+
+	<#list versionEntity.blobEntityColumns as entityColumn>
+		<#if entityColumn.lazy>
+			import ${apiPackagePath}.model.${versionEntity.name}${entityColumn.methodName}BlobModel;
+		</#if>
+	</#list>
+
 	import com.liferay.portal.kernel.service.version.VersionService;
 	import com.liferay.portal.kernel.service.version.VersionServiceListener;
 	<#if entity.localizedEntity??>
@@ -1569,6 +1576,7 @@ import org.osgi.service.component.annotations.Reference;
 	<#assign
 		lazyBlobExists = entity.hasLazyBlobEntityColumn() && stringUtil.equals(sessionTypeName, "Local") && entity.hasPersistence()
 		localizedEntityExists = stringUtil.equals(sessionTypeName, "Local") && entity.localizedEntity?? && entity.versionEntity?? && entity.hasPersistence()
+		versionLazyBlobExists = entity.versionEntity?? && entity.versionEntity.hasLazyBlobEntityColumn() && stringUtil.equals(sessionTypeName, "Local") && entity.hasPersistence()
 	/>
 
 	<#if lazyBlobExists>
@@ -1616,6 +1624,29 @@ import org.osgi.service.component.annotations.Reference;
 					}
 					catch (Exception exception) {
 						throw new SystemException(exception);
+					}
+				}
+			</#if>
+		</#list>
+	</#if>
+
+	<#if versionLazyBlobExists>
+		<#list versionEntity.blobEntityColumns as entityColumn>
+			<#if entityColumn.lazy>
+				@Override
+				public ${versionEntity.name}${entityColumn.methodName}BlobModel get${versionEntity.name}${entityColumn.methodName}BlobModel(Serializable primaryKey) {
+					Session session = null;
+
+					try {
+						session = ${versionEntity.variableName}Persistence.openSession();
+
+						return (${apiPackagePath}.model.${versionEntity.name}${entityColumn.methodName}BlobModel)session.get(${versionEntity.name}${entityColumn.methodName}BlobModel.class, primaryKey);
+					}
+					catch (Exception exception) {
+						throw ${versionEntity.variableName}Persistence.processException(exception);
+					}
+					finally {
+						${versionEntity.variableName}Persistence.closeSession(session);
 					}
 				}
 			</#if>

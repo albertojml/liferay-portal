@@ -50,6 +50,10 @@ import ${apiPackagePath}.model.${entity.name}Soap;
 
 import ${apiPackagePath}.service.${entity.name}LocalServiceUtil;
 
+<#if entity.versionedEntity?? && hasLazy>
+	import ${apiPackagePath}.service.${versionedEntity.name}LocalServiceUtil;
+</#if>
+
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
@@ -877,7 +881,11 @@ public class ${entity.name}ModelImpl extends BaseModelImpl<${entity.name}> imple
 				<#if stringUtil.equals(entityColumn.type, "Blob") && entityColumn.lazy>
 					if (_${entityColumn.name}BlobModel == null) {
 						try {
-							_${entityColumn.name}BlobModel = ${entity.name}LocalServiceUtil.get${entityColumn.methodName}BlobModel(getPrimaryKey());
+							<#if entity.versionedEntity??>
+								_${entityColumn.name}BlobModel = ${versionedEntity.name}LocalServiceUtil.get${entity.name}${entityColumn.methodName}BlobModel(getPrimaryKey());
+							<#else>
+								_${entityColumn.name}BlobModel = ${entity.name}LocalServiceUtil.get${entityColumn.methodName}BlobModel(getPrimaryKey());
+							</#if>
 						}
 						catch (Exception exception) {
 						}
