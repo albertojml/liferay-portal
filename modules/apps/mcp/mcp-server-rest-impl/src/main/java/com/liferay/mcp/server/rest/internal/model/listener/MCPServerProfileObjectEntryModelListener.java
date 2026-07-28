@@ -79,66 +79,14 @@ public class MCPServerProfileObjectEntryModelListener
 	public void onBeforeRemove(ObjectEntry objectEntry)
 		throws ModelListenerException {
 
-		ObjectDefinition objectDefinition =
-			_objectDefinitionLocalService.
-				fetchObjectDefinitionByExternalReferenceCode(
-					MCPServerConstants.
-						EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_DATA_MASK,
-					objectEntry.getCompanyId());
-
-		if (objectDefinition == null) {
-			return;
-		}
-
-		String externalReferenceCode = objectEntry.getExternalReferenceCode();
-
-		for (ObjectEntry mcpServerProfileDataMaskObjectEntry :
-				_objectEntryLocalService.getObjectEntries(
-					0, objectDefinition.getObjectDefinitionId(),
-					QueryUtil.ALL_POS, QueryUtil.ALL_POS)) {
-
-			Map<String, Serializable> values =
-				mcpServerProfileDataMaskObjectEntry.getValues();
-
-			if (!Objects.equals(
-					values.get("mcpServerProfileExternalReferenceCode"),
-					externalReferenceCode)) {
-
-				continue;
-			}
-
-			try {
-				Map<String, Serializable> newValues =
-					HashMapBuilder.<String, Serializable>putAll(
-						values
-					).put(
-						"deleteReason", "MCP server profile was deleted."
-					).build();
-
-				_objectEntryLocalService.updateObjectEntry(
-					mcpServerProfileDataMaskObjectEntry.getUserId(),
-					mcpServerProfileDataMaskObjectEntry.getObjectEntryId(),
-					mcpServerProfileDataMaskObjectEntry.
-						getObjectEntryFolderId(),
-					newValues, new ServiceContext());
-
-				mcpServerProfileDataMaskObjectEntry.setValues(newValues);
-
-				_objectEntryLocalService.deleteObjectEntry(
-					mcpServerProfileDataMaskObjectEntry);
-			}
-			catch (PortalException portalException) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(
-						StringBundler.concat(
-							"Unable to delete profile data mask ",
-							mcpServerProfileDataMaskObjectEntry.
-								getObjectEntryId(),
-							" for profile ", externalReferenceCode),
-						portalException);
-				}
-			}
-		}
+		_deleteMCPServerProfileChildObjectEntries(
+			MCPServerConstants.
+				EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_DATA_MASK,
+			objectEntry);
+		_deleteMCPServerProfileChildObjectEntries(
+			MCPServerConstants.
+				EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_RESTRICT_FIELD,
+			objectEntry);
 	}
 
 	private void _addMCPServerProfileDataMasks(ObjectEntry objectEntry) {
@@ -204,6 +152,66 @@ public class MCPServerProfileObjectEntryModelListener
 							"Unable to attach system mask \"",
 							values.get("name"), "\" to profile ",
 							objectEntry.getObjectEntryId()),
+						portalException);
+				}
+			}
+		}
+	}
+
+	private void _deleteMCPServerProfileChildObjectEntries(
+		String objectDefinitionExternalReferenceCode, ObjectEntry objectEntry) {
+
+		ObjectDefinition objectDefinition =
+			_objectDefinitionLocalService.
+				fetchObjectDefinitionByExternalReferenceCode(
+					objectDefinitionExternalReferenceCode,
+					objectEntry.getCompanyId());
+
+		if (objectDefinition == null) {
+			return;
+		}
+
+		String externalReferenceCode = objectEntry.getExternalReferenceCode();
+
+		for (ObjectEntry childObjectEntry :
+				_objectEntryLocalService.getObjectEntries(
+					0, objectDefinition.getObjectDefinitionId(),
+					QueryUtil.ALL_POS, QueryUtil.ALL_POS)) {
+
+			Map<String, Serializable> values = childObjectEntry.getValues();
+
+			if (!Objects.equals(
+					values.get("mcpServerProfileExternalReferenceCode"),
+					externalReferenceCode)) {
+
+				continue;
+			}
+
+			try {
+				Map<String, Serializable> newValues =
+					HashMapBuilder.<String, Serializable>putAll(
+						values
+					).put(
+						"deleteReason", "MCP server profile was deleted."
+					).build();
+
+				_objectEntryLocalService.updateObjectEntry(
+					childObjectEntry.getUserId(),
+					childObjectEntry.getObjectEntryId(),
+					childObjectEntry.getObjectEntryFolderId(), newValues,
+					new ServiceContext());
+
+				childObjectEntry.setValues(newValues);
+
+				_objectEntryLocalService.deleteObjectEntry(childObjectEntry);
+			}
+			catch (PortalException portalException) {
+				if (_log.isWarnEnabled()) {
+					_log.warn(
+						StringBundler.concat(
+							"Unable to delete object entry ",
+							childObjectEntry.getObjectEntryId(),
+							" for profile ", externalReferenceCode),
 						portalException);
 				}
 			}

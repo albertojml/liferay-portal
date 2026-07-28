@@ -61,8 +61,9 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 
 		Assert.assertEquals(
 			_SYSTEM_MASK_COUNT,
-			_getMCPServerProfileDataMasksCount(
-				mcpServerProfileObjectEntry.getExternalReferenceCode()));
+			_getMCPServerProfileChildObjectEntriesCount(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"L_MCP_SERVER_PROFILE_DATA_MASK"));
 
 		mcpServerProfileObjectEntry =
 			MCPServerTestUtil.addMCPServerProfileObjectEntry(
@@ -71,8 +72,9 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 
 		Assert.assertEquals(
 			_SYSTEM_MASK_COUNT,
-			_getMCPServerProfileDataMasksCount(
-				mcpServerProfileObjectEntry.getExternalReferenceCode()));
+			_getMCPServerProfileChildObjectEntriesCount(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"L_MCP_SERVER_PROFILE_DATA_MASK"));
 	}
 
 	@Test
@@ -87,8 +89,9 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 
 		Assert.assertEquals(
 			_SYSTEM_MASK_COUNT,
-			_getMCPServerProfileDataMasksCount(
-				mcpServerProfileObjectEntryExternalReferenceCode));
+			_getMCPServerProfileChildObjectEntriesCount(
+				mcpServerProfileObjectEntryExternalReferenceCode,
+				"L_MCP_SERVER_PROFILE_DATA_MASK"));
 
 		ObjectEntry dataMaskObjectEntry =
 			MCPServerTestUtil.addDataMaskObjectEntry(
@@ -98,6 +101,17 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 			MCPServerTestUtil.addMCPServerProfileDataMaskObjectEntry(
 				dataMaskObjectEntry.getObjectEntryId(), 1,
 				mcpServerProfileObjectEntryExternalReferenceCode);
+
+		ObjectEntry mcpServerProfileRestrictFieldObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+				"description", mcpServerProfileObjectEntryExternalReferenceCode,
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		Assert.assertEquals(
+			1,
+			_getMCPServerProfileChildObjectEntriesCount(
+				mcpServerProfileObjectEntryExternalReferenceCode,
+				"L_MCP_SERVER_PROFILE_RESTRICT_FIELD"));
 
 		try (ConfigurationTemporarySwapper configurationTemporarySwapper =
 				new ConfigurationTemporarySwapper(
@@ -127,35 +141,47 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 
 			Assert.assertEquals(
 				0,
-				_getMCPServerProfileDataMasksCount(
-					mcpServerProfileObjectEntryExternalReferenceCode));
+				_getMCPServerProfileChildObjectEntriesCount(
+					mcpServerProfileObjectEntryExternalReferenceCode,
+					"L_MCP_SERVER_PROFILE_DATA_MASK"));
 
 			Assert.assertEquals(
 				"MCP server profile was deleted.",
 				MCPServerTestUtil.getAuditedDeleteReason(
 					mcpServerProfileDataMaskObjectEntry));
+
+			Assert.assertEquals(
+				0,
+				_getMCPServerProfileChildObjectEntriesCount(
+					mcpServerProfileObjectEntryExternalReferenceCode,
+					"L_MCP_SERVER_PROFILE_RESTRICT_FIELD"));
+
+			Assert.assertEquals(
+				"MCP server profile was deleted.",
+				MCPServerTestUtil.getAuditedDeleteReason(
+					mcpServerProfileRestrictFieldObjectEntry));
 		}
 	}
 
-	private int _getMCPServerProfileDataMasksCount(
-			String mcpServerProfileExternalReferenceCode)
+	private int _getMCPServerProfileChildObjectEntriesCount(
+			String mcpServerProfileExternalReferenceCode,
+			String objectDefinitionExternalReferenceCode)
 		throws Exception {
 
 		int count = 0;
 
-		ObjectDefinition profileDataMaskObjectDefinition =
+		ObjectDefinition objectDefinition =
 			_objectDefinitionLocalService.
 				fetchObjectDefinitionByExternalReferenceCode(
-					"L_MCP_SERVER_PROFILE_DATA_MASK",
+					objectDefinitionExternalReferenceCode,
 					TestPropsValues.getCompanyId());
 
-		for (ObjectEntry profileDataMaskObjectEntry :
+		for (ObjectEntry childObjectEntry :
 				_objectEntryLocalService.getObjectEntries(
-					0, profileDataMaskObjectDefinition.getObjectDefinitionId(),
+					0, objectDefinition.getObjectDefinitionId(),
 					QueryUtil.ALL_POS, QueryUtil.ALL_POS)) {
 
-			Map<String, Serializable> values =
-				profileDataMaskObjectEntry.getValues();
+			Map<String, Serializable> values = childObjectEntry.getValues();
 
 			if (Objects.equals(
 					mcpServerProfileExternalReferenceCode,
