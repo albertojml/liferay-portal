@@ -130,4 +130,4 @@ public abstract class KaleoDefinitionVersionServiceBaseImpl
 		KaleoDefinitionVersionServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1635384403
+// LIFERAY-SERVICE-BUILDER-HASH:1156357357

@@ -564,4 +564,4 @@ public abstract class SocialActivityAchievementLocalServiceBaseImpl
 		SocialActivityAchievementLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-354031713
+// LIFERAY-SERVICE-BUILDER-HASH:-44434837

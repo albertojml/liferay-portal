@@ -535,4 +535,4 @@ public abstract class DLContentLocalServiceBaseImpl
 	private boolean _useTempFile;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1441846417
+// LIFERAY-SERVICE-BUILDER-HASH:1302056629

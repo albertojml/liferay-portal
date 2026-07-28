@@ -658,4 +658,4 @@ public abstract class ObjectEntryLocalServiceBaseImpl
 		ObjectEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-828502922
+// LIFERAY-SERVICE-BUILDER-HASH:1584957980

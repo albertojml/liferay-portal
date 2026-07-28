@@ -536,4 +536,4 @@ public abstract class SpringEntryLocalServiceBaseImpl
 		SpringEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1350009310
+// LIFERAY-SERVICE-BUILDER-HASH:-1547997944

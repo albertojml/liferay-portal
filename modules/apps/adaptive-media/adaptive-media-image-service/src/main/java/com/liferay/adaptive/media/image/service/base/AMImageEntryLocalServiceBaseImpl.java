@@ -532,4 +532,4 @@ public abstract class AMImageEntryLocalServiceBaseImpl
 		AMImageEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1767210493
+// LIFERAY-SERVICE-BUILDER-HASH:1082587167

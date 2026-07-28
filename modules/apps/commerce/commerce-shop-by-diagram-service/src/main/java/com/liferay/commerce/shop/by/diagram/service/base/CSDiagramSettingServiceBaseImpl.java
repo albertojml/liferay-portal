@@ -126,4 +126,4 @@ public abstract class CSDiagramSettingServiceBaseImpl
 		CSDiagramSettingServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-278197901
+// LIFERAY-SERVICE-BUILDER-HASH:994869717

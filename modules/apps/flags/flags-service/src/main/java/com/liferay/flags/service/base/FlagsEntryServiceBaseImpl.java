@@ -109,4 +109,4 @@ public abstract class FlagsEntryServiceBaseImpl
 		FlagsEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:72689941
+// LIFERAY-SERVICE-BUILDER-HASH:-1342288051

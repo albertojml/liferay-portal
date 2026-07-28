@@ -592,4 +592,4 @@ public abstract class MBBanLocalServiceBaseImpl
 		MBBanLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-194429813
+// LIFERAY-SERVICE-BUILDER-HASH:-1463018115

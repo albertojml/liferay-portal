@@ -125,4 +125,4 @@ public abstract class SequenceEntryServiceBaseImpl
 		SequenceEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:274281952
+// LIFERAY-SERVICE-BUILDER-HASH:561577952

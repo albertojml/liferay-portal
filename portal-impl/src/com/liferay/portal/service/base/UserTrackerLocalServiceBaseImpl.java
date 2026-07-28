@@ -504,4 +504,4 @@ public abstract class UserTrackerLocalServiceBaseImpl
 		UserTrackerLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-462055906
+// LIFERAY-SERVICE-BUILDER-HASH:1325216202

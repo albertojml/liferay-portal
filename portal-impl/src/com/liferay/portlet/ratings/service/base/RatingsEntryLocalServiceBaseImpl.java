@@ -651,4 +651,4 @@ public abstract class RatingsEntryLocalServiceBaseImpl
 		RatingsEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-888476084
+// LIFERAY-SERVICE-BUILDER-HASH:794785428

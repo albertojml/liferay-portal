@@ -476,4 +476,4 @@ public abstract class CommerceOrderPaymentLocalServiceBaseImpl
 		CommerceOrderPaymentLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-761811181
+// LIFERAY-SERVICE-BUILDER-HASH:1082375975

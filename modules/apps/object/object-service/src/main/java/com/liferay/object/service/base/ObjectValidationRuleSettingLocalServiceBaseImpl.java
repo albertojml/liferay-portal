@@ -596,4 +596,4 @@ public abstract class ObjectValidationRuleSettingLocalServiceBaseImpl
 		ObjectValidationRuleSettingLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1616347949
+// LIFERAY-SERVICE-BUILDER-HASH:-1078180303

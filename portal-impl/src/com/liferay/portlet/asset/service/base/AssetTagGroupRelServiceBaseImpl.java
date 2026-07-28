@@ -207,4 +207,4 @@ public abstract class AssetTagGroupRelServiceBaseImpl
 		AssetTagGroupRelServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:176736009
+// LIFERAY-SERVICE-BUILDER-HASH:1481768357

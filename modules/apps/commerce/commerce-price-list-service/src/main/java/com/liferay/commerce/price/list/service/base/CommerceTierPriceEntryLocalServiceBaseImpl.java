@@ -673,4 +673,4 @@ public abstract class CommerceTierPriceEntryLocalServiceBaseImpl
 		CommerceTierPriceEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1846585096
+// LIFERAY-SERVICE-BUILDER-HASH:430159780

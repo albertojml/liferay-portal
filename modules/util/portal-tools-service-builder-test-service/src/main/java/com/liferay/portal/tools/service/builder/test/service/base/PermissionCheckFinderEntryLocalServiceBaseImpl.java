@@ -548,4 +548,4 @@ public abstract class PermissionCheckFinderEntryLocalServiceBaseImpl
 		PermissionCheckFinderEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1761229509
+// LIFERAY-SERVICE-BUILDER-HASH:-2028597017

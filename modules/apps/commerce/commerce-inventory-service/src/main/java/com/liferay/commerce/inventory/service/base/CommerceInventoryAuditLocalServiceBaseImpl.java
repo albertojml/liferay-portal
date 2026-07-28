@@ -482,4 +482,4 @@ public abstract class CommerceInventoryAuditLocalServiceBaseImpl
 		CommerceInventoryAuditLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1971980659
+// LIFERAY-SERVICE-BUILDER-HASH:232190151

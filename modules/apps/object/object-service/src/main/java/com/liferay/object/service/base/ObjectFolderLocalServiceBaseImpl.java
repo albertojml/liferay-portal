@@ -576,4 +576,4 @@ public abstract class ObjectFolderLocalServiceBaseImpl
 		ObjectFolderLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-2033126211
+// LIFERAY-SERVICE-BUILDER-HASH:1371797213

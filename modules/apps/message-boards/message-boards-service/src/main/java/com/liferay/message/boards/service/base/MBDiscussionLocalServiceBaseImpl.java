@@ -635,4 +635,4 @@ public abstract class MBDiscussionLocalServiceBaseImpl
 		MBDiscussionLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:76412190
+// LIFERAY-SERVICE-BUILDER-HASH:-1882200172

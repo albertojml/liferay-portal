@@ -135,4 +135,4 @@ public abstract class
 		LayoutPageTemplateStructureRelElementVariationServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1798342668
+// LIFERAY-SERVICE-BUILDER-HASH:1474746716

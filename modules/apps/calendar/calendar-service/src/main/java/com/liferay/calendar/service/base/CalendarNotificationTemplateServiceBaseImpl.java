@@ -132,4 +132,4 @@ public abstract class CalendarNotificationTemplateServiceBaseImpl
 		CalendarNotificationTemplateServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1502760144
+// LIFERAY-SERVICE-BUILDER-HASH:-848626280

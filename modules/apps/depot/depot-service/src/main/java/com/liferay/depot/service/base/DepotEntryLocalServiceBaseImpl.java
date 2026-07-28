@@ -604,4 +604,4 @@ public abstract class DepotEntryLocalServiceBaseImpl
 		DepotEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:495211640
+// LIFERAY-SERVICE-BUILDER-HASH:1362792328

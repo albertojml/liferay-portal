@@ -517,4 +517,4 @@ public abstract class UniqueFinderEntryLocalServiceBaseImpl
 		UniqueFinderEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:169057127
+// LIFERAY-SERVICE-BUILDER-HASH:1540356739

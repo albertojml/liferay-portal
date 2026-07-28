@@ -1174,4 +1174,4 @@ public class AuditEventModelImpl
 	private AuditEvent _escapedModel;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:555769878
+// LIFERAY-SERVICE-BUILDER-HASH:-1770175568

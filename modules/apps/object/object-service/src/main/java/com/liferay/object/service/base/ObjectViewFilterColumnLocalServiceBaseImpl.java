@@ -590,4 +590,4 @@ public abstract class ObjectViewFilterColumnLocalServiceBaseImpl
 		ObjectViewFilterColumnLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:552454207
+// LIFERAY-SERVICE-BUILDER-HASH:571285551

@@ -146,4 +146,4 @@ public abstract class DLAppHelperLocalServiceBaseImpl
 		DLAppHelperLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:2130832350
+// LIFERAY-SERVICE-BUILDER-HASH:-1040490978

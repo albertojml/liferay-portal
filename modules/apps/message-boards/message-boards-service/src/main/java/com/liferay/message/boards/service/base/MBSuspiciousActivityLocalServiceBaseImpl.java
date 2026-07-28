@@ -636,4 +636,4 @@ public abstract class MBSuspiciousActivityLocalServiceBaseImpl
 		MBSuspiciousActivityLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1104329588
+// LIFERAY-SERVICE-BUILDER-HASH:1650167966

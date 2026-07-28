@@ -439,6 +439,16 @@ public class ERCVersionedEntryLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.tools.service.builder.test.model.
+		ERCVersionedEntryVersionLazyBlobBlobModel
+			getERCVersionedEntryVersionLazyBlobBlobModel(
+				java.io.Serializable primaryKey) {
+
+		return _ercVersionedEntryLocalService.
+			getERCVersionedEntryVersionLazyBlobBlobModel(primaryKey);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 		getIndexableActionableDynamicQuery() {
 
@@ -592,4 +602,4 @@ public class ERCVersionedEntryLocalServiceWrapper
 	private ERCVersionedEntryLocalService _ercVersionedEntryLocalService;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1292851257
+// LIFERAY-SERVICE-BUILDER-HASH:-1835291510

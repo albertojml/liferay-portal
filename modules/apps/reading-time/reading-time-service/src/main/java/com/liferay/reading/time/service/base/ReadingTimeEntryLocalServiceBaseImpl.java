@@ -642,4 +642,4 @@ public abstract class ReadingTimeEntryLocalServiceBaseImpl
 		ReadingTimeEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1759605376
+// LIFERAY-SERVICE-BUILDER-HASH:486038244

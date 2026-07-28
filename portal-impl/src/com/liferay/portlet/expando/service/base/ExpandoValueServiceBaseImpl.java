@@ -207,4 +207,4 @@ public abstract class ExpandoValueServiceBaseImpl
 		ExpandoValueServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:56032147
+// LIFERAY-SERVICE-BUILDER-HASH:-35966497

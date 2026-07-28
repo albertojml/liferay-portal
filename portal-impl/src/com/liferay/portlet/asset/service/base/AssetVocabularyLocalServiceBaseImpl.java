@@ -682,4 +682,4 @@ public abstract class AssetVocabularyLocalServiceBaseImpl
 		AssetVocabularyLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1757435960
+// LIFERAY-SERVICE-BUILDER-HASH:223125548

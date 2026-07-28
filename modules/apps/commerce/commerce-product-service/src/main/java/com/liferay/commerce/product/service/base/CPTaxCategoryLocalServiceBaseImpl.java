@@ -598,4 +598,4 @@ public abstract class CPTaxCategoryLocalServiceBaseImpl
 		CPTaxCategoryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1836154158
+// LIFERAY-SERVICE-BUILDER-HASH:312889160

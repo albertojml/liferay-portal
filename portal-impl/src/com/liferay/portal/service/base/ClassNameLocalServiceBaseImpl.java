@@ -499,4 +499,4 @@ public abstract class ClassNameLocalServiceBaseImpl
 		ClassNameLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1626088272
+// LIFERAY-SERVICE-BUILDER-HASH:-820583344

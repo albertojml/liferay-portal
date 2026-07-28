@@ -39,6 +39,7 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntry;
 import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntryLazyBlobBlobModel;
 import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntryVersion;
+import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntryVersionLazyBlobBlobModel;
 import com.liferay.portal.tools.service.builder.test.service.ERCVersionedEntryLocalService;
 import com.liferay.portal.tools.service.builder.test.service.ERCVersionedEntryLocalServiceUtil;
 import com.liferay.portal.tools.service.builder.test.service.persistence.ERCVersionedEntryPersistence;
@@ -589,6 +590,27 @@ public abstract class ERCVersionedEntryLocalServiceBaseImpl
 		}
 	}
 
+	@Override
+	public ERCVersionedEntryVersionLazyBlobBlobModel
+		getERCVersionedEntryVersionLazyBlobBlobModel(Serializable primaryKey) {
+
+		Session session = null;
+
+		try {
+			session = ercVersionedEntryVersionPersistence.openSession();
+
+			return (ERCVersionedEntryVersionLazyBlobBlobModel)session.get(
+				ERCVersionedEntryVersionLazyBlobBlobModel.class, primaryKey);
+		}
+		catch (Exception exception) {
+			throw ercVersionedEntryVersionPersistence.processException(
+				exception);
+		}
+		finally {
+			ercVersionedEntryVersionPersistence.closeSession(session);
+		}
+	}
+
 	public void afterPropertiesSet() {
 		DB db = DBManagerUtil.getDB();
 
@@ -1104,4 +1126,4 @@ public abstract class ERCVersionedEntryLocalServiceBaseImpl
 	private boolean _useTempFile;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1022726008
+// LIFERAY-SERVICE-BUILDER-HASH:-201396981

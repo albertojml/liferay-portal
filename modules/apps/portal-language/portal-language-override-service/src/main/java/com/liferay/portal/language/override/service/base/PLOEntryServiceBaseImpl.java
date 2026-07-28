@@ -125,4 +125,4 @@ public abstract class PLOEntryServiceBaseImpl
 		PLOEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-2138477293
+// LIFERAY-SERVICE-BUILDER-HASH:1955122741

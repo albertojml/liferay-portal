@@ -444,4 +444,4 @@ public abstract class CTRemoteLocalServiceBaseImpl
 		CTRemoteLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:876986903
+// LIFERAY-SERVICE-BUILDER-HASH:-1203873981

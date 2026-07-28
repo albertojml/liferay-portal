@@ -532,4 +532,4 @@ public abstract class DSLQueryStatusEntryLocalServiceBaseImpl
 		DSLQueryStatusEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:661923175
+// LIFERAY-SERVICE-BUILDER-HASH:-784897229

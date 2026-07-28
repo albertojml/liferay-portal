@@ -202,4 +202,4 @@ public abstract class CompanyServiceBaseImpl
 		CompanyServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1133123141
+// LIFERAY-SERVICE-BUILDER-HASH:-1969799527

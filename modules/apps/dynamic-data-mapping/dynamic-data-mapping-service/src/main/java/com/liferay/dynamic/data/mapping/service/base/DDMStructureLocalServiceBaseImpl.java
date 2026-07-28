@@ -635,4 +635,4 @@ public abstract class DDMStructureLocalServiceBaseImpl
 		DDMStructureLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:433844901
+// LIFERAY-SERVICE-BUILDER-HASH:-525977967

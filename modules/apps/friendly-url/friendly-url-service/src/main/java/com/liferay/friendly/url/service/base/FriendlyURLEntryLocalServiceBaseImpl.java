@@ -838,4 +838,4 @@ public abstract class FriendlyURLEntryLocalServiceBaseImpl
 		FriendlyURLEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1423515914
+// LIFERAY-SERVICE-BUILDER-HASH:1522891756

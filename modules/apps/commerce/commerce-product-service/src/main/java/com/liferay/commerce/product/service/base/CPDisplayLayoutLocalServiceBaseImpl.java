@@ -637,4 +637,4 @@ public abstract class CPDisplayLayoutLocalServiceBaseImpl
 		CPDisplayLayoutLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1115906428
+// LIFERAY-SERVICE-BUILDER-HASH:1566114082

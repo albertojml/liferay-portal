@@ -201,4 +201,4 @@ public abstract class ImageServiceBaseImpl
 		ImageServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:608147185
+// LIFERAY-SERVICE-BUILDER-HASH:-794120657

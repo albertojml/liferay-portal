@@ -125,4 +125,4 @@ public abstract class SXPElementServiceBaseImpl
 		SXPElementServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1552624483
+// LIFERAY-SERVICE-BUILDER-HASH:-503732059

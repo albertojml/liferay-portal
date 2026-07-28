@@ -132,4 +132,4 @@ public abstract class CommerceInventoryReplenishmentItemServiceBaseImpl
 		CommerceInventoryReplenishmentItemServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-81109195
+// LIFERAY-SERVICE-BUILDER-HASH:2014990547

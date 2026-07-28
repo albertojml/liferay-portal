@@ -502,4 +502,4 @@ public abstract class CommerceShippingFixedOptionQualifierLocalServiceBaseImpl
 		CommerceShippingFixedOptionQualifierLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:95333286
+// LIFERAY-SERVICE-BUILDER-HASH:1656968028

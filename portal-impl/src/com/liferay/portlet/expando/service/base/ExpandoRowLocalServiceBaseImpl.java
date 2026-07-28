@@ -516,4 +516,4 @@ public abstract class ExpandoRowLocalServiceBaseImpl
 		ExpandoRowLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:376222847
+// LIFERAY-SERVICE-BUILDER-HASH:1134737431

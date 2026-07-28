@@ -132,4 +132,4 @@ public abstract class CommerceShippingOptionAccountEntryRelServiceBaseImpl
 		CommerceShippingOptionAccountEntryRelServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1646432120
+// LIFERAY-SERVICE-BUILDER-HASH:991396004

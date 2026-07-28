@@ -207,4 +207,4 @@ public abstract class ExpandoColumnServiceBaseImpl
 		ExpandoColumnServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:552781740
+// LIFERAY-SERVICE-BUILDER-HASH:-928489988

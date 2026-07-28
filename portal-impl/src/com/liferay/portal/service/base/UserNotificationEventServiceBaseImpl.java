@@ -214,4 +214,4 @@ public abstract class UserNotificationEventServiceBaseImpl
 		UserNotificationEventServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1408996220
+// LIFERAY-SERVICE-BUILDER-HASH:-759976538

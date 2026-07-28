@@ -988,4 +988,4 @@ public class ObjectFieldSettingModelImpl
 	private ObjectFieldSetting _escapedModel;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:341368201
+// LIFERAY-SERVICE-BUILDER-HASH:1595391805

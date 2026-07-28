@@ -500,4 +500,4 @@ public abstract class TestEntityLocalServiceBaseImpl
 		TestEntityLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1945199785
+// LIFERAY-SERVICE-BUILDER-HASH:1464321479

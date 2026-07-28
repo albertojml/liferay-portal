@@ -357,6 +357,15 @@ public class ERCVersionedEntryLocalServiceUtil {
 			externalReferenceCode, groupId, head);
 	}
 
+	public static com.liferay.portal.tools.service.builder.test.model.
+		ERCVersionedEntryVersionLazyBlobBlobModel
+			getERCVersionedEntryVersionLazyBlobBlobModel(
+				Serializable primaryKey) {
+
+		return getService().getERCVersionedEntryVersionLazyBlobBlobModel(
+			primaryKey);
+	}
+
 	public static
 		com.liferay.portal.kernel.dao.orm.IndexableActionableDynamicQuery
 			getIndexableActionableDynamicQuery() {
@@ -472,4 +481,4 @@ public class ERCVersionedEntryLocalServiceUtil {
 	private static volatile ERCVersionedEntryLocalService _service;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1558641740
+// LIFERAY-SERVICE-BUILDER-HASH:142620058

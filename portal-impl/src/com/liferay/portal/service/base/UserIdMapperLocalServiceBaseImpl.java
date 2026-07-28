@@ -505,4 +505,4 @@ public abstract class UserIdMapperLocalServiceBaseImpl
 		UserIdMapperLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1727966320
+// LIFERAY-SERVICE-BUILDER-HASH:300549068

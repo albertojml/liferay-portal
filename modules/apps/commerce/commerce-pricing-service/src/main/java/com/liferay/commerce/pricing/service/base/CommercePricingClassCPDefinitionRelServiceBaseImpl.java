@@ -137,4 +137,4 @@ public abstract class CommercePricingClassCPDefinitionRelServiceBaseImpl
 		CommercePricingClassCPDefinitionRelServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1457148452
+// LIFERAY-SERVICE-BUILDER-HASH:1954074090

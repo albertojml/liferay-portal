@@ -448,4 +448,4 @@ public abstract class AuditEventLocalServiceBaseImpl
 		AuditEventLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-635336410
+// LIFERAY-SERVICE-BUILDER-HASH:68100902

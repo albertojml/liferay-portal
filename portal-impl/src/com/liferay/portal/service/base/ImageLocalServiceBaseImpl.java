@@ -507,4 +507,4 @@ public abstract class ImageLocalServiceBaseImpl
 		ImageLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:358088997
+// LIFERAY-SERVICE-BUILDER-HASH:563749973

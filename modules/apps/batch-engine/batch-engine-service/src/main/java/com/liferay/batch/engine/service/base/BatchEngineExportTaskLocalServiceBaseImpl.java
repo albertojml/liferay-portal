@@ -682,4 +682,4 @@ public abstract class BatchEngineExportTaskLocalServiceBaseImpl
 	private boolean _useTempFile;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:409740580
+// LIFERAY-SERVICE-BUILDER-HASH:1003504432

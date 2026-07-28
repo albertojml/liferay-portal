@@ -476,4 +476,4 @@ public abstract class PatcherFixComponentLocalServiceBaseImpl
 		PatcherFixComponentLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:2011928192
+// LIFERAY-SERVICE-BUILDER-HASH:-1991011822

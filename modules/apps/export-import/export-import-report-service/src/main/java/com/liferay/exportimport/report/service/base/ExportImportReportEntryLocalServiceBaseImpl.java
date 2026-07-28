@@ -486,4 +486,4 @@ public abstract class ExportImportReportEntryLocalServiceBaseImpl
 		ExportImportReportEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:2006296373
+// LIFERAY-SERVICE-BUILDER-HASH:1515488005

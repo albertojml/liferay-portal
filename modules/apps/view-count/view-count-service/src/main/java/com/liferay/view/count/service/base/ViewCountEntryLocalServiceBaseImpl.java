@@ -463,4 +463,4 @@ public abstract class ViewCountEntryLocalServiceBaseImpl
 		ViewCountEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-884083800
+// LIFERAY-SERVICE-BUILDER-HASH:1551288386

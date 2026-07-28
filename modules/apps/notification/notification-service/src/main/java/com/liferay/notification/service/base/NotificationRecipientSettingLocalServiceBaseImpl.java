@@ -599,4 +599,4 @@ public abstract class NotificationRecipientSettingLocalServiceBaseImpl
 		NotificationRecipientSettingLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1669268327
+// LIFERAY-SERVICE-BUILDER-HASH:-2006619395

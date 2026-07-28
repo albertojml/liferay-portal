@@ -126,4 +126,4 @@ public abstract class CommerceTaxFixedRateServiceBaseImpl
 		CommerceTaxFixedRateServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1738575747
+// LIFERAY-SERVICE-BUILDER-HASH:1046451345

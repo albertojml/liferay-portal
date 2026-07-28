@@ -129,4 +129,4 @@ public abstract class MicroblogsEntryServiceBaseImpl
 		MicroblogsEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1535525058
+// LIFERAY-SERVICE-BUILDER-HASH:-1543660784

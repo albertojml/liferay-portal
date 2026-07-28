@@ -561,4 +561,4 @@ public abstract class CTEntryLocalServiceBaseImpl
 		CTEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-2082810797
+// LIFERAY-SERVICE-BUILDER-HASH:1942568287

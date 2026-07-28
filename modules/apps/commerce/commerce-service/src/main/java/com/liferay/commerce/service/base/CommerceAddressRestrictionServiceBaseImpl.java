@@ -132,4 +132,4 @@ public abstract class CommerceAddressRestrictionServiceBaseImpl
 		CommerceAddressRestrictionServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1150721005
+// LIFERAY-SERVICE-BUILDER-HASH:-1580766757

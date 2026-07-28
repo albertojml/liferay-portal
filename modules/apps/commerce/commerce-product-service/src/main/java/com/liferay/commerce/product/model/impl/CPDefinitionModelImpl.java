@@ -2970,4 +2970,4 @@ public class CPDefinitionModelImpl
 	private CPDefinition _escapedModel;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:2120794716
+// LIFERAY-SERVICE-BUILDER-HASH:994994738

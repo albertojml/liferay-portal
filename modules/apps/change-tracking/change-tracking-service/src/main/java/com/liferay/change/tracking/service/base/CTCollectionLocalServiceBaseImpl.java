@@ -576,4 +576,4 @@ public abstract class CTCollectionLocalServiceBaseImpl
 		CTCollectionLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:696597237
+// LIFERAY-SERVICE-BUILDER-HASH:-414218715

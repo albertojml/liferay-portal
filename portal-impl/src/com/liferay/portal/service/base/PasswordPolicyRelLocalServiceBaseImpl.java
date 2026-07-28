@@ -516,4 +516,4 @@ public abstract class PasswordPolicyRelLocalServiceBaseImpl
 		PasswordPolicyRelLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1899559855
+// LIFERAY-SERVICE-BUILDER-HASH:-1422327373

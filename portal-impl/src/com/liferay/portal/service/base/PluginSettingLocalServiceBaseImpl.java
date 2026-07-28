@@ -505,4 +505,4 @@ public abstract class PluginSettingLocalServiceBaseImpl
 		PluginSettingLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-712963154
+// LIFERAY-SERVICE-BUILDER-HASH:492936058

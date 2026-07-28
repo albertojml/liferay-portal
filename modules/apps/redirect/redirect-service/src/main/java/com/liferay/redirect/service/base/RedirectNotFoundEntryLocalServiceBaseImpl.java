@@ -480,4 +480,4 @@ public abstract class RedirectNotFoundEntryLocalServiceBaseImpl
 		RedirectNotFoundEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1177159652
+// LIFERAY-SERVICE-BUILDER-HASH:595425528

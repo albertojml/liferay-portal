@@ -131,4 +131,4 @@ public abstract class PushNotificationsDeviceServiceBaseImpl
 		PushNotificationsDeviceServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1992567432
+// LIFERAY-SERVICE-BUILDER-HASH:705396796

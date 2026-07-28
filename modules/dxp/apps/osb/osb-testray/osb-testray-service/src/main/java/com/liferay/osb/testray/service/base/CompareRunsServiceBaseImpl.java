@@ -113,4 +113,4 @@ public abstract class CompareRunsServiceBaseImpl
 		CompareRunsServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-999213709
+// LIFERAY-SERVICE-BUILDER-HASH:-1490555191

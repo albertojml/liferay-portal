@@ -129,4 +129,4 @@ public abstract class CookiesConsentPreferenceServiceBaseImpl
 		CookiesConsentPreferenceServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-625193987
+// LIFERAY-SERVICE-BUILDER-HASH:1027132243

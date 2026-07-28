@@ -679,4 +679,4 @@ public abstract class WikiNodeLocalServiceBaseImpl
 		WikiNodeLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1528851885
+// LIFERAY-SERVICE-BUILDER-HASH:950924131

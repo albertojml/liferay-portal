@@ -126,4 +126,4 @@ public abstract class CommerceOrderTypeRelServiceBaseImpl
 		CommerceOrderTypeRelServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-557169002
+// LIFERAY-SERVICE-BUILDER-HASH:1675979538

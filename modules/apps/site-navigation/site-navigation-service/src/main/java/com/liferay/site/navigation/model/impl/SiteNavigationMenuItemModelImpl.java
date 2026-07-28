@@ -1345,4 +1345,4 @@ public class SiteNavigationMenuItemModelImpl
 	private SiteNavigationMenuItem _escapedModel;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:13477702
+// LIFERAY-SERVICE-BUILDER-HASH:1652307138

@@ -462,4 +462,4 @@ public abstract class CTSParentLocalServiceBaseImpl
 		CTSParentLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1431152029
+// LIFERAY-SERVICE-BUILDER-HASH:979330143

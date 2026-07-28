@@ -671,4 +671,4 @@ public abstract class EmailAddressLocalServiceBaseImpl
 		EmailAddressLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-79395505
+// LIFERAY-SERVICE-BUILDER-HASH:733077865

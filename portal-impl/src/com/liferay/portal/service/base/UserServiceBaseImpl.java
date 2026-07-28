@@ -243,4 +243,4 @@ public abstract class UserServiceBaseImpl
 		UserServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1409896604
+// LIFERAY-SERVICE-BUILDER-HASH:494371638

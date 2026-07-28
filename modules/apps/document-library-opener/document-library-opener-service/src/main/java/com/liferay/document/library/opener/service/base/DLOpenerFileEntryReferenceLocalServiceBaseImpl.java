@@ -486,4 +486,4 @@ public abstract class DLOpenerFileEntryReferenceLocalServiceBaseImpl
 		DLOpenerFileEntryReferenceLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1315047406
+// LIFERAY-SERVICE-BUILDER-HASH:-94497860

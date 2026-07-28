@@ -126,4 +126,4 @@ public abstract class OAuthClientEntryServiceBaseImpl
 		OAuthClientEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:732907604
+// LIFERAY-SERVICE-BUILDER-HASH:-970964716

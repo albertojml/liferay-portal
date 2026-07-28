@@ -130,4 +130,4 @@ public abstract class SourceServiceBaseImpl
 		SourceServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:815508125
+// LIFERAY-SERVICE-BUILDER-HASH:-701554035

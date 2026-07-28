@@ -456,4 +456,4 @@ public abstract class CTSchemaVersionLocalServiceBaseImpl
 		CTSchemaVersionLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1102978984
+// LIFERAY-SERVICE-BUILDER-HASH:365547090

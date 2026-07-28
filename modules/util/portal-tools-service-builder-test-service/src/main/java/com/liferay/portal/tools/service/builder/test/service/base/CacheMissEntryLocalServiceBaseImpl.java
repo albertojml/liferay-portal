@@ -525,4 +525,4 @@ public abstract class CacheMissEntryLocalServiceBaseImpl
 		CacheMissEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1715237660
+// LIFERAY-SERVICE-BUILDER-HASH:551183950

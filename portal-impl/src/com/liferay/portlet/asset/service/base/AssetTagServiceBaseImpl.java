@@ -231,4 +231,4 @@ public abstract class AssetTagServiceBaseImpl
 		AssetTagServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-795110629
+// LIFERAY-SERVICE-BUILDER-HASH:570824469

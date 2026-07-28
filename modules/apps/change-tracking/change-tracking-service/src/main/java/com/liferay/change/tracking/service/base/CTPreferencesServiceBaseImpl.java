@@ -125,4 +125,4 @@ public abstract class CTPreferencesServiceBaseImpl
 		CTPreferencesServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1871634955
+// LIFERAY-SERVICE-BUILDER-HASH:-1268519915

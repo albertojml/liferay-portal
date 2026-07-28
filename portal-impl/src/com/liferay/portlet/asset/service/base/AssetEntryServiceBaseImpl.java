@@ -231,4 +231,4 @@ public abstract class AssetEntryServiceBaseImpl
 		AssetEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:61957075
+// LIFERAY-SERVICE-BUILDER-HASH:1437501357

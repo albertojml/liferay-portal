@@ -553,4 +553,4 @@ public abstract class WorkflowInstanceLinkLocalServiceBaseImpl
 		WorkflowInstanceLinkLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:860622301
+// LIFERAY-SERVICE-BUILDER-HASH:1942170039

@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntry;
 import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntryLazyBlobBlobModel;
 import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntryVersion;
+import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntryVersionLazyBlobBlobModel;
 
 import java.io.InputStream;
 import java.io.Serializable;
@@ -315,6 +316,10 @@ public interface ERCVersionedEntryLocalService
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public ERCVersionedEntryVersionLazyBlobBlobModel
+		getERCVersionedEntryVersionLazyBlobBlobModel(Serializable primaryKey);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -388,4 +393,4 @@ public interface ERCVersionedEntryLocalService
 		throws PortalException;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:756516867
+// LIFERAY-SERVICE-BUILDER-HASH:1727927489

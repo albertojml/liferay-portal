@@ -132,4 +132,4 @@ public abstract class OAuthClientPRLocalMetadataServiceBaseImpl
 		OAuthClientPRLocalMetadataServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-864473232
+// LIFERAY-SERVICE-BUILDER-HASH:676357496

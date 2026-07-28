@@ -505,4 +505,4 @@ public abstract class KaleoTaskInstanceTokenLocalServiceBaseImpl
 		KaleoTaskInstanceTokenLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1328927935
+// LIFERAY-SERVICE-BUILDER-HASH:-984597095

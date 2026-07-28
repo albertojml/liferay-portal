@@ -448,4 +448,4 @@ public abstract class DLSyncEventLocalServiceBaseImpl
 		DLSyncEventLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1943561469
+// LIFERAY-SERVICE-BUILDER-HASH:1870858071

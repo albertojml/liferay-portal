@@ -605,4 +605,4 @@ public abstract class MBMailingListLocalServiceBaseImpl
 		MBMailingListLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-13118628
+// LIFERAY-SERVICE-BUILDER-HASH:-2069330120

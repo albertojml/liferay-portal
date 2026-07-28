@@ -172,4 +172,4 @@ public abstract class StagingServiceBaseImpl
 		StagingServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:774271012
+// LIFERAY-SERVICE-BUILDER-HASH:-1425691232

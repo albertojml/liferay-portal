@@ -674,4 +674,4 @@ public abstract class BookmarksEntryLocalServiceBaseImpl
 		BookmarksEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-8260032
+// LIFERAY-SERVICE-BUILDER-HASH:-313789512

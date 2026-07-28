@@ -617,4 +617,4 @@ public abstract class OAuthClientASLocalMetadataLocalServiceBaseImpl
 		OAuthClientASLocalMetadataLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1979497271
+// LIFERAY-SERVICE-BUILDER-HASH:-746831283

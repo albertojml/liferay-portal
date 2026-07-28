@@ -644,4 +644,4 @@ public abstract class SavedContentEntryLocalServiceBaseImpl
 		SavedContentEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-2120343924
+// LIFERAY-SERVICE-BUILDER-HASH:-871403228

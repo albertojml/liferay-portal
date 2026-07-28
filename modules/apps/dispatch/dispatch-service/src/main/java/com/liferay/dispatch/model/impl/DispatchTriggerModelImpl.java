@@ -1440,4 +1440,4 @@ public class DispatchTriggerModelImpl
 	private DispatchTrigger _escapedModel;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1242782378
+// LIFERAY-SERVICE-BUILDER-HASH:1701635792

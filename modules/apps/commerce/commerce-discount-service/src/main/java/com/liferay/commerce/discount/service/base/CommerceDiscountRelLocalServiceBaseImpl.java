@@ -476,4 +476,4 @@ public abstract class CommerceDiscountRelLocalServiceBaseImpl
 		CommerceDiscountRelLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:378768475
+// LIFERAY-SERVICE-BUILDER-HASH:-2021016299

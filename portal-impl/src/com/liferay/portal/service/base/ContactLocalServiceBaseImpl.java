@@ -496,4 +496,4 @@ public abstract class ContactLocalServiceBaseImpl
 		ContactLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-595016859
+// LIFERAY-SERVICE-BUILDER-HASH:-1732226833

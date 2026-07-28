@@ -125,4 +125,4 @@ public abstract class BatchPlannerMappingServiceBaseImpl
 		BatchPlannerMappingServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1952556853
+// LIFERAY-SERVICE-BUILDER-HASH:932234357

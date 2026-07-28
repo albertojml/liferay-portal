@@ -445,4 +445,4 @@ public abstract class CTCommentLocalServiceBaseImpl
 		CTCommentLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1180797920
+// LIFERAY-SERVICE-BUILDER-HASH:2035922314

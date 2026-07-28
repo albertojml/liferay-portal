@@ -666,4 +666,4 @@ public abstract class ClientExtensionEntryLocalServiceBaseImpl
 		ClientExtensionEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:207991756
+// LIFERAY-SERVICE-BUILDER-HASH:402507572

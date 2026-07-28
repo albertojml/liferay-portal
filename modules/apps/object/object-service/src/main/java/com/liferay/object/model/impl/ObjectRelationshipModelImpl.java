@@ -1712,4 +1712,4 @@ public class ObjectRelationshipModelImpl
 	private ObjectRelationship _escapedModel;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-2089503976
+// LIFERAY-SERVICE-BUILDER-HASH:237916908

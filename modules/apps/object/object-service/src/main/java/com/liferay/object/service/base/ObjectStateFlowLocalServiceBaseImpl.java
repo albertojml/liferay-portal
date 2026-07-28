@@ -561,4 +561,4 @@ public abstract class ObjectStateFlowLocalServiceBaseImpl
 		ObjectStateFlowLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-13300389
+// LIFERAY-SERVICE-BUILDER-HASH:1217301619

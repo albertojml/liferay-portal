@@ -561,4 +561,4 @@ public abstract class ObjectLayoutTabLocalServiceBaseImpl
 		ObjectLayoutTabLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-843099521
+// LIFERAY-SERVICE-BUILDER-HASH:1404632543

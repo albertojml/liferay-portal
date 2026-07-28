@@ -125,4 +125,4 @@ public abstract class AudiencesEntryServiceBaseImpl
 		AudiencesEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-559170015
+// LIFERAY-SERVICE-BUILDER-HASH:1008429807

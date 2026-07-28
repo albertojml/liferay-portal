@@ -125,4 +125,4 @@ public abstract class AssetListEntryServiceBaseImpl
 		AssetListEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-868035595
+// LIFERAY-SERVICE-BUILDER-HASH:-1871321261

@@ -640,4 +640,4 @@ public abstract class OAuth2ScopeGrantLocalServiceBaseImpl
 		OAuth2ScopeGrantLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1684977716
+// LIFERAY-SERVICE-BUILDER-HASH:-524824298

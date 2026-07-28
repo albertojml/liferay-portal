@@ -601,4 +601,4 @@ public abstract class DDLRecordLocalServiceBaseImpl
 		DDLRecordLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1775937980
+// LIFERAY-SERVICE-BUILDER-HASH:-432003640

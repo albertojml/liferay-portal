@@ -121,4 +121,4 @@ public abstract class ObjectViewColumnServiceBaseImpl
 		ObjectViewColumnServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1685993630
+// LIFERAY-SERVICE-BUILDER-HASH:561563716

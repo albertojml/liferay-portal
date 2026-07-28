@@ -128,4 +128,4 @@ public abstract class CPSpecificationOptionServiceBaseImpl
 		CPSpecificationOptionServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-440690205
+// LIFERAY-SERVICE-BUILDER-HASH:-1124418027

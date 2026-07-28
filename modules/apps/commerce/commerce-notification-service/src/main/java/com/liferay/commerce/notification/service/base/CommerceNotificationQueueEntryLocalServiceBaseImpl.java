@@ -492,4 +492,4 @@ public abstract class CommerceNotificationQueueEntryLocalServiceBaseImpl
 		CommerceNotificationQueueEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1616380628
+// LIFERAY-SERVICE-BUILDER-HASH:1406557276

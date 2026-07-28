@@ -480,4 +480,4 @@ public abstract class SegmentsEntryRoleLocalServiceBaseImpl
 		SegmentsEntryRoleLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:479528485
+// LIFERAY-SERVICE-BUILDER-HASH:265274239

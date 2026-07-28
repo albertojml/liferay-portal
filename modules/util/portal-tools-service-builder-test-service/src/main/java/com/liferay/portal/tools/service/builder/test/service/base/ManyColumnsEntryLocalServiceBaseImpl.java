@@ -516,4 +516,4 @@ public abstract class ManyColumnsEntryLocalServiceBaseImpl
 		ManyColumnsEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1664733680
+// LIFERAY-SERVICE-BUILDER-HASH:-697757074

@@ -594,4 +594,4 @@ public abstract class CPOptionValueLocalServiceBaseImpl
 		CPOptionValueLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:545712180
+// LIFERAY-SERVICE-BUILDER-HASH:1019876362

@@ -109,4 +109,4 @@ public abstract class EROrganizationLocalServiceBaseImpl
 		EROrganizationLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1755740164
+// LIFERAY-SERVICE-BUILDER-HASH:-449197484

@@ -532,4 +532,4 @@ public abstract class RedundantIndexEntryLocalServiceBaseImpl
 		RedundantIndexEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-975425927
+// LIFERAY-SERVICE-BUILDER-HASH:1467164321

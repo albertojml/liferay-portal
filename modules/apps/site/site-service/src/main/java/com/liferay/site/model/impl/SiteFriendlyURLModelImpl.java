@@ -1028,4 +1028,4 @@ public class SiteFriendlyURLModelImpl
 	private SiteFriendlyURL _escapedModel;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-711048546
+// LIFERAY-SERVICE-BUILDER-HASH:1665658478

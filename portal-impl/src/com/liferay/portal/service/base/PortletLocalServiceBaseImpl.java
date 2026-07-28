@@ -496,4 +496,4 @@ public abstract class PortletLocalServiceBaseImpl
 		PortletLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-593064369
+// LIFERAY-SERVICE-BUILDER-HASH:361968429

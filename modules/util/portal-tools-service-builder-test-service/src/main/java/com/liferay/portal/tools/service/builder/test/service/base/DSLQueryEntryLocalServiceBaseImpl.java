@@ -506,4 +506,4 @@ public abstract class DSLQueryEntryLocalServiceBaseImpl
 		DSLQueryEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:243139487
+// LIFERAY-SERVICE-BUILDER-HASH:-412170261

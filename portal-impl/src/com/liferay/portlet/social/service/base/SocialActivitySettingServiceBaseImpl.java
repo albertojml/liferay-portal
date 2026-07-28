@@ -214,4 +214,4 @@ public abstract class SocialActivitySettingServiceBaseImpl
 		SocialActivitySettingServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1622236865
+// LIFERAY-SERVICE-BUILDER-HASH:590034095

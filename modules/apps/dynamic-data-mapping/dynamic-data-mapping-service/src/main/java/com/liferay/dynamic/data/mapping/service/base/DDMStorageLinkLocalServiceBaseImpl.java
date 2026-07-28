@@ -501,4 +501,4 @@ public abstract class DDMStorageLinkLocalServiceBaseImpl
 		DDMStorageLinkLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-944773625
+// LIFERAY-SERVICE-BUILDER-HASH:2064783339

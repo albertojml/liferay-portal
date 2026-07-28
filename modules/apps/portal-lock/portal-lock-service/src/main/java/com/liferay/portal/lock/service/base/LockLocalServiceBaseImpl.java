@@ -468,4 +468,4 @@ public abstract class LockLocalServiceBaseImpl
 		LockLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1043255196
+// LIFERAY-SERVICE-BUILDER-HASH:-121829906

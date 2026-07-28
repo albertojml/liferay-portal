@@ -125,4 +125,4 @@ public abstract class RedirectEntryServiceBaseImpl
 		RedirectEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1017078363
+// LIFERAY-SERVICE-BUILDER-HASH:-1752857

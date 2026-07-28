@@ -461,4 +461,4 @@ public abstract class AssetLinkLocalServiceBaseImpl
 		AssetLinkLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-688152418
+// LIFERAY-SERVICE-BUILDER-HASH:-113965134

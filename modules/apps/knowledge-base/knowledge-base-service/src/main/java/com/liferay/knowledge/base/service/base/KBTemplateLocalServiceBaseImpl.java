@@ -607,4 +607,4 @@ public abstract class KBTemplateLocalServiceBaseImpl
 		KBTemplateLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1738012908
+// LIFERAY-SERVICE-BUILDER-HASH:-671963292

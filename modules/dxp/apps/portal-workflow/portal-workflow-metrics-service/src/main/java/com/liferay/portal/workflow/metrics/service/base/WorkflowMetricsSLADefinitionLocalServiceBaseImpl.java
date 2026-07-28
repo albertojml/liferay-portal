@@ -679,4 +679,4 @@ public abstract class WorkflowMetricsSLADefinitionLocalServiceBaseImpl
 		WorkflowMetricsSLADefinitionLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1636733970
+// LIFERAY-SERVICE-BUILDER-HASH:-1165679510

@@ -129,4 +129,4 @@ public abstract class CalendarBookingServiceBaseImpl
 		CalendarBookingServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-213182413
+// LIFERAY-SERVICE-BUILDER-HASH:-176667781

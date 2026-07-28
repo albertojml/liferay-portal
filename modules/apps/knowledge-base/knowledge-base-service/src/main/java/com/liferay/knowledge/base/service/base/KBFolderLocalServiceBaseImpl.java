@@ -684,4 +684,4 @@ public abstract class KBFolderLocalServiceBaseImpl
 		KBFolderLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-506252156
+// LIFERAY-SERVICE-BUILDER-HASH:-836908586

@@ -462,4 +462,4 @@ public abstract class OpenIdConnectUserLocalServiceBaseImpl
 		OpenIdConnectUserLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:841748854
+// LIFERAY-SERVICE-BUILDER-HASH:-1335585484

@@ -125,4 +125,4 @@ public abstract class DepotEntryGroupRelServiceBaseImpl
 		DepotEntryGroupRelServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1636993635
+// LIFERAY-SERVICE-BUILDER-HASH:1051727199

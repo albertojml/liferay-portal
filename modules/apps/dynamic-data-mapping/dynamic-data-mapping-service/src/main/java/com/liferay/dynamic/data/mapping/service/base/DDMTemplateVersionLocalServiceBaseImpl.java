@@ -482,4 +482,4 @@ public abstract class DDMTemplateVersionLocalServiceBaseImpl
 		DDMTemplateVersionLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1563281478
+// LIFERAY-SERVICE-BUILDER-HASH:-2011891302

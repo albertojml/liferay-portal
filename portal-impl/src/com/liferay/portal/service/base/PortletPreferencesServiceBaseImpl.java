@@ -231,4 +231,4 @@ public abstract class PortletPreferencesServiceBaseImpl
 		PortletPreferencesServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1383602105
+// LIFERAY-SERVICE-BUILDER-HASH:1693678765

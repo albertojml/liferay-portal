@@ -132,4 +132,4 @@ public abstract class CommercePaymentMethodGroupRelQualifierServiceBaseImpl
 		CommercePaymentMethodGroupRelQualifierServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:2039776465
+// LIFERAY-SERVICE-BUILDER-HASH:514427575

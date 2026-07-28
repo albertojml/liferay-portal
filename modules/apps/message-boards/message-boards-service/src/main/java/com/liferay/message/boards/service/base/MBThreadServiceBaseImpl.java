@@ -129,4 +129,4 @@ public abstract class MBThreadServiceBaseImpl
 		MBThreadServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:2042290638
+// LIFERAY-SERVICE-BUILDER-HASH:2040710248

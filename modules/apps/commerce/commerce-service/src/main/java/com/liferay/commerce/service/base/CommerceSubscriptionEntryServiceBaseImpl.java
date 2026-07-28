@@ -134,4 +134,4 @@ public abstract class CommerceSubscriptionEntryServiceBaseImpl
 		CommerceSubscriptionEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-667358405
+// LIFERAY-SERVICE-BUILDER-HASH:-2139056461

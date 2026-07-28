@@ -126,4 +126,4 @@ public abstract class NotificationTemplateServiceBaseImpl
 		NotificationTemplateServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-974859302
+// LIFERAY-SERVICE-BUILDER-HASH:-1989914610

@@ -233,4 +233,4 @@ public abstract class AnnouncementsEntryServiceBaseImpl
 		AnnouncementsEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-549331881
+// LIFERAY-SERVICE-BUILDER-HASH:-1071982679

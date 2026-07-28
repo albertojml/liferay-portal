@@ -130,4 +130,4 @@ public abstract class LayoutUtilityPageEntryServiceBaseImpl
 		LayoutUtilityPageEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-326340359
+// LIFERAY-SERVICE-BUILDER-HASH:-1144355201

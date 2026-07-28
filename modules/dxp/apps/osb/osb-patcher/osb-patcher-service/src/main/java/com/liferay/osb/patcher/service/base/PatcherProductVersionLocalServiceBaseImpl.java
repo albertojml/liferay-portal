@@ -478,4 +478,4 @@ public abstract class PatcherProductVersionLocalServiceBaseImpl
 		PatcherProductVersionLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1747384609
+// LIFERAY-SERVICE-BUILDER-HASH:103151625

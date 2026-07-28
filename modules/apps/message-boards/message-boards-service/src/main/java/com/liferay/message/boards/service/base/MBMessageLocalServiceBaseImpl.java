@@ -709,4 +709,4 @@ public abstract class MBMessageLocalServiceBaseImpl
 		MBMessageLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1357840147
+// LIFERAY-SERVICE-BUILDER-HASH:-832674253

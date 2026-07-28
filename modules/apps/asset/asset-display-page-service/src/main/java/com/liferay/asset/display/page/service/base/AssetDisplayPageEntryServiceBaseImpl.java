@@ -128,4 +128,4 @@ public abstract class AssetDisplayPageEntryServiceBaseImpl
 		AssetDisplayPageEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-779911163
+// LIFERAY-SERVICE-BUILDER-HASH:-186054373

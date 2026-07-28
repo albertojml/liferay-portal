@@ -469,4 +469,4 @@ public abstract class KaleoTaskFormLocalServiceBaseImpl
 		KaleoTaskFormLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-574328064
+// LIFERAY-SERVICE-BUILDER-HASH:-1406326184

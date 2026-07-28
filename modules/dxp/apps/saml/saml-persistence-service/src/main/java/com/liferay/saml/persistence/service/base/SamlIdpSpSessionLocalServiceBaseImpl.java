@@ -461,4 +461,4 @@ public abstract class SamlIdpSpSessionLocalServiceBaseImpl
 		SamlIdpSpSessionLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1129230607
+// LIFERAY-SERVICE-BUILDER-HASH:-100481987

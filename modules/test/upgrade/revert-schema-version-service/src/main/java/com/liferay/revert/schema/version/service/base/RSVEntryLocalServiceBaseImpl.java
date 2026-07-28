@@ -456,4 +456,4 @@ public abstract class RSVEntryLocalServiceBaseImpl
 		RSVEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-812113464
+// LIFERAY-SERVICE-BUILDER-HASH:-71985968

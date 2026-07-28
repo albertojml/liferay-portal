@@ -456,4 +456,4 @@ public abstract class PatcherBuildRelLocalServiceBaseImpl
 		PatcherBuildRelLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-545378433
+// LIFERAY-SERVICE-BUILDER-HASH:-1746292133

@@ -127,4 +127,4 @@ public abstract class AssetCategoryPropertyServiceBaseImpl
 		AssetCategoryPropertyServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-2067292703
+// LIFERAY-SERVICE-BUILDER-HASH:-1469361289

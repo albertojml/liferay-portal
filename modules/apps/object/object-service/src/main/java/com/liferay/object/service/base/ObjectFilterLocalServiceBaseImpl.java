@@ -556,4 +556,4 @@ public abstract class ObjectFilterLocalServiceBaseImpl
 		ObjectFilterLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1731506609
+// LIFERAY-SERVICE-BUILDER-HASH:-711017071

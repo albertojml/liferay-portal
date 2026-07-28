@@ -695,4 +695,4 @@ public abstract class CPInstanceLocalServiceBaseImpl
 		CPInstanceLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:178688863
+// LIFERAY-SERVICE-BUILDER-HASH:-78540693

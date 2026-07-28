@@ -486,4 +486,4 @@ public abstract class BatchEngineImportTaskErrorLocalServiceBaseImpl
 		BatchEngineImportTaskErrorLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:381120189
+// LIFERAY-SERVICE-BUILDER-HASH:1226902627

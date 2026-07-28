@@ -19,7 +19,7 @@ import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntry;
 import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntryVersion;
 import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntryVersionLazyBlobBlobModel;
 import com.liferay.portal.tools.service.builder.test.model.ERCVersionedEntryVersionModel;
-import com.liferay.portal.tools.service.builder.test.service.ERCVersionedEntryVersionLocalServiceUtil;
+import com.liferay.portal.tools.service.builder.test.service.ERCVersionedEntryLocalServiceUtil;
 
 import java.io.Serializable;
 
@@ -506,8 +506,9 @@ public class ERCVersionedEntryVersionModelImpl
 		if (_lazyBlobBlobModel == null) {
 			try {
 				_lazyBlobBlobModel =
-					ERCVersionedEntryVersionLocalServiceUtil.
-						getLazyBlobBlobModel(getPrimaryKey());
+					ERCVersionedEntryLocalServiceUtil.
+						getERCVersionedEntryVersionLazyBlobBlobModel(
+							getPrimaryKey());
 			}
 			catch (Exception exception) {
 			}
@@ -842,4 +843,4 @@ public class ERCVersionedEntryVersionModelImpl
 	private ERCVersionedEntryVersion _escapedModel;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:909031189
+// LIFERAY-SERVICE-BUILDER-HASH:1878051192

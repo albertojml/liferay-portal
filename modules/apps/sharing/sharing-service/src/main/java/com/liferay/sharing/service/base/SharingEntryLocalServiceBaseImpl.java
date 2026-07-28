@@ -635,4 +635,4 @@ public abstract class SharingEntryLocalServiceBaseImpl
 		SharingEntryLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1040736563
+// LIFERAY-SERVICE-BUILDER-HASH:1691086225

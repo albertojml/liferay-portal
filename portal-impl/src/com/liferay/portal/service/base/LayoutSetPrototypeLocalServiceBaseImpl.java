@@ -649,4 +649,4 @@ public abstract class LayoutSetPrototypeLocalServiceBaseImpl
 		LayoutSetPrototypeLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1263199545
+// LIFERAY-SERVICE-BUILDER-HASH:-537929357

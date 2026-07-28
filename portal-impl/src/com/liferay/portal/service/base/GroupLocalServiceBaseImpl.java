@@ -1104,4 +1104,4 @@ public abstract class GroupLocalServiceBaseImpl
 		GroupLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1728160708
+// LIFERAY-SERVICE-BUILDER-HASH:1436573310

@@ -472,4 +472,4 @@ public abstract class SubscriptionLocalServiceBaseImpl
 		SubscriptionLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-716092196
+// LIFERAY-SERVICE-BUILDER-HASH:-672340444

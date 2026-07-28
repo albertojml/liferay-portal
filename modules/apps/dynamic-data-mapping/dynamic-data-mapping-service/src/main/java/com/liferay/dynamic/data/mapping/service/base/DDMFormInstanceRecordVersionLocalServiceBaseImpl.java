@@ -510,4 +510,4 @@ public abstract class DDMFormInstanceRecordVersionLocalServiceBaseImpl
 		DDMFormInstanceRecordVersionLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1892721036
+// LIFERAY-SERVICE-BUILDER-HASH:-885132148

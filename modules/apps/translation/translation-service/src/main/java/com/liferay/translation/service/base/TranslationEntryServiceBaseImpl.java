@@ -125,4 +125,4 @@ public abstract class TranslationEntryServiceBaseImpl
 		TranslationEntryServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1966487331
+// LIFERAY-SERVICE-BUILDER-HASH:-1605510485

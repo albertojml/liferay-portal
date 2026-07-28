@@ -126,4 +126,4 @@ public abstract class CommerceTermEntryRelServiceBaseImpl
 		CommerceTermEntryRelServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:211831735
+// LIFERAY-SERVICE-BUILDER-HASH:-448516455

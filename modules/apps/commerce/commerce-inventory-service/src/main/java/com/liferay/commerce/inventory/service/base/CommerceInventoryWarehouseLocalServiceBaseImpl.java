@@ -617,4 +617,4 @@ public abstract class CommerceInventoryWarehouseLocalServiceBaseImpl
 		CommerceInventoryWarehouseLocalServiceBaseImpl.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:2122814456
+// LIFERAY-SERVICE-BUILDER-HASH:1658880642
