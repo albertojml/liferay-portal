@@ -110,21 +110,47 @@ public class MCPServerTestUtil {
 			ServiceContextTestUtil.getServiceContext());
 	}
 
+	public static ObjectEntry addMCPServerProfileRestrictFieldObjectEntry(
+			String fieldName, String mcpServerProfileExternalReferenceCode,
+			String toolName, String toolSetName)
+		throws Exception {
+
+		ObjectDefinition objectDefinition =
+			ObjectDefinitionLocalServiceUtil.
+				fetchObjectDefinitionByExternalReferenceCode(
+					"L_MCP_SERVER_PROFILE_RESTRICT_FIELD",
+					TestPropsValues.getCompanyId());
+
+		return ObjectEntryLocalServiceUtil.addObjectEntry(
+			0, TestPropsValues.getUserId(),
+			objectDefinition.getObjectDefinitionId(),
+			ObjectEntryFolderConstants.PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
+			null,
+			HashMapBuilder.<String, Serializable>put(
+				"fieldName", fieldName
+			).put(
+				"mcpServerProfileExternalReferenceCode",
+				mcpServerProfileExternalReferenceCode
+			).put(
+				"toolName", toolName
+			).put(
+				"toolSetName", toolSetName
+			).build(),
+			ServiceContextTestUtil.getServiceContext());
+	}
+
 	public static void deleteMCPServerProfileDataMaskObjectEntry(
 			String deleteReason, ObjectEntry objectEntry)
 		throws Exception {
 
-		ObjectEntryLocalServiceUtil.updateObjectEntry(
-			TestPropsValues.getUserId(), objectEntry.getObjectEntryId(), 0,
-			HashMapBuilder.<String, Serializable>putAll(
-				objectEntry.getValues()
-			).put(
-				"deleteReason", deleteReason
-			).build(),
-			ServiceContextTestUtil.getServiceContext());
+		_deleteObjectEntry(deleteReason, objectEntry);
+	}
 
-		ObjectEntryLocalServiceUtil.deleteObjectEntry(
-			objectEntry.getObjectEntryId());
+	public static void deleteMCPServerProfileRestrictFieldObjectEntry(
+			String deleteReason, ObjectEntry objectEntry)
+		throws Exception {
+
+		_deleteObjectEntry(deleteReason, objectEntry);
 	}
 
 	public static ObjectEntry fetchDataMaskObjectEntry(String name)
@@ -179,8 +205,26 @@ public class MCPServerTestUtil {
 			new String[] {
 				prefix + "01.object.definition",
 				prefix + "02.object.definition",
-				prefix + "03.object.definition", prefix + "04.object.entry"
+				prefix + "03.object.definition", prefix + "04.object.entry",
+				prefix + "05.object.definition"
 			});
+	}
+
+	private static void _deleteObjectEntry(
+			String deleteReason, ObjectEntry objectEntry)
+		throws Exception {
+
+		ObjectEntryLocalServiceUtil.updateObjectEntry(
+			TestPropsValues.getUserId(), objectEntry.getObjectEntryId(), 0,
+			HashMapBuilder.<String, Serializable>putAll(
+				objectEntry.getValues()
+			).put(
+				"deleteReason", deleteReason
+			).build(),
+			ServiceContextTestUtil.getServiceContext());
+
+		ObjectEntryLocalServiceUtil.deleteObjectEntry(
+			objectEntry.getObjectEntryId());
 	}
 
 	private static ObjectEntry _fetchObjectEntry(
