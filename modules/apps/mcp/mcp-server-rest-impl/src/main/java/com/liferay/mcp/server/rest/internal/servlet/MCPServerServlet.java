@@ -56,9 +56,12 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.service.component.annotations.Component;
@@ -262,7 +265,10 @@ public class MCPServerServlet extends HttpServlet {
 			Response response = ToolSetUtil.invokeTool(
 				_getDataMaskExternalReferenceCodes(
 					companyId, mcpServerProfileExternalReferenceCode),
-				httpServletRequest, inputObject, toolName, toolSetName);
+				httpServletRequest, inputObject,
+				_getRestrictFieldNamesMap(
+					companyId, mcpServerProfileExternalReferenceCode),
+				toolName, toolSetName);
 
 			int responseCode = response.getStatus();
 			String content = (String)response.getEntity();
@@ -391,6 +397,43 @@ public class MCPServerServlet extends HttpServlet {
 		}
 
 		return null;
+	}
+
+	private Map<String, Set<String>> _getRestrictFieldNamesMap(
+			long companyId, String mcpServerProfileExternalReferenceCode)
+		throws PortalException {
+
+		Map<String, Set<String>> restrictFieldNamesMap = new HashMap<>();
+
+		ObjectDefinition objectDefinition =
+			_objectDefinitionLocalService.
+				fetchObjectDefinitionByExternalReferenceCode(
+					MCPServerConstants.
+						EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_RESTRICT_FIELD,
+					companyId);
+
+		for (Map<String, Serializable> values :
+				_objectEntryLocalService.getValuesList(
+					0, companyId, objectDefinition.getUserId(),
+					objectDefinition.getObjectDefinitionId(),
+					_filterFactory.create(
+						"mcpServerProfileExternalReferenceCode eq '" +
+							mcpServerProfileExternalReferenceCode + "'",
+						objectDefinition),
+					null, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+
+			Set<String> restrictFieldNames =
+				restrictFieldNamesMap.computeIfAbsent(
+					StringBundler.concat(
+						MapUtil.getString(values, "toolSetName"),
+						StringPool.SPACE,
+						MapUtil.getString(values, "toolName")),
+					key -> new LinkedHashSet<>());
+
+			restrictFieldNames.add(MapUtil.getString(values, "fieldName"));
+		}
+
+		return restrictFieldNamesMap;
 	}
 
 	private Servlet _getServlet(
