@@ -122,6 +122,20 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 				dataMaskObjectEntry.getObjectEntryId(), 1,
 				mcpServerProfileObjectEntryExternalReferenceCode);
 
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntryExternalReferenceCode,
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		ObjectEntry mcpServerProfileRestrictFieldObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+				"description", mcpServerProfileToolObjectEntry);
+
+		Assert.assertEquals(
+			1,
+			_getMCPServerProfileRestrictFieldsCount(
+				mcpServerProfileToolObjectEntry));
+
 		try (ConfigurationTemporarySwapper configurationTemporarySwapper =
 				new ConfigurationTemporarySwapper(
 					"com.liferay.portal.security.audit.router.configuration." +
@@ -157,6 +171,16 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 				"MCP server profile was deleted.",
 				MCPServerTestUtil.getAuditedDeleteReason(
 					mcpServerProfileDataMaskObjectEntry));
+
+			Assert.assertEquals(
+				0,
+				_getMCPServerProfileRestrictFieldsCount(
+					mcpServerProfileToolObjectEntry));
+
+			Assert.assertEquals(
+				"MCP server profile was deleted.",
+				MCPServerTestUtil.getAuditedDeleteReason(
+					mcpServerProfileRestrictFieldObjectEntry));
 		}
 	}
 
@@ -200,6 +224,39 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 				mcpServerProfileExternalReferenceCode);
 
 		return mcpServerProfileDataMaskObjectEntries.size();
+	}
+
+	private int _getMCPServerProfileRestrictFieldsCount(
+			ObjectEntry mcpServerProfileToolObjectEntry)
+		throws Exception {
+
+		int count = 0;
+
+		ObjectDefinition objectDefinition =
+			_objectDefinitionLocalService.
+				fetchObjectDefinitionByExternalReferenceCode(
+					"L_MCP_SERVER_PROFILE_RESTRICT_FIELD",
+					TestPropsValues.getCompanyId());
+
+		for (ObjectEntry objectEntry :
+				_objectEntryLocalService.getObjectEntries(
+					0, objectDefinition.getObjectDefinitionId(),
+					QueryUtil.ALL_POS, QueryUtil.ALL_POS)) {
+
+			Map<String, Serializable> values = objectEntry.getValues();
+
+			if (Objects.equals(
+					mcpServerProfileToolObjectEntry.
+						getExternalReferenceCode(),
+					values.get(
+						"r_mcpServerToolToRestrictFields_" +
+							"l_mcpServerProfileToolERC"))) {
+
+				count++;
+			}
+		}
+
+		return count;
 	}
 
 	private static final String[] _SYSTEM_DATA_MASK_EXTERNAL_REFERENCE_CODES = {
