@@ -1,0 +1,116 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2026 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.mcp.server.rest.internal.model.listener.test;
+
+import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.mcp.server.rest.test.util.MCPServerTestUtil;
+import com.liferay.object.model.ObjectEntry;
+import com.liferay.object.service.ObjectEntryLocalService;
+import com.liferay.petra.lang.SafeCloseable;
+import com.liferay.portal.kernel.exception.ModelListenerException;
+import com.liferay.portal.kernel.test.AssertUtils;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.test.rule.FeatureFlag;
+import com.liferay.portal.test.rule.FeatureFlags;
+import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.util.PortalInstances;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/**
+ * @author Alberto Javier Moreno Lage
+ */
+@FeatureFlags(featureFlags = @FeatureFlag("LPD-63311"))
+@RunWith(Arquillian.class)
+public class MCPServerProfileRestrictFieldObjectEntryModelListenerTest {
+
+	@ClassRule
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new LiferayIntegrationTestRule();
+
+	@Before
+	public void setUp() {
+		MCPServerTestUtil.processBatchEngineUnits();
+	}
+
+	@Test
+	public void testOnBeforeRemove() throws Exception {
+		ObjectEntry mcpServerProfileObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileObjectEntry(
+				RandomTestUtil.randomString(), RandomTestUtil.randomString());
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		ObjectEntry mcpServerProfileRestrictFieldObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+				"description", mcpServerProfileToolObjectEntry);
+
+		AssertUtils.assertFailure(
+			ModelListenerException.class,
+			"jakarta.validation.ValidationException: Unable to remove a " +
+				"profile restrict field without a delete reason",
+			() -> _objectEntryLocalService.deleteObjectEntry(
+				mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId()));
+
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId()));
+
+		MCPServerTestUtil.deleteMCPServerProfileRestrictFieldObjectEntry(
+			RandomTestUtil.randomString(),
+			mcpServerProfileRestrictFieldObjectEntry);
+
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId()));
+	}
+
+	@Test
+	public void testOnBeforeRemoveWhenCompanyInDeletionProcess()
+		throws Exception {
+
+		ObjectEntry mcpServerProfileObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileObjectEntry(
+				RandomTestUtil.randomString(), RandomTestUtil.randomString());
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		ObjectEntry mcpServerProfileRestrictFieldObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+				"description", mcpServerProfileToolObjectEntry);
+
+		try (SafeCloseable safeCloseable =
+				PortalInstances.setCompanyInDeletionProcessWithSafeCloseable(
+					TestPropsValues.getCompanyId())) {
+
+			_objectEntryLocalService.deleteObjectEntry(
+				mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId());
+		}
+
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId()));
+	}
+
+	@Inject
+	private ObjectEntryLocalService _objectEntryLocalService;
+
+}
