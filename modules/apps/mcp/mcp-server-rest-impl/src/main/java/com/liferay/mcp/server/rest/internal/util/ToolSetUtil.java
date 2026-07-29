@@ -14,8 +14,12 @@ import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.audit.AuditMessage;
+import com.liferay.portal.kernel.audit.AuditRouter;
+import com.liferay.portal.kernel.audit.AuditRouterUtil;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -63,13 +67,16 @@ import org.osgi.service.jaxrs.runtime.dto.RuntimeDTO;
 public class ToolSetUtil {
 
 	public static Tool getTool(
-		HttpServletRequest httpServletRequest, String toolName,
+		HttpServletRequest httpServletRequest,
+		Map<String, Set<String>> restrictFieldNamesMap, String toolName,
 		String toolSetName) {
 
 		return OpenAPIUtil.getTool(
 			!Objects.equals(toolSetName, _TOOL_SET_NAME),
 			_getOpenAPIJSONObject(
 				_getOpenAPIBrief(toolSetName), httpServletRequest),
+			_getRestrictFieldNames(
+				restrictFieldNamesMap, toolName, toolSetName),
 			toolName);
 	}
 
@@ -105,6 +112,7 @@ public class ToolSetUtil {
 	public static Response invokeTool(
 			List<String> dataMaskExternalReferenceCodes,
 			HttpServletRequest httpServletRequest, Object inputObject,
+			String mcpServerProfileExternalReferenceCode,
 			Map<String, Set<String>> restrictFieldNamesMap, String toolName,
 			String toolSetName)
 		throws Exception {
@@ -126,7 +134,7 @@ public class ToolSetUtil {
 			if (Objects.equals(toolName, "getToolSetToolSetNameTool")) {
 				return _getResponse(
 					getTool(
-						httpServletRequest,
+						httpServletRequest, restrictFieldNamesMap,
 						inputJSONObject.getString("toolName"),
 						inputJSONObject.getString("toolSetName")));
 			}
@@ -147,7 +155,9 @@ public class ToolSetUtil {
 			if (Objects.equals(toolName, "postToolSetToolSetNameToolInvoke")) {
 				return invokeTool(
 					dataMaskExternalReferenceCodes, httpServletRequest,
-					inputJSONObject.opt("body"), restrictFieldNamesMap,
+					inputJSONObject.opt("body"),
+					mcpServerProfileExternalReferenceCode,
+					restrictFieldNamesMap,
 					inputJSONObject.getString("toolName"),
 					inputJSONObject.getString("toolSetName"));
 			}
@@ -157,6 +167,15 @@ public class ToolSetUtil {
 			_vulcanRequestForwarderSnapshot.get();
 
 		OpenAPIBrief openAPIBrief = _getOpenAPIBrief(toolSetName);
+
+		Set<String> restrictFieldNames = _getRestrictFieldNames(
+			restrictFieldNamesMap, toolName, toolSetName);
+
+		if ((restrictFieldNames != null) && !restrictFieldNames.isEmpty()) {
+			_routeAuditMessage(
+				httpServletRequest, mcpServerProfileExternalReferenceCode,
+				restrictFieldNames, toolName, toolSetName);
+		}
 
 		VulcanRequestForwarder.Response response =
 			vulcanRequestForwarder.forward(
@@ -170,9 +189,8 @@ public class ToolSetUtil {
 					).build(),
 					inputJSONObject,
 					_getOpenAPIJSONObject(openAPIBrief, httpServletRequest),
-					_getRestrictFieldNames(
-						restrictFieldNamesMap, toolName, toolSetName),
-					toolName, _getUser(httpServletRequest)));
+					restrictFieldNames, toolName,
+					_getUser(httpServletRequest)));
 
 		String content = response.getContent();
 
@@ -456,6 +474,47 @@ public class ToolSetUtil {
 		}
 
 		return openAPIPath.substring(0, index);
+	}
+
+	private static void _routeAuditMessage(
+		HttpServletRequest httpServletRequest,
+		String mcpServerProfileExternalReferenceCode,
+		Set<String> restrictFieldNames, String toolName, String toolSetName) {
+
+		AuditRouter auditRouter = AuditRouterUtil.getAuditRouter();
+
+		if (auditRouter == null) {
+			return;
+		}
+
+		try {
+			User user = _getUser(httpServletRequest);
+
+			auditRouter.route(
+				new AuditMessage(
+					0, (user != null) ? user.getCompanyId() : 0,
+					(user != null) ? user.getUserId() : 0,
+					(user != null) ? user.getFullName() : null, null,
+					JSONUtil.put(
+						"mcpServerProfileExternalReferenceCode",
+						mcpServerProfileExternalReferenceCode
+					).put(
+						"restrictFieldNames",
+						StringUtil.merge(restrictFieldNames, StringPool.COMMA)
+					).put(
+						"toolName", toolName
+					).put(
+						"toolSetName", toolSetName
+					),
+					"L_MCP_SERVER_PROFILE_RESTRICT_FIELD", null,
+					"RESTRICT_FIELDS",
+					"Restricted fields were excluded from the tool response."));
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn("Unable to route audit message", exception);
+			}
+		}
 	}
 
 	private static final String _TOOL_SET_NAME = "mcp-server-v1.0";

@@ -150,6 +150,10 @@ public class MCPServerServlet extends HttpServlet {
 		String mcpServerProfileExternalReferenceCode =
 			mcpServerProfileObjectEntry.getExternalReferenceCode();
 
+		Map<String, Set<String>> restrictFieldNamesMap =
+			_getRestrictFieldNamesMap(
+				companyId, mcpServerProfileExternalReferenceCode);
+
 		HttpServletStatelessServerTransport
 			httpServletStatelessServerTransport =
 				HttpServletStatelessServerTransport.builder(
@@ -182,7 +186,8 @@ public class MCPServerServlet extends HttpServlet {
 						return new McpStatelessServerFeatures.
 							SyncToolSpecification(
 								_getTool(
-									httpServletRequest, toolName, toolSetName),
+									httpServletRequest, restrictFieldNamesMap,
+									toolName, toolSetName),
 								(mcpTransportContext, callToolRequest) -> _call(
 									mcpTransportContext,
 									callToolRequest.arguments(), companyId,
@@ -266,6 +271,7 @@ public class MCPServerServlet extends HttpServlet {
 				_getDataMaskExternalReferenceCodes(
 					companyId, mcpServerProfileExternalReferenceCode),
 				httpServletRequest, inputObject,
+				mcpServerProfileExternalReferenceCode,
 				_getRestrictFieldNamesMap(
 					companyId, mcpServerProfileExternalReferenceCode),
 				toolName, toolSetName);
@@ -400,8 +406,7 @@ public class MCPServerServlet extends HttpServlet {
 	}
 
 	private Map<String, Set<String>> _getRestrictFieldNamesMap(
-			long companyId, String mcpServerProfileExternalReferenceCode)
-		throws PortalException {
+		long companyId, String mcpServerProfileExternalReferenceCode) {
 
 		Map<String, Set<String>> restrictFieldNamesMap = new HashMap<>();
 
@@ -412,25 +417,33 @@ public class MCPServerServlet extends HttpServlet {
 						EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_RESTRICT_FIELD,
 					companyId);
 
-		for (Map<String, Serializable> values :
-				_objectEntryLocalService.getValuesList(
-					0, companyId, objectDefinition.getUserId(),
-					objectDefinition.getObjectDefinitionId(),
-					_filterFactory.create(
-						"mcpServerProfileExternalReferenceCode eq '" +
-							mcpServerProfileExternalReferenceCode + "'",
-						objectDefinition),
-					null, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
+		try {
+			for (Map<String, Serializable> values :
+					_objectEntryLocalService.getValuesList(
+						0, companyId, objectDefinition.getUserId(),
+						objectDefinition.getObjectDefinitionId(),
+						_filterFactory.create(
+							"mcpServerProfileExternalReferenceCode eq '" +
+								mcpServerProfileExternalReferenceCode + "'",
+							objectDefinition),
+						null, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 
-			Set<String> restrictFieldNames =
-				restrictFieldNamesMap.computeIfAbsent(
-					StringBundler.concat(
-						MapUtil.getString(values, "toolSetName"),
-						StringPool.SPACE,
-						MapUtil.getString(values, "toolName")),
-					key -> new LinkedHashSet<>());
+				Set<String> restrictFieldNames =
+					restrictFieldNamesMap.computeIfAbsent(
+						StringBundler.concat(
+							MapUtil.getString(values, "toolSetName"),
+							StringPool.SPACE,
+							MapUtil.getString(values, "toolName")),
+						key -> new LinkedHashSet<>());
 
-			restrictFieldNames.add(MapUtil.getString(values, "fieldName"));
+				restrictFieldNames.add(MapUtil.getString(values, "fieldName"));
+			}
+		}
+		catch (PortalException portalException) {
+			_log.error(
+				"Unable to get restrict field names for profile " +
+					mcpServerProfileExternalReferenceCode,
+				portalException);
 		}
 
 		return restrictFieldNamesMap;
@@ -494,12 +507,14 @@ public class MCPServerServlet extends HttpServlet {
 	}
 
 	private McpSchema.Tool _getTool(
-		HttpServletRequest httpServletRequest, String toolName,
+		HttpServletRequest httpServletRequest,
+		Map<String, Set<String>> restrictFieldNamesMap, String toolName,
 		String toolSetName) {
 
 		try {
 			Tool tool = ToolSetUtil.getTool(
-				httpServletRequest, toolName, toolSetName);
+				httpServletRequest, restrictFieldNamesMap, toolName,
+				toolSetName);
 
 			return McpSchema.Tool.builder(
 			).description(
