@@ -6,17 +6,24 @@
 package com.liferay.mcp.server.rest.internal.model.listener;
 
 import com.liferay.mcp.server.rest.internal.constants.MCPServerConstants;
+import com.liferay.mcp.server.rest.internal.servlet.MCPServerServlet;
+import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.model.listener.RelevantObjectEntryModelListener;
+import com.liferay.object.service.ObjectDefinitionLocalService;
+import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalInstances;
 
+import jakarta.servlet.Servlet;
+
 import jakarta.validation.ValidationException;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Alberto Javier Moreno Lage
@@ -30,6 +37,28 @@ public class MCPServerProfileRestrictFieldObjectEntryModelListener
 	public String getObjectDefinitionExternalReferenceCode() {
 		return MCPServerConstants.
 			EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_RESTRICT_FIELD;
+	}
+
+	@Override
+	public void onAfterCreate(ObjectEntry objectEntry)
+		throws ModelListenerException {
+
+		_invalidateServlet(objectEntry);
+	}
+
+	@Override
+	public void onAfterRemove(ObjectEntry objectEntry)
+		throws ModelListenerException {
+
+		_invalidateServlet(objectEntry);
+	}
+
+	@Override
+	public void onAfterUpdate(
+			ObjectEntry originalObjectEntry, ObjectEntry objectEntry)
+		throws ModelListenerException {
+
+		_invalidateServlet(objectEntry);
 	}
 
 	@Override
@@ -49,5 +78,46 @@ public class MCPServerProfileRestrictFieldObjectEntryModelListener
 						"delete reason"));
 		}
 	}
+
+	private void _invalidateServlet(ObjectEntry objectEntry) {
+		ObjectDefinition objectDefinition =
+			_objectDefinitionLocalService.
+				fetchObjectDefinitionByExternalReferenceCode(
+					MCPServerConstants.
+						EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE,
+					objectEntry.getCompanyId());
+
+		if (objectDefinition == null) {
+			return;
+		}
+
+		ObjectEntry mcpServerProfileObjectEntry =
+			_objectEntryLocalService.fetchObjectEntry(
+				MapUtil.getString(
+					objectEntry.getValues(),
+					"mcpServerProfileExternalReferenceCode"),
+				0, objectDefinition.getObjectDefinitionId());
+
+		if (mcpServerProfileObjectEntry == null) {
+			return;
+		}
+
+		MCPServerServlet mcpServerServlet = (MCPServerServlet)_servlet;
+
+		mcpServerServlet.invalidate(
+			objectEntry.getCompanyId(),
+			MapUtil.getString(mcpServerProfileObjectEntry.getValues(), "name"));
+	}
+
+	@Reference
+	private ObjectDefinitionLocalService _objectDefinitionLocalService;
+
+	@Reference
+	private ObjectEntryLocalService _objectEntryLocalService;
+
+	@Reference(
+		target = "(osgi.http.whiteboard.servlet.name=com.liferay.mcp.server.rest.internal.servlet.MCPServerServlet)"
+	)
+	private Servlet _servlet;
 
 }
