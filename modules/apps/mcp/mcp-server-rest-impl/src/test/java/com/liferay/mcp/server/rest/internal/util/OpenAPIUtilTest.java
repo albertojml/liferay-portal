@@ -238,12 +238,13 @@ public class OpenAPIUtilTest {
 		AssertUtils.assertFailure(
 			IllegalArgumentException.class,
 			"OpenAPI document has no tool with name \"missing\"",
-			() -> OpenAPIUtil.getTool(true, _openAPIJSONObject, "missing"));
+			() -> OpenAPIUtil.getTool(
+				true, _openAPIJSONObject, null, "missing"));
 		AssertUtils.assertFailure(
 			IllegalArgumentException.class,
 			"OpenAPI document has no \"paths\" object",
 			() -> OpenAPIUtil.getTool(
-				true, JSONFactoryUtil.createJSONObject(),
+				true, JSONFactoryUtil.createJSONObject(), null,
 				RandomTestUtil.randomString()));
 		AssertUtils.assertFailure(
 			IllegalArgumentException.class, "Request body has no content",
@@ -252,6 +253,25 @@ public class OpenAPIUtilTest {
 			IllegalArgumentException.class,
 			"Request body content has no \"schema\"",
 			() -> _getInputSchema(_openAPIJSONObject, "postNoSchema"));
+
+		Tool tool = OpenAPIUtil.getTool(
+			true, _openAPIJSONObject,
+			new LinkedHashSet<>(Arrays.asList("boolean", "object1.name")),
+			"getItems");
+
+		Map<String, ?> inputSchemaMap = tool.getInputSchema();
+
+		Map<String, ?> propertiesMap = (Map<String, ?>)inputSchemaMap.get(
+			"properties");
+
+		Map<String, ?> fieldsMap = (Map<String, ?>)propertiesMap.get("fields");
+
+		Map<String, ?> itemsMap = (Map<String, ?>)fieldsMap.get("items");
+
+		List<String> enumValues = (List<String>)itemsMap.get("enum");
+
+		Assert.assertFalse(enumValues.contains("boolean"));
+		Assert.assertTrue(enumValues.contains("object1"));
 
 		_testGetTool(
 			"This is the description", "get_test_v1.0_items_itemId.json",
@@ -415,7 +435,8 @@ public class OpenAPIUtilTest {
 	private Map<String, ?> _getInputSchema(
 		JSONObject openAPIJSONObject, String toolName) {
 
-		Tool tool = OpenAPIUtil.getTool(true, openAPIJSONObject, toolName);
+		Tool tool = OpenAPIUtil.getTool(
+			true, openAPIJSONObject, null, toolName);
 
 		return tool.getInputSchema();
 	}
@@ -468,7 +489,7 @@ public class OpenAPIUtilTest {
 		throws Exception {
 
 		Tool tool = OpenAPIUtil.getTool(
-			injectVulcanParameters, _openAPIJSONObject, toolName);
+			injectVulcanParameters, _openAPIJSONObject, null, toolName);
 
 		Assert.assertEquals(expectedDescription, tool.getDescription());
 		Assert.assertEquals(toolName, tool.getName());
