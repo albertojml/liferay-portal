@@ -430,9 +430,8 @@ public class MCPServerServlet extends HttpServlet {
 
 				Set<String> restrictFieldNames =
 					restrictFieldNamesMap.computeIfAbsent(
-						StringBundler.concat(
+						ToolSetUtil.getToolKey(
 							MapUtil.getString(values, "toolSetName"),
-							StringPool.SPACE,
 							MapUtil.getString(values, "toolName")),
 						key -> new LinkedHashSet<>());
 
