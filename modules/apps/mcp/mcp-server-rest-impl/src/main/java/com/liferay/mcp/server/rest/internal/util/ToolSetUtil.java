@@ -84,6 +84,10 @@ public class ToolSetUtil {
 			toolName);
 	}
 
+	public static String getToolKey(String toolSetName, String toolName) {
+		return toolSetName + StringPool.SPACE + toolName;
+	}
+
 	public static Page<ToolSet> getToolSetsPage() {
 		Map<String, OpenAPIBrief> openAPIBriefs = _getOpenAPIBriefs();
 
@@ -403,8 +407,7 @@ public class ToolSetUtil {
 			return null;
 		}
 
-		return restrictFieldNamesMap.get(
-			toolSetName + StringPool.SPACE + toolName);
+		return restrictFieldNamesMap.get(getToolKey(toolSetName, toolName));
 	}
 
 	private static Map<String, String> _getToolSetDescriptions() {
