@@ -138,6 +138,48 @@ public class OpenAPIUtilTest {
 			"{}", "application/json", "POST", "/v1.0/items",
 			JSONUtil.put("body", JSONFactoryUtil.createJSONObject()),
 			"postItem");
+		_testGetRequest(
+			JSONUtil.put(
+				"string", "Test"
+			).toString(),
+			"application/json", "POST", "/v1.0/items?restrictFields=boolean",
+			JSONUtil.put(
+				"body",
+				JSONUtil.put(
+					"boolean", true
+				).put(
+					"string", "Test"
+				)),
+			Collections.singleton("boolean"), "postItem");
+		_testGetRequest(
+			JSONUtil.put(
+				"object1", JSONUtil.put("boolean", true)
+			).toString(),
+			"application/json", "POST",
+			"/v1.0/items?restrictFields=object1.string",
+			JSONUtil.put(
+				"body",
+				JSONUtil.put(
+					"object1",
+					JSONUtil.put(
+						"boolean", true
+					).put(
+						"string", "Test"
+					))),
+			Collections.singleton("object1.string"), "postItem");
+		_testGetRequest(
+			JSONUtil.put(
+				"string", "Keep"
+			).toString(),
+			"application/json", "POST", "/v1.0/items?restrictFields=object1",
+			JSONUtil.put(
+				"body",
+				JSONUtil.put(
+					"object1", JSONUtil.put("string", "Test")
+				).put(
+					"string", "Keep"
+				)),
+			Collections.singleton("object1"), "postItem");
 
 		String fileContent = RandomTestUtil.randomString();
 		String fileName = RandomTestUtil.randomString();
@@ -183,6 +225,37 @@ public class OpenAPIUtilTest {
 
 		Assert.assertTrue(fileItem.isFormField());
 		Assert.assertEquals(name, fileItem.getString());
+
+		request = OpenAPIUtil.getRequest(
+			StringPool.BLANK, null,
+			JSONUtil.put(
+				"data",
+				JSONUtil.put(
+					"contentType", "text/plain"
+				).put(
+					"data",
+					() -> {
+						Base64.Encoder encoder = Base64.getEncoder();
+
+						return encoder.encodeToString(fileContent.getBytes());
+					}
+				).put(
+					"filename", fileName
+				)
+			).put(
+				"name", name
+			),
+			_openAPIJSONObject, Collections.singleton("name"), "postBinary",
+			null);
+
+		fileItems = _getFileItems(request);
+
+		Assert.assertEquals(fileItems.toString(), 1, fileItems.size());
+		Assert.assertEquals(
+			"data",
+			fileItems.get(
+				0
+			).getFieldName());
 
 		request = OpenAPIUtil.getRequest(
 			StringPool.BLANK, null,
@@ -272,6 +345,62 @@ public class OpenAPIUtilTest {
 
 		Assert.assertFalse(enumValues.contains("boolean"));
 		Assert.assertTrue(enumValues.contains("object1"));
+
+		Map<String, ?> bodyMap = _getBodyMap(
+			Collections.singleton("string"), "postItem");
+
+		Map<String, ?> bodyPropertiesMap = (Map<String, ?>)bodyMap.get(
+			"properties");
+
+		Assert.assertFalse(
+			bodyPropertiesMap.toString(),
+			bodyPropertiesMap.containsKey("string"));
+		Assert.assertTrue(
+			bodyPropertiesMap.toString(),
+			bodyPropertiesMap.containsKey("boolean"));
+
+		Assert.assertEquals(Collections.emptyList(), bodyMap.get("required"));
+
+		bodyMap = _getBodyMap(Collections.singleton("next.name"), "postLevel");
+
+		bodyPropertiesMap = (Map<String, ?>)bodyMap.get("properties");
+
+		Assert.assertTrue(
+			bodyPropertiesMap.toString(),
+			bodyPropertiesMap.containsKey("name"));
+
+		Map<String, ?> nextMap = (Map<String, ?>)bodyPropertiesMap.get("next");
+
+		Map<String, ?> nextPropertiesMap = (Map<String, ?>)nextMap.get(
+			"properties");
+
+		Assert.assertFalse(
+			nextPropertiesMap.toString(),
+			nextPropertiesMap.containsKey("name"));
+		Assert.assertTrue(
+			nextPropertiesMap.toString(),
+			nextPropertiesMap.containsKey("next"));
+
+		bodyMap = _getBodyMap(Collections.singleton("next"), "postLevel");
+
+		bodyPropertiesMap = (Map<String, ?>)bodyMap.get("properties");
+
+		Assert.assertFalse(
+			bodyPropertiesMap.toString(),
+			bodyPropertiesMap.containsKey("next"));
+		Assert.assertTrue(
+			bodyPropertiesMap.toString(),
+			bodyPropertiesMap.containsKey("name"));
+
+		Map<String, ?> uploadPropertiesMap = _getPropertiesMap(
+			Collections.singleton("string"), "postUpload");
+
+		Assert.assertFalse(
+			uploadPropertiesMap.toString(),
+			uploadPropertiesMap.containsKey("string"));
+		Assert.assertTrue(
+			uploadPropertiesMap.toString(),
+			uploadPropertiesMap.containsKey("boolean"));
 
 		_testGetTool(
 			"This is the description", "get_test_v1.0_items_itemId.json",
@@ -376,6 +505,15 @@ public class OpenAPIUtilTest {
 		Assert.assertEquals(expectedName, toolSummary.getName());
 	}
 
+	private Map<String, ?> _getBodyMap(
+		Set<String> restrictFieldNames, String toolName) {
+
+		Map<String, ?> propertiesMap = _getPropertiesMap(
+			restrictFieldNames, toolName);
+
+		return (Map<String, ?>)propertiesMap.get("body");
+	}
+
 	private FileItem _getFileItem(List<FileItem> fileItems, String fieldName) {
 		for (FileItem fileItem : fileItems) {
 			if (Objects.equals(fileItem.getFieldName(), fieldName)) {
@@ -439,6 +577,17 @@ public class OpenAPIUtilTest {
 			true, openAPIJSONObject, null, toolName);
 
 		return tool.getInputSchema();
+	}
+
+	private Map<String, ?> _getPropertiesMap(
+		Set<String> restrictFieldNames, String toolName) {
+
+		Tool tool = OpenAPIUtil.getTool(
+			true, _openAPIJSONObject, restrictFieldNames, toolName);
+
+		Map<String, ?> inputSchemaMap = tool.getInputSchema();
+
+		return (Map<String, ?>)inputSchemaMap.get("properties");
 	}
 
 	private String _read(String fileName) throws Exception {
