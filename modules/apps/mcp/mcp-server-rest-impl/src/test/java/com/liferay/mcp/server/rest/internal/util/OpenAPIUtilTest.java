@@ -580,6 +580,29 @@ public class OpenAPIUtilTest {
 				JSONFactoryUtil.createJSONObject()));
 	}
 
+	@Test
+	public void testIsRestrictedSearch() {
+		Assert.assertFalse(
+			OpenAPIUtil.isRestrictedSearch(
+				JSONUtil.put("search", "555-1234"), null));
+		Assert.assertFalse(
+			OpenAPIUtil.isRestrictedSearch(
+				JSONUtil.put("search", "555-1234"), Collections.emptySet()));
+		Assert.assertFalse(
+			OpenAPIUtil.isRestrictedSearch(
+				JSONFactoryUtil.createJSONObject(),
+				Collections.singleton("phoneNumber")));
+		Assert.assertFalse(
+			OpenAPIUtil.isRestrictedSearch(
+				JSONUtil.put("search", ""),
+				Collections.singleton("phoneNumber")));
+
+		Assert.assertTrue(
+			OpenAPIUtil.isRestrictedSearch(
+				JSONUtil.put("search", "555-1234"),
+				Collections.singleton("phoneNumber")));
+	}
+
 	private void _assertMultipartContentType(
 		VulcanRequestForwarder.Request request) {
 

@@ -237,6 +237,16 @@ public class OpenAPIUtil {
 		return toolSummaries;
 	}
 
+	public static boolean isRestrictedSearch(
+		JSONObject inputJSONObject, Set<String> restrictFieldNames) {
+
+		if ((restrictFieldNames == null) || restrictFieldNames.isEmpty()) {
+			return false;
+		}
+
+		return Validator.isNotNull(inputJSONObject.getString("search"));
+	}
+
 	private static void _addMultipartParts(
 		JSONObject openAPIJSONObject, JSONObject operationJSONObject,
 		Map<String, Object> properties, List<String> requiredPropertyNames,

@@ -202,6 +202,26 @@ public class ToolSetUtil {
 					"\". Remove them from the query and try again."));
 		}
 
+		if (OpenAPIUtil.isRestrictedSearch(
+				inputJSONObject, restrictFieldNames)) {
+
+			_routeAuditMessage(
+				"BLOCK_RESTRICT_FIELDS", httpServletRequest,
+				mcpServerProfileExternalReferenceCode,
+				"The tool invocation was blocked because a keyword search " +
+					"can match restricted fields.",
+				restrictFieldNames, toolName, toolSetName);
+
+			throw new IllegalArgumentException(
+				StringBundler.concat(
+					"Unable to invoke the \"", toolName,
+					"\" tool with a keyword search because the search can ",
+					"match the restricted fields \"",
+					StringUtil.merge(
+						restrictFieldNames, StringPool.COMMA_AND_SPACE),
+					"\". Remove the search and try again."));
+		}
+
 		VulcanRequestForwarder vulcanRequestForwarder =
 			_vulcanRequestForwarderSnapshot.get();
 
