@@ -166,6 +166,9 @@ public class OpenAPIUtil {
 		restrictedQueryFieldNames.addAll(
 			_getRestrictedFieldNames(
 				inputJSONObject.getString("filter"), restrictFieldNames));
+		restrictedQueryFieldNames.addAll(
+			_getRestrictedFieldNames(
+				inputJSONObject.getString("sort"), restrictFieldNames));
 
 		return restrictedQueryFieldNames;
 	}
