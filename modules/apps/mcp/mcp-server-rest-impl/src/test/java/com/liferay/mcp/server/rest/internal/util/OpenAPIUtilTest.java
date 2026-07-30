@@ -29,11 +29,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
@@ -287,6 +289,42 @@ public class OpenAPIUtilTest {
 			OpenAPIUtil.getRestrictedQueryFieldNames(
 				JSONUtil.put("filter", "name eq 'phoneNumber'"),
 				Collections.singleton("phoneNumber")));
+
+		Assert.assertEquals(
+			Collections.emptySet(),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("sort", "name:asc"),
+				Collections.singleton("phoneNumber")));
+		Assert.assertEquals(
+			Collections.singleton("phoneNumber"),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("sort", "phoneNumber:asc"),
+				Collections.singleton("phoneNumber")));
+		Assert.assertEquals(
+			Collections.singleton("phoneNumber"),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("sort", "name:asc,phoneNumber:desc"),
+				Collections.singleton("phoneNumber")));
+		Assert.assertEquals(
+			Collections.singleton("phoneNumber"),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("sort", "-phoneNumber"),
+				Collections.singleton("phoneNumber")));
+		Assert.assertEquals(
+			Collections.singleton("actions"),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("sort", "actions.delete.method:asc"),
+				Collections.singleton("actions")));
+
+		Assert.assertEquals(
+			new TreeSet<>(Arrays.asList("name", "phoneNumber")),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put(
+					"filter", "phoneNumber eq '555'"
+				).put(
+					"sort", "name:asc"
+				),
+				new HashSet<>(Arrays.asList("name", "phoneNumber"))));
 	}
 
 	@Test
