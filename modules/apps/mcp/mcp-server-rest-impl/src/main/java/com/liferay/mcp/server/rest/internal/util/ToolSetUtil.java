@@ -167,9 +167,6 @@ public class ToolSetUtil {
 			}
 		}
 
-		VulcanRequestForwarder vulcanRequestForwarder =
-			_vulcanRequestForwarderSnapshot.get();
-
 		OpenAPIBrief openAPIBrief = _getOpenAPIBrief(toolSetName);
 
 		Set<String> restrictFieldNames = _getRestrictFieldNames(
@@ -177,9 +174,36 @@ public class ToolSetUtil {
 
 		if ((restrictFieldNames != null) && !restrictFieldNames.isEmpty()) {
 			_routeAuditMessage(
-				httpServletRequest, mcpServerProfileExternalReferenceCode,
+				"RESTRICT_FIELDS", httpServletRequest,
+				mcpServerProfileExternalReferenceCode,
+				"Restricted fields were excluded from the tool response.",
 				restrictFieldNames, toolName, toolSetName);
 		}
+
+		Set<String> restrictedQueryFieldNames =
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				inputJSONObject, restrictFieldNames);
+
+		if (!restrictedQueryFieldNames.isEmpty()) {
+			_routeAuditMessage(
+				"BLOCK_RESTRICT_FIELDS", httpServletRequest,
+				mcpServerProfileExternalReferenceCode,
+				"The tool invocation was blocked because it queries " +
+					"restricted fields.",
+				restrictedQueryFieldNames, toolName, toolSetName);
+
+			throw new IllegalArgumentException(
+				StringBundler.concat(
+					"Unable to invoke the \"", toolName,
+					"\" tool because the query references the restricted ",
+					"fields \"",
+					StringUtil.merge(
+						restrictedQueryFieldNames, StringPool.COMMA_AND_SPACE),
+					"\". Remove them from the query and try again."));
+		}
+
+		VulcanRequestForwarder vulcanRequestForwarder =
+			_vulcanRequestForwarderSnapshot.get();
 
 		VulcanRequestForwarder.Response response =
 			vulcanRequestForwarder.forward(
@@ -480,8 +504,8 @@ public class ToolSetUtil {
 	}
 
 	private static void _routeAuditMessage(
-		HttpServletRequest httpServletRequest,
-		String mcpServerProfileExternalReferenceCode,
+		String eventType, HttpServletRequest httpServletRequest,
+		String mcpServerProfileExternalReferenceCode, String message,
 		Set<String> restrictFieldNames, String toolName, String toolSetName) {
 
 		AuditRouter auditRouter = AuditRouterUtil.getAuditRouter();
@@ -509,9 +533,8 @@ public class ToolSetUtil {
 					).put(
 						"toolSetName", toolSetName
 					),
-					"L_MCP_SERVER_PROFILE_RESTRICT_FIELD", null,
-					"RESTRICT_FIELDS",
-					"Restricted fields were excluded from the tool response."));
+					"L_MCP_SERVER_PROFILE_RESTRICT_FIELD", null, eventType,
+					message));
 		}
 		catch (Exception exception) {
 			if (_log.isWarnEnabled()) {

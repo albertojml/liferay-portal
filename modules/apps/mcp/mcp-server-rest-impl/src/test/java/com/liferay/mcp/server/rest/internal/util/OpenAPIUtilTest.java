@@ -307,6 +307,62 @@ public class OpenAPIUtilTest {
 	}
 
 	@Test
+	public void testGetRestrictedQueryFieldNames() {
+		Assert.assertEquals(
+			Collections.emptySet(),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("filter", "name eq 'John Doe'"), null));
+		Assert.assertEquals(
+			Collections.emptySet(),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("filter", "name eq 'John Doe'"),
+				Collections.emptySet()));
+		Assert.assertEquals(
+			Collections.emptySet(),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONFactoryUtil.createJSONObject(),
+				Collections.singleton("phoneNumber")));
+		Assert.assertEquals(
+			Collections.emptySet(),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("filter", "name eq 'John Doe'"),
+				Collections.singleton("phoneNumber")));
+
+		Assert.assertEquals(
+			Collections.singleton("phoneNumber"),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("filter", "phoneNumber eq '555-1234'"),
+				Collections.singleton("phoneNumber")));
+		Assert.assertEquals(
+			Collections.singleton("phoneNumber"),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("filter", "contains(phoneNumber,'555')"),
+				Collections.singleton("phoneNumber")));
+		Assert.assertEquals(
+			Collections.singleton("phoneNumber"),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("filter", "name eq 'John' and phoneNumber gt '5'"),
+				Collections.singleton("phoneNumber")));
+
+		Assert.assertEquals(
+			Collections.singleton("actions"),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("filter", "actions.delete.method eq 'DELETE'"),
+				Collections.singleton("actions")));
+		Assert.assertEquals(
+			Collections.singleton("actions"),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("filter", "actions/delete/method eq 'DELETE'"),
+				Collections.singleton("actions")));
+
+		Assert.assertEquals(
+			Collections.emptySet(),
+			OpenAPIUtil.getRestrictedQueryFieldNames(
+				JSONUtil.put("filter", "name eq 'phoneNumber'"),
+				Collections.singleton("phoneNumber")));
+	}
+
+	@Test
 	public void testGetTool() throws Exception {
 		AssertUtils.assertFailure(
 			IllegalArgumentException.class,

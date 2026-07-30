@@ -154,6 +154,22 @@ public class OpenAPIUtil {
 		};
 	}
 
+	public static Set<String> getRestrictedQueryFieldNames(
+		JSONObject inputJSONObject, Set<String> restrictFieldNames) {
+
+		Set<String> restrictedQueryFieldNames = new TreeSet<>();
+
+		if ((restrictFieldNames == null) || restrictFieldNames.isEmpty()) {
+			return restrictedQueryFieldNames;
+		}
+
+		restrictedQueryFieldNames.addAll(
+			_getRestrictedFieldNames(
+				inputJSONObject.getString("filter"), restrictFieldNames));
+
+		return restrictedQueryFieldNames;
+	}
+
 	public static Tool getTool(
 		boolean injectVulcanParameters, JSONObject openAPIJSONObject,
 		Set<String> restrictFieldNames, String toolName) {
@@ -1067,6 +1083,46 @@ public class OpenAPIUtil {
 		return sb.toString();
 	}
 
+	private static Set<String> _getReferencedFieldPaths(String expression) {
+		StringBundler sb = new StringBundler();
+
+		boolean quoted = false;
+
+		for (char c : expression.toCharArray()) {
+			if (c == CharPool.APOSTROPHE) {
+				quoted = !quoted;
+
+				sb.append(CharPool.SPACE);
+			}
+			else if (quoted) {
+				sb.append(CharPool.SPACE);
+			}
+			else if (Character.isLetterOrDigit(c) || (c == CharPool.PERIOD) ||
+					 (c == CharPool.UNDERLINE)) {
+
+				sb.append(c);
+			}
+			else if (c == CharPool.SLASH) {
+				sb.append(CharPool.PERIOD);
+			}
+			else {
+				sb.append(CharPool.SPACE);
+			}
+		}
+
+		Set<String> fieldPaths = new HashSet<>();
+
+		for (String fieldPath :
+				StringUtil.split(sb.toString(), CharPool.SPACE)) {
+
+			if (!fieldPath.isEmpty()) {
+				fieldPaths.add(fieldPath);
+			}
+		}
+
+		return fieldPaths;
+	}
+
 	private static JSONObject _getRefJSONObject(
 		String ref, JSONObject openAPIJSONObject) {
 
@@ -1184,6 +1240,29 @@ public class OpenAPIUtil {
 		}
 
 		return responseFieldNames;
+	}
+
+	private static Set<String> _getRestrictedFieldNames(
+		String expression, Set<String> restrictFieldNames) {
+
+		Set<String> restrictedFieldNames = new HashSet<>();
+
+		if (Validator.isNull(expression)) {
+			return restrictedFieldNames;
+		}
+
+		for (String fieldPath : _getReferencedFieldPaths(expression)) {
+			for (String restrictFieldName : restrictFieldNames) {
+				if (fieldPath.equals(restrictFieldName) ||
+					fieldPath.startsWith(
+						restrictFieldName + StringPool.PERIOD)) {
+
+					restrictedFieldNames.add(restrictFieldName);
+				}
+			}
+		}
+
+		return restrictedFieldNames;
 	}
 
 	private static Object _getSchemaObject(
