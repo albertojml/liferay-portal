@@ -1303,9 +1303,12 @@ public class OpenAPIUtil {
 		_removeSchemaRestrictFieldNames(
 			path, restrictFieldNames, schemaMap.get("items"));
 
-		Object propertiesObject = schemaMap.get("properties");
+		Map<String, Object> propertiesMap = (Map<String, Object>)schemaMap.get(
+			"properties");
 
-		Map<String, Object> propertiesMap = (Map<String, Object>)propertiesObject;
+		if (propertiesMap == null) {
+			return;
+		}
 
 		Iterator<Map.Entry<String, Object>> iterator = propertiesMap.entrySet(
 		).iterator();
