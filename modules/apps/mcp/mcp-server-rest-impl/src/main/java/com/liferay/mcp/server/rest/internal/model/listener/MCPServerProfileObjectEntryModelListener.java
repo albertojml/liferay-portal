@@ -83,7 +83,7 @@ public class MCPServerProfileObjectEntryModelListener
 		throws ModelListenerException {
 
 		_deleteMCPServerProfileDataMaskObjectEntries(objectEntry);
-		_deleteMCPServerProfileRestrictFieldObjectEntries(objectEntry);
+		_deleteMCPServerRestrictedFieldObjectEntries(objectEntry);
 	}
 
 	private void _addMCPServerProfileDataMasks(ObjectEntry objectEntry) {
@@ -220,46 +220,44 @@ public class MCPServerProfileObjectEntryModelListener
 		}
 	}
 
-	private void _deleteMCPServerProfileRestrictFieldObjectEntries(
+	private void _deleteMCPServerRestrictedFieldObjectEntries(
 		ObjectEntry objectEntry) {
 
 		for (ObjectEntry mcpServerProfileToolObjectEntry :
 				_getRelatedObjectEntries(
 					objectEntry, "mcpServerProfileToTools")) {
 
-			for (ObjectEntry mcpServerProfileRestrictFieldObjectEntry :
+			for (ObjectEntry mcpServerRestrictedFieldObjectEntry :
 					_getRelatedObjectEntries(
 						mcpServerProfileToolObjectEntry,
-						"mcpServerToolToRestrictFields")) {
+						"mcpServerToolToRestrictedFields")) {
 
 				try {
 					Map<String, Serializable> newValues =
 						HashMapBuilder.<String, Serializable>putAll(
-							mcpServerProfileRestrictFieldObjectEntry.getValues()
+							mcpServerRestrictedFieldObjectEntry.getValues()
 						).put(
 							"deleteReason", "MCP server profile was deleted."
 						).build();
 
 					_objectEntryLocalService.updateObjectEntry(
-						mcpServerProfileRestrictFieldObjectEntry.getUserId(),
-						mcpServerProfileRestrictFieldObjectEntry.
-							getObjectEntryId(),
-						mcpServerProfileRestrictFieldObjectEntry.
+						mcpServerRestrictedFieldObjectEntry.getUserId(),
+						mcpServerRestrictedFieldObjectEntry.getObjectEntryId(),
+						mcpServerRestrictedFieldObjectEntry.
 							getObjectEntryFolderId(),
 						newValues, new ServiceContext());
 
-					mcpServerProfileRestrictFieldObjectEntry.setValues(
-						newValues);
+					mcpServerRestrictedFieldObjectEntry.setValues(newValues);
 
 					_objectEntryLocalService.deleteObjectEntry(
-						mcpServerProfileRestrictFieldObjectEntry);
+						mcpServerRestrictedFieldObjectEntry);
 				}
 				catch (PortalException portalException) {
 					if (_log.isWarnEnabled()) {
 						_log.warn(
 							StringBundler.concat(
 								"Unable to delete object entry ",
-								mcpServerProfileRestrictFieldObjectEntry.
+								mcpServerRestrictedFieldObjectEntry.
 									getObjectEntryId(),
 								" for profile ",
 								objectEntry.getExternalReferenceCode()),
