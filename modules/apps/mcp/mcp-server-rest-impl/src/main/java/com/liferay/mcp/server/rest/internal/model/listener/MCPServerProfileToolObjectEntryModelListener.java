@@ -70,41 +70,41 @@ public class MCPServerProfileToolObjectEntryModelListener
 
 		_invalidateServlet(objectEntry);
 
-		_deleteMCPServerProfileRestrictFieldObjectEntries(objectEntry);
+		_deleteMCPServerRestrictedFieldObjectEntries(objectEntry);
 	}
 
-	private void _deleteMCPServerProfileRestrictFieldObjectEntries(
+	private void _deleteMCPServerRestrictedFieldObjectEntries(
 		ObjectEntry objectEntry) {
 
-		for (ObjectEntry mcpServerProfileRestrictFieldObjectEntry :
-				_getMCPServerProfileRestrictFieldObjectEntries(objectEntry)) {
+		for (ObjectEntry mcpServerRestrictedFieldObjectEntry :
+				_getMCPServerRestrictedFieldObjectEntries(objectEntry)) {
 
 			try {
 				Map<String, Serializable> newValues =
 					HashMapBuilder.<String, Serializable>putAll(
-						mcpServerProfileRestrictFieldObjectEntry.getValues()
+						mcpServerRestrictedFieldObjectEntry.getValues()
 					).put(
 						"deleteReason", "MCP server profile tool was deleted."
 					).build();
 
 				_objectEntryLocalService.updateObjectEntry(
-					mcpServerProfileRestrictFieldObjectEntry.getUserId(),
-					mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId(),
-					mcpServerProfileRestrictFieldObjectEntry.
+					mcpServerRestrictedFieldObjectEntry.getUserId(),
+					mcpServerRestrictedFieldObjectEntry.getObjectEntryId(),
+					mcpServerRestrictedFieldObjectEntry.
 						getObjectEntryFolderId(),
 					newValues, new ServiceContext());
 
-				mcpServerProfileRestrictFieldObjectEntry.setValues(newValues);
+				mcpServerRestrictedFieldObjectEntry.setValues(newValues);
 
 				_objectEntryLocalService.deleteObjectEntry(
-					mcpServerProfileRestrictFieldObjectEntry);
+					mcpServerRestrictedFieldObjectEntry);
 			}
 			catch (PortalException portalException) {
 				if (_log.isWarnEnabled()) {
 					_log.warn(
 						StringBundler.concat(
 							"Unable to delete object entry ",
-							mcpServerProfileRestrictFieldObjectEntry.
+							mcpServerRestrictedFieldObjectEntry.
 								getObjectEntryId(),
 							" for profile tool ",
 							objectEntry.getExternalReferenceCode()),
@@ -114,14 +114,14 @@ public class MCPServerProfileToolObjectEntryModelListener
 		}
 	}
 
-	private List<ObjectEntry> _getMCPServerProfileRestrictFieldObjectEntries(
+	private List<ObjectEntry> _getMCPServerRestrictedFieldObjectEntries(
 		ObjectEntry objectEntry) {
 
 		try {
 			ObjectRelationship objectRelationship =
 				_objectRelationshipLocalService.getObjectRelationship(
 					objectEntry.getObjectDefinitionId(),
-					"mcpServerToolToRestrictFields");
+					"mcpServerToolToRestrictedFields");
 
 			return _objectEntryLocalService.getOneToManyObjectEntries(
 				0, objectRelationship.getObjectRelationshipId(), null, false,
