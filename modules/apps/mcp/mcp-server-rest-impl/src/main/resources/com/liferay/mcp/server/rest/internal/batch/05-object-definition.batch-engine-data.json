@@ -16,13 +16,13 @@
 			"active": true,
 			"className": "com.liferay.object.model.ObjectDefinition#R3F7",
 			"enableObjectEntryHistory": true,
-			"externalReferenceCode": "L_MCP_SERVER_PROFILE_RESTRICT_FIELD",
+			"externalReferenceCode": "L_MCP_SERVER_RESTRICTED_FIELD",
 			"friendlyURLSeparator": "l",
 			"label": {
-				"en_US": "MCP Server Profile Restrict Field"
+				"en_US": "MCP Server Restricted Field"
 			},
 			"modifiable": true,
-			"name": "MCPServerProfileRestrictField",
+			"name": "MCPServerRestrictedField",
 			"objectFields": [
 				{
 					"DBType": "Clob",
@@ -59,7 +59,7 @@
 			],
 			"panelCategoryKey": "control_panel.object",
 			"pluralLabel": {
-				"en_US": "MCP Server Profile Restrict Fields"
+				"en_US": "MCP Server Restricted Fields"
 			},
 			"scope": "company",
 			"status": {

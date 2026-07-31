@@ -126,13 +126,13 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 				mcpServerProfileObjectEntryExternalReferenceCode,
 				"getMCPServerProfilesPage", "mcp-server-profiles");
 
-		ObjectEntry mcpServerProfileRestrictFieldObjectEntry =
-			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+		ObjectEntry mcpServerRestrictedFieldObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"description", mcpServerProfileToolObjectEntry);
 
 		Assert.assertEquals(
 			1,
-			_getMCPServerProfileRestrictFieldsCount(
+			_getMCPServerRestrictedFieldsCount(
 				mcpServerProfileToolObjectEntry));
 
 		try (ConfigurationTemporarySwapper configurationTemporarySwapper =
@@ -173,13 +173,13 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 
 			Assert.assertEquals(
 				0,
-				_getMCPServerProfileRestrictFieldsCount(
+				_getMCPServerRestrictedFieldsCount(
 					mcpServerProfileToolObjectEntry));
 
 			Assert.assertEquals(
 				"MCP server profile was deleted.",
 				MCPServerTestUtil.getAuditedDeleteReason(
-					mcpServerProfileRestrictFieldObjectEntry));
+					mcpServerRestrictedFieldObjectEntry));
 		}
 	}
 
@@ -194,7 +194,7 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 		return mcpServerProfileDataMaskObjectEntries.size();
 	}
 
-	private int _getMCPServerProfileRestrictFieldsCount(
+	private int _getMCPServerRestrictedFieldsCount(
 			ObjectEntry mcpServerProfileToolObjectEntry)
 		throws Exception {
 
@@ -203,7 +203,7 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 		ObjectDefinition objectDefinition =
 			_objectDefinitionLocalService.
 				fetchObjectDefinitionByExternalReferenceCode(
-					"L_MCP_SERVER_PROFILE_RESTRICT_FIELD",
+					"L_MCP_SERVER_RESTRICTED_FIELD",
 					TestPropsValues.getCompanyId());
 
 		for (ObjectEntry objectEntry :
@@ -214,10 +214,9 @@ public class MCPServerProfileObjectEntryModelListenerTest {
 			Map<String, Serializable> values = objectEntry.getValues();
 
 			if (Objects.equals(
-					mcpServerProfileToolObjectEntry.
-						getExternalReferenceCode(),
+					mcpServerProfileToolObjectEntry.getExternalReferenceCode(),
 					values.get(
-						"r_mcpServerToolToRestrictFields_" +
+						"r_mcpServerToolToRestrictedFields_" +
 							"l_mcpServerProfileToolERC"))) {
 
 				count++;

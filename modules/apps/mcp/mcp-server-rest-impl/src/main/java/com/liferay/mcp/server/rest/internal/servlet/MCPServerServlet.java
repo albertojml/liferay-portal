@@ -404,25 +404,6 @@ public class MCPServerServlet extends HttpServlet {
 		return null;
 	}
 
-	private List<ObjectEntry> _getMCPServerProfileRestrictFieldObjectEntries(
-		ObjectEntry mcpServerProfileToolObjectEntry) {
-
-		try {
-			ObjectRelationship objectRelationship =
-				_objectRelationshipLocalService.getObjectRelationship(
-					mcpServerProfileToolObjectEntry.getObjectDefinitionId(),
-					"mcpServerToolToRestrictFields");
-
-			return _objectEntryLocalService.getOneToManyObjectEntries(
-				0, objectRelationship.getObjectRelationshipId(), null, false,
-				mcpServerProfileToolObjectEntry.getObjectEntryId(), true, null,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
-		}
-		catch (PortalException portalException) {
-			throw new RuntimeException(portalException);
-		}
-	}
-
 	private List<ObjectEntry> _getMCPServerProfileToolObjectEntries(
 		ObjectEntry mcpServerProfileObjectEntry) {
 
@@ -442,6 +423,25 @@ public class MCPServerServlet extends HttpServlet {
 		}
 	}
 
+	private List<ObjectEntry> _getMCPServerRestrictedFieldObjectEntries(
+		ObjectEntry mcpServerProfileToolObjectEntry) {
+
+		try {
+			ObjectRelationship objectRelationship =
+				_objectRelationshipLocalService.getObjectRelationship(
+					mcpServerProfileToolObjectEntry.getObjectDefinitionId(),
+					"mcpServerToolToRestrictedFields");
+
+			return _objectEntryLocalService.getOneToManyObjectEntries(
+				0, objectRelationship.getObjectRelationshipId(), null, false,
+				mcpServerProfileToolObjectEntry.getObjectEntryId(), true, null,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		}
+		catch (PortalException portalException) {
+			throw new RuntimeException(portalException);
+		}
+	}
+
 	private Map<String, Set<String>> _getRestrictFieldNamesMap(
 		ObjectEntry mcpServerProfileObjectEntry) {
 
@@ -454,8 +454,8 @@ public class MCPServerServlet extends HttpServlet {
 			Map<String, Serializable> mcpServerProfileToolValues =
 				mcpServerProfileToolObjectEntry.getValues();
 
-			for (ObjectEntry mcpServerProfileRestrictFieldObjectEntry :
-					_getMCPServerProfileRestrictFieldObjectEntries(
+			for (ObjectEntry mcpServerRestrictedFieldObjectEntry :
+					_getMCPServerRestrictedFieldObjectEntries(
 						mcpServerProfileToolObjectEntry)) {
 
 				Set<String> restrictFieldNames =
@@ -469,7 +469,7 @@ public class MCPServerServlet extends HttpServlet {
 
 				restrictFieldNames.add(
 					MapUtil.getString(
-						mcpServerProfileRestrictFieldObjectEntry.getValues(),
+						mcpServerRestrictedFieldObjectEntry.getValues(),
 						"fieldName"));
 			}
 		}

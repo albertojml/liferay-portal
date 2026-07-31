@@ -29,14 +29,14 @@ import org.osgi.service.component.annotations.Reference;
  * @author Alberto Javier Moreno Lage
  */
 @Component(service = RelevantObjectEntryModelListener.class)
-public class MCPServerProfileRestrictFieldObjectEntryModelListener
+public class MCPServerRestrictedFieldObjectEntryModelListener
 	extends BaseModelListener<ObjectEntry>
 	implements RelevantObjectEntryModelListener {
 
 	@Override
 	public String getObjectDefinitionExternalReferenceCode() {
 		return MCPServerConstants.
-			EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_RESTRICT_FIELD;
+			EXTERNAL_REFERENCE_CODE_MCP_SERVER_RESTRICTED_FIELD;
 	}
 
 	@Override
@@ -74,8 +74,8 @@ public class MCPServerProfileRestrictFieldObjectEntryModelListener
 
 			throw new ModelListenerException(
 				new ValidationException(
-					"Unable to remove a profile restrict field without a " +
-						"delete reason"));
+					"Unable to remove a restricted field without a delete " +
+						"reason"));
 		}
 	}
 
@@ -103,7 +103,7 @@ public class MCPServerProfileRestrictFieldObjectEntryModelListener
 			companyId,
 			MapUtil.getString(
 				objectEntry.getValues(),
-				"r_mcpServerToolToRestrictFields_l_mcpServerProfileToolERC"),
+				"r_mcpServerToolToRestrictedFields_l_mcpServerProfileToolERC"),
 			MCPServerConstants.EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_TOOL);
 
 		if (mcpServerProfileToolObjectEntry == null) {

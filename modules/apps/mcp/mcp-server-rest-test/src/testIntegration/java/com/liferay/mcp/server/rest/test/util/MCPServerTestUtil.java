@@ -127,30 +127,6 @@ public class MCPServerTestUtil {
 		return mcpServerProfileObjectEntry;
 	}
 
-	public static ObjectEntry addMCPServerProfileRestrictFieldObjectEntry(
-			String fieldName, ObjectEntry mcpServerProfileToolObjectEntry)
-		throws Exception {
-
-		ObjectDefinition objectDefinition =
-			ObjectDefinitionLocalServiceUtil.
-				fetchObjectDefinitionByExternalReferenceCode(
-					"L_MCP_SERVER_PROFILE_RESTRICT_FIELD",
-					TestPropsValues.getCompanyId());
-
-		return ObjectEntryLocalServiceUtil.addObjectEntry(
-			0, TestPropsValues.getUserId(),
-			objectDefinition.getObjectDefinitionId(),
-			ObjectEntryFolderConstants.PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
-			null,
-			HashMapBuilder.<String, Serializable>put(
-				"fieldName", fieldName
-			).put(
-				"r_mcpServerToolToRestrictFields_l_mcpServerProfileToolId",
-				mcpServerProfileToolObjectEntry.getObjectEntryId()
-			).build(),
-			ServiceContextTestUtil.getServiceContext());
-	}
-
 	public static ObjectEntry addMCPServerProfileToolObjectEntry(
 			String mcpServerProfileExternalReferenceCode, String toolName,
 			String toolSetName)
@@ -217,6 +193,30 @@ public class MCPServerTestUtil {
 			ServiceContextTestUtil.getServiceContext());
 	}
 
+	public static ObjectEntry addMCPServerRestrictedFieldObjectEntry(
+			String fieldName, ObjectEntry mcpServerProfileToolObjectEntry)
+		throws Exception {
+
+		ObjectDefinition objectDefinition =
+			ObjectDefinitionLocalServiceUtil.
+				fetchObjectDefinitionByExternalReferenceCode(
+					"L_MCP_SERVER_RESTRICTED_FIELD",
+					TestPropsValues.getCompanyId());
+
+		return ObjectEntryLocalServiceUtil.addObjectEntry(
+			0, TestPropsValues.getUserId(),
+			objectDefinition.getObjectDefinitionId(),
+			ObjectEntryFolderConstants.PARENT_OBJECT_ENTRY_FOLDER_ID_DEFAULT,
+			null,
+			HashMapBuilder.<String, Serializable>put(
+				"fieldName", fieldName
+			).put(
+				"r_mcpServerToolToRestrictedFields_l_mcpServerProfileToolId",
+				mcpServerProfileToolObjectEntry.getObjectEntryId()
+			).build(),
+			ServiceContextTestUtil.getServiceContext());
+	}
+
 	public static ObjectEntry addSystemDataMaskObjectEntry(
 			String detectionRegex, String externalReferenceCode, String name,
 			String replacementValue)
@@ -263,7 +263,7 @@ public class MCPServerTestUtil {
 		_deleteObjectEntry(deleteReason, objectEntry);
 	}
 
-	public static void deleteMCPServerProfileRestrictFieldObjectEntry(
+	public static void deleteMCPServerRestrictedFieldObjectEntry(
 			String deleteReason, ObjectEntry objectEntry)
 		throws Exception {
 
