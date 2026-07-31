@@ -33,7 +33,7 @@ import org.junit.runner.RunWith;
  */
 @FeatureFlags(featureFlags = @FeatureFlag("LPD-63311"))
 @RunWith(Arquillian.class)
-public class MCPServerProfileRestrictFieldObjectEntryModelListenerTest {
+public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 
 	@ClassRule
 	@Rule
@@ -56,28 +56,28 @@ public class MCPServerProfileRestrictFieldObjectEntryModelListenerTest {
 				mcpServerProfileObjectEntry.getExternalReferenceCode(),
 				"getMCPServerProfilesPage", "mcp-server-profiles");
 
-		ObjectEntry mcpServerProfileRestrictFieldObjectEntry =
-			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+		ObjectEntry mcpServerRestrictedFieldObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"description", mcpServerProfileToolObjectEntry);
 
 		AssertUtils.assertFailure(
 			ModelListenerException.class,
 			"jakarta.validation.ValidationException: Unable to remove a " +
-				"profile restrict field without a delete reason",
+				"restricted field without a delete reason",
 			() -> _objectEntryLocalService.deleteObjectEntry(
-				mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId()));
+				mcpServerRestrictedFieldObjectEntry.getObjectEntryId()));
 
 		Assert.assertNotNull(
 			_objectEntryLocalService.fetchObjectEntry(
-				mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId()));
+				mcpServerRestrictedFieldObjectEntry.getObjectEntryId()));
 
-		MCPServerTestUtil.deleteMCPServerProfileRestrictFieldObjectEntry(
+		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
 			RandomTestUtil.randomString(),
-			mcpServerProfileRestrictFieldObjectEntry);
+			mcpServerRestrictedFieldObjectEntry);
 
 		Assert.assertNull(
 			_objectEntryLocalService.fetchObjectEntry(
-				mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId()));
+				mcpServerRestrictedFieldObjectEntry.getObjectEntryId()));
 	}
 
 	@Test
@@ -93,8 +93,8 @@ public class MCPServerProfileRestrictFieldObjectEntryModelListenerTest {
 				mcpServerProfileObjectEntry.getExternalReferenceCode(),
 				"getMCPServerProfilesPage", "mcp-server-profiles");
 
-		ObjectEntry mcpServerProfileRestrictFieldObjectEntry =
-			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+		ObjectEntry mcpServerRestrictedFieldObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"description", mcpServerProfileToolObjectEntry);
 
 		try (SafeCloseable safeCloseable =
@@ -102,12 +102,12 @@ public class MCPServerProfileRestrictFieldObjectEntryModelListenerTest {
 					TestPropsValues.getCompanyId())) {
 
 			_objectEntryLocalService.deleteObjectEntry(
-				mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId());
+				mcpServerRestrictedFieldObjectEntry.getObjectEntryId());
 		}
 
 		Assert.assertNull(
 			_objectEntryLocalService.fetchObjectEntry(
-				mcpServerProfileRestrictFieldObjectEntry.getObjectEntryId()));
+				mcpServerRestrictedFieldObjectEntry.getObjectEntryId()));
 	}
 
 	@Inject

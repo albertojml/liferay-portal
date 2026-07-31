@@ -1177,10 +1177,10 @@ public class MCPServerServletTest {
 				"getMCPServerProfilesPage", "mcp-server-profiles");
 
 		ObjectEntry creatorGivenNameObjectEntry =
-			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"creator.givenName", mcpServerProfileToolObjectEntry);
 		ObjectEntry descriptionObjectEntry =
-			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"description", mcpServerProfileToolObjectEntry);
 
 		McpSyncClient mcpSyncClient = _getMcpSyncClient(
@@ -1220,7 +1220,7 @@ public class MCPServerServletTest {
 		Assert.assertFalse(itemJSONObject.has("description"));
 
 		ObjectEntry creatorObjectEntry =
-			MCPServerTestUtil.addMCPServerProfileRestrictFieldObjectEntry(
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"creator", mcpServerProfileToolObjectEntry);
 
 		itemJSONObject = _getMCPServerProfileItemJSONObject(
@@ -1232,11 +1232,11 @@ public class MCPServerServletTest {
 		Assert.assertEquals(profileName, itemJSONObject.getString("name"));
 		Assert.assertFalse(itemJSONObject.has("creator"));
 
-		MCPServerTestUtil.deleteMCPServerProfileRestrictFieldObjectEntry(
+		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
 			"Removed by test.", creatorGivenNameObjectEntry);
-		MCPServerTestUtil.deleteMCPServerProfileRestrictFieldObjectEntry(
+		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
 			"Removed by test.", creatorObjectEntry);
-		MCPServerTestUtil.deleteMCPServerProfileRestrictFieldObjectEntry(
+		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
 			"Removed by test.", descriptionObjectEntry);
 
 		itemJSONObject = _getMCPServerProfileItemJSONObject(
