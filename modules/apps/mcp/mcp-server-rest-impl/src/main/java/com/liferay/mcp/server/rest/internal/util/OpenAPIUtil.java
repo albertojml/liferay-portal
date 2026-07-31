@@ -87,19 +87,17 @@ public class OpenAPIUtil {
 						"payload into the input map."));
 			}
 
-			String bodyString = StringPool.BLANK;
-
 			Object bodyObject = inputJSONObject.get("body");
 
-			if (bodyObject instanceof JSONArray ||
-				bodyObject instanceof JSONObject) {
+			if ((bodyObject instanceof JSONArray ||
+				 bodyObject instanceof JSONObject) &&
+				(restrictFieldNames != null) && !restrictFieldNames.isEmpty()) {
 
-				bodyString = String.valueOf(
-					_getBodyObject(bodyObject, restrictFieldNames));
+				_removeBodyRestrictFieldNames(
+					bodyObject, StringPool.BLANK, restrictFieldNames);
 			}
-			else if (bodyObject != null) {
-				bodyString = String.valueOf(bodyObject);
-			}
+
+			String bodyString = String.valueOf(bodyObject);
 
 			body = bodyString.getBytes(StandardCharsets.UTF_8);
 
@@ -531,31 +529,6 @@ public class OpenAPIUtil {
 		).put(
 			"type", "object"
 		).build();
-	}
-
-	private static Object _getBodyObject(
-			Object bodyObject, Set<String> restrictFieldNames)
-		throws Exception {
-
-		if ((restrictFieldNames == null) || restrictFieldNames.isEmpty()) {
-			return bodyObject;
-		}
-
-		Object copyBodyObject = null;
-
-		if (bodyObject instanceof JSONArray) {
-			copyBodyObject = JSONFactoryUtil.createJSONArray(
-				bodyObject.toString());
-		}
-		else {
-			copyBodyObject = JSONFactoryUtil.createJSONObject(
-				bodyObject.toString());
-		}
-
-		_removeBodyRestrictFieldNames(
-			copyBodyObject, StringPool.BLANK, restrictFieldNames);
-
-		return copyBodyObject;
 	}
 
 	private static JSONObject _getBodySchemaJSONObject(
@@ -1424,16 +1397,12 @@ public class OpenAPIUtil {
 
 		Object propertiesObject = schemaMap.get("properties");
 
-		if (!(propertiesObject instanceof Map)) {
-			return;
-		}
+		Map<String, Object> propertiesMap = (Map<String, Object>)propertiesObject;
 
-		Map<String, Object> properties = (Map<String, Object>)propertiesObject;
+		Iterator<Map.Entry<String, Object>> iterator = propertiesMap.entrySet(
+		).iterator();
 
 		Set<String> removedPropertyNames = new HashSet<>();
-
-		Iterator<Map.Entry<String, Object>> iterator = properties.entrySet(
-		).iterator();
 
 		while (iterator.hasNext()) {
 			Map.Entry<String, Object> entry = iterator.next();
