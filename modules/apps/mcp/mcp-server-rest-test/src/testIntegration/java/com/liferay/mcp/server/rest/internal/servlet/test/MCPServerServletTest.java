@@ -584,6 +584,8 @@ public class MCPServerServletTest {
 			String profileName)
 		throws Exception {
 
+		JSONObject mcpServerProfileItemJSONObject = null;
+
 		McpSchema.CallToolResult callToolResult = mcpSyncClient.callTool(
 			new McpSchema.CallToolRequest(
 				"getMCPServerProfilesPage", arguments));
@@ -604,11 +606,17 @@ public class MCPServerServletTest {
 			JSONObject itemJSONObject = itemsJSONArray.getJSONObject(i);
 
 			if (Objects.equals(itemJSONObject.getString("name"), profileName)) {
-				return itemJSONObject;
+				mcpServerProfileItemJSONObject = itemJSONObject;
+
+				break;
 			}
 		}
 
-		return null;
+		Assert.assertNotNull(
+			"MCP server profile \"" + profileName + "\" was not found",
+			mcpServerProfileItemJSONObject);
+
+		return mcpServerProfileItemJSONObject;
 	}
 
 	private McpSyncClient _getMcpSyncClient(
@@ -1190,8 +1198,8 @@ public class MCPServerServletTest {
 
 		List<String> fieldsEnumValues = _getFieldsEnumValues(mcpSyncClient);
 
-		Assert.assertFalse(fieldsEnumValues.contains("description"));
 		Assert.assertTrue(fieldsEnumValues.contains("creator"));
+		Assert.assertFalse(fieldsEnumValues.contains("description"));
 		Assert.assertTrue(fieldsEnumValues.contains("name"));
 
 		JSONObject itemJSONObject = _getMCPServerProfileItemJSONObject(
