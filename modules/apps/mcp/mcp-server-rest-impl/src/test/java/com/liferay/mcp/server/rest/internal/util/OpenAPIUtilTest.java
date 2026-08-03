@@ -68,6 +68,9 @@ public class OpenAPIUtilTest {
 
 	@Test
 	public void testGetRequest() throws Exception {
+
+		// Path and query parameters
+
 		_testGetRequest(
 			null, null, "GET",
 			"/v1.0/items/123?fields=name&restrictFields=actions",
@@ -109,6 +112,9 @@ public class OpenAPIUtilTest {
 		_testGetRequest(
 			null, null, "GET", "/v1.0/items?restrictFields=actions",
 			JSONUtil.put("restrictFields", "name"), "getItems");
+
+		// Restricted fields
+
 		_testGetRequest(
 			null, null, "GET", "/v1.0/items?restrictFields=actions",
 			JSONFactoryUtil.createJSONObject(), Collections.emptySet(),
@@ -145,6 +151,9 @@ public class OpenAPIUtilTest {
 				"itemId", "123"
 			),
 			Collections.singleton("name"), "putItem");
+
+		// Request bodies
+
 		_testGetRequest(
 			JSONUtil.put(
 				"name", "Test"
@@ -160,6 +169,8 @@ public class OpenAPIUtilTest {
 			"{}", "application/json", "POST", "/v1.0/items",
 			JSONUtil.put("body", JSONFactoryUtil.createJSONObject()),
 			"postItem");
+
+		// Multipart requests
 
 		String fileContent = RandomTestUtil.randomString();
 		String fileName = RandomTestUtil.randomString();
@@ -229,6 +240,8 @@ public class OpenAPIUtilTest {
 		Assert.assertEquals("1", _getFileItemValue(fileItems, "integer"));
 		Assert.assertEquals(
 			fileContent, _getFileItemValue(fileItems, "string"));
+
+		// Headers
 
 		Map<String, String> headers = HashMapBuilder.put(
 			RandomTestUtil.randomString(), RandomTestUtil.randomString()

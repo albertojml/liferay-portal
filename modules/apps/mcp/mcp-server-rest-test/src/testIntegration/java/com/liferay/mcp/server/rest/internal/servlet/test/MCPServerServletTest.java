@@ -107,6 +107,9 @@ public class MCPServerServletTest {
 
 	@Test
 	public void testService() throws Exception {
+
+		// MCP server disabled
+
 		Assert.assertEquals(
 			404, HTTPTestUtil.invokeToHttpCode(null, "mcp", Http.Method.GET));
 
@@ -119,6 +122,8 @@ public class MCPServerServletTest {
 						HashMapDictionaryBuilder.<String, Object>put(
 							"enabled", true
 						).build())) {
+
+			// Invalid access tokens
 
 			_assertInvalidTokenChallenge(
 				_getResponse("Bearer " + RandomTestUtil.randomString()),
@@ -146,6 +151,8 @@ public class MCPServerServletTest {
 				_getResponse("Bearer " + invalidAccessToken),
 				"Access token is not bound to this MCP server");
 
+			// Invalid authorization headers
+
 			Http.Response response = _getResponse(null);
 
 			Assert.assertEquals(401, response.getResponseCode());
@@ -165,6 +172,8 @@ public class MCPServerServletTest {
 			_assertInvalidTokenChallenge(
 				_getResponse(RandomTestUtil.randomString()),
 				"Authorization header is not a bearer token");
+
+			// Tools
 
 			String userNameAndPassword =
 				"test@liferay.com:" + PropsValues.DEFAULT_ADMIN_PASSWORD;
@@ -882,6 +891,8 @@ public class MCPServerServletTest {
 
 		mcpSyncClient.initialize();
 
+		// List tools
+
 		McpSchema.ListToolsResult listToolsResult = mcpSyncClient.listTools();
 
 		List<McpSchema.Tool> tools = listToolsResult.tools();
@@ -896,6 +907,8 @@ public class MCPServerServletTest {
 		_assertTool(
 			tools.get(3), "postToolSetToolSetNameToolInvoke",
 			"invoke_tool.json");
+
+		// Get tool sets
 
 		McpSchema.CallToolResult callToolResult = mcpSyncClient.callTool(
 			new McpSchema.CallToolRequest(
@@ -920,6 +933,8 @@ public class MCPServerServletTest {
 			).contains(
 				"mcp-server-profiles"
 			));
+
+		// Get tool summaries
 
 		callToolResult = mcpSyncClient.callTool(
 			new McpSchema.CallToolRequest(
@@ -947,6 +962,8 @@ public class MCPServerServletTest {
 				"getMCPServerProfilesPage"
 			));
 
+		// Get tool
+
 		callToolResult = mcpSyncClient.callTool(
 			new McpSchema.CallToolRequest(
 				"getToolSetToolSetNameTool",
@@ -968,6 +985,8 @@ public class MCPServerServletTest {
 		Assert.assertEquals(
 			"getMCPServerProfilesPage", toolJSONObject.getString("name"));
 		Assert.assertNotNull(toolJSONObject.getJSONObject("inputSchema"));
+
+		// Invoke tools
 
 		callToolResult = mcpSyncClient.callTool(
 			new McpSchema.CallToolRequest(
@@ -1206,11 +1225,15 @@ public class MCPServerServletTest {
 
 		mcpSyncClient.initialize();
 
+		// Input schema
+
 		List<String> fieldsEnumValues = _getFieldsEnumValues(mcpSyncClient);
 
 		Assert.assertTrue(fieldsEnumValues.contains("creator"));
 		Assert.assertFalse(fieldsEnumValues.contains("description"));
 		Assert.assertTrue(fieldsEnumValues.contains("name"));
+
+		// Item responses
 
 		JSONObject itemJSONObject = _getMCPServerProfileItemJSONObject(
 			HashMapBuilder.<String, Object>put(
@@ -1226,6 +1249,8 @@ public class MCPServerServletTest {
 		Assert.assertTrue(creatorJSONObject.has("familyName"));
 		Assert.assertFalse(creatorJSONObject.has("givenName"));
 
+		// Requested fields
+
 		itemJSONObject = _getMCPServerProfileItemJSONObject(
 			HashMapBuilder.<String, Object>put(
 				"fields", "description,name"
@@ -1236,6 +1261,8 @@ public class MCPServerServletTest {
 
 		Assert.assertEquals(profileName, itemJSONObject.getString("name"));
 		Assert.assertFalse(itemJSONObject.has("description"));
+
+		// Write responses
 
 		String entryName = RandomTestUtil.randomString();
 
@@ -1264,6 +1291,8 @@ public class MCPServerServletTest {
 		Assert.assertEquals(entryName, postItemJSONObject.getString("name"));
 		Assert.assertFalse(postItemJSONObject.has("description"));
 
+		// Compound restrictions
+
 		ObjectEntry creatorObjectEntry =
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"creator", getMCPServerProfileToolObjectEntry);
@@ -1280,6 +1309,8 @@ public class MCPServerServletTest {
 
 		Assert.assertEquals(profileName, itemJSONObject.getString("name"));
 		Assert.assertFalse(itemJSONObject.has("creator"));
+
+		// Restriction removal
 
 		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
 			"Removed by test.", creatorGivenNameObjectEntry);
