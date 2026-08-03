@@ -1179,17 +1179,27 @@ public class MCPServerServletTest {
 			MCPServerTestUtil.addMCPServerProfileObjectEntry(
 				description, profileName);
 
-		ObjectEntry mcpServerProfileToolObjectEntry =
+		String mcpServerProfileExternalReferenceCode =
+			mcpServerProfileObjectEntry.getExternalReferenceCode();
+
+		ObjectEntry getMCPServerProfileToolObjectEntry =
 			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
-				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				mcpServerProfileExternalReferenceCode,
 				"getMCPServerProfilesPage", "mcp-server-profiles");
+		ObjectEntry postMCPServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileExternalReferenceCode, "postMCPServerProfile",
+				"mcp-server-profiles");
 
 		ObjectEntry creatorGivenNameObjectEntry =
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
-				"creator.givenName", mcpServerProfileToolObjectEntry);
+				"creator.givenName", getMCPServerProfileToolObjectEntry);
 		ObjectEntry descriptionObjectEntry =
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
-				"description", mcpServerProfileToolObjectEntry);
+				"description", getMCPServerProfileToolObjectEntry);
+		ObjectEntry postDescriptionObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"description", postMCPServerProfileToolObjectEntry);
 
 		McpSyncClient mcpSyncClient = _getMcpSyncClient(
 			authorization, profileName);
@@ -1227,9 +1237,40 @@ public class MCPServerServletTest {
 		Assert.assertEquals(profileName, itemJSONObject.getString("name"));
 		Assert.assertFalse(itemJSONObject.has("description"));
 
+		String entryName = RandomTestUtil.randomString();
+
+		McpSchema.CallToolResult callToolResult = mcpSyncClient.callTool(
+			new McpSchema.CallToolRequest(
+				"postMCPServerProfile",
+				HashMapBuilder.<String, Object>put(
+					"body",
+					HashMapBuilder.<String, Object>put(
+						"description", RandomTestUtil.randomString()
+					).put(
+						"name", entryName
+					).build()
+				).build()));
+
+		List<McpSchema.Content> contents = callToolResult.content();
+
+		McpSchema.TextContent textContent = (McpSchema.TextContent)contents.get(
+			0);
+
+		Assert.assertFalse(textContent.text(), callToolResult.isError());
+
+		JSONObject postItemJSONObject = JSONFactoryUtil.createJSONObject(
+			textContent.text());
+
+		Assert.assertEquals(entryName, postItemJSONObject.getString("name"));
+		Assert.assertFalse(postItemJSONObject.has("description"));
+
 		ObjectEntry creatorObjectEntry =
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
-				"creator", mcpServerProfileToolObjectEntry);
+				"creator", getMCPServerProfileToolObjectEntry);
+
+		fieldsEnumValues = _getFieldsEnumValues(mcpSyncClient);
+
+		Assert.assertFalse(fieldsEnumValues.contains("creator"));
 
 		itemJSONObject = _getMCPServerProfileItemJSONObject(
 			HashMapBuilder.<String, Object>put(
@@ -1246,6 +1287,8 @@ public class MCPServerServletTest {
 			"Removed by test.", creatorObjectEntry);
 		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
 			"Removed by test.", descriptionObjectEntry);
+		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
+			"Removed by test.", postDescriptionObjectEntry);
 
 		itemJSONObject = _getMCPServerProfileItemJSONObject(
 			HashMapBuilder.<String, Object>put(
