@@ -110,14 +110,14 @@ public class OpenAPIUtilTest {
 			null, null, "GET", "/v1.0/items?restrictFields=actions",
 			JSONUtil.put("restrictFields", "name"), "getItems");
 		_testGetRequest(
+			null, null, "GET", "/v1.0/items?restrictFields=actions",
+			JSONFactoryUtil.createJSONObject(), Collections.emptySet(),
+			"getItems");
+		_testGetRequest(
 			null, null, "GET",
 			"/v1.0/items?restrictFields=actions%2Cname%2Cparent.name",
 			JSONFactoryUtil.createJSONObject(),
 			new LinkedHashSet<>(Arrays.asList("name", "parent.name")),
-			"getItems");
-		_testGetRequest(
-			null, null, "GET", "/v1.0/items?restrictFields=actions",
-			JSONFactoryUtil.createJSONObject(), Collections.emptySet(),
 			"getItems");
 		_testGetRequest(
 			"{}", "application/json", "POST", "/v1.0/items?restrictFields=name",
@@ -254,25 +254,6 @@ public class OpenAPIUtilTest {
 			"Request body content has no \"schema\"",
 			() -> _getInputSchema(_openAPIJSONObject, "postNoSchema"));
 
-		Tool tool = OpenAPIUtil.getTool(
-			true, _openAPIJSONObject,
-			new LinkedHashSet<>(Arrays.asList("boolean", "object1.name")),
-			"getItems");
-
-		Map<String, ?> inputSchemaMap = tool.getInputSchema();
-
-		Map<String, ?> propertiesMap = (Map<String, ?>)inputSchemaMap.get(
-			"properties");
-
-		Map<String, ?> fieldsMap = (Map<String, ?>)propertiesMap.get("fields");
-
-		Map<String, ?> itemsMap = (Map<String, ?>)fieldsMap.get("items");
-
-		List<String> enumValues = (List<String>)itemsMap.get("enum");
-
-		Assert.assertFalse(enumValues.contains("boolean"));
-		Assert.assertTrue(enumValues.contains("object1"));
-
 		_testGetTool(
 			"This is the description", "get_test_v1.0_items_itemId.json",
 			"getItem");
@@ -309,6 +290,27 @@ public class OpenAPIUtilTest {
 		_testGetTool(
 			"PUT /v1.0/items/{itemId}", "put_test_v1.0_items_itemId.json",
 			"putItem");
+
+		// Restricted fields
+
+		Tool tool = OpenAPIUtil.getTool(
+			true, _openAPIJSONObject,
+			new LinkedHashSet<>(Arrays.asList("boolean", "object1.name")),
+			"getItems");
+
+		Map<String, ?> inputSchemaMap = tool.getInputSchema();
+
+		Map<String, ?> propertiesMap = (Map<String, ?>)inputSchemaMap.get(
+			"properties");
+
+		Map<String, ?> fieldsMap = (Map<String, ?>)propertiesMap.get("fields");
+
+		Map<String, ?> itemsMap = (Map<String, ?>)fieldsMap.get("items");
+
+		List<String> enumValues = (List<String>)itemsMap.get("enum");
+
+		Assert.assertFalse(enumValues.contains("boolean"));
+		Assert.assertTrue(enumValues.contains("object1"));
 	}
 
 	@Test
