@@ -280,6 +280,8 @@ public class ObjectDefinitionUtil {
 		).put(
 			"MCPServerProfileDataMask", "/mcp/server-profile-data-masks"
 		).put(
+			"MCPServerProfileTool", "/mcp/server-profile-tools"
+		).put(
 			"MCPServerPrompt", "/mcp/server-prompts"
 		).put(
 			"NecessaryCookieEntry", "/necessary-cookies-entries"
