@@ -96,13 +96,15 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 			externalReferenceCode, 0, objectDefinition.getObjectDefinitionId());
 	}
 
-	private void _invalidateServlet(ObjectEntry objectEntry) {
-		long companyId = objectEntry.getCompanyId();
+	private void _invalidateServlet(
+		ObjectEntry mcpServerRestrictedFieldObjectEntry) {
+
+		long companyId = mcpServerRestrictedFieldObjectEntry.getCompanyId();
 
 		ObjectEntry mcpServerProfileToolObjectEntry = _fetchObjectEntry(
 			companyId,
 			MapUtil.getString(
-				objectEntry.getValues(),
+				mcpServerRestrictedFieldObjectEntry.getValues(),
 				"r_mcpServerToolToRestrictedFields_l_mcpServerProfileToolERC"),
 			MCPServerConstants.EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_TOOL);
 
