@@ -86,8 +86,10 @@ public class MCPServerProfileObjectEntryModelListener
 		_deleteMCPServerRestrictedFieldObjectEntries(objectEntry);
 	}
 
-	private void _addMCPServerProfileDataMasks(ObjectEntry objectEntry) {
-		long companyId = objectEntry.getCompanyId();
+	private void _addMCPServerProfileDataMasks(
+		ObjectEntry mcpServerProfileObjectEntry) {
+
+		long companyId = mcpServerProfileObjectEntry.getCompanyId();
 
 		ObjectDefinition dataMaskObjectDefinition =
 			_objectDefinitionLocalService.
@@ -123,7 +125,7 @@ public class MCPServerProfileObjectEntryModelListener
 
 			try {
 				_objectEntryLocalService.addObjectEntry(
-					0, objectEntry.getUserId(),
+					0, mcpServerProfileObjectEntry.getUserId(),
 					mcpServerProfileDataMaskObjectDefinition.
 						getObjectDefinitionId(),
 					ObjectEntryFolderConstants.
@@ -136,7 +138,7 @@ public class MCPServerProfileObjectEntryModelListener
 						"executionOrder", executionOrder
 					).put(
 						"mcpServerProfileExternalReferenceCode",
-						objectEntry.getExternalReferenceCode()
+						mcpServerProfileObjectEntry.getExternalReferenceCode()
 					).build(),
 					new ServiceContext());
 
@@ -148,7 +150,7 @@ public class MCPServerProfileObjectEntryModelListener
 						StringBundler.concat(
 							"Unable to attach system mask \"",
 							values.get("name"), "\" to profile ",
-							objectEntry.getObjectEntryId()),
+							mcpServerProfileObjectEntry.getObjectEntryId()),
 						portalException);
 				}
 			}
@@ -156,20 +158,21 @@ public class MCPServerProfileObjectEntryModelListener
 	}
 
 	private void _deleteMCPServerProfileDataMaskObjectEntries(
-		ObjectEntry objectEntry) {
+		ObjectEntry mcpServerProfileObjectEntry) {
 
 		ObjectDefinition objectDefinition =
 			_objectDefinitionLocalService.
 				fetchObjectDefinitionByExternalReferenceCode(
 					MCPServerConstants.
 						EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_DATA_MASK,
-					objectEntry.getCompanyId());
+					mcpServerProfileObjectEntry.getCompanyId());
 
 		if (objectDefinition == null) {
 			return;
 		}
 
-		String externalReferenceCode = objectEntry.getExternalReferenceCode();
+		String externalReferenceCode =
+			mcpServerProfileObjectEntry.getExternalReferenceCode();
 
 		for (ObjectEntry mcpServerProfileDataMaskObjectEntry :
 				_objectEntryLocalService.getObjectEntries(
@@ -221,11 +224,11 @@ public class MCPServerProfileObjectEntryModelListener
 	}
 
 	private void _deleteMCPServerRestrictedFieldObjectEntries(
-		ObjectEntry objectEntry) {
+		ObjectEntry mcpServerProfileObjectEntry) {
 
 		for (ObjectEntry mcpServerProfileToolObjectEntry :
 				_getRelatedObjectEntries(
-					objectEntry, "mcpServerProfileToTools")) {
+					mcpServerProfileObjectEntry, "mcpServerProfileToTools")) {
 
 			for (ObjectEntry mcpServerRestrictedFieldObjectEntry :
 					_getRelatedObjectEntries(
@@ -260,7 +263,8 @@ public class MCPServerProfileObjectEntryModelListener
 								mcpServerRestrictedFieldObjectEntry.
 									getObjectEntryId(),
 								" for profile ",
-								objectEntry.getExternalReferenceCode()),
+								mcpServerProfileObjectEntry.
+									getExternalReferenceCode()),
 							portalException);
 					}
 				}
@@ -288,11 +292,12 @@ public class MCPServerProfileObjectEntryModelListener
 	}
 
 	private void _invalidateServlet(
-		ObjectEntry objectEntry, String profileName) {
+		ObjectEntry mcpServerProfileObjectEntry, String profileName) {
 
 		MCPServerServlet mcpServerServlet = (MCPServerServlet)_servlet;
 
-		mcpServerServlet.invalidate(objectEntry.getCompanyId(), profileName);
+		mcpServerServlet.invalidate(
+			mcpServerProfileObjectEntry.getCompanyId(), profileName);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
