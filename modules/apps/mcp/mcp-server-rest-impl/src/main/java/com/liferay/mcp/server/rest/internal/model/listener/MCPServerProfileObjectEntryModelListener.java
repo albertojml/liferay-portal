@@ -149,8 +149,11 @@ public class MCPServerProfileObjectEntryModelListener
 					_log.warn(
 						StringBundler.concat(
 							"Unable to attach system mask \"",
-							values.get("name"), "\" to profile ",
-							mcpServerProfileObjectEntry.getObjectEntryId()),
+							dataMaskObjectEntry.getExternalReferenceCode(),
+							"\" to profile \"",
+							mcpServerProfileObjectEntry.
+								getExternalReferenceCode(),
+							"\""),
 						portalException);
 				}
 			}
@@ -215,7 +218,7 @@ public class MCPServerProfileObjectEntryModelListener
 						StringBundler.concat(
 							"Unable to delete object entry ",
 							mcpServerProfileDataMaskObjectEntry.
-								getObjectEntryId(),
+								getExternalReferenceCode(),
 							" for profile ", externalReferenceCode),
 						portalException);
 				}
@@ -261,7 +264,7 @@ public class MCPServerProfileObjectEntryModelListener
 							StringBundler.concat(
 								"Unable to delete object entry ",
 								mcpServerRestrictedFieldObjectEntry.
-									getObjectEntryId(),
+									getExternalReferenceCode(),
 								" for profile ",
 								mcpServerProfileObjectEntry.
 									getExternalReferenceCode()),

@@ -106,7 +106,7 @@ public class MCPServerProfileToolObjectEntryModelListener
 						StringBundler.concat(
 							"Unable to delete object entry ",
 							mcpServerRestrictedFieldObjectEntry.
-								getObjectEntryId(),
+								getExternalReferenceCode(),
 							" for profile tool ",
 							mcpServerProfileToolObjectEntry.
 								getExternalReferenceCode()),
