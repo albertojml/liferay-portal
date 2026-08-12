@@ -65,6 +65,15 @@ public class OpenAPIUtilTest {
 	@Test
 	public void testGetRequest() throws Exception {
 		_testGetRequest(
+			"{}", "application/json", "PATCH",
+			"/v1.0/items/123?restrictFields=name",
+			JSONUtil.put(
+				"body", JSONUtil.put("name", "Test")
+			).put(
+				"itemId", "123"
+			),
+			"name", "patchItem");
+		_testGetRequest(
 			"{}", "application/json", "POST", "/v1.0/items",
 			JSONUtil.put("body", JSONFactoryUtil.createJSONObject()),
 			"postItem");
@@ -72,6 +81,15 @@ public class OpenAPIUtilTest {
 			"{}", "application/json", "POST", "/v1.0/items?restrictFields=name",
 			JSONUtil.put("body", JSONFactoryUtil.createJSONObject()), "name",
 			"postItem");
+		_testGetRequest(
+			"{}", "application/json", "PUT",
+			"/v1.0/items/123?restrictFields=name",
+			JSONUtil.put(
+				"body", JSONUtil.put("name", "Test")
+			).put(
+				"itemId", "123"
+			),
+			"name", "putItem");
 		_testGetRequest(
 			JSONUtil.put(
 				"name", "Test"
@@ -83,28 +101,6 @@ public class OpenAPIUtilTest {
 				"itemId", "123"
 			),
 			"patchItem");
-		_testGetRequest(
-			JSONUtil.put(
-				"name", "Test"
-			).toString(),
-			"application/json", "PATCH", "/v1.0/items/123?restrictFields=name",
-			JSONUtil.put(
-				"body", JSONUtil.put("name", "Test")
-			).put(
-				"itemId", "123"
-			),
-			"name", "patchItem");
-		_testGetRequest(
-			JSONUtil.put(
-				"name", "Test"
-			).toString(),
-			"application/json", "PUT", "/v1.0/items/123?restrictFields=name",
-			JSONUtil.put(
-				"body", JSONUtil.put("name", "Test")
-			).put(
-				"itemId", "123"
-			),
-			"name", "putItem");
 		_testGetRequest(
 			null, null, "GET",
 			"/v1.0/items/123?fields=name&restrictFields=actions",
