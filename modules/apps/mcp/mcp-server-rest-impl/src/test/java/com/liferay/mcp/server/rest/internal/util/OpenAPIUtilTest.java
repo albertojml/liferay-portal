@@ -573,7 +573,7 @@ public class OpenAPIUtilTest {
 
 		throw new IllegalArgumentException(
 			StringBundler.concat(
-				"No part named \"", fieldName, "\" in ", fileItems));
+				"No part named \"", fieldName, "\" was found in ", fileItems));
 	}
 
 	private List<FileItem> _getFileItems(VulcanRequestForwarder.Request request)
