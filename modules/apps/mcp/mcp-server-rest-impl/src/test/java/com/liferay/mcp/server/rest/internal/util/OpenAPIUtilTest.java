@@ -126,10 +126,8 @@ public class OpenAPIUtilTest {
 			new LinkedHashSet<>(Arrays.asList("name", "parent.name")),
 			"getItems");
 		_testGetRequest(
-			JSONUtil.put(
-				"name", "Test"
-			).toString(),
-			"application/json", "PATCH", "/v1.0/items/123?restrictFields=name",
+			"{}", "application/json", "PATCH",
+			"/v1.0/items/123?restrictFields=name",
 			JSONUtil.put(
 				"body", JSONUtil.put("name", "Test")
 			).put(
@@ -141,10 +139,8 @@ public class OpenAPIUtilTest {
 			JSONUtil.put("body", JSONFactoryUtil.createJSONObject()),
 			Collections.singleton("name"), "postItem");
 		_testGetRequest(
-			JSONUtil.put(
-				"name", "Test"
-			).toString(),
-			"application/json", "PUT", "/v1.0/items/123?restrictFields=name",
+			"{}", "application/json", "PUT",
+			"/v1.0/items/123?restrictFields=name",
 			JSONUtil.put(
 				"body", JSONUtil.put("name", "Test")
 			).put(
