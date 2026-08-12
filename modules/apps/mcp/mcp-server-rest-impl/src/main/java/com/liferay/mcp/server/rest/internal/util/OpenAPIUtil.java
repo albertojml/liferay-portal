@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.URLCodec;
 import com.liferay.portal.kernel.util.Validator;
@@ -33,6 +34,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -66,7 +68,8 @@ public class OpenAPIUtil {
 
 		if (_isMultipartRequest(operation._operationJSONObject)) {
 			HttpEntity httpEntity = _getMultipartHttpEntity(
-				inputJSONObject, openAPIJSONObject, operation);
+				inputJSONObject, openAPIJSONObject, operation,
+				restrictFieldNames);
 
 			body = EntityUtils.toByteArray(httpEntity);
 
@@ -85,9 +88,12 @@ public class OpenAPIUtil {
 						"payload into the input map."));
 			}
 
-			String bodyString = StringPool.BLANK;
-
 			Object bodyObject = inputJSONObject.get("body");
+
+			_removeBodyRestrictFieldNames(
+				bodyObject, StringPool.BLANK, restrictFieldNames);
+
+			String bodyString = StringPool.BLANK;
 
 			if (bodyObject instanceof JSONObject) {
 				bodyString = bodyObject.toString();
@@ -215,12 +221,16 @@ public class OpenAPIUtil {
 
 	private static void _addMultipartParts(
 		JSONObject openAPIJSONObject, JSONObject operationJSONObject,
-		Map<String, Object> properties, List<String> requiredPropertyNames) {
+		Map<String, Object> properties, List<String> requiredPropertyNames,
+		Set<String> restrictFieldNames) {
 
 		Map<String, Object> bodySchemaMap =
 			(Map<String, Object>)_getSchemaObject(
 				openAPIJSONObject,
 				_getBodySchemaJSONObject(operationJSONObject), new HashSet<>());
+
+		_removeSchemaRestrictFieldNames(
+			StringPool.BLANK, restrictFieldNames, bodySchemaMap);
 
 		Map<String, Object> bodyProperties =
 			(Map<String, Object>)bodySchemaMap.get("properties");
@@ -569,6 +579,14 @@ public class OpenAPIUtil {
 			Arrays.asList(StringUtil.split((String)value)));
 	}
 
+	private static String _getFieldPath(String name, String path) {
+		if (path.isEmpty()) {
+			return name;
+		}
+
+		return path + StringPool.PERIOD + name;
+	}
+
 	private static Map<String, Object> _getInputSchema(
 		boolean injectVulcanParameters, String method,
 		JSONObject openAPIJSONObject, JSONObject operationJSONObject,
@@ -581,7 +599,7 @@ public class OpenAPIUtil {
 			if (_isMultipartRequest(operationJSONObject)) {
 				_addMultipartParts(
 					openAPIJSONObject, operationJSONObject, properties,
-					requiredPropertyNames);
+					requiredPropertyNames, restrictFieldNames);
 			}
 			else {
 				JSONObject requestBodyJSONObject =
@@ -605,6 +623,9 @@ public class OpenAPIUtil {
 						"type", "object"
 					).build();
 				}
+
+				_removeSchemaRestrictFieldNames(
+					StringPool.BLANK, restrictFieldNames, bodySchemaMap);
 
 				String requestBodyDescription = requestBodyJSONObject.getString(
 					"description");
@@ -669,13 +690,16 @@ public class OpenAPIUtil {
 
 	private static HttpEntity _getMultipartHttpEntity(
 		JSONObject inputJSONObject, JSONObject openAPIJSONObject,
-		Operation operation) {
+		Operation operation, Set<String> restrictFieldNames) {
 
 		Map<String, Object> bodySchemaMap =
 			(Map<String, Object>)_getSchemaObject(
 				openAPIJSONObject,
 				_getBodySchemaJSONObject(operation._operationJSONObject),
 				new HashSet<>());
+
+		_removeSchemaRestrictFieldNames(
+			StringPool.BLANK, restrictFieldNames, bodySchemaMap);
 
 		MultipartEntityBuilder multipartEntityBuilder =
 			MultipartEntityBuilder.create();
@@ -1223,6 +1247,115 @@ public class OpenAPIUtil {
 		}
 
 		return contentJSONObject.has("multipart/form-data");
+	}
+
+	private static void _removeBodyRestrictFieldNames(
+		Object bodyObject, String path, Set<String> restrictFieldNames) {
+
+		if (SetUtil.isEmpty(restrictFieldNames)) {
+			return;
+		}
+
+		if (bodyObject instanceof JSONArray jsonArray) {
+			for (int i = 0; i < jsonArray.length(); i++) {
+				_removeBodyRestrictFieldNames(
+					jsonArray.get(i), path, restrictFieldNames);
+			}
+
+			return;
+		}
+
+		if (!(bodyObject instanceof JSONObject jsonObject)) {
+			return;
+		}
+
+		for (String key : new ArrayList<>(jsonObject.keySet())) {
+			String fieldPath = _getFieldPath(key, path);
+
+			if (restrictFieldNames.contains(fieldPath)) {
+				jsonObject.remove(key);
+
+				continue;
+			}
+
+			_removeBodyRestrictFieldNames(
+				jsonObject.get(key), fieldPath, restrictFieldNames);
+		}
+	}
+
+	private static void _removeSchemaRestrictFieldNames(
+		String path, Set<String> restrictFieldNames, Object schemaObject) {
+
+		if (SetUtil.isEmpty(restrictFieldNames)) {
+			return;
+		}
+
+		if (schemaObject instanceof List) {
+			for (Object object : (List<Object>)schemaObject) {
+				_removeSchemaRestrictFieldNames(
+					path, restrictFieldNames, object);
+			}
+
+			return;
+		}
+
+		if (!(schemaObject instanceof Map)) {
+			return;
+		}
+
+		Map<String, Object> schemaMap = (Map<String, Object>)schemaObject;
+
+		_removeSchemaRestrictFieldNames(
+			path, restrictFieldNames, schemaMap.get("oneOf"));
+		_removeSchemaRestrictFieldNames(
+			path, restrictFieldNames, schemaMap.get("items"));
+
+		Map<String, Object> propertiesMap = (Map<String, Object>)schemaMap.get(
+			"properties");
+
+		if (propertiesMap == null) {
+			return;
+		}
+
+		Set<String> removedPropertyNames = new HashSet<>();
+
+		Iterator<Map.Entry<String, Object>> iterator = propertiesMap.entrySet(
+		).iterator();
+
+		while (iterator.hasNext()) {
+			Map.Entry<String, Object> entry = iterator.next();
+
+			String name = entry.getKey();
+
+			String fieldPath = _getFieldPath(name, path);
+
+			if (restrictFieldNames.contains(fieldPath)) {
+				removedPropertyNames.add(name);
+
+				iterator.remove();
+
+				continue;
+			}
+
+			_removeSchemaRestrictFieldNames(
+				fieldPath, restrictFieldNames, entry.getValue());
+		}
+
+		if (removedPropertyNames.isEmpty()) {
+			return;
+		}
+
+		List<Object> required = (List<Object>)schemaMap.get("required");
+
+		if (required == null) {
+			return;
+		}
+
+		schemaMap.put(
+			"required",
+			ListUtil.filter(
+				TransformUtil.transform(required, String::valueOf),
+				Predicate.not(removedPropertyNames::contains)));
 	}
 
 	private static final String _DESCRIPTION_FIELDS =
