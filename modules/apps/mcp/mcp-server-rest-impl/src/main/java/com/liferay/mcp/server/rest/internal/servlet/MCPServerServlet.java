@@ -289,23 +289,22 @@ public class MCPServerServlet extends HttpServlet {
 				).build();
 			}
 
-			return McpSchema.CallToolResult.builder(
-			).addTextContent(
+			return _getErrorCallToolResult(
 				StringBundler.concat(
-					"Status code: ", responseCode, ", Content:\n", content)
-			).isError(
-				true
-			).build();
+					"Status code: ", responseCode, ", Content:\n", content));
+		}
+		catch (IllegalArgumentException illegalArgumentException) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(illegalArgumentException);
+			}
+
+			return _getErrorCallToolResult(
+				illegalArgumentException.getMessage());
 		}
 		catch (Exception exception) {
 			_log.error(exception);
 
-			return McpSchema.CallToolResult.builder(
-			).addTextContent(
-				exception.getMessage()
-			).isError(
-				true
-			).build();
+			return _getErrorCallToolResult(exception.getMessage());
 		}
 	}
 
@@ -344,6 +343,15 @@ public class MCPServerServlet extends HttpServlet {
 				new Sort[] {new Sort("executionOrder", Sort.INT_TYPE, false)}),
 			values -> MapUtil.getString(
 				values, "dataMaskExternalReferenceCode"));
+	}
+
+	private McpSchema.CallToolResult _getErrorCallToolResult(String content) {
+		return McpSchema.CallToolResult.builder(
+		).addTextContent(
+			content
+		).isError(
+			true
+		).build();
 	}
 
 	private String _getMCPServerProfileName(
