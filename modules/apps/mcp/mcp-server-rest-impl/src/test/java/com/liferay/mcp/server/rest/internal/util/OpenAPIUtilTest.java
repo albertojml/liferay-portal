@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.liferay.mcp.server.rest.dto.v1_0.Tool;
 import com.liferay.mcp.server.rest.dto.v1_0.ToolSummary;
+import com.liferay.mcp.server.rest.internal.exception.RestrictedFieldException;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -835,7 +836,7 @@ public class OpenAPIUtilTest {
 		Set<String> restrictFieldNames, String toolName) {
 
 		AssertUtils.assertFailure(
-			IllegalArgumentException.class, expectedMessage,
+			RestrictedFieldException.class, expectedMessage,
 			() -> OpenAPIUtil.getRequest(
 				StringPool.BLANK, null, inputJSONObject, _openAPIJSONObject,
 				restrictFieldNames, toolName, null));

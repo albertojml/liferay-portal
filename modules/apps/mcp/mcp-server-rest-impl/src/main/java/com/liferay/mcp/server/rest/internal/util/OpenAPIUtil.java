@@ -7,6 +7,7 @@ package com.liferay.mcp.server.rest.internal.util;
 
 import com.liferay.mcp.server.rest.dto.v1_0.Tool;
 import com.liferay.mcp.server.rest.dto.v1_0.ToolSummary;
+import com.liferay.mcp.server.rest.internal.exception.RestrictedFieldException;
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
@@ -1490,7 +1491,7 @@ public class OpenAPIUtil {
 			String name = entry.getKey();
 
 			if (Objects.equals(name, "search")) {
-				throw new IllegalArgumentException(
+				throw new RestrictedFieldException(
 					StringBundler.concat(
 						"The \"search\" parameter cannot be used on the \"",
 						toolName, "\" tool because a keyword match confirms ",
@@ -1513,7 +1514,7 @@ public class OpenAPIUtil {
 				continue;
 			}
 
-			throw new IllegalArgumentException(
+			throw new RestrictedFieldException(
 				StringBundler.concat(
 					"The \"", name, "\" parameter of the \"", toolName,
 					"\" tool references the restricted fields ",

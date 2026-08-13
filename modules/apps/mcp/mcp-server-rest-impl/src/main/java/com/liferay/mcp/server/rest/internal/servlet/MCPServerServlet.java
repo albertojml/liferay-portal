@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.liferay.mcp.server.rest.dto.v1_0.Tool;
 import com.liferay.mcp.server.rest.internal.constants.MCPServerConstants;
+import com.liferay.mcp.server.rest.internal.exception.RestrictedFieldException;
 import com.liferay.mcp.server.rest.internal.util.ToolSetUtil;
 import com.liferay.object.constants.ObjectDefinitionConstants;
 import com.liferay.object.model.ObjectDefinition;
@@ -293,13 +294,13 @@ public class MCPServerServlet extends HttpServlet {
 				StringBundler.concat(
 					"Status code: ", responseCode, ", Content:\n", content));
 		}
-		catch (IllegalArgumentException illegalArgumentException) {
+		catch (RestrictedFieldException restrictedFieldException) {
 			if (_log.isDebugEnabled()) {
-				_log.debug(illegalArgumentException);
+				_log.debug(restrictedFieldException);
 			}
 
 			return _getErrorCallToolResult(
-				illegalArgumentException.getMessage());
+				restrictedFieldException.getMessage());
 		}
 		catch (Exception exception) {
 			_log.error(exception);
