@@ -218,6 +218,21 @@ public class MCPServerServletTest {
 			RandomTestUtil.randomString(), name, tools);
 	}
 
+	private void _assertAllowedQueryParameters(
+		Map<String, Object> arguments, McpSyncClient mcpSyncClient) {
+
+		McpSchema.CallToolResult callToolResult = mcpSyncClient.callTool(
+			new McpSchema.CallToolRequest(
+				"getMCPServerProfilesPage", arguments));
+
+		List<McpSchema.Content> contents = callToolResult.content();
+
+		McpSchema.TextContent textContent = (McpSchema.TextContent)contents.get(
+			0);
+
+		Assert.assertFalse(textContent.text(), callToolResult.isError());
+	}
+
 	private void _assertInvalidTokenChallenge(
 		Http.Response response, String description) {
 
@@ -233,6 +248,23 @@ public class MCPServerServletTest {
 			wwwAuthenticate,
 			wwwAuthenticate.contains(
 				"error_description=\"" + description + "\""));
+	}
+
+	private void _assertRestrictedQueryParameters(
+		Map<String, Object> arguments, String expectedMessage,
+		McpSyncClient mcpSyncClient) {
+
+		McpSchema.CallToolResult callToolResult = mcpSyncClient.callTool(
+			new McpSchema.CallToolRequest(
+				"getMCPServerProfilesPage", arguments));
+
+		List<McpSchema.Content> contents = callToolResult.content();
+
+		McpSchema.TextContent textContent = (McpSchema.TextContent)contents.get(
+			0);
+
+		Assert.assertTrue(textContent.text(), callToolResult.isError());
+		Assert.assertEquals(expectedMessage, textContent.text());
 	}
 
 	private void _assertTool(
@@ -1250,6 +1282,21 @@ public class MCPServerServletTest {
 		Assert.assertFalse(fieldsEnumValues.contains("description"));
 		Assert.assertTrue(fieldsEnumValues.contains("name"));
 
+		JSONObject inputSchemaJSONObject = _getInputSchemaJSONObject(
+			mcpSyncClient, "getMCPServerProfilesPage");
+
+		JSONObject propertiesJSONObject = inputSchemaJSONObject.getJSONObject(
+			"properties");
+
+		Assert.assertFalse(
+			propertiesJSONObject.toString(),
+			propertiesJSONObject.has("search"));
+		Assert.assertTrue(
+			propertiesJSONObject.toString(),
+			propertiesJSONObject.has("filter"));
+		Assert.assertTrue(
+			propertiesJSONObject.toString(), propertiesJSONObject.has("sort"));
+
 		JSONObject bodyJSONObject = JSONUtil.getValueAsJSONObject(
 			_getInputSchemaJSONObject(mcpSyncClient, "postMCPServerProfile"),
 			"JSONObject/properties", "JSONObject/body");
@@ -1316,6 +1363,72 @@ public class MCPServerServletTest {
 
 		Assert.assertEquals(profileName, itemJSONObject.getString("name"));
 		Assert.assertFalse(itemJSONObject.has("description"));
+
+		// Query parameters
+
+		_assertRestrictedQueryParameters(
+			HashMapBuilder.<String, Object>put(
+				"filter", "description eq 'Test'"
+			).build(),
+			StringBundler.concat(
+				"The \"filter\" parameter of the \"getMCPServerProfilesPage\" ",
+				"tool references the restricted fields [description]. Remove ",
+				"them and invoke the tool again."),
+			mcpSyncClient);
+		_assertRestrictedQueryParameters(
+			HashMapBuilder.<String, Object>put(
+				"filter", "creator/givenName eq 'Test'"
+			).build(),
+			StringBundler.concat(
+				"The \"filter\" parameter of the \"getMCPServerProfilesPage\" ",
+				"tool references the restricted fields [creator/givenName]. ",
+				"Remove them and invoke the tool again."),
+			mcpSyncClient);
+		_assertRestrictedQueryParameters(
+			HashMapBuilder.<String, Object>put(
+				"sort", "description:asc"
+			).build(),
+			StringBundler.concat(
+				"The \"sort\" parameter of the \"getMCPServerProfilesPage\" ",
+				"tool references the restricted fields [description]. Remove ",
+				"them and invoke the tool again."),
+			mcpSyncClient);
+		_assertRestrictedQueryParameters(
+			HashMapBuilder.<String, Object>put(
+				"aggregationTerms", Collections.singletonList("description")
+			).build(),
+			StringBundler.concat(
+				"The \"aggregationTerms\" parameter of the ",
+				"\"getMCPServerProfilesPage\" tool references the restricted ",
+				"fields [description]. Remove them and invoke the tool again."),
+			mcpSyncClient);
+		_assertRestrictedQueryParameters(
+			HashMapBuilder.<String, Object>put(
+				"search", "Test"
+			).build(),
+			StringBundler.concat(
+				"The \"search\" parameter cannot be used on the ",
+				"\"getMCPServerProfilesPage\" tool because a keyword match ",
+				"confirms the value of a restricted field even when the field ",
+				"is absent from the response. Narrow the invocation with ",
+				"\"filter\" instead."),
+			mcpSyncClient);
+
+		itemJSONObject = _getMCPServerProfileItemJSONObject(
+			HashMapBuilder.<String, Object>put(
+				"filter", "name eq '" + profileName + "'"
+			).put(
+				"pageSize", "100"
+			).build(),
+			mcpSyncClient, profileName);
+
+		Assert.assertEquals(profileName, itemJSONObject.getString("name"));
+
+		_assertAllowedQueryParameters(
+			HashMapBuilder.<String, Object>put(
+				"filter", "name eq 'description'"
+			).build(),
+			mcpSyncClient);
 
 		// Write requests
 
@@ -1424,6 +1537,22 @@ public class MCPServerServletTest {
 		fieldsEnumValues = _getFieldsEnumValues(mcpSyncClient);
 
 		Assert.assertTrue(fieldsEnumValues.contains("description"));
+
+		inputSchemaJSONObject = _getInputSchemaJSONObject(
+			mcpSyncClient, "getMCPServerProfilesPage");
+
+		propertiesJSONObject = inputSchemaJSONObject.getJSONObject(
+			"properties");
+
+		Assert.assertTrue(
+			propertiesJSONObject.toString(),
+			propertiesJSONObject.has("search"));
+
+		_assertAllowedQueryParameters(
+			HashMapBuilder.<String, Object>put(
+				"search", "Test"
+			).build(),
+			mcpSyncClient);
 
 		mcpSyncClient.closeGracefully();
 	}
