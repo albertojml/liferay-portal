@@ -204,6 +204,116 @@ public class OpenAPIUtilTest {
 					))),
 			Collections.singleton("boolean"), "postBatch");
 
+		// Restricted field queries
+
+		_testGetRequestFailure(
+			StringBundler.concat(
+				"The \"filter\" parameter of the \"getItems\" tool references ",
+				"the restricted fields [string]. Remove them and invoke the ",
+				"tool again."),
+			JSONUtil.put("filter", "string eq 'Test'"),
+			Collections.singleton("string"), "getItems");
+		_testGetRequestFailure(
+			StringBundler.concat(
+				"The \"filter\" parameter of the \"getItems\" tool references ",
+				"the restricted fields [object1/string]. Remove them and ",
+				"invoke the tool again."),
+			JSONUtil.put("filter", "object1/string eq 'Test'"),
+			Collections.singleton("object1.string"), "getItems");
+		_testGetRequestFailure(
+			StringBundler.concat(
+				"The \"filter\" parameter of the \"getItems\" tool references ",
+				"the restricted fields [object1.string]. Remove them and ",
+				"invoke the tool again."),
+			JSONUtil.put("filter", "object1.string eq 'Test'"),
+			Collections.singleton("object1.string"), "getItems");
+		_testGetRequestFailure(
+			StringBundler.concat(
+				"The \"filter\" parameter of the \"getItems\" tool references ",
+				"the restricted fields [object1/object2/boolean]. Remove them ",
+				"and invoke the tool again."),
+			JSONUtil.put("filter", "object1/object2/boolean eq true"),
+			Collections.singleton("object1"), "getItems");
+		_testGetRequestFailure(
+			StringBundler.concat(
+				"The \"filter\" parameter of the \"getItems\" tool references ",
+				"the restricted fields [boolean, string]. Remove them and ",
+				"invoke the tool again."),
+			JSONUtil.put("filter", "string eq 'Test' and boolean eq true"),
+			new LinkedHashSet<>(Arrays.asList("string", "boolean")),
+			"getItems");
+		_testGetRequestFailure(
+			StringBundler.concat(
+				"The \"sort\" parameter of the \"getItems\" tool references ",
+				"the restricted fields [string]. Remove them and invoke the ",
+				"tool again."),
+			JSONUtil.put("sort", "boolean:asc,string:desc"),
+			Collections.singleton("string"), "getItems");
+		_testGetRequestFailure(
+			StringBundler.concat(
+				"The \"sort\" parameter of the \"getItems\" tool references ",
+				"the restricted fields [object1/string]. Remove them and ",
+				"invoke the tool again."),
+			JSONUtil.put("sort", "object1/string"),
+			Collections.singleton("object1"), "getItems");
+		_testGetRequestFailure(
+			StringBundler.concat(
+				"The \"aggregationTerms\" parameter of the \"getItems\" tool ",
+				"references the restricted fields [string]. Remove them and ",
+				"invoke the tool again."),
+			JSONUtil.put(
+				"aggregationTerms", JSONUtil.putAll("boolean", "string")),
+			Collections.singleton("string"), "getItems");
+		_testGetRequestFailure(
+			StringBundler.concat(
+				"The \"aggregationTerms\" parameter of the \"getItems\" tool ",
+				"references the restricted fields [object1/string]. Remove ",
+				"them and invoke the tool again."),
+			JSONUtil.put("aggregationTerms", "boolean,object1/string"),
+			Collections.singleton("object1"), "getItems");
+		_testGetRequestFailure(
+			StringBundler.concat(
+				"The \"search\" parameter cannot be used on the \"getItems\" ",
+				"tool because a keyword match confirms the value of a ",
+				"restricted field even when the field is absent from the ",
+				"response. Narrow the invocation with \"filter\" instead."),
+			JSONUtil.put("search", "Test"), Collections.singleton("boolean"),
+			"getItems");
+
+		_testGetRequest(
+			null, null, "GET",
+			"/v1.0/items?filter=string+eq+%27phoneNumber%27&restrictFields=" +
+				"actions%2CphoneNumber",
+			JSONUtil.put("filter", "string eq 'phoneNumber'"),
+			Collections.singleton("phoneNumber"), "getItems");
+		_testGetRequest(
+			null, null, "GET",
+			"/v1.0/items?filter=string+eq+%27boolean%27%27s%27&" +
+				"restrictFields=actions%2Cboolean",
+			JSONUtil.put("filter", "string eq 'boolean''s'"),
+			Collections.singleton("boolean"), "getItems");
+		_testGetRequest(
+			null, null, "GET",
+			"/v1.0/items?filter=object1%2Fboolean+eq+true&restrictFields=" +
+				"actions%2Cobject1.string",
+			JSONUtil.put("filter", "object1/boolean eq true"),
+			Collections.singleton("object1.string"), "getItems");
+		_testGetRequest(
+			null, null, "GET",
+			"/v1.0/items?sort=boolean%3Aasc&restrictFields=actions%2Cstring",
+			JSONUtil.put("sort", "boolean:asc"),
+			Collections.singleton("string"), "getItems");
+		_testGetRequest(
+			null, null, "GET", "/v1.0/items?search=Test&restrictFields=actions",
+			JSONUtil.put("search", "Test"), Collections.emptySet(), "getItems");
+		_testGetRequest(
+			null, null, "GET", "/v1.0/items?search=Test&restrictFields=actions",
+			JSONUtil.put("search", "Test"), "getItems");
+		_testGetRequest(
+			null, null, "GET",
+			"/v1.0/items?sort=string%3Aasc&restrictFields=actions",
+			JSONUtil.put("sort", "string:asc"), "getItems");
+
 		// Request bodies
 
 		_testGetRequest(
@@ -490,6 +600,31 @@ public class OpenAPIUtilTest {
 			bodyPropertiesMap.toString(),
 			bodyPropertiesMap.containsKey("boolean"));
 
+		// Keyword search
+
+		Map<String, ?> itemsPropertiesMap = _getPropertiesMap(
+			Collections.singleton("boolean"), "getItems");
+
+		Assert.assertFalse(
+			itemsPropertiesMap.toString(),
+			itemsPropertiesMap.containsKey("search"));
+		Assert.assertTrue(
+			itemsPropertiesMap.toString(),
+			itemsPropertiesMap.containsKey("aggregationTerms"));
+		Assert.assertTrue(
+			itemsPropertiesMap.toString(),
+			itemsPropertiesMap.containsKey("filter"));
+		Assert.assertTrue(
+			itemsPropertiesMap.toString(),
+			itemsPropertiesMap.containsKey("sort"));
+
+		itemsPropertiesMap = _getPropertiesMap(
+			Collections.emptySet(), "getItems");
+
+		Assert.assertTrue(
+			itemsPropertiesMap.toString(),
+			itemsPropertiesMap.containsKey("search"));
+
 		Map<String, ?> uploadPropertiesMap = _getPropertiesMap(
 			Collections.singleton("string"), "postUpload");
 
@@ -693,6 +828,17 @@ public class OpenAPIUtilTest {
 		_testGetRequest(
 			expectedBody, expectedContentType, expectedMethod,
 			expectedPathWithQuery, inputJSONObject, null, toolName);
+	}
+
+	private void _testGetRequestFailure(
+		String expectedMessage, JSONObject inputJSONObject,
+		Set<String> restrictFieldNames, String toolName) {
+
+		AssertUtils.assertFailure(
+			IllegalArgumentException.class, expectedMessage,
+			() -> OpenAPIUtil.getRequest(
+				StringPool.BLANK, null, inputJSONObject, _openAPIJSONObject,
+				restrictFieldNames, toolName, null));
 	}
 
 	private void _testGetTool(
