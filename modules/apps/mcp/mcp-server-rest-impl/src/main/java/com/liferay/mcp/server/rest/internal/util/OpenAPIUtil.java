@@ -255,8 +255,8 @@ public class OpenAPIUtil {
 	}
 
 	private static void _addParameter(
-		JSONObject parameterJSONObject, Map<String, Object> properties,
-		List<String> requiredPropertyNames,
+		JSONObject openAPIJSONObject, JSONObject parameterJSONObject,
+		Map<String, Object> properties, List<String> requiredPropertyNames,
 		Collection<String> responseFieldNames,
 		Set<String> visitedParameterNames) {
 
@@ -273,14 +273,9 @@ public class OpenAPIUtil {
 				_DESCRIPTION_FIELDS, responseFieldNames);
 		}
 		else {
-			parameterSchemaMap = new LinkedHashMap<>();
-
-			JSONObject parameterSchemaJSONObject =
-				parameterJSONObject.getJSONObject("schema");
-
-			for (String key : parameterSchemaJSONObject.keySet()) {
-				parameterSchemaMap.put(key, parameterSchemaJSONObject.get(key));
-			}
+			parameterSchemaMap = (Map<String, Object>)_getSchemaObject(
+				openAPIJSONObject, parameterJSONObject.getJSONObject("schema"),
+				new HashSet<>());
 
 			if (parameterJSONObject.has("description")) {
 				parameterSchemaMap.put(
@@ -297,8 +292,8 @@ public class OpenAPIUtil {
 	}
 
 	private static void _addParameters(
-		JSONArray parametersJSONArray, Map<String, Object> properties,
-		List<String> requiredPropertyNames,
+		JSONObject openAPIJSONObject, JSONArray parametersJSONArray,
+		Map<String, Object> properties, List<String> requiredPropertyNames,
 		Collection<String> responseFieldNames,
 		Set<String> visitedParameterNames) {
 
@@ -308,8 +303,8 @@ public class OpenAPIUtil {
 
 		for (int i = 0; i < parametersJSONArray.length(); i++) {
 			_addParameter(
-				parametersJSONArray.getJSONObject(i), properties,
-				requiredPropertyNames, responseFieldNames,
+				openAPIJSONObject, parametersJSONArray.getJSONObject(i),
+				properties, requiredPropertyNames, responseFieldNames,
 				visitedParameterNames);
 		}
 	}
@@ -664,11 +659,12 @@ public class OpenAPIUtil {
 		Set<String> visitedParameterNames = new HashSet<>();
 
 		_addParameters(
-			operationJSONObject.getJSONArray("parameters"), properties,
-			requiredPropertyNames, responseFieldNames, visitedParameterNames);
+			openAPIJSONObject, operationJSONObject.getJSONArray("parameters"),
+			properties, requiredPropertyNames, responseFieldNames,
+			visitedParameterNames);
 		_addParameters(
-			pathParametersJSONArray, properties, requiredPropertyNames,
-			responseFieldNames, visitedParameterNames);
+			openAPIJSONObject, pathParametersJSONArray, properties,
+			requiredPropertyNames, responseFieldNames, visitedParameterNames);
 
 		if (injectVulcanParameters && Objects.equals(method, "get") &&
 			visitedParameterNames.add("fields")) {
