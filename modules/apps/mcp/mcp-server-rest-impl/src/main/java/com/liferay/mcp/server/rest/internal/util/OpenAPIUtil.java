@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -43,6 +44,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -65,6 +68,9 @@ public class OpenAPIUtil {
 		String contentType;
 
 		Operation operation = _getOperation(openAPIJSONObject, toolName);
+
+		_validateQueryParameters(
+			inputJSONObject, operation, restrictFieldNames, toolName);
 
 		if (_isMultipartRequest(operation._operationJSONObject)) {
 			HttpEntity httpEntity = _getMultipartHttpEntity(
@@ -257,12 +263,15 @@ public class OpenAPIUtil {
 	private static void _addParameter(
 		JSONObject openAPIJSONObject, JSONObject parameterJSONObject,
 		Map<String, Object> properties, List<String> requiredPropertyNames,
-		Collection<String> responseFieldNames,
+		Collection<String> responseFieldNames, Set<String> restrictFieldNames,
 		Set<String> visitedParameterNames) {
 
 		String name = parameterJSONObject.getString("name");
 
-		if (!visitedParameterNames.add(name)) {
+		if (!visitedParameterNames.add(name) ||
+			(Objects.equals(name, "search") &&
+			 SetUtil.isNotEmpty(restrictFieldNames))) {
+
 			return;
 		}
 
@@ -294,7 +303,7 @@ public class OpenAPIUtil {
 	private static void _addParameters(
 		JSONObject openAPIJSONObject, JSONArray parametersJSONArray,
 		Map<String, Object> properties, List<String> requiredPropertyNames,
-		Collection<String> responseFieldNames,
+		Collection<String> responseFieldNames, Set<String> restrictFieldNames,
 		Set<String> visitedParameterNames) {
 
 		if (parametersJSONArray == null) {
@@ -305,7 +314,7 @@ public class OpenAPIUtil {
 			_addParameter(
 				openAPIJSONObject, parametersJSONArray.getJSONObject(i),
 				properties, requiredPropertyNames, responseFieldNames,
-				visitedParameterNames);
+				restrictFieldNames, visitedParameterNames);
 		}
 	}
 
@@ -375,6 +384,31 @@ public class OpenAPIUtil {
 			ListUtil.filter(
 				TransformUtil.transform(required, String::valueOf),
 				Predicate.not(readOnlyPropertyNames::contains)));
+	}
+
+	private static Set<String> _getAggregationTermFieldPaths(Object value) {
+		Set<String> fieldPaths = new LinkedHashSet<>();
+
+		if (value instanceof JSONArray jsonArray) {
+			for (int i = 0; i < jsonArray.length(); i++) {
+				fieldPaths.addAll(
+					_getAggregationTermFieldPaths(jsonArray.get(i)));
+			}
+
+			return fieldPaths;
+		}
+
+		if (value instanceof List) {
+			for (Object object : (List<Object>)value) {
+				fieldPaths.addAll(_getAggregationTermFieldPaths(object));
+			}
+
+			return fieldPaths;
+		}
+
+		Collections.addAll(fieldPaths, StringUtil.split(String.valueOf(value)));
+
+		return fieldPaths;
 	}
 
 	private static Map<String, Object> _getAllOfSchemaMap(
@@ -582,6 +616,18 @@ public class OpenAPIUtil {
 		return path + StringPool.PERIOD + name;
 	}
 
+	private static Set<String> _getFilterFieldPaths(String filter) {
+		Set<String> fieldPaths = new LinkedHashSet<>();
+
+		Matcher matcher = _fieldPathPattern.matcher(_getMaskedFilter(filter));
+
+		while (matcher.find()) {
+			fieldPaths.add(matcher.group());
+		}
+
+		return fieldPaths;
+	}
+
 	private static Map<String, Object> _getInputSchema(
 		boolean injectVulcanParameters, String method,
 		JSONObject openAPIJSONObject, JSONObject operationJSONObject,
@@ -661,10 +707,11 @@ public class OpenAPIUtil {
 		_addParameters(
 			openAPIJSONObject, operationJSONObject.getJSONArray("parameters"),
 			properties, requiredPropertyNames, responseFieldNames,
-			visitedParameterNames);
+			restrictFieldNames, visitedParameterNames);
 		_addParameters(
 			openAPIJSONObject, pathParametersJSONArray, properties,
-			requiredPropertyNames, responseFieldNames, visitedParameterNames);
+			requiredPropertyNames, responseFieldNames, restrictFieldNames,
+			visitedParameterNames);
 
 		if (injectVulcanParameters && Objects.equals(method, "get") &&
 			visitedParameterNames.add("fields")) {
@@ -682,6 +729,23 @@ public class OpenAPIUtil {
 		).put(
 			"type", "object"
 		).build();
+	}
+
+	private static String _getMaskedFilter(String filter) {
+		char[] chars = filter.toCharArray();
+		boolean quoted = false;
+
+		for (int i = 0; i < chars.length; i++) {
+			if (chars[i] == CharPool.APOSTROPHE) {
+				quoted = !quoted;
+				chars[i] = CharPool.SPACE;
+			}
+			else if (quoted) {
+				chars[i] = CharPool.SPACE;
+			}
+		}
+
+		return new String(chars);
 	}
 
 	private static HttpEntity _getMultipartHttpEntity(
@@ -768,6 +832,10 @@ public class OpenAPIUtil {
 		}
 
 		return multipartEntityBuilder.build();
+	}
+
+	private static String _getNormalizedFieldPath(String fieldPath) {
+		return StringUtil.replace(fieldPath, CharPool.SLASH, CharPool.PERIOD);
 	}
 
 	private static Map<String, Object> _getOneOfSchemaMap(
@@ -991,6 +1059,22 @@ public class OpenAPIUtil {
 		}
 
 		return path;
+	}
+
+	private static Set<String> _getQueryFieldPaths(String name, Object value) {
+		if (Objects.equals(name, "aggregationTerms")) {
+			return _getAggregationTermFieldPaths(value);
+		}
+
+		if (Objects.equals(name, "filter")) {
+			return _getFilterFieldPaths(String.valueOf(value));
+		}
+
+		if (Objects.equals(name, "sort")) {
+			return _getSortFieldPaths(String.valueOf(value));
+		}
+
+		return Collections.emptySet();
 	}
 
 	private static String _getQueryString(
@@ -1223,6 +1307,24 @@ public class OpenAPIUtil {
 		return value;
 	}
 
+	private static Set<String> _getSortFieldPaths(String sort) {
+		Set<String> fieldPaths = new LinkedHashSet<>();
+
+		for (String string : StringUtil.split(sort)) {
+			int index = string.indexOf(CharPool.COLON);
+
+			if (index >= 0) {
+				string = string.substring(0, index);
+			}
+
+			if (!string.isEmpty()) {
+				fieldPaths.add(string);
+			}
+		}
+
+		return fieldPaths;
+	}
+
 	private static boolean _isBinary(Map<String, Object> schemaMap) {
 		if (schemaMap == null) {
 			return false;
@@ -1243,6 +1345,23 @@ public class OpenAPIUtil {
 		}
 
 		return contentJSONObject.has("multipart/form-data");
+	}
+
+	private static boolean _isRestrictedFieldPath(
+		String fieldPath, Set<String> restrictFieldNames) {
+
+		String normalizedFieldPath = _getNormalizedFieldPath(fieldPath);
+
+		for (String restrictFieldName : restrictFieldNames) {
+			if (normalizedFieldPath.equals(restrictFieldName) ||
+				normalizedFieldPath.startsWith(
+					restrictFieldName + StringPool.PERIOD)) {
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private static void _removeBodyRestrictFieldNames(
@@ -1354,6 +1473,55 @@ public class OpenAPIUtil {
 				Predicate.not(removedPropertyNames::contains)));
 	}
 
+	private static void _validateQueryParameters(
+		JSONObject inputJSONObject, Operation operation,
+		Set<String> restrictFieldNames, String toolName) {
+
+		if (SetUtil.isEmpty(restrictFieldNames)) {
+			return;
+		}
+
+		Map<String, Object> parameterSchemaObjects = _getParameterSchemaObjects(
+			"query", inputJSONObject, operation);
+
+		for (Map.Entry<String, Object> entry :
+				parameterSchemaObjects.entrySet()) {
+
+			String name = entry.getKey();
+
+			if (Objects.equals(name, "search")) {
+				throw new IllegalArgumentException(
+					StringBundler.concat(
+						"The \"search\" parameter cannot be used on the \"",
+						toolName, "\" tool because a keyword match confirms ",
+						"the value of a restricted field even when the field ",
+						"is absent from the response. Narrow the invocation ",
+						"with \"filter\" instead."));
+			}
+
+			Set<String> restrictedFieldPaths = new TreeSet<>();
+
+			for (String fieldPath :
+					_getQueryFieldPaths(name, entry.getValue())) {
+
+				if (_isRestrictedFieldPath(fieldPath, restrictFieldNames)) {
+					restrictedFieldPaths.add(fieldPath);
+				}
+			}
+
+			if (restrictedFieldPaths.isEmpty()) {
+				continue;
+			}
+
+			throw new IllegalArgumentException(
+				StringBundler.concat(
+					"The \"", name, "\" parameter of the \"", toolName,
+					"\" tool references the restricted fields ",
+					restrictedFieldPaths,
+					". Remove them and invoke the tool again."));
+		}
+	}
+
 	private static final String _DESCRIPTION_FIELDS =
 		"Fields to include in the response. Pass only the fields the user " +
 			"actually needs.";
@@ -1364,6 +1532,8 @@ public class OpenAPIUtil {
 
 	private static final Set<String> _excludedSchemaKeys = Set.of(
 		"actions", "example", "exclusiveMaximum", "exclusiveMinimum", "xml");
+	private static final Pattern _fieldPathPattern = Pattern.compile(
+		"[A-Za-z_][A-Za-z0-9_]*(?:[./][A-Za-z_][A-Za-z0-9_]*)*");
 
 	private static class Operation {
 
