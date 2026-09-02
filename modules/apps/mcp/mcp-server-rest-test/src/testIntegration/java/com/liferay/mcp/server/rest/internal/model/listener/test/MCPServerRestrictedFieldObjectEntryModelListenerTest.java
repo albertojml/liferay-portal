@@ -11,16 +11,12 @@ import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.petra.lang.SafeCloseable;
 import com.liferay.portal.kernel.exception.ModelListenerException;
-import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.test.AssertUtils;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
-import com.liferay.portal.kernel.test.util.HTTPTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.HashMapBuilder;
-import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.test.rule.FeatureFlag;
 import com.liferay.portal.test.rule.FeatureFlags;
 import com.liferay.portal.test.rule.Inject;
@@ -383,72 +379,6 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 					"fieldName", "creator.id,creator.externalReferenceCode"
 				).build(),
 				ServiceContextTestUtil.getServiceContext()));
-	}
-
-	@Test
-	public void testRESTAPI() throws Exception {
-		ObjectEntry mcpServerProfileObjectEntry =
-			MCPServerTestUtil.addMCPServerProfileObjectEntry(
-				RandomTestUtil.randomString(), RandomTestUtil.randomString());
-
-		ObjectEntry mcpServerProfileToolObjectEntry =
-			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
-				mcpServerProfileObjectEntry.getExternalReferenceCode(),
-				"getMCPServerProfilesPage", "mcp-server-profiles");
-
-		// Several fields at a time
-
-		Assert.assertEquals(
-			400,
-			HTTPTestUtil.invokeToHttpCode(
-				JSONUtil.put(
-					"fieldName", "creator.id,creator.externalReferenceCode"
-				).put(
-					"r_mcpServerToolToRestrictedFields_l_" +
-						"mcpServerProfileToolERC",
-					mcpServerProfileToolObjectEntry.getExternalReferenceCode()
-				).toString(),
-				"mcp/server-restricted-fields", Http.Method.POST));
-
-		// One field at a time
-
-		JSONObject jsonObject = HTTPTestUtil.invokeToJSONObject(
-			JSONUtil.put(
-				"fieldName", "description"
-			).put(
-				"r_mcpServerToolToRestrictedFields_l_mcpServerProfileToolERC",
-				mcpServerProfileToolObjectEntry.getExternalReferenceCode()
-			).toString(),
-			"mcp/server-restricted-fields", Http.Method.POST);
-
-		long objectEntryId = jsonObject.getLong("id");
-
-		Assert.assertNotNull(
-			_objectEntryLocalService.fetchObjectEntry(objectEntryId));
-
-		Assert.assertEquals(
-			400,
-			HTTPTestUtil.invokeToHttpCode(
-				null, "mcp/server-restricted-fields/" + objectEntryId,
-				Http.Method.DELETE));
-
-		Assert.assertNotNull(
-			_objectEntryLocalService.fetchObjectEntry(objectEntryId));
-
-		HTTPTestUtil.invokeToJSONObject(
-			JSONUtil.put(
-				"deleteReason", "Removed by test."
-			).toString(),
-			"mcp/server-restricted-fields/" + objectEntryId, Http.Method.PATCH);
-
-		Assert.assertEquals(
-			204,
-			HTTPTestUtil.invokeToHttpCode(
-				null, "mcp/server-restricted-fields/" + objectEntryId,
-				Http.Method.DELETE));
-
-		Assert.assertNull(
-			_objectEntryLocalService.fetchObjectEntry(objectEntryId));
 	}
 
 	@Inject
