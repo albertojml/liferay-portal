@@ -1210,9 +1210,9 @@ public class MCPServerServletTest {
 				mcpServerProfileExternalReferenceCode, "postMCPServerProfile",
 				"mcp-server-profiles");
 
-		ObjectEntry creatorGivenNameObjectEntry =
-			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
-				"creator.givenName", getMCPServerProfileToolObjectEntry);
+		MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+			"creator.givenName", getMCPServerProfileToolObjectEntry);
+
 		ObjectEntry descriptionObjectEntry =
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"description", getMCPServerProfileToolObjectEntry);
@@ -1312,8 +1312,8 @@ public class MCPServerServletTest {
 
 		// Restriction removal
 
-		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
-			"Removed by test.", creatorGivenNameObjectEntry);
+		// Restricting "creator" already removed "creator.givenName"
+
 		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
 			"Removed by test.", creatorObjectEntry);
 		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(

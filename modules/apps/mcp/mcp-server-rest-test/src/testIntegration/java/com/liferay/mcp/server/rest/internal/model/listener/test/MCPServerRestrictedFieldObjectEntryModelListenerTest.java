@@ -17,13 +17,17 @@ import com.liferay.portal.kernel.test.AssertUtils;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.HTTPTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.test.rule.FeatureFlag;
 import com.liferay.portal.test.rule.FeatureFlags;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.util.PortalInstances;
+
+import java.io.Serializable;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -47,6 +51,246 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 	@Before
 	public void setUp() {
 		MCPServerTestUtil.processBatchEngineUnits();
+	}
+
+	@Test
+	public void testOnAfterCreate() throws Exception {
+		ObjectEntry mcpServerProfileObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileObjectEntry(
+				RandomTestUtil.randomString(), RandomTestUtil.randomString());
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		ObjectEntry creatorExternalReferenceCodeObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.externalReferenceCode",
+				mcpServerProfileToolObjectEntry);
+		ObjectEntry creatorIdObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.id", mcpServerProfileToolObjectEntry);
+
+		// Fields outside of the covered subtree
+
+		ObjectEntry creatorNameObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creatorName", mcpServerProfileToolObjectEntry);
+		ObjectEntry descriptionObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"description", mcpServerProfileToolObjectEntry);
+
+		// Fields of another profile tool
+
+		ObjectEntry otherMCPServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPageExport", "mcp-server-profiles");
+
+		ObjectEntry otherCreatorIdObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.id", otherMCPServerProfileToolObjectEntry);
+
+		MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+			"creator", mcpServerProfileToolObjectEntry);
+
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				creatorExternalReferenceCodeObjectEntry.getObjectEntryId()));
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				creatorIdObjectEntry.getObjectEntryId()));
+
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				creatorNameObjectEntry.getObjectEntryId()));
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				descriptionObjectEntry.getObjectEntryId()));
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				otherCreatorIdObjectEntry.getObjectEntryId()));
+	}
+
+	@Test
+	public void testOnAfterCreateWhenCoveredFieldNamesAreNested()
+		throws Exception {
+
+		ObjectEntry mcpServerProfileObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileObjectEntry(
+				RandomTestUtil.randomString(), RandomTestUtil.randomString());
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		ObjectEntry actionsDeleteHrefObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.delete.href", mcpServerProfileToolObjectEntry);
+
+		ObjectEntry actionsDeleteMethodObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.delete.method", mcpServerProfileToolObjectEntry);
+
+		ObjectEntry actionsGetMethodObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.get.method", mcpServerProfileToolObjectEntry);
+
+		// Fields outside of the covered subtree
+
+		ObjectEntry actionsCountObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actionsCount", mcpServerProfileToolObjectEntry);
+
+		// Intermediate node
+
+		ObjectEntry actionsDeleteObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.delete", mcpServerProfileToolObjectEntry);
+
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsDeleteHrefObjectEntry.getObjectEntryId()));
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsDeleteMethodObjectEntry.getObjectEntryId()));
+
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsCountObjectEntry.getObjectEntryId()));
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsGetMethodObjectEntry.getObjectEntryId()));
+
+		// Root node
+
+		MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+			"actions", mcpServerProfileToolObjectEntry);
+
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsDeleteObjectEntry.getObjectEntryId()));
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsGetMethodObjectEntry.getObjectEntryId()));
+
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsCountObjectEntry.getObjectEntryId()));
+	}
+
+	@Test
+	public void testOnAfterUpdate() throws Exception {
+		ObjectEntry mcpServerProfileObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileObjectEntry(
+				RandomTestUtil.randomString(), RandomTestUtil.randomString());
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		ObjectEntry creatorIdObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.id", mcpServerProfileToolObjectEntry);
+
+		ObjectEntry descriptionObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"description", mcpServerProfileToolObjectEntry);
+
+		_objectEntryLocalService.updateObjectEntry(
+			TestPropsValues.getUserId(),
+			descriptionObjectEntry.getObjectEntryId(), 0,
+			HashMapBuilder.<String, Serializable>putAll(
+				descriptionObjectEntry.getValues()
+			).put(
+				"fieldName", "creator"
+			).build(),
+			ServiceContextTestUtil.getServiceContext());
+
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				creatorIdObjectEntry.getObjectEntryId()));
+
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				descriptionObjectEntry.getObjectEntryId()));
+	}
+
+	@Test
+	public void testOnBeforeCreate() throws Exception {
+		ObjectEntry mcpServerProfileObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileObjectEntry(
+				RandomTestUtil.randomString(), RandomTestUtil.randomString());
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		// Several fields at a time
+
+		AssertUtils.assertFailure(
+			ModelListenerException.class,
+			"jakarta.validation.ValidationException: Unable to restrict more " +
+				"than one field at a time",
+			() -> MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.id,creator.externalReferenceCode",
+				mcpServerProfileToolObjectEntry));
+
+		// One field at a time
+
+		Assert.assertNotNull(
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.externalReferenceCode",
+				mcpServerProfileToolObjectEntry));
+		Assert.assertNotNull(
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.id", mcpServerProfileToolObjectEntry));
+	}
+
+	@Test
+	public void testOnBeforeCreateWhenFieldNameIsCovered() throws Exception {
+		ObjectEntry mcpServerProfileObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileObjectEntry(
+				RandomTestUtil.randomString(), RandomTestUtil.randomString());
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+			"actions", mcpServerProfileToolObjectEntry);
+
+		// Every level below the restricted ancestor
+
+		AssertUtils.assertFailure(
+			ModelListenerException.class,
+			"jakarta.validation.ValidationException: Unable to restrict " +
+				"field \"actions.get\" because restricted field \"actions\" " +
+					"already covers it",
+			() -> MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.get", mcpServerProfileToolObjectEntry));
+
+		AssertUtils.assertFailure(
+			ModelListenerException.class,
+			"jakarta.validation.ValidationException: Unable to restrict " +
+				"field \"actions.get.method\" because restricted field " +
+					"\"actions\" already covers it",
+			() -> MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.get.method", mcpServerProfileToolObjectEntry));
+
+		// Fields outside of the covered subtree
+
+		Assert.assertNotNull(
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actionsCount", mcpServerProfileToolObjectEntry));
+		Assert.assertNotNull(
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"description", mcpServerProfileToolObjectEntry));
 	}
 
 	@Test
@@ -114,6 +358,36 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 	}
 
 	@Test
+	public void testOnBeforeUpdate() throws Exception {
+		ObjectEntry mcpServerProfileObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileObjectEntry(
+				RandomTestUtil.randomString(), RandomTestUtil.randomString());
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		ObjectEntry mcpServerRestrictedFieldObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.id", mcpServerProfileToolObjectEntry);
+
+		AssertUtils.assertFailure(
+			ModelListenerException.class,
+			"jakarta.validation.ValidationException: Unable to restrict more " +
+				"than one field at a time",
+			() -> _objectEntryLocalService.updateObjectEntry(
+				TestPropsValues.getUserId(),
+				mcpServerRestrictedFieldObjectEntry.getObjectEntryId(), 0,
+				HashMapBuilder.<String, Serializable>putAll(
+					mcpServerRestrictedFieldObjectEntry.getValues()
+				).put(
+					"fieldName", "creator.id,creator.externalReferenceCode"
+				).build(),
+				ServiceContextTestUtil.getServiceContext()));
+	}
+
+	@Test
 	public void testRESTAPI() throws Exception {
 		ObjectEntry mcpServerProfileObjectEntry =
 			MCPServerTestUtil.addMCPServerProfileObjectEntry(
@@ -123,6 +397,22 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
 				mcpServerProfileObjectEntry.getExternalReferenceCode(),
 				"getMCPServerProfilesPage", "mcp-server-profiles");
+
+		// Several fields at a time
+
+		Assert.assertEquals(
+			400,
+			HTTPTestUtil.invokeToHttpCode(
+				JSONUtil.put(
+					"fieldName", "creator.id,creator.externalReferenceCode"
+				).put(
+					"r_mcpServerToolToRestrictedFields_l_" +
+						"mcpServerProfileToolERC",
+					mcpServerProfileToolObjectEntry.getExternalReferenceCode()
+				).toString(),
+				"mcp/server-restricted-fields", Http.Method.POST));
+
+		// One field at a time
 
 		JSONObject jsonObject = HTTPTestUtil.invokeToJSONObject(
 			JSONUtil.put(
