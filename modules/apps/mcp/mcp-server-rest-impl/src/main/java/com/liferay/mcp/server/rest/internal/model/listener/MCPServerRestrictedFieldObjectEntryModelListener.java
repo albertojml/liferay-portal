@@ -113,7 +113,9 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 			ObjectEntry originalObjectEntry, ObjectEntry objectEntry)
 		throws ModelListenerException {
 
-		_validateFieldName(objectEntry);
+		if (_isFieldNameModified(originalObjectEntry, objectEntry)) {
+			_validateFieldName(objectEntry);
+		}
 	}
 
 	private void _deleteCoveredMCPServerRestrictedFieldObjectEntries(
@@ -185,10 +187,22 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 	private ObjectEntry _fetchMCPServerProfileToolObjectEntry(
 		ObjectEntry mcpServerRestrictedFieldObjectEntry) {
 
+		Map<String, Serializable> values =
+			mcpServerRestrictedFieldObjectEntry.getValues();
+
+		long mcpServerProfileToolObjectEntryId = MapUtil.getLong(
+			values,
+			"r_mcpServerToolToRestrictedFields_l_mcpServerProfileToolId");
+
+		if (mcpServerProfileToolObjectEntryId != 0) {
+			return _objectEntryLocalService.fetchObjectEntry(
+				mcpServerProfileToolObjectEntryId);
+		}
+
 		return _fetchObjectEntry(
 			mcpServerRestrictedFieldObjectEntry.getCompanyId(),
 			MapUtil.getString(
-				mcpServerRestrictedFieldObjectEntry.getValues(),
+				values,
 				"r_mcpServerToolToRestrictedFields_l_mcpServerProfileToolERC"),
 			MCPServerConstants.EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_TOOL);
 	}
@@ -229,14 +243,6 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 		}
 	}
 
-	private boolean _isFieldNameModified(
-		ObjectEntry originalObjectEntry, ObjectEntry objectEntry) {
-
-		return !Objects.equals(
-			MapUtil.getString(originalObjectEntry.getValues(), "fieldName"),
-			MapUtil.getString(objectEntry.getValues(), "fieldName"));
-	}
-
 	private void _invalidateServlet(
 		ObjectEntry mcpServerRestrictedFieldObjectEntry) {
 
@@ -268,6 +274,14 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 			MapUtil.getString(mcpServerProfileObjectEntry.getValues(), "name"));
 	}
 
+	private boolean _isFieldNameModified(
+		ObjectEntry originalObjectEntry, ObjectEntry objectEntry) {
+
+		return !Objects.equals(
+			MapUtil.getString(originalObjectEntry.getValues(), "fieldName"),
+			MapUtil.getString(objectEntry.getValues(), "fieldName"));
+	}
+
 	private void _validateFieldName(
 			ObjectEntry mcpServerRestrictedFieldObjectEntry)
 		throws ModelListenerException {
@@ -279,6 +293,37 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 			throw new ModelListenerException(
 				new ValidationException(
 					"Unable to restrict more than one field at a time"));
+		}
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			_fetchMCPServerProfileToolObjectEntry(
+				mcpServerRestrictedFieldObjectEntry);
+
+		if (mcpServerProfileToolObjectEntry == null) {
+			return;
+		}
+
+		for (ObjectEntry objectEntry :
+				_getMCPServerRestrictedFieldObjectEntries(
+					mcpServerProfileToolObjectEntry)) {
+
+			if (objectEntry.getObjectEntryId() ==
+					mcpServerRestrictedFieldObjectEntry.getObjectEntryId()) {
+
+				continue;
+			}
+
+			String coveringFieldName = MapUtil.getString(
+				objectEntry.getValues(), "fieldName");
+
+			if (fieldName.startsWith(coveringFieldName + StringPool.PERIOD)) {
+				throw new ModelListenerException(
+					new ValidationException(
+						StringBundler.concat(
+							"Unable to restrict field \"", fieldName,
+							"\" because restricted field \"", coveringFieldName,
+							"\" already covers it")));
+			}
 		}
 	}
 
