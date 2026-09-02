@@ -59,7 +59,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 	public void onAfterCreate(ObjectEntry objectEntry)
 		throws ModelListenerException {
 
-		_deleteCoveredMCPServerRestrictedFieldObjectEntries(objectEntry);
+		_deleteDescendantMCPServerRestrictedFieldObjectEntries(objectEntry);
 
 		_invalidateServlet(objectEntry);
 	}
@@ -77,7 +77,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 		throws ModelListenerException {
 
 		if (_isFieldNameModified(originalObjectEntry, objectEntry)) {
-			_deleteCoveredMCPServerRestrictedFieldObjectEntries(objectEntry);
+			_deleteDescendantMCPServerRestrictedFieldObjectEntries(objectEntry);
 		}
 
 		_invalidateServlet(objectEntry);
@@ -118,7 +118,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 		}
 	}
 
-	private void _deleteCoveredMCPServerRestrictedFieldObjectEntries(
+	private void _deleteDescendantMCPServerRestrictedFieldObjectEntries(
 		ObjectEntry mcpServerRestrictedFieldObjectEntry) {
 
 		ObjectEntry mcpServerProfileToolObjectEntry =
@@ -136,10 +136,10 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 				_getMCPServerRestrictedFieldObjectEntries(
 					mcpServerProfileToolObjectEntry)) {
 
-			String coveredFieldName = MapUtil.getString(
+			String descendantFieldName = MapUtil.getString(
 				objectEntry.getValues(), "fieldName");
 
-			if (coveredFieldName.startsWith(fieldName + StringPool.PERIOD)) {
+			if (descendantFieldName.startsWith(fieldName + StringPool.PERIOD)) {
 				_deleteMCPServerRestrictedFieldObjectEntry(
 					fieldName, objectEntry);
 			}
@@ -147,7 +147,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 	}
 
 	private void _deleteMCPServerRestrictedFieldObjectEntry(
-		String coveringFieldName,
+		String ancestorFieldName,
 		ObjectEntry mcpServerRestrictedFieldObjectEntry) {
 
 		try {
@@ -156,7 +156,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 					mcpServerRestrictedFieldObjectEntry.getValues()
 				).put(
 					"deleteReason",
-					"Restricted field \"" + coveringFieldName + "\" was added."
+					"Restricted field \"" + ancestorFieldName + "\" was added."
 				).build();
 
 			_objectEntryLocalService.updateObjectEntry(
@@ -177,8 +177,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 						"Unable to delete object entry ",
 						mcpServerRestrictedFieldObjectEntry.
 							getExternalReferenceCode(),
-						" covered by restricted field \"", coveringFieldName,
-						"\""),
+						" below restricted field \"", ancestorFieldName, "\""),
 					portalException);
 			}
 		}
@@ -309,16 +308,16 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 				continue;
 			}
 
-			String coveringFieldName = MapUtil.getString(
+			String ancestorFieldName = MapUtil.getString(
 				objectEntry.getValues(), "fieldName");
 
-			if (fieldName.startsWith(coveringFieldName + StringPool.PERIOD)) {
+			if (fieldName.startsWith(ancestorFieldName + StringPool.PERIOD)) {
 				throw new ModelListenerException(
 					new ValidationException(
 						StringBundler.concat(
 							"Unable to restrict field \"", fieldName,
-							"\" because restricted field \"", coveringFieldName,
-							"\" already covers it")));
+							"\" because restricted field \"", ancestorFieldName,
+							"\" already hides it")));
 			}
 		}
 	}

@@ -72,7 +72,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"creator.id", mcpServerProfileToolObjectEntry);
 
-		// Fields outside of the covered subtree
+		// Fields outside of the restricted subtree
 
 		ObjectEntry creatorNameObjectEntry =
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
@@ -114,9 +114,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 	}
 
 	@Test
-	public void testOnAfterCreateWhenCoveredFieldNamesAreNested()
-		throws Exception {
-
+	public void testOnAfterCreateWhenDescendantsAreNested() throws Exception {
 		ObjectEntry mcpServerProfileObjectEntry =
 			MCPServerTestUtil.addMCPServerProfileObjectEntry(
 				RandomTestUtil.randomString(), RandomTestUtil.randomString());
@@ -138,7 +136,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"actions.get.method", mcpServerProfileToolObjectEntry);
 
-		// Fields outside of the covered subtree
+		// Fields outside of the restricted subtree
 
 		ObjectEntry actionsCountObjectEntry =
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
@@ -252,7 +250,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 	}
 
 	@Test
-	public void testOnBeforeCreateWhenFieldNameIsCovered() throws Exception {
+	public void testOnBeforeCreateWhenAncestorIsRestricted() throws Exception {
 		ObjectEntry mcpServerProfileObjectEntry =
 			MCPServerTestUtil.addMCPServerProfileObjectEntry(
 				RandomTestUtil.randomString(), RandomTestUtil.randomString());
@@ -271,7 +269,7 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 			ModelListenerException.class,
 			"jakarta.validation.ValidationException: Unable to restrict " +
 				"field \"actions.get\" because restricted field \"actions\" " +
-					"already covers it",
+					"already hides it",
 			() -> MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"actions.get", mcpServerProfileToolObjectEntry));
 
@@ -279,11 +277,11 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 			ModelListenerException.class,
 			"jakarta.validation.ValidationException: Unable to restrict " +
 				"field \"actions.get.method\" because restricted field " +
-					"\"actions\" already covers it",
+					"\"actions\" already hides it",
 			() -> MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"actions.get.method", mcpServerProfileToolObjectEntry));
 
-		// Fields outside of the covered subtree
+		// Fields outside of the restricted subtree
 
 		Assert.assertNotNull(
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
