@@ -216,10 +216,6 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 				fetchObjectDefinitionByExternalReferenceCode(
 					objectDefinitionExternalReferenceCode, companyId);
 
-		if (objectDefinition == null) {
-			return null;
-		}
-
 		return _objectEntryLocalService.fetchObjectEntry(
 			externalReferenceCode, 0, objectDefinition.getObjectDefinitionId());
 	}
