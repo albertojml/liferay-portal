@@ -12,6 +12,7 @@ import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.model.listener.RelevantObjectEntryModelListener;
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.service.ObjectRelationshipLocalService;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.ModelListenerException;
@@ -106,7 +107,9 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 			ObjectEntry originalObjectEntry, ObjectEntry objectEntry)
 		throws ModelListenerException {
 
-		_validateFieldName(objectEntry);
+		if (_isFieldNameModified(originalObjectEntry, objectEntry)) {
+			_validateFieldName(objectEntry);
+		}
 	}
 
 	private void _deleteDescendantMCPServerRestrictedFieldObjectEntries(
@@ -239,6 +242,29 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 			throw new ModelListenerException(
 				new ValidationException(
 					"Unable to restrict more than one field at a time"));
+		}
+
+		for (ObjectEntry objectEntry :
+				_getMCPServerRestrictedFieldObjectEntries(
+					mcpServerRestrictedFieldObjectEntry)) {
+
+			if (objectEntry.getObjectEntryId() ==
+					mcpServerRestrictedFieldObjectEntry.getObjectEntryId()) {
+
+				continue;
+			}
+
+			String ancestorFieldName = MapUtil.getString(
+				objectEntry.getValues(), "fieldName");
+
+			if (_isAncestorFieldName(ancestorFieldName, fieldName)) {
+				throw new ModelListenerException(
+					new ValidationException(
+						StringBundler.concat(
+							"Unable to restrict field \"", fieldName,
+							"\" because restricted field \"", ancestorFieldName,
+							"\" already hides it")));
+			}
 		}
 	}
 
