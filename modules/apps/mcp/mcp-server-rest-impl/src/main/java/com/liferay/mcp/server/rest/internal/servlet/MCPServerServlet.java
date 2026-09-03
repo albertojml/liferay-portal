@@ -150,6 +150,9 @@ public class MCPServerServlet extends HttpServlet {
 		String mcpServerProfileExternalReferenceCode =
 			mcpServerProfileObjectEntry.getExternalReferenceCode();
 
+		Map<String, Set<String>> restrictFieldNamesMap =
+			_getRestrictFieldNamesMap(mcpServerProfileObjectEntry);
+
 		HttpServletStatelessServerTransport
 			httpServletStatelessServerTransport =
 				HttpServletStatelessServerTransport.builder(
@@ -180,7 +183,8 @@ public class MCPServerServlet extends HttpServlet {
 						return new McpStatelessServerFeatures.
 							SyncToolSpecification(
 								_getTool(
-									httpServletRequest, toolName, toolSetName),
+									httpServletRequest, restrictFieldNamesMap,
+									toolName, toolSetName),
 								(mcpTransportContext, callToolRequest) -> _call(
 									mcpTransportContext,
 									callToolRequest.arguments(), companyId,
@@ -456,10 +460,9 @@ public class MCPServerServlet extends HttpServlet {
 
 				Set<String> restrictFieldNames =
 					restrictFieldNamesMap.computeIfAbsent(
-						StringBundler.concat(
+						ToolSetUtil.getToolKey(
 							MapUtil.getString(
 								mcpServerProfileToolValues, "toolSetName"),
-							StringPool.SPACE,
 							MapUtil.getString(
 								mcpServerProfileToolValues, "toolName")),
 						key -> new LinkedHashSet<>());
@@ -537,12 +540,14 @@ public class MCPServerServlet extends HttpServlet {
 	}
 
 	private McpSchema.Tool _getTool(
-		HttpServletRequest httpServletRequest, String toolName,
+		HttpServletRequest httpServletRequest,
+		Map<String, Set<String>> restrictFieldNamesMap, String toolName,
 		String toolSetName) {
 
 		try {
 			Tool tool = ToolSetUtil.getTool(
-				httpServletRequest, toolName, toolSetName);
+				httpServletRequest, restrictFieldNamesMap, toolName,
+				toolSetName);
 
 			return McpSchema.Tool.builder(
 			).description(
