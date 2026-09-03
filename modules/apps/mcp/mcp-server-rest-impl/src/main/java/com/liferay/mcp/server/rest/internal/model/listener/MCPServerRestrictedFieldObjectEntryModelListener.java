@@ -12,6 +12,7 @@ import com.liferay.object.model.ObjectEntry;
 import com.liferay.object.model.listener.RelevantObjectEntryModelListener;
 import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.util.MapUtil;
@@ -62,6 +63,13 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 	}
 
 	@Override
+	public void onBeforeCreate(ObjectEntry objectEntry)
+		throws ModelListenerException {
+
+		_validateFieldName(objectEntry);
+	}
+
+	@Override
 	public void onBeforeRemove(ObjectEntry objectEntry)
 		throws ModelListenerException {
 
@@ -77,6 +85,14 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 					"Unable to remove a restricted field without a delete " +
 						"reason"));
 		}
+	}
+
+	@Override
+	public void onBeforeUpdate(
+			ObjectEntry originalObjectEntry, ObjectEntry objectEntry)
+		throws ModelListenerException {
+
+		_validateFieldName(objectEntry);
 	}
 
 	private ObjectEntry _fetchObjectEntry(
@@ -128,6 +144,20 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 		mcpServerServlet.invalidate(
 			companyId,
 			MapUtil.getString(mcpServerProfileObjectEntry.getValues(), "name"));
+	}
+
+	private void _validateFieldName(
+			ObjectEntry mcpServerRestrictedFieldObjectEntry)
+		throws ModelListenerException {
+
+		String fieldName = MapUtil.getString(
+			mcpServerRestrictedFieldObjectEntry.getValues(), "fieldName");
+
+		if (fieldName.contains(StringPool.COMMA)) {
+			throw new ModelListenerException(
+				new ValidationException(
+					"Unable to restrict more than one field at a time"));
+		}
 	}
 
 	@Reference
