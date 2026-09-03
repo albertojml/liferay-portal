@@ -221,6 +221,37 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 	}
 
 	@Test
+	public void testOnBeforeCreateWhenAncestorIsRestricted() throws Exception {
+		MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+			"actions", _mcpServerProfileToolObjectEntry);
+
+		// Every level below the restricted ancestor
+
+		AssertUtils.assertFailure(
+			ModelListenerException.class,
+			"jakarta.validation.ValidationException: Unable to restrict " +
+				"field \"actions.get\" because restricted field \"actions\" " +
+					"already hides it",
+			() -> MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.get", _mcpServerProfileToolObjectEntry));
+
+		AssertUtils.assertFailure(
+			ModelListenerException.class,
+			"jakarta.validation.ValidationException: Unable to restrict " +
+				"field \"actions.get.method\" because restricted field " +
+					"\"actions\" already hides it",
+			() -> MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.get.method", _mcpServerProfileToolObjectEntry));
+
+		// Fields outside of the restricted subtree
+
+		MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+			"actionsCount", _mcpServerProfileToolObjectEntry);
+		MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+			"description", _mcpServerProfileToolObjectEntry);
+	}
+
+	@Test
 	public void testOnBeforeRemove() throws Exception {
 		ObjectEntry mcpServerRestrictedFieldObjectEntry =
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
