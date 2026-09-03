@@ -71,14 +71,21 @@ public class ToolSetUtil {
 	}
 
 	public static Tool getTool(
-		HttpServletRequest httpServletRequest, String toolName,
+		HttpServletRequest httpServletRequest,
+		Map<String, Set<String>> restrictFieldNamesMap, String toolName,
 		String toolSetName) {
 
 		return OpenAPIUtil.getTool(
 			!Objects.equals(toolSetName, _TOOL_SET_NAME),
 			_getOpenAPIJSONObject(
 				httpServletRequest, _getOpenAPIBrief(toolSetName)),
+			_getRestrictFieldNames(
+				restrictFieldNamesMap, toolName, toolSetName),
 			toolName);
+	}
+
+	public static String getToolKey(String toolSetName, String toolName) {
+		return toolSetName + StringPool.SPACE + toolName;
 	}
 
 	public static Page<ToolSet> getToolSetsPage() {
@@ -134,7 +141,7 @@ public class ToolSetUtil {
 			if (Objects.equals(toolName, "getToolSetToolSetNameTool")) {
 				return _getResponse(
 					getTool(
-						httpServletRequest,
+						httpServletRequest, restrictFieldNamesMap,
 						inputJSONObject.getString("toolName"),
 						inputJSONObject.getString("toolSetName")));
 			}
@@ -400,8 +407,7 @@ public class ToolSetUtil {
 			return null;
 		}
 
-		return restrictFieldNamesMap.get(
-			toolSetName + StringPool.SPACE + toolName);
+		return restrictFieldNamesMap.get(getToolKey(toolSetName, toolName));
 	}
 
 	private static Map<String, String> _getToolSetDescriptions() {

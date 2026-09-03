@@ -74,10 +74,11 @@ public class MCPServerProfileToolObjectEntryModelListener
 	}
 
 	private void _deleteMCPServerRestrictedFieldObjectEntries(
-		ObjectEntry objectEntry) {
+		ObjectEntry mcpServerProfileToolObjectEntry) {
 
 		for (ObjectEntry mcpServerRestrictedFieldObjectEntry :
-				_getMCPServerRestrictedFieldObjectEntries(objectEntry)) {
+				_getMCPServerRestrictedFieldObjectEntries(
+					mcpServerProfileToolObjectEntry)) {
 
 			try {
 				Map<String, Serializable> newValues =
@@ -107,7 +108,8 @@ public class MCPServerProfileToolObjectEntryModelListener
 							mcpServerRestrictedFieldObjectEntry.
 								getObjectEntryId(),
 							" for profile tool ",
-							objectEntry.getExternalReferenceCode()),
+							mcpServerProfileToolObjectEntry.
+								getExternalReferenceCode()),
 						portalException);
 				}
 			}
@@ -115,31 +117,33 @@ public class MCPServerProfileToolObjectEntryModelListener
 	}
 
 	private List<ObjectEntry> _getMCPServerRestrictedFieldObjectEntries(
-		ObjectEntry objectEntry) {
+		ObjectEntry mcpServerProfileToolObjectEntry) {
 
 		try {
 			ObjectRelationship objectRelationship =
 				_objectRelationshipLocalService.getObjectRelationship(
-					objectEntry.getObjectDefinitionId(),
+					mcpServerProfileToolObjectEntry.getObjectDefinitionId(),
 					"mcpServerToolToRestrictedFields");
 
 			return _objectEntryLocalService.getOneToManyObjectEntries(
 				0, objectRelationship.getObjectRelationshipId(), null, false,
-				objectEntry.getObjectEntryId(), true, null, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null);
+				mcpServerProfileToolObjectEntry.getObjectEntryId(), true, null,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 		}
 		catch (PortalException portalException) {
 			throw new RuntimeException(portalException);
 		}
 	}
 
-	private void _invalidateServlet(ObjectEntry objectEntry) {
+	private void _invalidateServlet(
+		ObjectEntry mcpServerProfileToolObjectEntry) {
+
 		ObjectDefinition objectDefinition =
 			_objectDefinitionLocalService.
 				fetchObjectDefinitionByExternalReferenceCode(
 					MCPServerConstants.
 						EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE,
-					objectEntry.getCompanyId());
+					mcpServerProfileToolObjectEntry.getCompanyId());
 
 		if (objectDefinition == null) {
 			return;
@@ -148,7 +152,7 @@ public class MCPServerProfileToolObjectEntryModelListener
 		ObjectEntry mcpServerProfileObjectEntry =
 			_objectEntryLocalService.fetchObjectEntry(
 				MapUtil.getString(
-					objectEntry.getValues(),
+					mcpServerProfileToolObjectEntry.getValues(),
 					"r_mcpServerProfileToTools_l_mcpServerProfileERC"),
 				0, objectDefinition.getObjectDefinitionId());
 
@@ -159,7 +163,7 @@ public class MCPServerProfileToolObjectEntryModelListener
 		MCPServerServlet mcpServerServlet = (MCPServerServlet)_servlet;
 
 		mcpServerServlet.invalidate(
-			objectEntry.getCompanyId(),
+			mcpServerProfileToolObjectEntry.getCompanyId(),
 			MapUtil.getString(mcpServerProfileObjectEntry.getValues(), "name"));
 	}
 

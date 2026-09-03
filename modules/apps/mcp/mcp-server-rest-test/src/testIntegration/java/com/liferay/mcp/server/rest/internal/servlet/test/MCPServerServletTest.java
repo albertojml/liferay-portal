@@ -25,6 +25,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.test.util.CompanyConfigurationTemporarySwapper;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
@@ -556,6 +557,66 @@ public class MCPServerServletTest {
 		).getString(
 			"access_token"
 		);
+	}
+
+	private List<String> _getFieldsEnumValues(McpSyncClient mcpSyncClient)
+		throws Exception {
+
+		McpSchema.ListToolsResult listToolsResult = mcpSyncClient.listTools();
+
+		List<McpSchema.Tool> tools = listToolsResult.tools();
+
+		McpSchema.Tool tool = tools.get(0);
+
+		return JSONUtil.toStringList(
+			JSONUtil.getValueAsJSONArray(
+				JSONFactoryUtil.createJSONObject(
+					new ObjectMapper(
+					).writeValueAsString(
+						tool.inputSchema()
+					)),
+				"JSONObject/properties", "JSONObject/fields",
+				"JSONObject/items", "JSONArray/enum"));
+	}
+
+	private JSONObject _getMCPServerProfileItemJSONObject(
+			Map<String, Object> arguments, McpSyncClient mcpSyncClient,
+			String profileName)
+		throws Exception {
+
+		JSONObject mcpServerProfileItemJSONObject = null;
+
+		McpSchema.CallToolResult callToolResult = mcpSyncClient.callTool(
+			new McpSchema.CallToolRequest(
+				"getMCPServerProfilesPage", arguments));
+
+		List<McpSchema.Content> contents = callToolResult.content();
+
+		McpSchema.TextContent textContent = (McpSchema.TextContent)contents.get(
+			0);
+
+		Assert.assertFalse(textContent.text(), callToolResult.isError());
+
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
+			textContent.text());
+
+		JSONArray itemsJSONArray = jsonObject.getJSONArray("items");
+
+		for (int i = 0; i < itemsJSONArray.length(); i++) {
+			JSONObject itemJSONObject = itemsJSONArray.getJSONObject(i);
+
+			if (Objects.equals(itemJSONObject.getString("name"), profileName)) {
+				mcpServerProfileItemJSONObject = itemJSONObject;
+
+				break;
+			}
+		}
+
+		Assert.assertNotNull(
+			"MCP server profile \"" + profileName + "\" was not found",
+			mcpServerProfileItemJSONObject);
+
+		return mcpServerProfileItemJSONObject;
 	}
 
 	private McpSyncClient _getMcpSyncClient(
@@ -1118,51 +1179,133 @@ public class MCPServerServletTest {
 			MCPServerTestUtil.addMCPServerProfileObjectEntry(
 				description, profileName);
 
-		ObjectEntry mcpServerProfileToolObjectEntry =
-			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
-				mcpServerProfileObjectEntry.getExternalReferenceCode(),
-				"getMCPServerProfilesPage", "mcp-server-profiles");
+		String mcpServerProfileExternalReferenceCode =
+			mcpServerProfileObjectEntry.getExternalReferenceCode();
 
-		ObjectEntry mcpServerRestrictedFieldObjectEntry =
+		ObjectEntry getMCPServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileExternalReferenceCode,
+				"getMCPServerProfilesPage", "mcp-server-profiles");
+		ObjectEntry postMCPServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				mcpServerProfileExternalReferenceCode, "postMCPServerProfile",
+				"mcp-server-profiles");
+
+		ObjectEntry creatorGivenNameObjectEntry =
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
-				"description", mcpServerProfileToolObjectEntry);
+				"creator.givenName", getMCPServerProfileToolObjectEntry);
+		ObjectEntry descriptionObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"description", getMCPServerProfileToolObjectEntry);
+		ObjectEntry postDescriptionObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"description", postMCPServerProfileToolObjectEntry);
 
 		McpSyncClient mcpSyncClient = _getMcpSyncClient(
 			authorization, profileName);
 
 		mcpSyncClient.initialize();
 
+		List<String> fieldsEnumValues = _getFieldsEnumValues(mcpSyncClient);
+
+		Assert.assertTrue(fieldsEnumValues.contains("creator"));
+		Assert.assertFalse(fieldsEnumValues.contains("description"));
+		Assert.assertTrue(fieldsEnumValues.contains("name"));
+
+		JSONObject itemJSONObject = _getMCPServerProfileItemJSONObject(
+			HashMapBuilder.<String, Object>put(
+				"pageSize", "100"
+			).build(),
+			mcpSyncClient, profileName);
+
+		Assert.assertEquals(profileName, itemJSONObject.getString("name"));
+		Assert.assertFalse(itemJSONObject.has("description"));
+
+		JSONObject creatorJSONObject = itemJSONObject.getJSONObject("creator");
+
+		Assert.assertTrue(creatorJSONObject.has("familyName"));
+		Assert.assertFalse(creatorJSONObject.has("givenName"));
+
+		itemJSONObject = _getMCPServerProfileItemJSONObject(
+			HashMapBuilder.<String, Object>put(
+				"fields", "description,name"
+			).put(
+				"pageSize", "100"
+			).build(),
+			mcpSyncClient, profileName);
+
+		Assert.assertEquals(profileName, itemJSONObject.getString("name"));
+		Assert.assertFalse(itemJSONObject.has("description"));
+
+		String entryName = RandomTestUtil.randomString();
+
 		McpSchema.CallToolResult callToolResult = mcpSyncClient.callTool(
 			new McpSchema.CallToolRequest(
-				"getMCPServerProfilesPage", Collections.emptyMap()));
+				"postMCPServerProfile",
+				HashMapBuilder.<String, Object>put(
+					"body",
+					HashMapBuilder.<String, Object>put(
+						"description", RandomTestUtil.randomString()
+					).put(
+						"name", entryName
+					).build()
+				).build()));
 
 		List<McpSchema.Content> contents = callToolResult.content();
 
 		McpSchema.TextContent textContent = (McpSchema.TextContent)contents.get(
 			0);
 
-		Assert.assertThat(
-			textContent.text(),
-			CoreMatchers.allOf(
-				CoreMatchers.containsString(profileName),
-				CoreMatchers.not(CoreMatchers.containsString(description))));
+		Assert.assertFalse(textContent.text(), callToolResult.isError());
+
+		JSONObject postItemJSONObject = JSONFactoryUtil.createJSONObject(
+			textContent.text());
+
+		Assert.assertEquals(entryName, postItemJSONObject.getString("name"));
+		Assert.assertFalse(postItemJSONObject.has("description"));
+
+		ObjectEntry creatorObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator", getMCPServerProfileToolObjectEntry);
+
+		fieldsEnumValues = _getFieldsEnumValues(mcpSyncClient);
+
+		Assert.assertFalse(fieldsEnumValues.contains("creator"));
+
+		itemJSONObject = _getMCPServerProfileItemJSONObject(
+			HashMapBuilder.<String, Object>put(
+				"pageSize", "100"
+			).build(),
+			mcpSyncClient, profileName);
+
+		Assert.assertEquals(profileName, itemJSONObject.getString("name"));
+		Assert.assertFalse(itemJSONObject.has("creator"));
 
 		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
-			"Removed by test.", mcpServerRestrictedFieldObjectEntry);
+			"Removed by test.", creatorGivenNameObjectEntry);
+		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
+			"Removed by test.", creatorObjectEntry);
+		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
+			"Removed by test.", descriptionObjectEntry);
+		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
+			"Removed by test.", postDescriptionObjectEntry);
 
-		callToolResult = mcpSyncClient.callTool(
-			new McpSchema.CallToolRequest(
-				"getMCPServerProfilesPage", Collections.emptyMap()));
+		itemJSONObject = _getMCPServerProfileItemJSONObject(
+			HashMapBuilder.<String, Object>put(
+				"pageSize", "100"
+			).build(),
+			mcpSyncClient, profileName);
 
-		contents = callToolResult.content();
+		Assert.assertEquals(
+			description, itemJSONObject.getString("description"));
 
-		textContent = (McpSchema.TextContent)contents.get(0);
+		creatorJSONObject = itemJSONObject.getJSONObject("creator");
 
-		Assert.assertThat(
-			textContent.text(),
-			CoreMatchers.allOf(
-				CoreMatchers.containsString(description),
-				CoreMatchers.containsString(profileName)));
+		Assert.assertTrue(creatorJSONObject.has("givenName"));
+
+		fieldsEnumValues = _getFieldsEnumValues(mcpSyncClient);
+
+		Assert.assertTrue(fieldsEnumValues.contains("description"));
 
 		mcpSyncClient.closeGracefully();
 	}

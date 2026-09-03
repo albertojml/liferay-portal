@@ -151,7 +151,7 @@ public class OpenAPIUtil {
 
 	public static Tool getTool(
 		boolean injectVulcanParameters, JSONObject openAPIJSONObject,
-		String toolName) {
+		Set<String> restrictFieldNames, String toolName) {
 
 		Operation operation = _getOperation(openAPIJSONObject, toolName);
 
@@ -165,7 +165,8 @@ public class OpenAPIUtil {
 					() -> _getInputSchema(
 						injectVulcanParameters, operation._method,
 						openAPIJSONObject, operation._operationJSONObject,
-						operation._pathParametersJSONArray));
+						operation._pathParametersJSONArray,
+						restrictFieldNames));
 
 				setName(() -> toolName);
 			}
@@ -571,7 +572,7 @@ public class OpenAPIUtil {
 	private static Map<String, Object> _getInputSchema(
 		boolean injectVulcanParameters, String method,
 		JSONObject openAPIJSONObject, JSONObject operationJSONObject,
-		JSONArray pathParametersJSONArray) {
+		JSONArray pathParametersJSONArray, Set<String> restrictFieldNames) {
 
 		Map<String, Object> properties = new LinkedHashMap<>();
 		List<String> requiredPropertyNames = new ArrayList<>();
@@ -634,6 +635,10 @@ public class OpenAPIUtil {
 
 		Collection<String> responseFieldNames = _getResponseFieldNames(
 			openAPIJSONObject, operationJSONObject);
+
+		if (restrictFieldNames != null) {
+			responseFieldNames.removeAll(restrictFieldNames);
+		}
 
 		Set<String> visitedParameterNames = new HashSet<>();
 

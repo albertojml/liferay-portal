@@ -33,7 +33,7 @@ public class ToolResourceImpl extends BaseToolResourceImpl {
 		}
 
 		return ToolSetUtil.getTool(
-			contextHttpServletRequest, toolName, toolSetName);
+			contextHttpServletRequest, null, toolName, toolSetName);
 	}
 
 	@Override
