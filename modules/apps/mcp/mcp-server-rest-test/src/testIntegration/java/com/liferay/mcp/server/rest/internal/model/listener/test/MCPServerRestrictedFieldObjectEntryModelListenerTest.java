@@ -63,6 +63,143 @@ public class MCPServerRestrictedFieldObjectEntryModelListenerTest {
 	}
 
 	@Test
+	public void testOnAfterCreate() throws Exception {
+		ObjectEntry creatorExternalReferenceCodeObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.externalReferenceCode",
+				_mcpServerProfileToolObjectEntry);
+		ObjectEntry creatorIdObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.id", _mcpServerProfileToolObjectEntry);
+
+		// Fields outside of the restricted subtree
+
+		ObjectEntry creatorNameObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creatorName", _mcpServerProfileToolObjectEntry);
+		ObjectEntry descriptionObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"description", _mcpServerProfileToolObjectEntry);
+
+		// Fields of another profile tool
+
+		ObjectEntry otherMCPServerProfileToolObjectEntry =
+			MCPServerTestUtil.addMCPServerProfileToolObjectEntry(
+				_mcpServerProfileObjectEntry.getExternalReferenceCode(),
+				"getMCPServerProfilesPageExport", "mcp-server-profiles");
+
+		ObjectEntry otherCreatorIdObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.id", otherMCPServerProfileToolObjectEntry);
+
+		MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+			"creator", _mcpServerProfileToolObjectEntry);
+
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				creatorExternalReferenceCodeObjectEntry.getObjectEntryId()));
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				creatorIdObjectEntry.getObjectEntryId()));
+
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				creatorNameObjectEntry.getObjectEntryId()));
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				descriptionObjectEntry.getObjectEntryId()));
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				otherCreatorIdObjectEntry.getObjectEntryId()));
+	}
+
+	@Test
+	public void testOnAfterCreateWhenDescendantsAreNested() throws Exception {
+		ObjectEntry actionsDeleteHrefObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.delete.href", _mcpServerProfileToolObjectEntry);
+
+		ObjectEntry actionsDeleteMethodObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.delete.method", _mcpServerProfileToolObjectEntry);
+
+		ObjectEntry actionsGetMethodObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.get.method", _mcpServerProfileToolObjectEntry);
+
+		// Fields outside of the restricted subtree
+
+		ObjectEntry actionsCountObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actionsCount", _mcpServerProfileToolObjectEntry);
+
+		// Intermediate node
+
+		ObjectEntry actionsDeleteObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"actions.delete", _mcpServerProfileToolObjectEntry);
+
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsDeleteHrefObjectEntry.getObjectEntryId()));
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsDeleteMethodObjectEntry.getObjectEntryId()));
+
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsCountObjectEntry.getObjectEntryId()));
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsGetMethodObjectEntry.getObjectEntryId()));
+
+		// Root node
+
+		MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+			"actions", _mcpServerProfileToolObjectEntry);
+
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsDeleteObjectEntry.getObjectEntryId()));
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsGetMethodObjectEntry.getObjectEntryId()));
+
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				actionsCountObjectEntry.getObjectEntryId()));
+	}
+
+	@Test
+	public void testOnAfterUpdate() throws Exception {
+		ObjectEntry creatorIdObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"creator.id", _mcpServerProfileToolObjectEntry);
+
+		ObjectEntry descriptionObjectEntry =
+			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+				"description", _mcpServerProfileToolObjectEntry);
+
+		_objectEntryLocalService.updateObjectEntry(
+			TestPropsValues.getUserId(),
+			descriptionObjectEntry.getObjectEntryId(), 0,
+			HashMapBuilder.<String, Serializable>putAll(
+				descriptionObjectEntry.getValues()
+			).put(
+				"fieldName", "creator"
+			).build(),
+			ServiceContextTestUtil.getServiceContext());
+
+		Assert.assertNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				creatorIdObjectEntry.getObjectEntryId()));
+
+		Assert.assertNotNull(
+			_objectEntryLocalService.fetchObjectEntry(
+				descriptionObjectEntry.getObjectEntryId()));
+	}
+
+	@Test
 	public void testOnBeforeCreate() throws Exception {
 
 		// Several fields at a time

@@ -7,14 +7,17 @@ package com.liferay.mcp.server.rest.internal.model.listener;
 
 import com.liferay.mcp.server.rest.internal.constants.MCPServerConstants;
 import com.liferay.mcp.server.rest.internal.servlet.MCPServerServlet;
-import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
+import com.liferay.object.model.ObjectRelationship;
 import com.liferay.object.model.listener.RelevantObjectEntryModelListener;
-import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.object.service.ObjectEntryLocalService;
+import com.liferay.object.service.ObjectRelationshipLocalService;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.ModelListenerException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.BaseModelListener;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.util.PortalInstances;
@@ -22,6 +25,11 @@ import com.liferay.portal.util.PortalInstances;
 import jakarta.servlet.Servlet;
 
 import jakarta.validation.ValidationException;
+
+import java.io.Serializable;
+
+import java.util.List;
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -44,6 +52,8 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 	public void onAfterCreate(ObjectEntry objectEntry)
 		throws ModelListenerException {
 
+		_deleteDescendantMCPServerRestrictedFieldObjectEntries(objectEntry);
+
 		_invalidateServlet(objectEntry);
 	}
 
@@ -58,6 +68,10 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 	public void onAfterUpdate(
 			ObjectEntry originalObjectEntry, ObjectEntry objectEntry)
 		throws ModelListenerException {
+
+		if (_isFieldNameModified(originalObjectEntry, objectEntry)) {
+			_deleteDescendantMCPServerRestrictedFieldObjectEntries(objectEntry);
+		}
 
 		_invalidateServlet(objectEntry);
 	}
@@ -95,45 +109,98 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 		_validateFieldName(objectEntry);
 	}
 
-	private ObjectEntry _fetchObjectEntry(
-		long companyId, String externalReferenceCode,
-		String objectDefinitionExternalReferenceCode) {
+	private void _deleteDescendantMCPServerRestrictedFieldObjectEntries(
+			ObjectEntry mcpServerRestrictedFieldObjectEntry)
+		throws ModelListenerException {
 
-		ObjectDefinition objectDefinition =
-			_objectDefinitionLocalService.
-				fetchObjectDefinitionByExternalReferenceCode(
-					objectDefinitionExternalReferenceCode, companyId);
+		String fieldName = MapUtil.getString(
+			mcpServerRestrictedFieldObjectEntry.getValues(), "fieldName");
 
-		if (objectDefinition == null) {
-			return null;
+		for (ObjectEntry objectEntry :
+				_getMCPServerRestrictedFieldObjectEntries(
+					mcpServerRestrictedFieldObjectEntry)) {
+
+			if (_isAncestorFieldName(
+					fieldName,
+					MapUtil.getString(objectEntry.getValues(), "fieldName"))) {
+
+				_deleteMCPServerRestrictedFieldObjectEntry(
+					fieldName, objectEntry);
+			}
 		}
+	}
+
+	private void _deleteMCPServerRestrictedFieldObjectEntry(
+			String ancestorFieldName,
+			ObjectEntry mcpServerRestrictedFieldObjectEntry)
+		throws ModelListenerException {
+
+		mcpServerRestrictedFieldObjectEntry.setValues(
+			HashMapBuilder.<String, Serializable>putAll(
+				mcpServerRestrictedFieldObjectEntry.getValues()
+			).put(
+				"deleteReason",
+				"Restricted field \"" + ancestorFieldName + "\" was added."
+			).build());
+
+		try {
+			_objectEntryLocalService.deleteObjectEntry(
+				mcpServerRestrictedFieldObjectEntry);
+		}
+		catch (PortalException portalException) {
+			throw new ModelListenerException(portalException);
+		}
+	}
+
+	private ObjectEntry _fetchMCPServerProfileToolObjectEntry(
+		ObjectEntry mcpServerRestrictedFieldObjectEntry) {
 
 		return _objectEntryLocalService.fetchObjectEntry(
-			externalReferenceCode, 0, objectDefinition.getObjectDefinitionId());
+			MapUtil.getLong(
+				mcpServerRestrictedFieldObjectEntry.getValues(),
+				"r_mcpServerToolToRestrictedFields_l_mcpServerProfileToolId"));
+	}
+
+	private List<ObjectEntry> _getMCPServerRestrictedFieldObjectEntries(
+			ObjectEntry mcpServerRestrictedFieldObjectEntry)
+		throws ModelListenerException {
+
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			_fetchMCPServerProfileToolObjectEntry(
+				mcpServerRestrictedFieldObjectEntry);
+
+		try {
+			ObjectRelationship objectRelationship =
+				_objectRelationshipLocalService.getObjectRelationship(
+					mcpServerProfileToolObjectEntry.getObjectDefinitionId(),
+					"mcpServerToolToRestrictedFields");
+
+			return _objectEntryLocalService.getOneToManyObjectEntries(
+				0, objectRelationship.getObjectRelationshipId(), null, false,
+				mcpServerProfileToolObjectEntry.getObjectEntryId(), true, null,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		}
+		catch (PortalException portalException) {
+			throw new ModelListenerException(portalException);
+		}
 	}
 
 	private void _invalidateServlet(
 		ObjectEntry mcpServerRestrictedFieldObjectEntry) {
 
-		long companyId = mcpServerRestrictedFieldObjectEntry.getCompanyId();
-
-		ObjectEntry mcpServerProfileToolObjectEntry = _fetchObjectEntry(
-			companyId,
-			MapUtil.getString(
-				mcpServerRestrictedFieldObjectEntry.getValues(),
-				"r_mcpServerToolToRestrictedFields_l_mcpServerProfileToolERC"),
-			MCPServerConstants.EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE_TOOL);
+		ObjectEntry mcpServerProfileToolObjectEntry =
+			_fetchMCPServerProfileToolObjectEntry(
+				mcpServerRestrictedFieldObjectEntry);
 
 		if (mcpServerProfileToolObjectEntry == null) {
 			return;
 		}
 
-		ObjectEntry mcpServerProfileObjectEntry = _fetchObjectEntry(
-			companyId,
-			MapUtil.getString(
-				mcpServerProfileToolObjectEntry.getValues(),
-				"r_mcpServerProfileToTools_l_mcpServerProfileERC"),
-			MCPServerConstants.EXTERNAL_REFERENCE_CODE_MCP_SERVER_PROFILE);
+		ObjectEntry mcpServerProfileObjectEntry =
+			_objectEntryLocalService.fetchObjectEntry(
+				MapUtil.getLong(
+					mcpServerProfileToolObjectEntry.getValues(),
+					"r_mcpServerProfileToTools_l_mcpServerProfileId"));
 
 		if (mcpServerProfileObjectEntry == null) {
 			return;
@@ -142,8 +209,23 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 		MCPServerServlet mcpServerServlet = (MCPServerServlet)_servlet;
 
 		mcpServerServlet.invalidate(
-			companyId,
+			mcpServerRestrictedFieldObjectEntry.getCompanyId(),
 			MapUtil.getString(mcpServerProfileObjectEntry.getValues(), "name"));
+	}
+
+	private boolean _isAncestorFieldName(
+		String ancestorFieldName, String descendantFieldName) {
+
+		return descendantFieldName.startsWith(
+			ancestorFieldName + StringPool.PERIOD);
+	}
+
+	private boolean _isFieldNameModified(
+		ObjectEntry originalObjectEntry, ObjectEntry objectEntry) {
+
+		return !Objects.equals(
+			MapUtil.getString(originalObjectEntry.getValues(), "fieldName"),
+			MapUtil.getString(objectEntry.getValues(), "fieldName"));
 	}
 
 	private void _validateFieldName(
@@ -161,10 +243,10 @@ public class MCPServerRestrictedFieldObjectEntryModelListener
 	}
 
 	@Reference
-	private ObjectDefinitionLocalService _objectDefinitionLocalService;
+	private ObjectEntryLocalService _objectEntryLocalService;
 
 	@Reference
-	private ObjectEntryLocalService _objectEntryLocalService;
+	private ObjectRelationshipLocalService _objectRelationshipLocalService;
 
 	@Reference(
 		target = "(osgi.http.whiteboard.servlet.name=com.liferay.mcp.server.rest.internal.servlet.MCPServerServlet)"
