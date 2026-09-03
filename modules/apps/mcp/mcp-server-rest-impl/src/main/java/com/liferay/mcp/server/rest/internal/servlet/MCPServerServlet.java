@@ -56,9 +56,12 @@ import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.service.component.annotations.Component;
@@ -182,7 +185,8 @@ public class MCPServerServlet extends HttpServlet {
 									mcpTransportContext,
 									callToolRequest.arguments(), companyId,
 									mcpServerProfileExternalReferenceCode,
-									toolName, toolSetName));
+									mcpServerProfileObjectEntry, toolName,
+									toolSetName));
 					}
 					catch (Exception exception) {
 						_log.error(
@@ -251,7 +255,8 @@ public class MCPServerServlet extends HttpServlet {
 	private McpSchema.CallToolResult _call(
 		McpTransportContext mcpTransportContext, Object inputObject,
 		long companyId, String mcpServerProfileExternalReferenceCode,
-		String toolName, String toolSetName) {
+		ObjectEntry mcpServerProfileObjectEntry, String toolName,
+		String toolSetName) {
 
 		HttpServletRequest httpServletRequest =
 			(HttpServletRequest)mcpTransportContext.get("httpServletRequest");
@@ -260,7 +265,9 @@ public class MCPServerServlet extends HttpServlet {
 			Response response = ToolSetUtil.invokeTool(
 				_getDataMaskExternalReferenceCodes(
 					companyId, mcpServerProfileExternalReferenceCode),
-				httpServletRequest, inputObject, toolName, toolSetName);
+				httpServletRequest, inputObject,
+				_getRestrictFieldNamesMap(mcpServerProfileObjectEntry),
+				toolName, toolSetName);
 
 			int responseCode = response.getStatus();
 			String content = (String)response.getEntity();
@@ -410,6 +417,61 @@ public class MCPServerServlet extends HttpServlet {
 		catch (PortalException portalException) {
 			throw new RuntimeException(portalException);
 		}
+	}
+
+	private List<ObjectEntry> _getMCPServerRestrictedFieldObjectEntries(
+		ObjectEntry mcpServerProfileToolObjectEntry) {
+
+		try {
+			ObjectRelationship objectRelationship =
+				_objectRelationshipLocalService.getObjectRelationship(
+					mcpServerProfileToolObjectEntry.getObjectDefinitionId(),
+					"mcpServerToolToRestrictedFields");
+
+			return _objectEntryLocalService.getOneToManyObjectEntries(
+				0, objectRelationship.getObjectRelationshipId(), null, false,
+				mcpServerProfileToolObjectEntry.getObjectEntryId(), true, null,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+		}
+		catch (PortalException portalException) {
+			throw new RuntimeException(portalException);
+		}
+	}
+
+	private Map<String, Set<String>> _getRestrictFieldNamesMap(
+		ObjectEntry mcpServerProfileObjectEntry) {
+
+		Map<String, Set<String>> restrictFieldNamesMap = new HashMap<>();
+
+		for (ObjectEntry mcpServerProfileToolObjectEntry :
+				_getMCPServerProfileToolObjectEntries(
+					mcpServerProfileObjectEntry)) {
+
+			Map<String, Serializable> mcpServerProfileToolValues =
+				mcpServerProfileToolObjectEntry.getValues();
+
+			for (ObjectEntry mcpServerRestrictedFieldObjectEntry :
+					_getMCPServerRestrictedFieldObjectEntries(
+						mcpServerProfileToolObjectEntry)) {
+
+				Set<String> restrictFieldNames =
+					restrictFieldNamesMap.computeIfAbsent(
+						StringBundler.concat(
+							MapUtil.getString(
+								mcpServerProfileToolValues, "toolSetName"),
+							StringPool.SPACE,
+							MapUtil.getString(
+								mcpServerProfileToolValues, "toolName")),
+						key -> new LinkedHashSet<>());
+
+				restrictFieldNames.add(
+					MapUtil.getString(
+						mcpServerRestrictedFieldObjectEntry.getValues(),
+						"fieldName"));
+			}
+		}
+
+		return restrictFieldNamesMap;
 	}
 
 	private Servlet _getServlet(
