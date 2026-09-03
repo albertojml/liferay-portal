@@ -26,10 +26,14 @@ import java.io.InputStream;
 
 import java.nio.charset.StandardCharsets;
 
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
@@ -106,6 +110,42 @@ public class OpenAPIUtilTest {
 			null, null, "GET", "/v1.0/items?restrictFields=actions",
 			JSONUtil.put("restrictFields", "name"), "getItems");
 		_testGetRequest(
+			null, null, "GET", "/v1.0/items?restrictFields=actions",
+			JSONFactoryUtil.createJSONObject(), Collections.emptySet(),
+			"getItems");
+		_testGetRequest(
+			null, null, "GET",
+			"/v1.0/items?restrictFields=actions%2Cname%2Cparent.name",
+			JSONFactoryUtil.createJSONObject(),
+			new LinkedHashSet<>(Arrays.asList("name", "parent.name")),
+			"getItems");
+		_testGetRequest(
+			JSONUtil.put(
+				"name", "Test"
+			).toString(),
+			"application/json", "PATCH", "/v1.0/items/123?restrictFields=name",
+			JSONUtil.put(
+				"body", JSONUtil.put("name", "Test")
+			).put(
+				"itemId", "123"
+			),
+			Collections.singleton("name"), "patchItem");
+		_testGetRequest(
+			"{}", "application/json", "POST", "/v1.0/items?restrictFields=name",
+			JSONUtil.put("body", JSONFactoryUtil.createJSONObject()),
+			Collections.singleton("name"), "postItem");
+		_testGetRequest(
+			JSONUtil.put(
+				"name", "Test"
+			).toString(),
+			"application/json", "PUT", "/v1.0/items/123?restrictFields=name",
+			JSONUtil.put(
+				"body", JSONUtil.put("name", "Test")
+			).put(
+				"itemId", "123"
+			),
+			Collections.singleton("name"), "putItem");
+		_testGetRequest(
 			JSONUtil.put(
 				"name", "Test"
 			).toString(),
@@ -144,7 +184,7 @@ public class OpenAPIUtilTest {
 			).put(
 				"name", name
 			),
-			_openAPIJSONObject, "postBinary", null);
+			_openAPIJSONObject, null, "postBinary", null);
 
 		Assert.assertEquals("POST", request.getMethod());
 		Assert.assertEquals("/v1.0/binaries", request.getPath());
@@ -175,7 +215,7 @@ public class OpenAPIUtilTest {
 			).put(
 				"string", fileContent
 			),
-			_openAPIJSONObject, "postUpload", null);
+			_openAPIJSONObject, null, "postUpload", null);
 
 		Assert.assertEquals("POST", request.getMethod());
 		Assert.assertEquals("/v1.0/uploads", request.getPath());
@@ -196,7 +236,7 @@ public class OpenAPIUtilTest {
 
 		request = OpenAPIUtil.getRequest(
 			StringPool.BLANK, headers, JSONUtil.put("itemId", "123"),
-			_openAPIJSONObject, "getItem", null);
+			_openAPIJSONObject, null, "getItem", null);
 
 		Assert.assertEquals(headers, request.getHeaders());
 
@@ -212,7 +252,7 @@ public class OpenAPIUtilTest {
 				JSONUtil.put(
 					RandomTestUtil.randomString(),
 					RandomTestUtil.randomString()),
-				_openAPIJSONObject, "postItem", null));
+				_openAPIJSONObject, null, "postItem", null));
 	}
 
 	@Test
@@ -410,12 +450,13 @@ public class OpenAPIUtilTest {
 	private void _testGetRequest(
 			String expectedBody, String expectedContentType,
 			String expectedMethod, String expectedPathWithQuery,
-			JSONObject inputJSONObject, String toolName)
+			JSONObject inputJSONObject, Set<String> restrictFieldNames,
+			String toolName)
 		throws Exception {
 
 		VulcanRequestForwarder.Request request = OpenAPIUtil.getRequest(
 			StringPool.BLANK, null, inputJSONObject, _openAPIJSONObject,
-			toolName, null);
+			restrictFieldNames, toolName, null);
 
 		if (expectedBody == null) {
 			Assert.assertNull(request.getBody());
@@ -430,6 +471,17 @@ public class OpenAPIUtilTest {
 
 		Assert.assertEquals(expectedMethod, request.getMethod());
 		Assert.assertEquals(expectedPathWithQuery, request.getPath());
+	}
+
+	private void _testGetRequest(
+			String expectedBody, String expectedContentType,
+			String expectedMethod, String expectedPathWithQuery,
+			JSONObject inputJSONObject, String toolName)
+		throws Exception {
+
+		_testGetRequest(
+			expectedBody, expectedContentType, expectedMethod,
+			expectedPathWithQuery, inputJSONObject, null, toolName);
 	}
 
 	private void _testGetTool(

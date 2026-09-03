@@ -48,7 +48,8 @@ public class ToolResourceImpl extends BaseToolResourceImpl {
 		}
 
 		return ToolSetUtil.invokeTool(
-			null, contextHttpServletRequest, object, toolName, toolSetName);
+			null, contextHttpServletRequest, object, null, toolName,
+			toolSetName);
 	}
 
 }
