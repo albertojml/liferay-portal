@@ -1191,9 +1191,9 @@ public class MCPServerServletTest {
 				mcpServerProfileExternalReferenceCode, "postMCPServerProfile",
 				"mcp-server-profiles");
 
-		ObjectEntry creatorGivenNameObjectEntry =
-			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
-				"creator.givenName", getMCPServerProfileToolObjectEntry);
+		MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
+			"creator.givenName", getMCPServerProfileToolObjectEntry);
+
 		ObjectEntry descriptionObjectEntry =
 			MCPServerTestUtil.addMCPServerRestrictedFieldObjectEntry(
 				"description", getMCPServerProfileToolObjectEntry);
@@ -1281,8 +1281,6 @@ public class MCPServerServletTest {
 		Assert.assertEquals(profileName, itemJSONObject.getString("name"));
 		Assert.assertFalse(itemJSONObject.has("creator"));
 
-		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
-			"Removed by test.", creatorGivenNameObjectEntry);
 		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
 			"Removed by test.", creatorObjectEntry);
 		MCPServerTestUtil.deleteMCPServerRestrictedFieldObjectEntry(
