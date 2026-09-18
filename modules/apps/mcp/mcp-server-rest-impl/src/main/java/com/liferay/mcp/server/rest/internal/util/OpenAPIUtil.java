@@ -592,14 +592,15 @@ public class OpenAPIUtil {
 			Arrays.asList(StringUtil.split((String)value)));
 	}
 
-	private static Set<String> _getFilterFieldPaths(String filter) {
-		if (Validator.isNull(filter)) {
+	private static Set<String> _getFilterFieldPaths(String filterString) {
+		if (Validator.isNull(filterString)) {
 			return Collections.emptySet();
 		}
 
 		Set<String> fieldPaths = new LinkedHashSet<>();
 
-		Matcher matcher = _fieldPathPattern.matcher(_getMaskedFilter(filter));
+		Matcher matcher = _fieldPathPattern.matcher(
+			_getMaskedFilter(filterString));
 
 		while (matcher.find()) {
 			fieldPaths.add(matcher.group());
@@ -708,8 +709,8 @@ public class OpenAPIUtil {
 		).build();
 	}
 
-	private static String _getMaskedFilter(String filter) {
-		char[] chars = filter.toCharArray();
+	private static String _getMaskedFilter(String filterString) {
+		char[] chars = filterString.toCharArray();
 		boolean quoted = false;
 
 		for (int i = 0; i < chars.length; i++) {
