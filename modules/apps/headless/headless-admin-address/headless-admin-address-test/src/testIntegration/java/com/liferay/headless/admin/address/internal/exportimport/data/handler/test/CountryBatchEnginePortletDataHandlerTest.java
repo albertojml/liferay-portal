@@ -82,7 +82,7 @@ public class CountryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		long companyId = _getCompanyId(groupId);
@@ -97,7 +97,7 @@ public class CountryBatchEnginePortletDataHandlerTest
 			ServiceContextTestUtil.getServiceContext(
 				companyId, groupId, userId));
 
-		country.setModifiedDate(dateModified);
+		country.setModifiedDate(modifiedDate);
 
 		country = _countryLocalService.updateCountry(country);
 
@@ -109,27 +109,27 @@ public class CountryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_countryLocalService.deleteCountry(
-			_getCountry(groupId, externalReferenceCode));
+			_getCountry(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Country country = _getCountry(groupId, externalReferenceCode);
+		Country country = _getCountry(externalReferenceCode, groupId);
 
 		return country.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Country country = _getCountry(groupId, externalReferenceCode);
+		Country country = _getCountry(externalReferenceCode, groupId);
 
 		return country.getName();
 	}
@@ -164,19 +164,19 @@ public class CountryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Country country = _getCountry(groupId, externalReferenceCode);
+		Country country = _getCountry(externalReferenceCode, groupId);
 
 		return country.getCountryId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Country country = _getCountry(groupId, externalReferenceCode);
+		Country country = _getCountry(externalReferenceCode, groupId);
 
 		return country.getStatus();
 	}
@@ -197,10 +197,10 @@ public class CountryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Country country = _getCountry(groupId, externalReferenceCode);
+		Country country = _getCountry(externalReferenceCode, groupId);
 
 		_countryLocalService.updateCountry(
 			country.getExternalReferenceCode(), country.getCountryId(),
@@ -217,7 +217,7 @@ public class CountryBatchEnginePortletDataHandlerTest
 		return group.getCompanyId();
 	}
 
-	private Country _getCountry(long groupId, String externalReferenceCode)
+	private Country _getCountry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _countryLocalService.fetchCountryByExternalReferenceCode(

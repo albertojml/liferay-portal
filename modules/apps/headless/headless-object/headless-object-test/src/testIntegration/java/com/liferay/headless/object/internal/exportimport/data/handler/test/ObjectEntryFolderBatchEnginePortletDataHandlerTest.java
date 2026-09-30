@@ -62,7 +62,7 @@ public class ObjectEntryFolderBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		ObjectEntryFolder objectEntryFolder =
@@ -77,7 +77,7 @@ public class ObjectEntryFolderBatchEnginePortletDataHandlerTest
 				RandomTestUtil.randomString(),
 				ServiceContextTestUtil.getServiceContext(groupId, userId));
 
-		objectEntryFolder.setModifiedDate(dateModified);
+		objectEntryFolder.setModifiedDate(modifiedDate);
 
 		objectEntryFolder =
 			_objectEntryFolderLocalService.updateObjectEntryFolder(
@@ -91,29 +91,29 @@ public class ObjectEntryFolderBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_objectEntryFolderLocalService.deleteObjectEntryFolder(
-			_getObjectEntryFolder(groupId, externalReferenceCode));
+			_getObjectEntryFolder(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectEntryFolder objectEntryFolder = _getObjectEntryFolder(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectEntryFolder.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectEntryFolder objectEntryFolder = _getObjectEntryFolder(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectEntryFolder.getDescription();
 	}
@@ -147,21 +147,21 @@ public class ObjectEntryFolderBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectEntryFolder objectEntryFolder = _getObjectEntryFolder(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectEntryFolder.getObjectEntryFolderId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectEntryFolder objectEntryFolder = _getObjectEntryFolder(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectEntryFolder.getStatus();
 	}
@@ -182,11 +182,11 @@ public class ObjectEntryFolderBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectEntryFolder objectEntryFolder = _getObjectEntryFolder(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		_objectEntryFolderLocalService.updateObjectEntryFolder(
 			objectEntryFolder.getUserId(),
@@ -205,7 +205,7 @@ public class ObjectEntryFolderBatchEnginePortletDataHandlerTest
 	}
 
 	private ObjectEntryFolder _getObjectEntryFolder(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _objectEntryFolderLocalService.

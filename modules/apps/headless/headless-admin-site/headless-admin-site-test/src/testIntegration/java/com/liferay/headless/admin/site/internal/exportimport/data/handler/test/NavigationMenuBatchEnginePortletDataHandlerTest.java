@@ -45,7 +45,7 @@ public class NavigationMenuBatchEnginePortletDataHandlerTest
 			Scope.SITE);
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		SiteNavigationMenu siteNavigationMenu =
@@ -53,7 +53,7 @@ public class NavigationMenuBatchEnginePortletDataHandlerTest
 				null, userId, groupId, RandomTestUtil.randomString(),
 				ServiceContextTestUtil.getServiceContext(groupId, userId));
 
-		siteNavigationMenu.setModifiedDate(dateModified);
+		siteNavigationMenu.setModifiedDate(modifiedDate);
 
 		siteNavigationMenu =
 			_siteNavigationMenuLocalService.updateSiteNavigationMenu(
@@ -67,29 +67,29 @@ public class NavigationMenuBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_siteNavigationMenuLocalService.deleteSiteNavigationMenu(
-			_getSiteNavigationMenu(groupId, externalReferenceCode));
+			_getSiteNavigationMenu(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		SiteNavigationMenu siteNavigationMenu = _getSiteNavigationMenu(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return siteNavigationMenu.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		SiteNavigationMenu siteNavigationMenu = _getSiteNavigationMenu(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return siteNavigationMenu.getName();
 	}
@@ -119,11 +119,11 @@ public class NavigationMenuBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		SiteNavigationMenu siteNavigationMenu = _getSiteNavigationMenu(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return siteNavigationMenu.getSiteNavigationMenuId();
 	}
@@ -144,11 +144,11 @@ public class NavigationMenuBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		SiteNavigationMenu siteNavigationMenu = _getSiteNavigationMenu(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		_siteNavigationMenuLocalService.updateSiteNavigationMenu(
 			siteNavigationMenu.getUserId(),
@@ -159,7 +159,7 @@ public class NavigationMenuBatchEnginePortletDataHandlerTest
 	}
 
 	private SiteNavigationMenu _getSiteNavigationMenu(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _siteNavigationMenuLocalService.

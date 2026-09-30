@@ -56,7 +56,7 @@ public class TaxonomyVocabularyBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		AssetVocabulary assetVocabulary =
@@ -64,7 +64,7 @@ public class TaxonomyVocabularyBatchEnginePortletDataHandlerTest
 				userId, groupId, RandomTestUtil.randomString(),
 				ServiceContextTestUtil.getServiceContext(groupId, userId));
 
-		assetVocabulary.setModifiedDate(dateModified);
+		assetVocabulary.setModifiedDate(modifiedDate);
 
 		assetVocabulary = _assetVocabularyLocalService.updateAssetVocabulary(
 			assetVocabulary);
@@ -77,29 +77,29 @@ public class TaxonomyVocabularyBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_assetVocabularyLocalService.deleteVocabulary(
-			_getAssetVocabulary(groupId, externalReferenceCode));
+			_getAssetVocabulary(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AssetVocabulary assetVocabulary = _getAssetVocabulary(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return assetVocabulary.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AssetVocabulary assetVocabulary = _getAssetVocabulary(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return assetVocabulary.getTitle(LocaleUtil.getSiteDefault());
 	}
@@ -129,21 +129,21 @@ public class TaxonomyVocabularyBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AssetVocabulary assetVocabulary = _getAssetVocabulary(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return assetVocabulary.getVocabularyId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AssetVocabulary assetVocabulary = _getAssetVocabulary(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return assetVocabulary.getStatus();
 	}
@@ -164,11 +164,11 @@ public class TaxonomyVocabularyBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AssetVocabulary assetVocabulary = _getAssetVocabulary(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		_assetVocabularyLocalService.updateVocabulary(
 			assetVocabulary.getExternalReferenceCode(),
@@ -180,7 +180,7 @@ public class TaxonomyVocabularyBatchEnginePortletDataHandlerTest
 	}
 
 	private AssetVocabulary _getAssetVocabulary(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _assetVocabularyLocalService.

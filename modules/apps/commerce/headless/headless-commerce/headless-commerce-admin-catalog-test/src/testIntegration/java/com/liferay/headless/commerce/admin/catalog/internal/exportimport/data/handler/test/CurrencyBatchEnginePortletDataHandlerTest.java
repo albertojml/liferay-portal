@@ -60,14 +60,14 @@ public class CurrencyBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		CommerceCurrency commerceCurrency =
 			CommerceCurrencyTestUtil.addCommerceCurrency(
 				_getCompanyId(groupId));
 
-		commerceCurrency.setModifiedDate(dateModified);
+		commerceCurrency.setModifiedDate(modifiedDate);
 
 		commerceCurrency = _commerceCurrencyLocalService.updateCommerceCurrency(
 			commerceCurrency);
@@ -80,29 +80,29 @@ public class CurrencyBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_commerceCurrencyLocalService.deleteCommerceCurrency(
-			_getCommerceCurrency(groupId, externalReferenceCode));
+			_getCommerceCurrency(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		CommerceCurrency commerceCurrency = _getCommerceCurrency(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return commerceCurrency.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		CommerceCurrency commerceCurrency = _getCommerceCurrency(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return commerceCurrency.getSymbol();
 	}
@@ -134,21 +134,21 @@ public class CurrencyBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		CommerceCurrency commerceCurrency = _getCommerceCurrency(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return commerceCurrency.getCommerceCurrencyId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		CommerceCurrency commerceCurrency = _getCommerceCurrency(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return commerceCurrency.getStatus();
 	}
@@ -169,11 +169,11 @@ public class CurrencyBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		CommerceCurrency commerceCurrency = _getCommerceCurrency(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		_commerceCurrencyLocalService.updateCommerceCurrency(
 			commerceCurrency.getExternalReferenceCode(),
@@ -190,7 +190,7 @@ public class CurrencyBatchEnginePortletDataHandlerTest
 	}
 
 	private CommerceCurrency _getCommerceCurrency(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _commerceCurrencyLocalService.

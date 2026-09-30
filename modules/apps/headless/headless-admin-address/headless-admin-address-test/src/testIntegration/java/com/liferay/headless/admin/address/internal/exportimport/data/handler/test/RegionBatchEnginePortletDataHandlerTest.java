@@ -83,7 +83,7 @@ public class RegionBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		Country country = _getCountry(groupId, userId);
@@ -95,7 +95,7 @@ public class RegionBatchEnginePortletDataHandlerTest
 			ServiceContextTestUtil.getServiceContext(
 				_getCompanyId(groupId), groupId, userId));
 
-		region.setModifiedDate(dateModified);
+		region.setModifiedDate(modifiedDate);
 
 		region = _regionLocalService.updateRegion(region);
 
@@ -107,27 +107,27 @@ public class RegionBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_regionLocalService.deleteRegion(
-			_getRegion(groupId, externalReferenceCode));
+			_getRegion(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Region region = _getRegion(groupId, externalReferenceCode);
+		Region region = _getRegion(externalReferenceCode, groupId);
 
 		return region.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Region region = _getRegion(groupId, externalReferenceCode);
+		Region region = _getRegion(externalReferenceCode, groupId);
 
 		return region.getName();
 	}
@@ -169,19 +169,19 @@ public class RegionBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Region region = _getRegion(groupId, externalReferenceCode);
+		Region region = _getRegion(externalReferenceCode, groupId);
 
 		return region.getRegionId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Region region = _getRegion(groupId, externalReferenceCode);
+		Region region = _getRegion(externalReferenceCode, groupId);
 
 		return region.getStatus();
 	}
@@ -202,10 +202,10 @@ public class RegionBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Region region = _getRegion(groupId, externalReferenceCode);
+		Region region = _getRegion(externalReferenceCode, groupId);
 
 		_regionLocalService.updateRegion(
 			region.getExternalReferenceCode(), region.getRegionId(),
@@ -241,7 +241,7 @@ public class RegionBatchEnginePortletDataHandlerTest
 				companyId, groupId, userId));
 	}
 
-	private Region _getRegion(long groupId, String externalReferenceCode)
+	private Region _getRegion(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _regionLocalService.fetchRegionByExternalReferenceCode(

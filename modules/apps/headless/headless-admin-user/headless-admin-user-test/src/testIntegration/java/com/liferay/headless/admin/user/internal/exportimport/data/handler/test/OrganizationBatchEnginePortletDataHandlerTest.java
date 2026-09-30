@@ -61,7 +61,7 @@ public class OrganizationBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		long companyId = _getCompanyId(groupId);
@@ -76,7 +76,7 @@ public class OrganizationBatchEnginePortletDataHandlerTest
 			ServiceContextTestUtil.getServiceContext(
 				companyId, groupId, userId));
 
-		organization.setModifiedDate(dateModified);
+		organization.setModifiedDate(modifiedDate);
 
 		organization = _organizationLocalService.updateOrganization(
 			organization);
@@ -89,29 +89,29 @@ public class OrganizationBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_organizationLocalService.deleteOrganization(
-			_getOrganization(groupId, externalReferenceCode));
+			_getOrganization(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		Organization organization = _getOrganization(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return organization.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		Organization organization = _getOrganization(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return organization.getComments();
 	}
@@ -143,21 +143,21 @@ public class OrganizationBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		Organization organization = _getOrganization(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return organization.getOrganizationId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		Organization organization = _getOrganization(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return organization.getStatus();
 	}
@@ -178,11 +178,11 @@ public class OrganizationBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		Organization organization = _getOrganization(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		long companyId = _getCompanyId(groupId);
 
@@ -204,7 +204,7 @@ public class OrganizationBatchEnginePortletDataHandlerTest
 	}
 
 	private Organization _getOrganization(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _organizationLocalService.

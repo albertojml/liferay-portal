@@ -61,7 +61,7 @@ public class AccountBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
@@ -73,7 +73,7 @@ public class AccountBatchEnginePortletDataHandlerTest
 			ServiceContextTestUtil.getServiceContext(
 				_getCompanyId(groupId), groupId, userId));
 
-		accountEntry.setModifiedDate(dateModified);
+		accountEntry.setModifiedDate(modifiedDate);
 
 		accountEntry = _accountEntryLocalService.updateAccountEntry(
 			accountEntry);
@@ -86,29 +86,29 @@ public class AccountBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_accountEntryLocalService.deleteAccountEntry(
-			_getAccountEntry(groupId, externalReferenceCode));
+			_getAccountEntry(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AccountEntry accountEntry = _getAccountEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return accountEntry.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AccountEntry accountEntry = _getAccountEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return accountEntry.getDescription();
 	}
@@ -140,21 +140,21 @@ public class AccountBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AccountEntry accountEntry = _getAccountEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return accountEntry.getAccountEntryId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AccountEntry accountEntry = _getAccountEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return accountEntry.getStatus();
 	}
@@ -175,11 +175,11 @@ public class AccountBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AccountEntry accountEntry = _getAccountEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		_accountEntryLocalService.updateAccountEntry(
 			accountEntry.getExternalReferenceCode(),
@@ -193,7 +193,7 @@ public class AccountBatchEnginePortletDataHandlerTest
 	}
 
 	private AccountEntry _getAccountEntry(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _accountEntryLocalService.

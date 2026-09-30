@@ -135,7 +135,7 @@ public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		ObjectDefinition objectDefinition = _getObjectDefinition(groupId);
@@ -152,7 +152,7 @@ public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
 			ServiceContextTestUtil.getServiceContext(
 				objectDefinition.getCompanyId(), objectEntryGroupId, userId));
 
-		objectEntry.setModifiedDate(dateModified);
+		objectEntry.setModifiedDate(modifiedDate);
 
 		objectEntry = _objectEntryLocalService.updateObjectEntry(objectEntry);
 
@@ -164,29 +164,29 @@ public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_objectEntryLocalService.deleteObjectEntry(
-			_getObjectEntry(groupId, externalReferenceCode));
+			_getObjectEntry(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectEntry objectEntry = _getObjectEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectEntry.getUserId();
 	}
 
 	@Override
-	protected String getEntryValue(long groupId, String externalReferenceCode)
+	protected String getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectEntry objectEntry = _getObjectEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return MapUtil.getString(objectEntry.getValues(), _OBJECT_FIELD_NAME);
 	}
@@ -219,21 +219,21 @@ public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectEntry objectEntry = _getObjectEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectEntry.getObjectEntryId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectEntry objectEntry = _getObjectEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectEntry.getStatus();
 	}
@@ -263,11 +263,11 @@ public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectEntry objectEntry = _getObjectEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		_objectEntryLocalService.updateObjectEntry(
 			objectEntry.getUserId(), objectEntry.getObjectEntryId(),
@@ -349,7 +349,7 @@ public abstract class BaseObjectEntryBatchEnginePortletDataHandlerTestCase
 	}
 
 	private ObjectEntry _getObjectEntry(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectDefinition objectDefinition = _getObjectDefinition(groupId);

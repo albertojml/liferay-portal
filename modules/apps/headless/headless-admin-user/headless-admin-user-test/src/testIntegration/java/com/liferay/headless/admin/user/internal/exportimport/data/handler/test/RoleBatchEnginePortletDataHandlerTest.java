@@ -59,7 +59,7 @@ public class RoleBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		Role role = _roleLocalService.addRole(
@@ -71,7 +71,7 @@ public class RoleBatchEnginePortletDataHandlerTest
 			null, RoleConstants.TYPE_REGULAR, null,
 			ServiceContextTestUtil.getServiceContext(groupId, userId));
 
-		role.setModifiedDate(dateModified);
+		role.setModifiedDate(modifiedDate);
 
 		role = _roleLocalService.updateRole(role);
 
@@ -83,26 +83,26 @@ public class RoleBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		_roleLocalService.deleteRole(_getRole(groupId, externalReferenceCode));
+		_roleLocalService.deleteRole(_getRole(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Role role = _getRole(groupId, externalReferenceCode);
+		Role role = _getRole(externalReferenceCode, groupId);
 
 		return role.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Role role = _getRole(groupId, externalReferenceCode);
+		Role role = _getRole(externalReferenceCode, groupId);
 
 		return role.getTitle(LocaleUtil.getDefault());
 	}
@@ -132,19 +132,19 @@ public class RoleBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Role role = _getRole(groupId, externalReferenceCode);
+		Role role = _getRole(externalReferenceCode, groupId);
 
 		return role.getRoleId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Role role = _getRole(groupId, externalReferenceCode);
+		Role role = _getRole(externalReferenceCode, groupId);
 
 		return role.getStatus();
 	}
@@ -165,10 +165,10 @@ public class RoleBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		Role role = _getRole(groupId, externalReferenceCode);
+		Role role = _getRole(externalReferenceCode, groupId);
 
 		_roleLocalService.updateRole(
 			role.getExternalReferenceCode(), role.getRoleId(), role.getName(),
@@ -186,7 +186,7 @@ public class RoleBatchEnginePortletDataHandlerTest
 		return group.getCompanyId();
 	}
 
-	private Role _getRole(long groupId, String externalReferenceCode)
+	private Role _getRole(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _roleLocalService.fetchRoleByExternalReferenceCode(

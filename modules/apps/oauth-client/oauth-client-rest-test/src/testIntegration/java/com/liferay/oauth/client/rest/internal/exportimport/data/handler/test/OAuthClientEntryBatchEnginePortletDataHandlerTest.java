@@ -72,7 +72,7 @@ public class OAuthClientEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		OAuthClientEntry oAuthClientEntry =
@@ -83,7 +83,7 @@ public class OAuthClientEntryBatchEnginePortletDataHandlerTest
 				OAuthClientEntryConstants.OIDC_USER_INFO_MAPPER_JSON, 0,
 				_randomJSON());
 
-		oAuthClientEntry.setModifiedDate(dateModified);
+		oAuthClientEntry.setModifiedDate(modifiedDate);
 
 		oAuthClientEntry = _oAuthClientEntryLocalService.updateOAuthClientEntry(
 			oAuthClientEntry);
@@ -96,29 +96,29 @@ public class OAuthClientEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_oAuthClientEntryLocalService.deleteOAuthClientEntry(
-			_getOAuthClientEntry(groupId, externalReferenceCode));
+			_getOAuthClientEntry(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		OAuthClientEntry oAuthClientEntry = _getOAuthClientEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return oAuthClientEntry.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		OAuthClientEntry oAuthClientEntry = _getOAuthClientEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return oAuthClientEntry.getMatcherField();
 	}
@@ -149,11 +149,11 @@ public class OAuthClientEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		OAuthClientEntry oAuthClientEntry = _getOAuthClientEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return oAuthClientEntry.getOAuthClientEntryId();
 	}
@@ -174,11 +174,11 @@ public class OAuthClientEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		OAuthClientEntry oAuthClientEntry = _getOAuthClientEntry(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		_oAuthClientEntryLocalService.updateOAuthClientEntry(
 			oAuthClientEntry.getOAuthClientEntryId(),
@@ -213,7 +213,7 @@ public class OAuthClientEntryBatchEnginePortletDataHandlerTest
 	}
 
 	private OAuthClientEntry _getOAuthClientEntry(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _oAuthClientEntryLocalService.

@@ -50,7 +50,7 @@ public class LanguageOverrideBatchEnginePortletDataHandlerTest
 			Scope.COMPANY);
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		PLOEntry ploEntry = _ploEntryLocalService.addOrUpdatePLOEntry(
@@ -58,7 +58,7 @@ public class LanguageOverrideBatchEnginePortletDataHandlerTest
 			LocaleUtil.toLanguageId(LocaleUtil.getDefault()),
 			RandomTestUtil.randomString());
 
-		ploEntry.setModifiedDate(dateModified);
+		ploEntry.setModifiedDate(modifiedDate);
 
 		ploEntry = _ploEntryLocalService.updatePLOEntry(ploEntry);
 
@@ -70,27 +70,27 @@ public class LanguageOverrideBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_ploEntryLocalService.deletePLOEntry(
-			_getPLOEntry(groupId, externalReferenceCode));
+			_getPLOEntry(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		PLOEntry ploEntry = _getPLOEntry(groupId, externalReferenceCode);
+		PLOEntry ploEntry = _getPLOEntry(externalReferenceCode, groupId);
 
 		return ploEntry.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		PLOEntry ploEntry = _getPLOEntry(groupId, externalReferenceCode);
+		PLOEntry ploEntry = _getPLOEntry(externalReferenceCode, groupId);
 
 		return ploEntry.getValue();
 	}
@@ -120,10 +120,10 @@ public class LanguageOverrideBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		PLOEntry ploEntry = _getPLOEntry(groupId, externalReferenceCode);
+		PLOEntry ploEntry = _getPLOEntry(externalReferenceCode, groupId);
 
 		return ploEntry.getPloEntryId();
 	}
@@ -144,10 +144,10 @@ public class LanguageOverrideBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		PLOEntry ploEntry = _getPLOEntry(groupId, externalReferenceCode);
+		PLOEntry ploEntry = _getPLOEntry(externalReferenceCode, groupId);
 
 		ploEntry.setValue(RandomTestUtil.randomString());
 
@@ -160,7 +160,7 @@ public class LanguageOverrideBatchEnginePortletDataHandlerTest
 		return group.getCompanyId();
 	}
 
-	private PLOEntry _getPLOEntry(long groupId, String externalReferenceCode)
+	private PLOEntry _getPLOEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _ploEntryLocalService.fetchPLOEntryByExternalReferenceCode(

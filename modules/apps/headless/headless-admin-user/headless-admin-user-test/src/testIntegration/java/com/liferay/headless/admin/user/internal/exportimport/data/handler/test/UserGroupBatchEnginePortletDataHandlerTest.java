@@ -56,7 +56,7 @@ public class UserGroupBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		long companyId = _getCompanyId(groupId);
@@ -67,7 +67,7 @@ public class UserGroupBatchEnginePortletDataHandlerTest
 			ServiceContextTestUtil.getServiceContext(
 				companyId, groupId, userId));
 
-		userGroup.setModifiedDate(dateModified);
+		userGroup.setModifiedDate(modifiedDate);
 
 		userGroup = _userGroupLocalService.updateUserGroup(userGroup);
 
@@ -79,27 +79,27 @@ public class UserGroupBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_userGroupLocalService.deleteUserGroup(
-			_getUserGroup(groupId, externalReferenceCode));
+			_getUserGroup(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		UserGroup userGroup = _getUserGroup(groupId, externalReferenceCode);
+		UserGroup userGroup = _getUserGroup(externalReferenceCode, groupId);
 
 		return userGroup.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		UserGroup userGroup = _getUserGroup(groupId, externalReferenceCode);
+		UserGroup userGroup = _getUserGroup(externalReferenceCode, groupId);
 
 		return userGroup.getDescription();
 	}
@@ -129,19 +129,19 @@ public class UserGroupBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		UserGroup userGroup = _getUserGroup(groupId, externalReferenceCode);
+		UserGroup userGroup = _getUserGroup(externalReferenceCode, groupId);
 
 		return userGroup.getUserGroupId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		UserGroup userGroup = _getUserGroup(groupId, externalReferenceCode);
+		UserGroup userGroup = _getUserGroup(externalReferenceCode, groupId);
 
 		return userGroup.getStatus();
 	}
@@ -162,10 +162,10 @@ public class UserGroupBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		UserGroup userGroup = _getUserGroup(groupId, externalReferenceCode);
+		UserGroup userGroup = _getUserGroup(externalReferenceCode, groupId);
 
 		long companyId = _getCompanyId(groupId);
 
@@ -183,7 +183,7 @@ public class UserGroupBatchEnginePortletDataHandlerTest
 		return group.getCompanyId();
 	}
 
-	private UserGroup _getUserGroup(long groupId, String externalReferenceCode)
+	private UserGroup _getUserGroup(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _userGroupLocalService.fetchUserGroupByExternalReferenceCode(

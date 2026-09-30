@@ -53,7 +53,7 @@ public class OAuthClientASLocalMetadataBatchEnginePortletDataHandlerTest
 			Scope.COMPANY);
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		OAuthClientASLocalMetadata oAuthClientASLocalMetadata =
@@ -65,7 +65,7 @@ public class OAuthClientASLocalMetadataBatchEnginePortletDataHandlerTest
 					new String[] {"openid"}, new String[] {"public"},
 					_randomURL(), _randomURL());
 
-		oAuthClientASLocalMetadata.setModifiedDate(dateModified);
+		oAuthClientASLocalMetadata.setModifiedDate(modifiedDate);
 
 		oAuthClientASLocalMetadata =
 			_oAuthClientASLocalMetadataLocalService.
@@ -79,30 +79,30 @@ public class OAuthClientASLocalMetadataBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_oAuthClientASLocalMetadataLocalService.
 			deleteOAuthClientASLocalMetadata(
-				_getOAuthClientASLocalMetadata(groupId, externalReferenceCode));
+				_getOAuthClientASLocalMetadata(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		OAuthClientASLocalMetadata oAuthClientASLocalMetadata =
-			_getOAuthClientASLocalMetadata(groupId, externalReferenceCode);
+			_getOAuthClientASLocalMetadata(externalReferenceCode, groupId);
 
 		return oAuthClientASLocalMetadata.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		OAuthClientASLocalMetadata oAuthClientASLocalMetadata =
-			_getOAuthClientASLocalMetadata(groupId, externalReferenceCode);
+			_getOAuthClientASLocalMetadata(externalReferenceCode, groupId);
 
 		JSONObject metadataJSONObject = _jsonFactory.createJSONObject(
 			oAuthClientASLocalMetadata.getMetadataJSON());
@@ -142,11 +142,11 @@ public class OAuthClientASLocalMetadataBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		OAuthClientASLocalMetadata oAuthClientASLocalMetadata =
-			_getOAuthClientASLocalMetadata(groupId, externalReferenceCode);
+			_getOAuthClientASLocalMetadata(externalReferenceCode, groupId);
 
 		return oAuthClientASLocalMetadata.getOAuthClientASLocalMetadataId();
 	}
@@ -167,11 +167,11 @@ public class OAuthClientASLocalMetadataBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		OAuthClientASLocalMetadata oAuthClientASLocalMetadata =
-			_getOAuthClientASLocalMetadata(groupId, externalReferenceCode);
+			_getOAuthClientASLocalMetadata(externalReferenceCode, groupId);
 
 		_oAuthClientASLocalMetadataLocalService.
 			updateOAuthClientASLocalMetadata(
@@ -191,7 +191,7 @@ public class OAuthClientASLocalMetadataBatchEnginePortletDataHandlerTest
 	}
 
 	private OAuthClientASLocalMetadata _getOAuthClientASLocalMetadata(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _oAuthClientASLocalMetadataLocalService.

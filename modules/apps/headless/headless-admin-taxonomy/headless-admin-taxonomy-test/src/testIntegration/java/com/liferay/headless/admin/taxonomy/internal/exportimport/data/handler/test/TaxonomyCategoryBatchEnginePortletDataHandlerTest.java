@@ -63,7 +63,7 @@ public class TaxonomyCategoryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		AssetCategory assetCategory = _assetCategoryLocalService.addCategory(
@@ -71,7 +71,7 @@ public class TaxonomyCategoryBatchEnginePortletDataHandlerTest
 			_getVocabularyId(groupId, userId),
 			ServiceContextTestUtil.getServiceContext(groupId, userId));
 
-		assetCategory.setModifiedDate(dateModified);
+		assetCategory.setModifiedDate(modifiedDate);
 
 		assetCategory = _assetCategoryLocalService.updateAssetCategory(
 			assetCategory);
@@ -84,29 +84,29 @@ public class TaxonomyCategoryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_assetCategoryLocalService.deleteCategory(
-			_getAssetCategory(groupId, externalReferenceCode));
+			_getAssetCategory(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AssetCategory assetCategory = _getAssetCategory(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return assetCategory.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AssetCategory assetCategory = _getAssetCategory(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return assetCategory.getTitle(LocaleUtil.getSiteDefault());
 	}
@@ -147,21 +147,21 @@ public class TaxonomyCategoryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AssetCategory assetCategory = _getAssetCategory(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return assetCategory.getCategoryId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AssetCategory assetCategory = _getAssetCategory(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return assetCategory.getStatus();
 	}
@@ -182,11 +182,11 @@ public class TaxonomyCategoryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		AssetCategory assetCategory = _getAssetCategory(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		_assetCategoryLocalService.updateCategory(
 			assetCategory.getExternalReferenceCode(), assetCategory.getUserId(),
@@ -202,7 +202,7 @@ public class TaxonomyCategoryBatchEnginePortletDataHandlerTest
 	}
 
 	private AssetCategory _getAssetCategory(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _assetCategoryLocalService.

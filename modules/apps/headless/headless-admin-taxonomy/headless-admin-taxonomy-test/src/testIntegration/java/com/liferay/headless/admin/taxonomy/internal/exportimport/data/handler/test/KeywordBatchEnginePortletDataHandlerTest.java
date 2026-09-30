@@ -46,14 +46,14 @@ public class KeywordBatchEnginePortletDataHandlerTest
 			Scope.SITE);
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		AssetTag assetTag = _assetTagLocalService.addTag(
 			null, userId, groupId, _randomName(),
 			ServiceContextTestUtil.getServiceContext(groupId, userId));
 
-		assetTag.setModifiedDate(dateModified);
+		assetTag.setModifiedDate(modifiedDate);
 
 		assetTag = _assetTagLocalService.updateAssetTag(assetTag);
 
@@ -65,27 +65,27 @@ public class KeywordBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_assetTagLocalService.deleteTag(
-			_getAssetTag(groupId, externalReferenceCode));
+			_getAssetTag(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		AssetTag assetTag = _getAssetTag(groupId, externalReferenceCode);
+		AssetTag assetTag = _getAssetTag(externalReferenceCode, groupId);
 
 		return assetTag.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		AssetTag assetTag = _getAssetTag(groupId, externalReferenceCode);
+		AssetTag assetTag = _getAssetTag(externalReferenceCode, groupId);
 
 		return assetTag.getName();
 	}
@@ -115,10 +115,10 @@ public class KeywordBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		AssetTag assetTag = _getAssetTag(groupId, externalReferenceCode);
+		AssetTag assetTag = _getAssetTag(externalReferenceCode, groupId);
 
 		return assetTag.getTagId();
 	}
@@ -139,10 +139,10 @@ public class KeywordBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
-		AssetTag assetTag = _getAssetTag(groupId, externalReferenceCode);
+		AssetTag assetTag = _getAssetTag(externalReferenceCode, groupId);
 
 		_assetTagLocalService.updateTag(
 			assetTag.getExternalReferenceCode(), assetTag.getUserId(),
@@ -151,7 +151,7 @@ public class KeywordBatchEnginePortletDataHandlerTest
 				groupId, assetTag.getUserId()));
 	}
 
-	private AssetTag _getAssetTag(long groupId, String externalReferenceCode)
+	private AssetTag _getAssetTag(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _assetTagLocalService.fetchAssetTagByExternalReferenceCode(

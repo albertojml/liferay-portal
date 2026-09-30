@@ -51,7 +51,7 @@ public class DisplayPageTemplateBatchEnginePortletDataHandlerTest
 			Scope.SITE);
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		LayoutPageTemplateEntry layoutPageTemplateEntry =
@@ -65,7 +65,7 @@ public class DisplayPageTemplateBatchEnginePortletDataHandlerTest
 				WorkflowConstants.STATUS_APPROVED,
 				ServiceContextTestUtil.getServiceContext(groupId, userId));
 
-		layoutPageTemplateEntry.setModifiedDate(dateModified);
+		layoutPageTemplateEntry.setModifiedDate(modifiedDate);
 
 		layoutPageTemplateEntry =
 			_layoutPageTemplateEntryLocalService.updateLayoutPageTemplateEntry(
@@ -79,29 +79,29 @@ public class DisplayPageTemplateBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_layoutPageTemplateEntryLocalService.deleteLayoutPageTemplateEntry(
-			_getLayoutPageTemplateEntry(groupId, externalReferenceCode));
+			_getLayoutPageTemplateEntry(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		LayoutPageTemplateEntry layoutPageTemplateEntry =
-			_getLayoutPageTemplateEntry(groupId, externalReferenceCode);
+			_getLayoutPageTemplateEntry(externalReferenceCode, groupId);
 
 		return layoutPageTemplateEntry.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		LayoutPageTemplateEntry layoutPageTemplateEntry =
-			_getLayoutPageTemplateEntry(groupId, externalReferenceCode);
+			_getLayoutPageTemplateEntry(externalReferenceCode, groupId);
 
 		return layoutPageTemplateEntry.getName();
 	}
@@ -136,11 +136,11 @@ public class DisplayPageTemplateBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		LayoutPageTemplateEntry layoutPageTemplateEntry =
-			_getLayoutPageTemplateEntry(groupId, externalReferenceCode);
+			_getLayoutPageTemplateEntry(externalReferenceCode, groupId);
 
 		return layoutPageTemplateEntry.getLayoutPageTemplateEntryId();
 	}
@@ -161,11 +161,11 @@ public class DisplayPageTemplateBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		LayoutPageTemplateEntry layoutPageTemplateEntry =
-			_getLayoutPageTemplateEntry(groupId, externalReferenceCode);
+			_getLayoutPageTemplateEntry(externalReferenceCode, groupId);
 
 		_layoutPageTemplateEntryLocalService.updateLayoutPageTemplateEntry(
 			layoutPageTemplateEntry.getLayoutPageTemplateEntryId(),
@@ -173,7 +173,7 @@ public class DisplayPageTemplateBatchEnginePortletDataHandlerTest
 	}
 
 	private LayoutPageTemplateEntry _getLayoutPageTemplateEntry(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _layoutPageTemplateEntryLocalService.

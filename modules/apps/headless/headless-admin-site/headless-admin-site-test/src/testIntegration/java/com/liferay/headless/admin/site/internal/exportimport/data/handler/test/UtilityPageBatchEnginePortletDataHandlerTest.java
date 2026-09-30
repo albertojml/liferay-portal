@@ -46,7 +46,7 @@ public class UtilityPageBatchEnginePortletDataHandlerTest
 			Scope.SITE);
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		LayoutUtilityPageEntry layoutUtilityPageEntry =
@@ -56,7 +56,7 @@ public class UtilityPageBatchEnginePortletDataHandlerTest
 				LayoutUtilityPageEntryConstants.TYPE_SC_NOT_FOUND, null,
 				ServiceContextTestUtil.getServiceContext(groupId, userId));
 
-		layoutUtilityPageEntry.setModifiedDate(dateModified);
+		layoutUtilityPageEntry.setModifiedDate(modifiedDate);
 
 		layoutUtilityPageEntry =
 			_layoutUtilityPageEntryLocalService.updateLayoutUtilityPageEntry(
@@ -70,29 +70,29 @@ public class UtilityPageBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_layoutUtilityPageEntryLocalService.deleteLayoutUtilityPageEntry(
-			_getLayoutUtilityPageEntry(groupId, externalReferenceCode));
+			_getLayoutUtilityPageEntry(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		LayoutUtilityPageEntry layoutUtilityPageEntry =
-			_getLayoutUtilityPageEntry(groupId, externalReferenceCode);
+			_getLayoutUtilityPageEntry(externalReferenceCode, groupId);
 
 		return layoutUtilityPageEntry.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		LayoutUtilityPageEntry layoutUtilityPageEntry =
-			_getLayoutUtilityPageEntry(groupId, externalReferenceCode);
+			_getLayoutUtilityPageEntry(externalReferenceCode, groupId);
 
 		return layoutUtilityPageEntry.getName();
 	}
@@ -123,11 +123,11 @@ public class UtilityPageBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		LayoutUtilityPageEntry layoutUtilityPageEntry =
-			_getLayoutUtilityPageEntry(groupId, externalReferenceCode);
+			_getLayoutUtilityPageEntry(externalReferenceCode, groupId);
 
 		return layoutUtilityPageEntry.getLayoutUtilityPageEntryId();
 	}
@@ -148,11 +148,11 @@ public class UtilityPageBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		LayoutUtilityPageEntry layoutUtilityPageEntry =
-			_getLayoutUtilityPageEntry(groupId, externalReferenceCode);
+			_getLayoutUtilityPageEntry(externalReferenceCode, groupId);
 
 		_layoutUtilityPageEntryLocalService.updateLayoutUtilityPageEntry(
 			layoutUtilityPageEntry.getLayoutUtilityPageEntryId(),
@@ -162,7 +162,7 @@ public class UtilityPageBatchEnginePortletDataHandlerTest
 	}
 
 	private LayoutUtilityPageEntry _getLayoutUtilityPageEntry(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _layoutUtilityPageEntryLocalService.

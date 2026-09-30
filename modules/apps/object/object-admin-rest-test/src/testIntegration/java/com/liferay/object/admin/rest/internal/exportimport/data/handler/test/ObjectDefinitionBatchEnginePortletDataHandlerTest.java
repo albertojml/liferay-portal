@@ -66,7 +66,7 @@ public class ObjectDefinitionBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String addEntry(long groupId, long userId, Date dateModified)
+	protected String addEntry(long groupId, Date modifiedDate, long userId)
 		throws Exception {
 
 		ObjectDefinition objectDefinition =
@@ -81,7 +81,7 @@ public class ObjectDefinitionBatchEnginePortletDataHandlerTest
 				Collections.emptyList(), Collections.emptyList(),
 				Collections.emptyList(), new ServiceContext());
 
-		objectDefinition.setModifiedDate(dateModified);
+		objectDefinition.setModifiedDate(modifiedDate);
 
 		objectDefinition = _objectDefinitionLocalService.updateObjectDefinition(
 			objectDefinition);
@@ -94,29 +94,29 @@ public class ObjectDefinitionBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void deleteEntry(long groupId, String externalReferenceCode)
+	protected void deleteEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		_objectDefinitionLocalService.deleteObjectDefinition(
-			_getObjectDefinition(groupId, externalReferenceCode));
+			_getObjectDefinition(externalReferenceCode, groupId));
 	}
 
 	@Override
-	protected long getCreatorUserId(long groupId, String externalReferenceCode)
+	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectDefinition objectDefinition = _getObjectDefinition(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectDefinition.getUserId();
 	}
 
 	@Override
-	protected Object getEntryValue(long groupId, String externalReferenceCode)
+	protected Object getEntryValue(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectDefinition objectDefinition = _getObjectDefinition(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectDefinition.getLabel(
 			objectDefinition.getDefaultLanguageId());
@@ -153,21 +153,21 @@ public class ObjectDefinitionBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected long getPrimaryKey(long groupId, String externalReferenceCode)
+	protected long getPrimaryKey(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectDefinition objectDefinition = _getObjectDefinition(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectDefinition.getObjectDefinitionId();
 	}
 
 	@Override
-	protected int getStatus(long groupId, String externalReferenceCode)
+	protected int getStatus(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectDefinition objectDefinition = _getObjectDefinition(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		return objectDefinition.getStatus();
 	}
@@ -188,11 +188,11 @@ public class ObjectDefinitionBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected void updateEntry(long groupId, String externalReferenceCode)
+	protected void updateEntry(String externalReferenceCode, long groupId)
 		throws Exception {
 
 		ObjectDefinition objectDefinition = _getObjectDefinition(
-			groupId, externalReferenceCode);
+			externalReferenceCode, groupId);
 
 		objectDefinition =
 			_objectDefinitionLocalService.updateCustomObjectDefinition(
@@ -256,7 +256,7 @@ public class ObjectDefinitionBatchEnginePortletDataHandlerTest
 	}
 
 	private ObjectDefinition _getObjectDefinition(
-			long groupId, String externalReferenceCode)
+			String externalReferenceCode, long groupId)
 		throws Exception {
 
 		return _objectDefinitionLocalService.
