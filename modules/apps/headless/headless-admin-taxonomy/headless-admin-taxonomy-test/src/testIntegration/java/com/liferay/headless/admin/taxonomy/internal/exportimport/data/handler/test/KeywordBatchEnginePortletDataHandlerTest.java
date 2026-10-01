@@ -13,7 +13,6 @@ import com.liferay.exportimport.test.util.exportimport.data.handler.BaseBatchEng
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate.Scope;
 import com.liferay.headless.admin.taxonomy.resource.v1_0.KeywordResource;
-import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
@@ -22,7 +21,6 @@ import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.util.Date;
-import java.util.List;
 
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -73,6 +71,13 @@ public class KeywordBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
+	protected Object fetchEntry(String externalReferenceCode, long groupId)
+		throws Exception {
+
+		return _getAssetTag(externalReferenceCode, groupId);
+	}
+
+	@Override
 	protected long getCreatorUserId(String externalReferenceCode, long groupId)
 		throws Exception {
 
@@ -101,17 +106,8 @@ public class KeywordBatchEnginePortletDataHandlerTest
 	protected ExportImportVulcanBatchEngineTaskItemDelegate<?>
 		getExportImportVulcanBatchEngineTaskItemDelegate() {
 
-		return getExportImportVulcanBatchEngineTaskItemDelegate(
-			KeywordResource.class);
-	}
-
-	@Override
-	protected List<String> getExternalReferenceCodes(long groupId)
-		throws Exception {
-
-		return TransformUtil.transform(
-			_assetTagLocalService.getGroupTags(groupId),
-			AssetTag::getExternalReferenceCode);
+		return (ExportImportVulcanBatchEngineTaskItemDelegate<?>)
+			_keywordResource;
 	}
 
 	@Override
@@ -164,5 +160,10 @@ public class KeywordBatchEnginePortletDataHandlerTest
 
 	@Inject
 	private AssetTagLocalService _assetTagLocalService;
+
+	@Inject(
+		filter = "export.import.vulcan.batch.engine.task.item.delegate=true"
+	)
+	private KeywordResource _keywordResource;
 
 }
