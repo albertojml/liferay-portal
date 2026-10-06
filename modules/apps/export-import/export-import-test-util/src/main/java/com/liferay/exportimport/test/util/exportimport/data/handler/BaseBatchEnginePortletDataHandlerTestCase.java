@@ -427,6 +427,10 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 			long groupId, Date modifiedDate, long userId)
 		throws Exception;
 
+	@Override
+	protected void addStagedModels() throws Exception {
+	}
+
 	protected abstract void deleteEntry(
 			String externalReferenceCode, long groupId)
 		throws Exception;
