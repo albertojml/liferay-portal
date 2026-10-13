@@ -405,6 +405,10 @@ public abstract class BaseBatchEnginePortletDataHandlerTestCase
 		return RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
 	}
 
+	@Override
+	protected void addStagedModels() throws Exception {
+	}
+
 	protected User addUser() throws Exception {
 		return UserTestUtil.addUser();
 	}
