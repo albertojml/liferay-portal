@@ -6,7 +6,7 @@
 package com.liferay.object.rest.internal.exportimport.data.handler.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
-import com.liferay.exportimport.test.util.exportimport.data.handler.BaseCompanyBatchEnginePortletDataHandlerTestCase;
+import com.liferay.exportimport.test.util.exportimport.data.handler.BaseSiteBatchEnginePortletDataHandlerTestCase;
 import com.liferay.object.constants.ObjectDefinitionConstants;
 import com.liferay.object.model.ObjectDefinition;
 import com.liferay.object.model.ObjectEntry;
@@ -14,7 +14,6 @@ import com.liferay.object.rest.internal.exportimport.data.handler.test.util.Obje
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.test.util.ObjectDefinitionTestUtil;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
@@ -36,8 +35,8 @@ import org.junit.runner.RunWith;
  */
 @FeatureFlags(featureFlags = @FeatureFlag("LPD-43996"))
 @RunWith(Arquillian.class)
-public class CompanyObjectEntryBatchEnginePortletDataHandlerTest
-	extends BaseCompanyBatchEnginePortletDataHandlerTestCase<ObjectEntry> {
+public class ObjectEntrySiteBatchEnginePortletDataHandlerTest
+	extends BaseSiteBatchEnginePortletDataHandlerTestCase<ObjectEntry> {
 
 	@ClassRule
 	@Rule
@@ -49,16 +48,8 @@ public class CompanyObjectEntryBatchEnginePortletDataHandlerTest
 	public void setUp() throws Exception {
 		_objectDefinition = ObjectEntryTestUtil.publishObjectDefinition(
 			null, ObjectDefinitionTestUtil.getRandomName(),
-			Collections.emptyList(), ObjectDefinitionConstants.SCOPE_COMPANY,
+			Collections.emptyList(), ObjectDefinitionConstants.SCOPE_SITE,
 			TestPropsValues.getUserId());
-
-		User targetCompanyAdminUser = getTargetCompanyAdminUser();
-
-		_targetObjectDefinition = ObjectEntryTestUtil.publishObjectDefinition(
-			_objectDefinition.getExternalReferenceCode(),
-			_objectDefinition.getShortName(), Collections.emptyList(),
-			ObjectDefinitionConstants.SCOPE_COMPANY,
-			targetCompanyAdminUser.getUserId());
 
 		super.setUp();
 	}
@@ -124,11 +115,6 @@ public class CompanyObjectEntryBatchEnginePortletDataHandlerTest
 	}
 
 	@Override
-	protected String getTargetModelClassName() {
-		return _targetObjectDefinition.getClassName();
-	}
-
-	@Override
 	protected long getUserId(ObjectEntry objectEntry) {
 		return objectEntry.getUserId();
 	}
@@ -173,8 +159,5 @@ public class CompanyObjectEntryBatchEnginePortletDataHandlerTest
 
 	@Inject
 	private ObjectEntryLocalService _objectEntryLocalService;
-
-	@DeleteAfterTestRun
-	private ObjectDefinition _targetObjectDefinition;
 
 }
