@@ -14,9 +14,11 @@ import com.liferay.object.rest.internal.exportimport.data.handler.test.util.Obje
 import com.liferay.object.service.ObjectEntryLocalService;
 import com.liferay.object.test.util.ObjectDefinitionTestUtil;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.test.rule.FeatureFlag;
 import com.liferay.portal.test.rule.FeatureFlags;
 import com.liferay.portal.test.rule.Inject;
@@ -51,15 +53,16 @@ public class CompanyObjectEntryBatchEnginePortletDataHandlerTest
 			Collections.emptyList(), ObjectDefinitionConstants.SCOPE_COMPANY,
 			TestPropsValues.getUserId());
 
-		super.setUp();
-
-		Group targetGroup = getTargetGroup();
+		User targetCompanyAdminUser = UserTestUtil.getAdminUser(
+			getTargetCompany().getCompanyId());
 
 		_targetObjectDefinition = ObjectEntryTestUtil.publishObjectDefinition(
 			_objectDefinition.getExternalReferenceCode(),
 			_objectDefinition.getShortName(), Collections.emptyList(),
 			ObjectDefinitionConstants.SCOPE_COMPANY,
-			targetGroup.getCreatorUserId());
+			targetCompanyAdminUser.getUserId());
+
+		super.setUp();
 	}
 
 	@Override

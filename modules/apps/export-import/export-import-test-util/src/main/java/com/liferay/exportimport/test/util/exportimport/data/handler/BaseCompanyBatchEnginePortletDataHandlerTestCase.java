@@ -65,6 +65,10 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 		_targetUser = UserTestUtil.addCompanyAdminUser(_targetCompany);
 	}
 
+	protected static Company getTargetCompany() {
+		return _targetCompany;
+	}
+
 	@Override
 	protected Role addRole() throws Exception {
 		Role role = super.addRole();
