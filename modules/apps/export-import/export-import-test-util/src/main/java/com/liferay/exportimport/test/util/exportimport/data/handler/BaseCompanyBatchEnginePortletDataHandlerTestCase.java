@@ -62,6 +62,7 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 			TestPropsValues.getCompanyId());
 		_targetGroup = _stagingGroupHelper.fetchCompanyGroup(
 			_targetCompany.getCompanyId());
+		_targetUser = UserTestUtil.addCompanyAdminUser(_targetCompany);
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public abstract class BaseCompanyBatchEnginePortletDataHandlerTestCase<T>
 	protected User addUser() throws Exception {
 		User user = super.addUser();
 
-		_targetUser = _userLocalService.updateExternalReferenceCode(
+		_userLocalService.updateExternalReferenceCode(
 			UserTestUtil.addUser(_targetCompany),
 			user.getExternalReferenceCode());
 

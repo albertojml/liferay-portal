@@ -46,12 +46,12 @@ public class CompanyObjectEntryBatchEnginePortletDataHandlerTest
 	@Before
 	@Override
 	public void setUp() throws Exception {
-		super.setUp();
-
 		_objectDefinition = ObjectEntryTestUtil.publishObjectDefinition(
 			null, ObjectDefinitionTestUtil.getRandomName(),
 			Collections.emptyList(), ObjectDefinitionConstants.SCOPE_COMPANY,
 			TestPropsValues.getUserId());
+
+		super.setUp();
 
 		Group targetGroup = getTargetGroup();
 
